@@ -1,16 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/piyush portfolio/index.html"
-    },
-    {
-      "source": "/assets/:path*",
-      "destination": "/piyush portfolio/assets/:path*"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -186,9 +186,19 @@ function initProjects() {
   // Featured first, keep original order otherwise
   const list = [...PROJECTS].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
-  grid.innerHTML = list.map((p) => `
+  const resolveUrl = (url) => {
+    if (!url || url.startsWith('http://') || url.startsWith('https://')) return url;
+    if (window.location.pathname === '/' || !window.location.pathname.includes('/piyush')) {
+      return url.replace(/^\.\.\//, '');
+    }
+    return url;
+  };
+
+  grid.innerHTML = list.map((p) => {
+    const projectUrl = resolveUrl(p.url);
+    return `
     <article class="card project reveal" data-cat="${p.cat}" data-search="${(p.title + ' ' + p.desc + ' ' + p.tech.join(' ')).toLowerCase()}">
-      <a class="project-thumb" href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} live demo">
+      <a class="project-thumb" href="${projectUrl}" target="_blank" rel="noopener" aria-label="Open ${p.title} live demo">
         <img src="assets/img/projects/${p.img}.jpg" alt="Screenshot of ${p.title}" loading="lazy" decoding="async" width="800" height="500">
         <span class="project-badge">${CATEGORY_LABELS[p.cat]}</span>
       </a>
@@ -197,11 +207,12 @@ function initProjects() {
         <p>${p.desc}</p>
         <div class="tags">${p.tech.map((t) => `<span class="tag">${t}</span>`).join('')}</div>
         <div class="project-links">
-          <a class="primary" href="${p.url}" target="_blank" rel="noopener"><i class="${p.url.includes('figma.com') ? 'bi bi-figma' : 'bi bi-box-arrow-up-right'}" aria-hidden="true"></i> ${p.url.includes('figma.com') ? 'Figma Prototype' : 'Live Demo'}</a>
+          <a class="primary" href="${projectUrl}" target="_blank" rel="noopener"><i class="${projectUrl.includes('figma.com') ? 'bi bi-figma' : 'bi bi-box-arrow-up-right'}" aria-hidden="true"></i> ${projectUrl.includes('figma.com') ? 'Figma Prototype' : 'Live Demo'}</a>
         </div>
       </div>
     </article>
-  `).join('');
+  `;
+  }).join('');
 
   // Counts on filter buttons
   filterBtns.forEach((b) => {
