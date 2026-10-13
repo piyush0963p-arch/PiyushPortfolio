@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityCare Hospital | Patient Registration</title>
+    <style>
+        /* Elderly-Friendly Design: Large, highly legible fonts and high contrast */
+        @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #fdfbf7; /* Soft cream, easy on the eyes */
+            --text-color: #002855; /* Deep, high-contrast navy */
+            --accent-color: #005b9f; /* Clear blue for buttons */
+            --error-color: #d90429; /* Distinct red for errors */
+            --success-color: #2b9348; /* Clear green for success */
+            --border-color: #8d99ae;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Large base font size for elderly users */
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 18px; 
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 2rem; margin-bottom: 1rem; border-bottom: 3px solid var(--accent-color); padding-bottom: 0.5rem; display: inline-block;}
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+        /* Navigation / Header */
+        header {
+            background-color: var(--text-color);
+            color: #ffffff;
+            padding: rem;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Guidelines Section */
+        .guidelines {
+            background-color: #eaf4f4;
+            padding: 2rem;
+            border-left: 8px solid var(--accent-color);
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        
+        .guidelines ul {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .guidelines li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Doctor Availability Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3rem;
+            background-color: #ffffff;
+            font-size: 1.2rem;
+        }
+
+        th, td {
+            border: 2px solid var(--border-color);
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        /* Registration Form */
+        .form-container {
+            background-color: #ffffff;
+            padding: 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Large, easy to click inputs */
+        input, select {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: 4px solid var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover, button:focus {
+            background-color: #003f72;
+            outline: 4px solid var(--text-color);
+        }
+
+        /* Error and Success Messages */
+        .error-msg {
+            color: var(--error-color);
+            font-weight: bold;
+            display: none;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .error-border {
+            border-color: var(--error-color) !important;
+            background-color: #ffe6e6;
+        }
+
+        #success-message {
+            display: none;
+            background-color: var(--success-color);
+            color: #ffffff;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--text-color);
+            color: #ffffff;
+            margin-top: 3rem;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+    /* Navigation & Header Adjustments */
+    header {
+        padding: 1.2rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    header p {
+        font-size: 0.9rem;
+    }
+    
+    /* Main Content & Form Adjustments */
+    .container {
+        padding: 1.5rem 1rem;
+    }
+    
+    h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    /* Guidelines Section */
+    .guidelines {
+        padding: 1.2rem 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .guidelines ul {
+        margin-left: 1.5rem;
+    }
+    
+    .guidelines p {
+        font-size: 1rem;
+    }
+    
+    /* Form Container */
+    .form-container {
+        padding: 1.5rem 1rem;
+    }
+    
+    /* Input Fields & Buttons */
+    input,
+    select {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    label {
+        font-size: 1.1rem;
+    }
+    
+    button {
+        padding: 0.9rem 1.5rem;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Doctor Availability Table */
+    table {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+        min-width: 500px;
+    }
+    
+    th,
+    td {
+        padding: 0.8rem;
+    }
+    
+    /* Success Message */
+    #success-message {
+        padding: 1rem;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+    }
+    
+    /* Footer */
+    footer {
+        padding: 1.5rem 1rem;
+        font-size: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CityCare Hospital <p style="font-size: 1.3rem;">Providing Compassionate Care Since 1985</p>
+    </header>
+
+    <main class="container">
+        
+        <section class="guidelines">
+            <h2>Patient Guidelines</h2>
+            <p>Welcome to CityCare Hospital. Please read the following before registering:</p>
+            <ul>
+                <li><strong>Bring valid ID:</strong> Please carry a government-issued photo ID to your appointment.</li>
+                <li><strong>Arrive early:</strong> Please arrive at least 15 minutes prior to your scheduled time.</li>
+                <li><strong>Masks required:</strong> Face masks are mandatory in all waiting areas.</li>
+                <li><strong>Assistance available:</strong> Wheelchairs and staff assistance are available at the main entrance.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Doctor Availability</h2>
+            <div style="overflow-x: auto; width: 100%;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Doctor Name</th>
+                            <th>Available Days</th>
+                            <th>Timings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cardiology</strong> (Heart)</td>
+                            <td>Dr. Sarah Jenkins</td>
+                            <td>Mon, Wed, Fri</td>
+                            <td>09:00 AM - 01:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orthopedics</strong> (Bones)</td>
+                            <td>Dr. Michael Chen</td>
+                            <td>Tue, Thu, Sat</td>
+                            <td>10:00 AM - 03:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>General Medicine</strong></td>
+                            <td>Dr. Robert Davis</td>
+                            <td>Monday to Friday</td>
+                            <td>08:00 AM - 04:00 PM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="form-container">
+            <h2>Book an Appointment</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem;">Please fill out this form to register. All fields are required.</p>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="patientName">Full Patient Name</label>
+                    <input type="text" id="patientName" placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="patientAge">Age (Years)</label>
+                    <input type="number" id="patientAge" placeholder="Enter your age">
+                    <div id="ageError" class="error-msg">⚠️ Please enter a valid age between 1 and 120.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobileNumber">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" placeholder="Enter 10-digit mobile number">
+                    <div id="mobileError" class="error-msg">⚠️ Please enter exactly 10 digits for your mobile number.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="doctorSelect">Select Doctor</label>
+                    <select id="doctorSelect">
+                        <option value="">-- Click to Choose a Doctor --</option>
+                        <option value="dr-jenkins">Dr. Sarah Jenkins (Cardiology)</option>
+                        <option value="dr-chen">Dr. Michael Chen (Orthopedics)</option>
+                        <option value="dr-davis">Dr. Robert Davis (General Medicine)</option>
+                    </select>
+                </div>
+
+                <button type="submit">Submit Registration</button>
+            </form>
+
+            <div id="success-message">
+                ✓ Registration Successful!<br>
+                <span style="font-size: 1.2rem; font-weight: normal;">Our staff will call you shortly to confirm your exact appointment time.</span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>CityCare Hospital | Emergency Helpline: 911 | Reception: (555) 019-8273</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const ageInput = document.getElementById('patientAge');
+        const mobileInput = document.getElementById('mobileNumber');
+        const ageError = document.getElementById('ageError');
+        const mobileError = document.getElementById('mobileError');
+        const successMessage = document.getElementById('success-message');
+
+        form.addEventListener('submit', function(event) {
+            // Prevent the page from reloading
+            event.preventDefault();
+
+            // Reset errors
+            let isValid = true;
+            ageError.style.display = 'none';
+            mobileError.style.display = 'none';
+            ageInput.classList.remove('error-border');
+            mobileInput.classList.remove('error-border');
+
+            // 1. Age Validation
+            const ageValue = parseInt(ageInput.value);
+            if (isNaN(ageValue) || ageValue <= 0 || ageValue > 120) {
+                ageError.style.display = 'block';
+                ageInput.classList.add('error-border');
+                isValid = false;
+            }
+
+            // 2. Mobile Validation (Checking for exactly 10 digits using simple logic)
+            const mobileValue = mobileInput.value.trim();
+            const isOnlyDigits = /^\d+$/.test(mobileValue); // checks if string only contains numbers
+            
+            if (mobileValue.length !== 10 || !isOnlyDigits) {
+                mobileError.style.display = 'block';
+                mobileInput.classList.add('error-border');
+                isValid = false;
+            }
+
+            // 3. Final Check
+            if (isValid) {
+                form.style.display = 'none'; // Hide form
+                successMessage.style.display = 'block'; // Show success
+                
+                // Optional: Scroll to success message to ensure elderly user sees it
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fitness | Membership</title>
+    <style>
+        /* Import Professional Web Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap');
+
+        /* CSS Variables for Premium Dark Fitness Theme */
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --accent-color: #ff4500; /* Energetic Orange/Red */
+            --border-color: #333333;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand { 
+            font-family: 'Montserrat', sans-serif; 
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%; background-color: rgba(18, 18, 18, 0.95);
+            border-bottom: 1px solid var(--border-color); position: sticky;
+            top: 0; z-index: 1000; backdrop-filter: blur(5px);
+        }
+        
+        .brand { font-size: 2rem; font-weight: 900; color: var(--text-primary); letter-spacing: 2px;}
+        .brand span { color: var(--accent-color); }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop') center/cover;
+            text-align: center; padding: 8rem 2rem;
+        }
+        
+        .hero h1 { font-size: 4rem; margin-bottom: 1rem; color: var(--accent-color); text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+        /* Layout Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .text-center { text-align: center; margin-bottom: 3rem; }
+
+        /* Grid Layouts */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; }
+
+        /* Cards & Plans */
+        .card {
+            background-color: var(--bg-secondary); padding: 2.5rem; border-radius: 8px;
+            border: 1px solid var(--border-color); transition: var(--transition);
+            text-align: center;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-color); box-shadow: 0 10px 20px rgba(255, 69, 0, 0.1); }
+        .card h3 { color: var(--accent-color); margin-bottom: 1rem; font-size: 1.5rem; }
+        
+        .price { font-size: 2.5rem; font-weight: 900; margin: 1.5rem 0; font-family: 'Montserrat', sans-serif;}
+        .price span { font-size: 1rem; color: var(--text-secondary); font-weight: 400; }
+        
+        ul.benefits-list { list-style: none; text-align: left; margin-bottom: 2rem; }
+        ul.benefits-list li { margin-bottom: 0.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        ul.benefits-list li::before { content: "✓ "; color: var(--accent-color); font-weight: bold; }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--accent-color); color: #fff; border: none;
+            padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; 
+            border-radius: 4px; transition: var(--transition); width: 100%;
+            text-transform: uppercase; font-family: 'Montserrat', sans-serif;
+        }
+        .btn:hover { background-color: #e63e00; transform: scale(1.02); }
+
+        /* Interactive Sections (BMI & Trainers) */
+        .interactive-section {
+            background: var(--bg-secondary); padding: 3rem; border-radius: 8px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-secondary); }
+        .form-group input, .form-group select {
+            width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-color);
+            border-radius: 4px; color: var(--text-primary); font-family: inherit; font-size: 1rem;
+        }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent-color); }
+
+        /* JS Result Boxes */
+        #bmi-result {
+            margin-top: 1.5rem; padding: 1.5rem; border-radius: 4px; font-weight: bold; text-align: center; display: none; font-size: 1.2rem;
+        }
+        
+        .trainer-card {
+            display: none; background: var(--bg-primary); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color); margin-top: 1.5rem; text-align: center;
+            animation: fadeIn 0.4s ease-in;
+        }
+        .trainer-card h4 { color: var(--accent-color); font-size: 1.4rem; margin-bottom: 0.5rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal Card */
+        .modal-card {
+            background-color: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: 8px;
+            border-top: 6px solid var(--accent-color);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: translateY(0);
+        }
+
+        /* Close Button */
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
+        /* Modal Header */
+        .modal-card h2 {
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .modal-card p.subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Success Message State */
+        .modal-success {
+            display: none;
+            text-align: center;
+            padding: 2rem 1rem;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .modal-success h3 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-success p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                text-align: center;
+            }
+            .hero {
+                padding: 5rem 1rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .modal-card {
+                padding: 2rem 1.25rem;
+            }
+        }
+
+        /* Footer */
+        footer { background-color: #0a0a0a; text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border-color); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">my <span>Fitness</span></div>
+        <button class="btn" id="join-now-nav" style="width: auto; padding: 0.5rem 1.5rem; font-size: 0.9rem;">Join Now</button>
+    </nav>
+
+    <header class="hero">
+        <h1>Forge Your Legacy</h1>
+        <p>Premium equipment, elite trainers, and a community dedicated to pushing boundaries. Your transformation starts here.</p>
+    </header>
+
+    <main class="container">
+        
+        <div class="text-center">
+            <h2>Why Choose IronClad?</h2>
+        </div>
+        <div class="grid-3" style="margin-bottom: 5rem;">
+            <div class="card">
+                <h3>State of the Art</h3>
+                <p>Access to the latest biomechanically engineered weight and cardio equipment.</p>
+            </div>
+            <div class="card">
+                <h3>24/7 Access</h3>
+                <p>Your schedule, your rules. Secure entry to our facilities at any hour of the day or night.</p>
+            </div>
+            <div class="card">
+                <h3>Recovery Zone</h3>
+                <p>Maximize your gains with our saunas, cold plunges, and professional massage therapy.</p>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h2>Membership Plans</h2>
+        </div>
+        <div class="grid-3" style="margin-bottom: 5rem;">
+            <article class="card">
+                <h3>Standard</h3>
+                <div class="price">$49<span>/month</span></div>
+                <ul class="benefits-list">
+                    <li>24/7 Gym Access</li>
+                    <li>Locker Room Access</li>
+                    <li>Free Group Classes</li>
+                </ul>
+                <button class="btn plan-select-btn" data-plan="standard">Select Plan</button>
+            </article>
+            <article class="card" style="border-color: var(--accent-color); transform: scale(1.05);">
+                <div style="background: var(--accent-color); color: #fff; padding: 0.3rem; font-size: 0.8rem; font-weight: bold; border-radius: 4px; margin-bottom: 1rem; display: inline-block;">MOST POPULAR</div>
+                <h3>Pro</h3>
+                <div class="price">$79<span>/month</span></div>
+                <ul class="benefits-list">
+                    <li>All Standard Benefits</li>
+                    <li>Guest Pass (2/month)</li>
+                    <li>Recovery Zone Access</li>
+                </ul>
+                <button class="btn plan-select-btn" data-plan="pro">Select Plan</button>
+            </article>
+            <article class="card">
+                <h3>Elite</h3>
+                <div class="price">$129<span>/month</span></div>
+                <ul class="benefits-list">
+                    <li>All Pro Benefits</li>
+                    <li>Unlimited Guest Passes</li>
+                    <li>1 Personal Training Session/mo</li>
+                </ul>
+                <button class="btn plan-select-btn" data-plan="elite">Select Plan</button>
+            </article>
+        </div>
+
+        <div class="grid-2">
+            <section class="interactive-section">
+                <h2 style="margin-bottom: 1.5rem;">BMI Calculator</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Track your metrics to optimize your fitness journey.</p>
+                
+                <div class="form-group">
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" placeholder="e.g. 175">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="e.g. 70">
+                </div>
+                <button class="btn" id="calc-bmi">Calculate BMI</button>
+
+                <div id="bmi-result"></div>
+            </section>
+
+            <section class="interactive-section">
+                <h2 style="margin-bottom: 1.5rem;">Goal Matcher</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Select your primary fitness goal to meet your recommended Elite Trainer.</p>
+                
+                <div class="form-group">
+                    <label for="fitness-goal">Your Primary Goal</label>
+                    <select id="fitness-goal">
+                        <option value="">-- Select a Goal --</option>
+                        <option value="weightloss">Weight Loss & Toning</option>
+                        <option value="musclegain">Hypertrophy (Muscle Gain)</option>
+                        <option value="endurance">Stamina & Endurance</option>
+                    </select>
+                </div>
+
+                <div id="trainer-weightloss" class="trainer-card">
+                    <h4>Trainer: Sarah "Shred" Connor</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Specialty: HIIT & Fat Loss. Sarah will push your cardiovascular limits and help you shed pounds fast while maintaining lean muscle.</p>
+                </div>
+                <div id="trainer-musclegain" class="trainer-card">
+                    <h4>Trainer: Marcus "Mountain" Vance</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Specialty: Powerlifting & Bodybuilding. Marcus focuses on progressive overload and strict form to help you pack on serious mass.</p>
+                </div>
+                <div id="trainer-endurance" class="trainer-card">
+                    <h4>Trainer: Elena Rostova</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Specialty: Marathon Prep & Calisthenics. Elena's programs are designed to optimize your VO2 max and build unstoppable stamina.</p>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Join Now Membership Modal Overlay -->
+    <div class="modal-overlay" id="joinModal">
+        <div class="modal-card">
+            <span class="modal-close" id="closeJoinModal">&times;</span>
+            
+            <!-- Join Form Container -->
+            <div id="joinFormContainer">
+                <h2 style="text-align: center; margin-bottom: 0.5rem;">Start Your Journey</h2>
+                <p class="subtitle">Fill out the form below to lock in your membership</p>
+                
+                <form id="joinForm">
+                    <div class="form-group">
+                        <label for="memberName">Full Name</label>
+                        <input type="text" id="memberName" placeholder="e.g. Jane Doe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="memberEmail">Email Address</label>
+                        <input type="email" id="memberEmail" placeholder="e.g. jane@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="memberPhone">Phone Number</label>
+                        <input type="tel" id="memberPhone" placeholder="e.g. 1234567890" pattern="\d{10}" title="Please enter a 10-digit phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memberPlan">Select Plan</label>
+                        <select id="memberPlan" required>
+                            <option value="">-- Choose a Plan --</option>
+                            <option value="standard">Standard - $49/mo</option>
+                            <option value="pro">Pro - $79/mo</option>
+                            <option value="elite">Elite - $129/mo</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn">Submit Membership Request</button>
+                </form>
+            </div>
+
+            <!-- Join Success Message (Initially Hidden) -->
+            <div class="modal-success" id="joinSuccessMessage">
+                <h3>🎉 Welcome to the Club!</h3>
+                <p>Thanks for applying! Your request has been submitted. A representative from IronClad Fitness will contact you shortly with your digital membership card.</p>
+                <button class="btn" onclick="toggleJoinModal(false)">Close Window</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 IronClad Fitness. Unleash your potential.</p>
+    </footer>
+
+    <script>
+        // --- 1. BMI Calculator Logic ---
+        const heightInput = document.getElementById('height');
+        const weightInput = document.getElementById('weight');
+        const calcBtn = document.getElementById('calc-bmi');
+        const resultDiv = document.getElementById('bmi-result');
+
+        calcBtn.addEventListener('click', () => {
+            const heightCm = parseFloat(heightInput.value);
+            const weightKg = parseFloat(weightInput.value);
+
+            // Validation
+            if (isNaN(heightCm) || isNaN(weightKg) || heightCm <= 0 || weightKg <= 0) {
+                resultDiv.style.display = 'block';
+                resultDiv.style.backgroundColor = '#333';
+                resultDiv.style.color = '#ff4500';
+                resultDiv.textContent = 'Please enter valid numbers for height and weight.';
+                return;
+            }
+
+            // Calculation: BMI = weight(kg) / (height(m))^2
+            const heightM = heightCm / 100;
+            const bmi = weightKg / (heightM * heightM);
+            const roundedBmi = bmi.toFixed(1);
+
+            // Categorization
+            let category = '';
+            let color = '';
+
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                color = '#f39c12'; // Yellow/Orange
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+                category = 'Normal weight';
+                color = '#2ecc71'; // Green
+            } else if (bmi >= 25 && bmi <= 29.9) {
+                category = 'Overweight';
+                color = '#f39c12'; // Yellow/Orange
+            } else {
+                category = 'Obese';
+                color = '#e74c3c'; // Red
+            }
+
+            // Display Result
+            resultDiv.style.display = 'block';
+            resultDiv.style.backgroundColor = '#2a2a2a';
+            resultDiv.style.borderLeft = `5px solid ${color}`;
+            resultDiv.style.color = '#fff';
+            resultDiv.innerHTML = `Your BMI is <span style="color:${color}; font-size:1.5rem;">${roundedBmi}</span><br>Category: ${category}`;
+        });
+
+
+        // --- 2. Personal Trainer + Fitness Goals Logic (Challenge) ---
+        const goalSelect = document.getElementById('fitness-goal');
+        const trainers = document.querySelectorAll('.trainer-card');
+
+        goalSelect.addEventListener('change', (e) => {
+            // Hide all trainer cards first
+            trainers.forEach(card => card.style.display = 'none');
+
+            // Show specific trainer based on selection
+            const selectedGoal = e.target.value;
+            if (selectedGoal) {
+                const targetTrainer = document.getElementById(`trainer-${selectedGoal}`);
+                if (targetTrainer) {
+                    targetTrainer.style.display = 'block';
+                }
+            }
+        });
+
+        // --- 3. Join Now Modal Logic ---
+        const joinModal = document.getElementById('joinModal');
+        const openJoinModalNav = document.getElementById('join-now-nav');
+        const closeJoinModalBtn = document.getElementById('closeJoinModal');
+        const joinFormContainer = document.getElementById('joinFormContainer');
+        const joinSuccessMessage = document.getElementById('joinSuccessMessage');
+        const joinForm = document.getElementById('joinForm');
+        const memberPlanSelect = document.getElementById('memberPlan');
+
+        function toggleJoinModal(isOpen, preSelectedPlan = '') {
+            if (isOpen) {
+                joinForm.reset();
+                if (preSelectedPlan) {
+                    memberPlanSelect.value = preSelectedPlan;
+                }
+                joinFormContainer.style.display = 'block';
+                joinSuccessMessage.style.display = 'none';
+                joinModal.classList.add('open');
+            } else {
+                joinModal.classList.remove('open');
+            }
+        }
+
+        // Event listener for navbar Join Now button
+        openJoinModalNav.addEventListener('click', () => toggleJoinModal(true));
+
+        // Event listeners for plan selection buttons
+        const planButtons = document.querySelectorAll('.plan-select-btn');
+        planButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const planType = e.target.getAttribute('data-plan');
+                toggleJoinModal(true, planType);
+            });
+        });
+
+        // Close button click
+        closeJoinModalBtn.addEventListener('click', () => toggleJoinModal(false));
+
+        // Click outside modal card to close
+        joinModal.addEventListener('click', (e) => {
+            if (e.target === joinModal) {
+                toggleJoinModal(false);
+            }
+        });
+
+        // Form Submission
+        joinForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple front-end validation check
+            const name = document.getElementById('memberName').value.trim();
+            const email = document.getElementById('memberEmail').value.trim();
+            const phone = document.getElementById('memberPhone').value.trim();
+            const plan = memberPlanSelect.value;
+
+            if (name && email && phone.length === 10 && plan) {
+                // Hide form, show thanks message
+                joinFormContainer.style.display = 'none';
+                joinSuccessMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+/* Kitchen Dashboard Styling */
+
+.kitchen-kanban {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    height: calc(100vh - 160px);
+}
+
+.kanban-column {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.kanban-column-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-column-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.kanban-cards-container {
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.kitchen-order-card {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.kitchen-order-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.kitchen-order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.priority-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+
+.priority-high { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.priority-medium { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+.priority-low { background: rgba(59, 130, 246, 0.15); color: var(--info); }
+
+.kitchen-item-list {
+    margin: 0.75rem 0;
+    padding-left: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.kitchen-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border);
+}
+
+.cooking-timer {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}

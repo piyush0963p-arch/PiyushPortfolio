@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/settings.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <!-- Core -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+        <!-- Content -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+        <!-- Data -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <!-- System -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item active"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search hidden-mobile">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search settings...">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Platform Settings</h1>
+            <p class="page-subtitle">Configure your workspace, integrations, and preferences.</p>
+          </div>
+        </div>
+
+        <div class="settings-layout grid grid-cols-[240px_1fr] gap-8" style="grid-template-columns: 240px 1fr;">
+          
+          <!-- Settings Navigation -->
+          <div class="settings-nav card bg-transparent border-0 shadow-none">
+            <nav class="space-y-1">
+              <a href="#" class="settings-nav-item active">
+                <i data-lucide="user"></i> Account Profile
+              </a>
+              <a href="#" class="settings-nav-item">
+                <i data-lucide="building"></i> Workspace Info
+              </a>
+              <a href="#" class="settings-nav-item">
+                <i data-lucide="link-2"></i> Integrations
+              </a>
+              <a href="#" class="settings-nav-item">
+                <i data-lucide="bell"></i> Notifications
+              </a>
+              <a href="#" class="settings-nav-item">
+                <i data-lucide="key"></i> API Keys
+              </a>
+              <a href="#" class="settings-nav-item">
+                <i data-lucide="credit-card"></i> Billing
+              </a>
+            </nav>
+          </div>
+
+          <!-- Settings Content Area -->
+          <div class="settings-content space-y-6">
+            
+            <!-- Profile Section -->
+            <div class="card">
+              <div class="card-header border-b border-light">
+                <h2 class="card-title">Profile Information</h2>
+              </div>
+              <div class="card-body p-6">
+                
+                <div class="flex items-center gap-6 mb-8">
+                  <div class="w-20 h-20 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold">
+                    JD
+                  </div>
+                  <div>
+                    <div class="flex gap-2">
+                      <button class="btn btn-secondary btn-sm">Change Avatar</button>
+                      <button class="btn btn-ghost btn-sm text-danger">Remove</button>
+                    </div>
+                    <p class="text-xs text-tertiary mt-2">Recommended size: 256x256px. Max 2MB.</p>
+                  </div>
+                </div>
+
+                <div class="grid grid-2 gap-5 mb-5">
+                  <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" value="John">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" value="Doe">
+                  </div>
+                </div>
+
+                <div class="form-group mb-5">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-input" value="john.doe@nexusai.com">
+                </div>
+
+                <div class="form-group mb-5">
+                  <label class="form-label">Job Title</label>
+                  <input type="text" class="form-input" value="Marketing Director">
+                </div>
+                
+                <div class="flex justify-end pt-4">
+                  <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Theme & Preferences -->
+            <div class="card">
+              <div class="card-header border-b border-light">
+                <h2 class="card-title">Preferences</h2>
+              </div>
+              <div class="card-body p-6">
+                <div class="flex items-center justify-between py-2 border-b border-light">
+                  <div>
+                    <h4 class="text-sm font-semibold text-primary">Dark Mode</h4>
+                    <p class="text-xs text-secondary mt-1">Switch between light and dark themes.</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="settingsThemeToggle">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between py-4">
+                  <div>
+                    <h4 class="text-sm font-semibold text-primary">Compact Sidebar</h4>
+                    <p class="text-xs text-secondary mt-1">Collapse the navigation sidebar by default.</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="card border border-danger">
+              <div class="card-body p-6">
+                <h2 class="text-md font-semibold text-danger mb-2">Danger Zone</h2>
+                <p class="text-sm text-secondary mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+                <button class="btn btn-sm bg-danger text-white border-0 hover:bg-red-600">Delete Account</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

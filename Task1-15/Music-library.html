@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Library | Premium Streaming</title>
+    <style>
+        /* Modern Web Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        /* CSS Variables for Premium Dark/Neon Theme */
+        :root {
+            --bg-base: #09090e;
+            --bg-surface: #141421;
+            --bg-glass: rgba(20, 20, 33, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --accent-cyan: #00f2fe;
+            --accent-purple: #4facfe;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding-bottom: 100px; /* Space for the fixed player */
+        }
+
+        /* Top Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%; background-color: var(--bg-glass);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .nav-links a { color: var(--text-primary); text-decoration: none; margin-left: 2rem; font-weight: 600; transition: var(--transition); }
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Main Container & Layout */
+        .container { max-width: 1400px; margin: 0 auto; padding: 3rem 5%; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; }
+        h2 { font-size: 2rem; font-weight: 800; }
+
+        /* Challenge: Top 10 Songs Chart */
+        .chart-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 4rem;
+        }
+
+        .song-row {
+            display: flex; align-items: center; background: var(--bg-surface); padding: 0.8rem 1rem;
+            border-radius: 8px; transition: var(--transition); cursor: pointer; border: 1px solid transparent;
+        }
+
+        .song-row:hover { background: #1f1f33; border-color: rgba(0, 242, 254, 0.3); transform: translateX(5px); }
+        
+        .rank { font-size: 1.2rem; font-weight: 800; color: var(--text-secondary); width: 30px; }
+        .song-cover { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; margin-right: 1rem; }
+        .song-details { flex-grow: 1; }
+        .song-title { font-weight: 600; font-size: 1.1rem; }
+        .song-artist { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        .play-btn {
+            background: none; border: none; color: var(--accent-cyan); font-size: 1.5rem;
+            cursor: pointer; opacity: 0; transition: var(--transition);
+        }
+        .song-row:hover .play-btn { opacity: 1; }
+
+        /* Categories Section */
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        
+        .category-card {
+            background: linear-gradient(45deg, var(--bg-surface), #2a2a45);
+            padding: 2rem 1rem; text-align: center; border-radius: 12px;
+            cursor: pointer; transition: var(--transition);
+        }
+        
+        .category-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 242, 254, 0.1); }
+        .category-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .category-name { font-weight: 800; font-size: 1.2rem; }
+
+        /* Global Persistent Audio Player */
+        .player-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 90px;
+            background: var(--bg-glass); backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+        }
+
+        .now-playing { display: flex; align-items: center; width: 30%; }
+        .now-playing img { width: 60px; height: 60px; border-radius: 8px; margin-right: 1rem; object-fit: cover; }
+        
+        .audio-controls { width: 40%; display: flex; justify-content: center; }
+        audio { width: 100%; max-width: 500px; outline: none; }
+        
+        /* Customizing the default HTML5 audio player for dark mode */
+        audio::-webkit-media-controls-panel { background-color: #e5e7eb; border-radius: 30px; }
+
+        .extra-controls { width: 30%; display: flex; justify-content: flex-end; color: var(--text-secondary); }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(9, 9, 14, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal Card */
+        .modal-card {
+            background-color: var(--bg-surface);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: translateY(0);
+        }
+
+        /* Close Button */
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Song row styling in Modal */
+        .modal-song-row {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .modal-song-row:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 242, 254, 0.2);
+            transform: translateX(3px);
+        }
+
+        /* Media Queries for Mobile Responsiveness */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.2rem;
+                text-align: center;
+            }
+            .nav-links a {
+                margin: 0 1rem;
+            }
+            .container {
+                padding: 2rem 1.25rem;
+            }
+            .chart-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+            .category-card {
+                padding: 1.5rem 0.5rem;
+            }
+            .category-icon {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+            .category-name {
+                font-size: 1rem;
+            }
+            .player-bar {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+                gap: 0.8rem;
+            }
+            .now-playing {
+                width: 100%;
+                justify-content: center;
+            }
+            .audio-controls {
+                width: 100%;
+            }
+            .extra-controls {
+                display: none;
+            }
+            body {
+                padding-bottom: 180px; /* Leave space for stacked player bar */
+            }
+            .modal-card {
+                padding: 2rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">Music Library</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#top-charts">Top 10</a>
+            <a href="#categories">Browse</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="section-header" id="top-charts">
+            <h2>🔥 Global Top 10</h2>
+            <p style="color: var(--text-secondary);">Updated Daily</p>
+        </div>
+        
+        <div class="chart-grid" id="top-10-container">
+            </div>
+
+        <div class="section-header" id="categories">
+            <h2>Browse Categories</h2>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card" style="background: linear-gradient(rgba(20,20,33,0.65), rgba(20,20,33,0.95)), url('https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=300&auto=format&fit=crop') center/cover;">
+                <div class="category-icon">🎸</div>
+                <div class="category-name">Rock & Indie</div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(rgba(20,20,33,0.65), rgba(20,20,33,0.95)), url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop') center/cover;">
+                <div class="category-icon">🎧</div>
+                <div class="category-name">Electronic</div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(rgba(20,20,33,0.65), rgba(20,20,33,0.95)), url('https://images.unsplash.com/photo-1516280440504-629813f01c79?q=80&w=300&auto=format&fit=crop') center/cover;">
+                <div class="category-icon">🎤</div>
+                <div class="category-name">Pop & Vocal</div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(rgba(20,20,33,0.65), rgba(20,20,33,0.95)), url('https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=300&auto=format&fit=crop') center/cover;">
+                <div class="category-icon">🎷</div>
+                <div class="category-name">Jazz & Blues</div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(rgba(20,20,33,0.65), rgba(20,20,33,0.95)), url('https://images.unsplash.com/photo-1507838153414-b4b713384a76?q=80&w=300&auto=format&fit=crop') center/cover;">
+                <div class="category-icon">🎹</div>
+                <div class="category-name">Classical</div>
+            </div>
+        </div>
+    </main>
+
+    <div class="player-bar">
+        <div class="now-playing">
+            <img id="current-cover" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=200&auto=format&fit=crop" alt="Album Cover">
+            <div>
+                <div class="song-title" id="current-title">Select a track</div>
+                <div class="song-artist" id="current-artist">Ready to play</div>
+            </div>
+        </div>
+        
+        <div class="audio-controls">
+            <audio id="main-player" controls>
+                <source id="audio-source" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        <div class="extra-controls">
+            <span style="font-size: 1.5rem; cursor: pointer;">🔊</span>
+        </div>
+    </div>
+
+    <!-- Category Playlist Modal Overlay -->
+    <div class="modal-overlay" id="playlistModal">
+        <div class="modal-card">
+            <span class="modal-close" id="closePlaylistModal">&times;</span>
+            <h2 id="modalPlaylistTitle" style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">Category Playlist</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;" id="modalPlaylistSubtitle">Enjoy curated sounds</p>
+            
+            <div id="playlistSongsContainer">
+                <!-- Dynamically generated song rows go here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Music Library Data ---
+        // Simulating a real database using an array of objects
+        const top10Tracks = [
+            { id: 1, title: "Midnight City Blues", artist: "The Synthetics", cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { id: 2, title: "Ocean Drive", artist: "Neon Waves", cover: "https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { id: 3, title: "Lost in the Echo", artist: "Virtual Horizons", cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { id: 4, title: "Starlight Ascent", artist: "Aurora Beatz", cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { id: 5, title: "Deep House Groove", artist: "DJ Quantum", cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { id: 6, title: "Acoustic Sunrise", artist: "Elena Woods", cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { id: 7, title: "Urban Rhythm", artist: "Metro Kings", cover: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { id: 8, title: "Lo-Fi Study Session", artist: "Chill Mill", cover: "https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { id: 9, title: "Summer Anthems", artist: "The Sunsets", cover: "https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { id: 10, title: "Electric Feel", artist: "Static Pulse", cover: "https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+        ];
+
+        // --- 2. Dynamic Rendering of Top 10 Challenge ---
+        const top10Container = document.getElementById('top-10-container');
+
+        // Loop through the data and generate HTML for each song
+        top10Tracks.forEach((track, index) => {
+            const songRow = document.createElement('div');
+            songRow.classList.add('song-row');
+            
+            // Add a click event to play the song when the row is clicked
+            songRow.onclick = () => playSong(track);
+
+            songRow.innerHTML = `
+                <div class="rank">${index + 1}</div>
+                <img src="${track.cover}" class="song-cover" alt="Cover">
+                <div class="song-details">
+                    <div class="song-title">${track.title}</div>
+                    <div class="song-artist">${track.artist}</div>
+                </div>
+                <button class="play-btn">▶</button>
+            `;
+            
+            top10Container.appendChild(songRow);
+        });
+
+        // --- 3. JavaScript: Display Current Song & Play Audio ---
+        const mainPlayer = document.getElementById('main-player');
+        const audioSource = document.getElementById('audio-source');
+        const currentTitle = document.getElementById('current-title');
+        const currentArtist = document.getElementById('current-artist');
+        const currentCover = document.getElementById('current-cover');
+
+        function playSong(track) {
+            // Update the UI to display the current song
+            currentTitle.textContent = track.title;
+            currentArtist.textContent = track.artist;
+            currentCover.src = track.cover;
+
+            // Load and play the audio file
+            mainPlayer.src = track.audio;
+            mainPlayer.play().catch(error => {
+                console.log("Audio playback was blocked or failed to load. This is normal for dummy links.");
+                alert(`Now Playing: ${track.title} by ${track.artist}`);
+            });
+        }
+
+        // --- 4. Dynamic Playlists for Categories ---
+        const categoryPlaylists = {
+            "Rock & Indie": [
+                { title: "Electric Horizon", artist: "Thunder & Rain", cover: "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
+                { title: "Wildfire Echoes", artist: "Silver Foxes", cover: "https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
+                { title: "Retro Rebel", artist: "The Garage Project", cover: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
+                { title: "Crimson Sunset", artist: "Desert Riders", cover: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
+                { title: "Shadows in the Mist", artist: "Silent Whisper", cover: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
+            ],
+            "Electronic": [
+                { title: "Cybernetic Dream", artist: "Pixel Glitch", cover: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+                { title: "Neon Velocity", artist: "Synth Racer", cover: "https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+                { title: "Bassline Pulse", artist: "Frequency Shift", cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+                { title: "Glitch in the Matrix", artist: "The Coders", cover: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+                { title: "Subatomic Sub", artist: "DJ Deep Bass", cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+            ],
+            "Pop & Vocal": [
+                { title: "Golden Hour", artist: "Aria Sterling", cover: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+                { title: "Echoes of Heartbeat", artist: "Jonas Blue & Sky", cover:"https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+                { title: "Chasing Shadows", artist: "Leona Vance", cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+                { title: "Dance All Night", artist: "The Pop Stars", cover: "https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+                { title: "Breathless Heights", artist: "Vocal Vibe", cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+            ],
+            "Jazz & Blues": [
+                { title: "Saxophone Rain", artist: "Miles Quartet", cover: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
+                { title: "Blue Note Boulevard", artist: "Duke & The Keys", cover: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
+                { title: "Late Night Lounge", artist: "Ella's Echo", cover: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
+                { title: "Slow River Blues", artist: "Muddy Waters Tribute", cover: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
+                { title: "Brass & Smoke", artist: "The New Orleans Five", cover: "https://www.beatoven.ai/blog/wp-content/uploads/2024/11/20241115-125147-768x768.jpeg", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
+            ],
+            "Classical": [
+                { title: "Symphony No. 5", artist: "Vienna Philharmonics", cover: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+                { title: "Moonlight Sonata", artist: "Ludwig Ensemble", cover: "https://images.unsplash.com/photo-1447069387593-a5de0862481e?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+                { title: "Canon in D Major", artist: "Pachelbel Players", cover: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+                { title: "Nocturne Op. 9", artist: "Chopin Interpretations", cover: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+                { title: "The Four Seasons", artist: "Vivaldi Consort", cover: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=200&auto=format&fit=crop", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+            ]
+        };
+
+        // --- 5. JavaScript: Category Cards Clicking to Open Playlists ---
+        const playlistModal = document.getElementById('playlistModal');
+        const closePlaylistModal = document.getElementById('closePlaylistModal');
+        const modalPlaylistTitle = document.getElementById('modalPlaylistTitle');
+        const playlistSongsContainer = document.getElementById('playlistSongsContainer');
+
+        function openCategoryPlaylist(categoryName) {
+            const tracks = categoryPlaylists[categoryName];
+            if (!tracks) return;
+
+            // Set title
+            modalPlaylistTitle.textContent = `${categoryName} Playlist`;
+            playlistSongsContainer.innerHTML = '';
+
+            // Render songs
+            tracks.forEach((track, index) => {
+                const songRow = document.createElement('div');
+                songRow.classList.add('modal-song-row');
+                songRow.onclick = () => {
+                    playSong(track);
+                    playlistModal.classList.remove('open');
+                };
+
+                songRow.innerHTML = `
+                    <div class="rank" style="margin-right: 15px; font-weight: 800; color: var(--text-secondary); width: 25px;">${index + 1}</div>
+                    <img src="${track.cover}" class="song-cover" alt="Cover" style="width: 45px; height: 45px; margin-right: 15px; border-radius: 4px; object-fit: cover;">
+                    <div class="song-details" style="flex-grow: 1;">
+                        <div class="song-title" style="font-size: 1rem; font-weight: 600;">${track.title}</div>
+                        <div class="song-artist" style="font-size: 0.85rem; color: var(--text-secondary);">${track.artist}</div>
+                    </div>
+                    <button class="play-btn" style="opacity: 1; margin-left: auto;">▶</button>
+                `;
+
+                playlistSongsContainer.appendChild(songRow);
+            });
+
+            // Open modal
+            playlistModal.classList.add('open');
+        }
+
+        // Add event listeners to category cards
+        const categoryCards = document.querySelectorAll('.category-card');
+        categoryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const categoryName = card.querySelector('.category-name').textContent.trim();
+                openCategoryPlaylist(categoryName);
+            });
+        });
+
+        // Close modal
+        closePlaylistModal.addEventListener('click', () => {
+            playlistModal.classList.remove('open');
+        });
+
+        // Close on clicking backdrop
+        playlistModal.addEventListener('click', (e) => {
+            if (e.target === playlistModal) {
+                playlistModal.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

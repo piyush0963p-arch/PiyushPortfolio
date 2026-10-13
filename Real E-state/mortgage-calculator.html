@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Calculator – EstateAI</title>
+<meta name="description" content="Calculate your home loan EMI, total interest, and payment breakdown instantly with EstateAI's mortgage calculator.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+.calc-page { padding-top: 100px; padding-bottom: 80px; min-height: 100vh; }
+.calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+
+/* Input panel */
+.calc-inputs {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+.calc-inputs h3 { font-size: 1.1rem; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.calc-field { margin-bottom: 24px; }
+.calc-field-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.calc-field-label { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+.calc-field-value {
+  font-size: 1rem; font-weight: 800;
+  color: var(--accent);
+  background: rgba(0,212,170,0.1);
+  border: 1px solid rgba(0,212,170,0.2);
+  padding: 4px 12px; border-radius: 100px;
+  min-width: 100px; text-align: center;
+}
+.calc-slider {
+  -webkit-appearance: none;
+  width: 100%; height: 6px;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+.calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 4px rgba(108,99,255,0.2);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.calc-slider::-webkit-slider-thumb:hover {
+  background: var(--primary-light);
+  box-shadow: 0 0 0 6px rgba(108,99,255,0.3);
+}
+.calc-slider-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-dim); }
+
+.calc-number-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  margin-top: 8px;
+  transition: var(--transition);
+}
+.calc-number-input:focus { border-color: var(--primary); }
+
+/* Results panel */
+.calc-results { display: flex; flex-direction: column; gap: 20px; }
+
+/* EMI card */
+.emi-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(108,99,255,0.4);
+}
+.emi-card::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 150px; height: 150px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.emi-label { font-size: 0.82rem; font-weight: 600; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.emi-value { font-size: 2.6rem; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.emi-sub { font-size: 0.82rem; opacity: 0.75; }
+
+/* Summary cards */
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.summary-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.summary-card-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; }
+.summary-card-value { font-size: 1.2rem; font-weight: 800; }
+
+/* Chart */
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+.chart-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 20px; }
+.chart-container { position: relative; height: 220px; }
+
+/* Payment breakdown */
+.breakdown-bar { height: 12px; border-radius: 6px; background: var(--border); overflow: hidden; margin: 12px 0; }
+.breakdown-fill { height: 100%; display: flex; border-radius: 6px; overflow: hidden; transition: width 0.8s ease; }
+.breakdown-principal { background: var(--primary); }
+.breakdown-interest { background: var(--accent); }
+.breakdown-legend { display: flex; gap: 16px; flex-wrap: wrap; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+/* Amortization */
+.amort-table-wrap { max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.amort-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.amort-table th { position: sticky; top: 0; background: var(--surface); padding: 10px 12px; text-align: left; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+.amort-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.amort-table tr:hover td { background: rgba(108,99,255,0.04); }
+
+@media (max-width: 1024px) { .calc-layout { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .summary-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="calc-page">
+  <div class="container">
+    <div class="page-hero" style="padding-top:0;padding-bottom:32px">
+      <div class="section-tag">💰 Mortgage Calculator</div>
+      <h1>Calculate Your <span class="gradient-text">Home Loan EMI</span></h1>
+      <p>Plan your finances with precision. Get instant EMI calculations, payment breakdowns, and amortization schedules.</p>
+    </div>
+
+    <div class="calc-layout">
+      <!-- Inputs -->
+      <div class="calc-inputs reveal">
+        <h3>🏠 Loan Parameters</h3>
+
+        <div class="calc-field">
+          <div class="calc-field-header">
+            <span class="calc-field-label">Property Price</span>
+            <span class="calc-field-value" id="priceDisplay">₹80 L</span>
+          </div>
+          <input type="range" class="calc-slider" id="propertyPrice" min="1000000" max="50000000" step="100000" value="8000000"
+            oninput="updateCalc()" style="background:linear-gradient(to right,var(--primary) 0%,var(--primary) 16%,var(--border) 16%)">
+          <div class="calc-slider-labels"><span>₹10 L</span><span>₹5 Cr</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-field-header">
+            <span class="calc-field-label">Down Payment</span>
+            <span class="calc-field-value" id="dpDisplay">₹16 L (20%)</span>
+          </div>
+          <input type="range" class="calc-slider" id="downPayment" min="5" max="60" step="5" value="20"
+            oninput="updateCalc()">
+          <div class="calc-slider-labels"><span>5%</span><span>60%</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-field-header">
+            <span class="calc-field-label">Interest Rate (per annum)</span>
+            <span class="calc-field-value" id="rateDisplay">8.5%</span>
+          </div>
+          <input type="range" class="calc-slider" id="interestRate" min="5" max="18" step="0.25" value="8.5"
+            oninput="updateCalc()">
+          <div class="calc-slider-labels"><span>5%</span><span>18%</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-field-header">
+            <span class="calc-field-label">Loan Tenure</span>
+            <span class="calc-field-value" id="tenureDisplay">20 Years</span>
+          </div>
+          <input type="range" class="calc-slider" id="loanTenure" min="1" max="30" step="1" value="20"
+            oninput="updateCalc()">
+          <div class="calc-slider-labels"><span>1 Yr</span><span>30 Yrs</span></div>
+        </div>
+
+        <!-- Tax Benefits section -->
+        <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.15);border-radius:10px;padding:16px;margin-top:8px">
+          <div style="font-size:0.82rem;font-weight:700;color:var(--accent);margin-bottom:8px">💡 Tax Benefit Estimate</div>
+          <div style="font-size:0.8rem;color:var(--text-muted)">Under Section 80C: <strong style="color:var(--text)" id="tax80c">₹1.5 L</strong> deduction on principal</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Under Section 24b: <strong style="color:var(--text)" id="tax24b">₹2 L</strong> deduction on interest</div>
+          <div style="font-size:0.8rem;color:var(--accent);margin-top:8px" id="taxSaving">Estimated Tax Saving: ₹1,05,000/yr</div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="calc-results">
+        <!-- EMI Card -->
+        <div class="emi-card reveal">
+          <div class="emi-label">Monthly EMI</div>
+          <div class="emi-value" id="emiValue">₹0</div>
+          <div class="emi-sub">For <span id="emiDuration">20 years</span> at <span id="emiRate">8.5%</span> p.a.</div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-grid reveal">
+          <div class="summary-card">
+            <div class="summary-card-label">💰 Loan Amount</div>
+            <div class="summary-card-value" id="loanAmt">₹0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">📈 Total Interest</div>
+            <div class="summary-card-value" style="color:var(--warning)" id="totalInterest">₹0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">💵 Total Payment</div>
+            <div class="summary-card-value" id="totalPayment">₹0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">📊 Interest %</div>
+            <div class="summary-card-value" style="color:var(--accent)" id="interestPct">0%</div>
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-card reveal">
+          <h4>Payment Breakdown</h4>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+          <div class="breakdown-legend" style="margin-top:14px">
+            <span><span class="legend-dot" style="background:var(--primary)"></span>Principal</span>
+            <span><span class="legend-dot" style="background:var(--accent)"></span>Total Interest</span>
+            <span><span class="legend-dot" style="background:var(--warning)"></span>Down Payment</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Bar -->
+        <div class="chart-card reveal">
+          <h4>Principal vs Interest</h4>
+          <div class="breakdown-bar">
+            <div class="breakdown-fill" id="breakdownFill">
+              <div class="breakdown-principal" id="principalFill" style="width:50%"></div>
+              <div class="breakdown-interest" id="interestFill" style="width:50%"></div>
+            </div>
+          </div>
+          <div class="breakdown-legend">
+            <span style="font-size:0.82rem">🟣 Principal: <strong id="pPct">50%</strong></span>
+            <span style="font-size:0.82rem">🟢 Interest: <strong id="iPct">50%</strong></span>
+          </div>
+        </div>
+
+        <!-- Amortization -->
+        <div class="chart-card reveal">
+          <h4>📅 Amortization Schedule <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(First 5 years)</span></h4>
+          <div class="amort-table-wrap">
+            <table class="amort-table">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>EMI Paid</th>
+                  <th>Principal</th>
+                  <th>Interest</th>
+                  <th>Balance</th>
+                </tr>
+              </thead>
+              <tbody id="amortBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('mortgage-calculator.html');
+document.getElementById('footer-root').innerHTML = buildFooter();
+
+let pieChart = null;
+
+function fmtINR(n) {
+  if (n >= 10000000) return '₹' + (n/10000000).toFixed(2) + ' Cr';
+  if (n >= 100000) return '₹' + (n/100000).toFixed(1) + ' L';
+  return '₹' + n.toLocaleString('en-IN');
+}
+
+function updateCalc() {
+  const price = parseInt(document.getElementById('propertyPrice').value);
+  const dpPct = parseInt(document.getElementById('downPayment').value);
+  const rate = parseFloat(document.getElementById('interestRate').value);
+  const tenure = parseInt(document.getElementById('loanTenure').value);
+
+  const dp = price * dpPct / 100;
+  const loan = price - dp;
+  const monthlyRate = rate / 12 / 100;
+  const months = tenure * 12;
+
+  let emi = 0;
+  if (monthlyRate > 0) {
+    emi = loan * monthlyRate * Math.pow(1+monthlyRate,months) / (Math.pow(1+monthlyRate,months)-1);
+  } else {
+    emi = loan / months;
+  }
+
+  const totalPay = emi * months;
+  const totalInt = totalPay - loan;
+  const intPct = Math.round(totalInt / totalPay * 100);
+  const prinPct = 100 - intPct;
+
+  // Slider gradient fill
+  const sl = document.getElementById('propertyPrice');
+  const pct = (price - parseInt(sl.min)) / (parseInt(sl.max) - parseInt(sl.min)) * 100;
+  sl.style.background = `linear-gradient(to right,var(--primary) 0%,var(--primary) ${pct}%,var(--border) ${pct}%)`;
+
+  // Display
+  document.getElementById('priceDisplay').textContent = fmtINR(price);
+  document.getElementById('dpDisplay').textContent = fmtINR(dp) + ` (${dpPct}%)`;
+  document.getElementById('rateDisplay').textContent = rate + '%';
+  document.getElementById('tenureDisplay').textContent = tenure + ' Year' + (tenure>1?'s':'');
+  document.getElementById('emiValue').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+  document.getElementById('emiDuration').textContent = tenure + ' years';
+  document.getElementById('emiRate').textContent = rate + '%';
+  document.getElementById('loanAmt').textContent = fmtINR(loan);
+  document.getElementById('totalInterest').textContent = fmtINR(totalInt);
+  document.getElementById('totalPayment').textContent = fmtINR(totalPay + dp);
+  document.getElementById('interestPct').textContent = intPct + '%';
+  document.getElementById('principalFill').style.width = prinPct + '%';
+  document.getElementById('interestFill').style.width = intPct + '%';
+  document.getElementById('pPct').textContent = prinPct + '%';
+  document.getElementById('iPct').textContent = intPct + '%';
+
+  // Tax
+  document.getElementById('tax80c').textContent = '₹1.5 L';
+  document.getElementById('tax24b').textContent = totalInt > 200000 ? '₹2 L' : fmtINR(Math.min(totalInt/tenure, 200000));
+  const taxSaving = Math.round((150000 + Math.min(totalInt/tenure, 200000)) * 0.3);
+  document.getElementById('taxSaving').textContent = `Estimated Tax Saving: ₹${taxSaving.toLocaleString('en-IN')}/yr`;
+
+  // Pie chart
+  if (pieChart) pieChart.destroy();
+  pieChart = new Chart(document.getElementById('pieChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Principal', 'Total Interest', 'Down Payment'],
+      datasets: [{
+        data: [Math.round(loan), Math.round(totalInt), Math.round(dp)],
+        backgroundColor: ['#6C63FF', '#00D4AA', '#FFB347'],
+        borderColor: ['#6C63FF', '#00D4AA', '#FFB347'],
+        borderWidth: 2,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + fmtINR(ctx.raw)
+          },
+          backgroundColor: '#FFFFFF',
+          borderColor: '#E2E8F0',
+          borderWidth: 1,
+          titleColor: '#0F172A',
+          bodyColor: '#64748B',
+          padding: 10,
+        }
+      }
+    }
+  });
+
+  // Amortization (first 5 years)
+  let balance = loan;
+  let amortHtml = '';
+  for (let y = 1; y <= Math.min(tenure, 5); y++) {
+    let yearPrincipal = 0, yearInterest = 0;
+    for (let m = 0; m < 12; m++) {
+      const intPay = balance * monthlyRate;
+      const prinPay = emi - intPay;
+      yearPrincipal += prinPay;
+      yearInterest += intPay;
+      balance -= prinPay;
+    }
+    amortHtml += `<tr>
+      <td style="font-weight:600">Year ${y}</td>
+      <td>₹${Math.round(emi*12).toLocaleString('en-IN')}</td>
+      <td style="color:var(--primary-light)">₹${Math.round(yearPrincipal).toLocaleString('en-IN')}</td>
+      <td style="color:var(--accent)">₹${Math.round(yearInterest).toLocaleString('en-IN')}</td>
+      <td style="color:var(--text-muted)">₹${Math.round(Math.max(balance,0)).toLocaleString('en-IN')}</td>
+    </tr>`;
+  }
+  document.getElementById('amortBody').innerHTML = amortHtml;
+}
+
+updateCalc();
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Reports & Diagnostics — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text">Medi<span>Care</span></span></a>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="theme-toggle">🌙</button>
+    <div class="nav-avatar">JD</div>
+  </div>
+  <button class="btn btn-ghost btn-icon sidebar-toggle" style="margin-left:8px">☰</button>
+</nav>
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section-label">Main Menu</div>
+    <a href="patient-dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <a href="appointments.html" class="sidebar-link"><span class="icon">📅</span> Appointments</a>
+    <a href="medical-history.html" class="sidebar-link"><span class="icon">📋</span> Medical History</a>
+    <a href="prescriptions.html" class="sidebar-link"><span class="icon">💊</span> Prescriptions</a>
+    <a href="reports.html" class="sidebar-link active"><span class="icon">📊</span> Reports</a>
+    <a href="ai-assistant.html" class="sidebar-link"><span class="icon">🤖</span> AI Assistant</a>
+    <a href="analytics.html" class="sidebar-link"><span class="icon">📈</span> Analytics</a>
+  </aside>
+  <main class="dashboard-content">
+    <div class="page-header flex-between" style="flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="page-title">Reports & Diagnostics 📊</div>
+        <div class="page-subtitle">All your medical reports and health analytics in one place</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="showToast('Report uploading...','info')">📤 Upload Report</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid-4 mb-24">
+      <div class="metric-card"><div class="metric-icon blue">📋</div><div class="metric-value text-gradient-blue">18</div><div class="metric-label">Total Reports</div></div>
+      <div class="metric-card"><div class="metric-icon green">✅</div><div class="metric-value" style="color:var(--emerald)">14</div><div class="metric-label">Normal Results</div></div>
+      <div class="metric-card"><div class="metric-icon amber">⚠️</div><div class="metric-value" style="color:var(--amber)">3</div><div class="metric-label">Need Attention</div></div>
+      <div class="metric-card"><div class="metric-icon purple">🕐</div><div class="metric-value" style="color:var(--purple)">1</div><div class="metric-label">Pending Review</div></div>
+    </div>
+
+    <!-- UPLOAD AREA -->
+    <div class="upload-zone mb-24" onclick="showToast('File picker opened!','info')">
+      <div class="upload-icon">📁</div>
+      <h3 style="margin-bottom:8px">Drag & drop your reports here</h3>
+      <p class="text-secondary text-sm">Supports PDF, JPEG, PNG, DICOM — Max 50MB</p>
+      <button class="btn btn-primary btn-sm" style="margin-top:16px">Choose Files</button>
+    </div>
+
+    <!-- REPORT CATEGORIES TABS -->
+    <div data-tabs>
+      <div class="tab-nav mb-20">
+        <button class="tab-btn active" data-tab="all">All Reports</button>
+        <button class="tab-btn" data-tab="blood">🩸 Blood Tests</button>
+        <button class="tab-btn" data-tab="imaging">🩻 Imaging</button>
+        <button class="tab-btn" data-tab="cardiac">❤️ Cardiac</button>
+        <button class="tab-btn" data-tab="other">📋 Other</button>
+      </div>
+
+      <div data-panel="all" class="tab-panel active">
+        <div class="grid-4 mb-24">
+          <div class="report-card" onclick="showToast('Opening CBC report...','info')">
+            <div class="report-icon">🩸</div>
+            <div class="report-name">CBC Blood Test</div>
+            <div class="report-date">Jun 10, 2026 • City Lab</div>
+            <div class="report-status"><span class="badge badge-emerald">All Normal</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening Lipid Panel...','info')">
+            <div class="report-icon">🫀</div>
+            <div class="report-name">Lipid Panel</div>
+            <div class="report-date">Jun 10, 2026 • City Lab</div>
+            <div class="report-status"><span class="badge badge-amber">Slightly High</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening MRI report...','info')">
+            <div class="report-icon">🧲</div>
+            <div class="report-name">MRI — Lumbar Spine</div>
+            <div class="report-date">May 28, 2026 • Imaging Center</div>
+            <div class="report-status"><span class="badge badge-amber">Review Needed</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening ECG report...','info')">
+            <div class="report-icon">💗</div>
+            <div class="report-name">ECG Report</div>
+            <div class="report-date">Jun 8, 2026 • Dr. Wilson</div>
+            <div class="report-status"><span class="badge badge-emerald">Normal Sinus</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening X-Ray report...','info')">
+            <div class="report-icon">🦴</div>
+            <div class="report-name">Chest X-Ray</div>
+            <div class="report-date">May 5, 2026 • Radiology Dept</div>
+            <div class="report-status"><span class="badge badge-emerald">Clear</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening Ultrasound report...','info')">
+            <div class="report-icon">🔊</div>
+            <div class="report-name">Abdominal Ultrasound</div>
+            <div class="report-date">Apr 18, 2026 • Sonography Lab</div>
+            <div class="report-status"><span class="badge badge-emerald">Normal</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening HbA1c report...','info')">
+            <div class="report-icon">🩸</div>
+            <div class="report-name">HbA1c Test</div>
+            <div class="report-date">Apr 10, 2026 • City Lab</div>
+            <div class="report-status"><span class="badge badge-primary">5.8% (Normal)</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+          <div class="report-card" onclick="showToast('Opening CT Scan report...','info')">
+            <div class="report-icon">🧠</div>
+            <div class="report-name">CT Scan — Head</div>
+            <div class="report-date">Mar 22, 2026 • Neuro Imaging</div>
+            <div class="report-status"><span class="badge badge-emerald">No Abnormality</span></div>
+            <div class="flex gap-8 mt-12">
+              <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Downloading...','info')">📥</button>
+              <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();showToast('Sharing...','info')">🔗</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-panel="blood" class="tab-panel"><p class="text-secondary" style="padding:20px">Showing blood test reports...</p></div>
+      <div data-panel="imaging" class="tab-panel"><p class="text-secondary" style="padding:20px">Showing imaging reports...</p></div>
+      <div data-panel="cardiac" class="tab-panel"><p class="text-secondary" style="padding:20px">Showing cardiac reports...</p></div>
+      <div data-panel="other" class="tab-panel"><p class="text-secondary" style="padding:20px">Showing other reports...</p></div>
+    </div>
+
+    <!-- HEALTH ANALYTICS CHARTS -->
+    <h3 style="margin-bottom:16px">📈 Health Analytics</h3>
+    <div class="grid-2 mb-24">
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>🩸 Blood Pressure Trend</h3><span class="badge badge-primary">6 Months</span></div>
+        <div style="height:200px"><canvas id="bpChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>🍬 Blood Sugar Levels</h3><span class="badge badge-amber">6 Months</span></div>
+        <div style="height:200px"><canvas id="sugarChart"></canvas></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>⚖️ Weight Progress</h3><span class="badge badge-emerald">6 Months</span></div>
+        <div style="height:200px"><canvas id="weightChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>❤️ Heart Rate Tracking</h3><span class="badge badge-rose">6 Months</span></div>
+        <div style="height:200px"><canvas id="heartChart"></canvas></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const months = ['Jan','Feb','Mar','Apr','May','Jun'];
+  drawLineChart(document.getElementById('bpChart'), months, [
+    {label:'Systolic',data:[130,128,125,122,120,121],borderColor:'#f43f5e',backgroundColor:'rgba(244,63,94,0.05)',fill:true,borderWidth:2},
+    {label:'Diastolic',data:[85,84,82,81,80,80],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.05)',fill:true,borderWidth:2}
+  ]);
+  drawLineChart(document.getElementById('sugarChart'), months, [
+    {label:'Fasting (mg/dL)',data:[98,101,96,103,99,97],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.05)',fill:true,borderWidth:2}
+  ]);
+  drawLineChart(document.getElementById('weightChart'), months, [
+    {label:'Weight (kg)',data:[78,77,76,75,74.5,74],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.05)',fill:true,borderWidth:2}
+  ]);
+  drawLineChart(document.getElementById('heartChart'), months, [
+    {label:'Heart Rate (BPM)',data:[76,74,73,72,71,72],borderColor:'#f43f5e',backgroundColor:'rgba(244,63,94,0.05)',fill:true,borderWidth:2}
+  ]);
+});
+</script>
+</body>
+</html>
+

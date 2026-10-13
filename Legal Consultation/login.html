@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexAI - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-surface) 100%);
+            padding: 1.5rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 2.5rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header .logo {
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+        }
+
+        .social-auth {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-social {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-social:hover {
+            background: var(--bg-surface);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: 1rem;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .password-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .password-header .form-label {
+            margin-bottom: 0;
+        }
+
+        .forgot-link {
+            font-size: 0.875rem;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card glass auth-card animate-fade-in">
+        <div class="auth-header">
+            <a href="index.html" class="logo">
+                <i data-lucide="scale"></i>
+                <span>Lex</span>AI
+            </a>
+            <h2>Welcome back</h2>
+            <p>Log in to your account to continue</p>
+        </div>
+
+        <div class="social-auth">
+            <button class="btn-social">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" height="20">
+                Google
+            </button>
+            <button class="btn-social">
+                <i data-lucide="github" style="width: 20px; height: 20px;"></i>
+                GitHub
+            </button>
+        </div>
+
+        <div class="divider">or continue with email</div>
+
+        <form action="client-dashboard.html" method="GET">
+            <div class="form-group">
+                <label class="form-label" for="email">Email address</label>
+                <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <div class="password-header">
+                    <label class="form-label" for="password">Password</label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem; font-size: 1rem;">
+                Sign in
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="register.html">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        // Set theme from local storage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+</body>
+</html>

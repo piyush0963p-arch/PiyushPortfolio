@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management - DineFlow AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/pages/menu.css">
+    <link rel="stylesheet" href="assets/css/pages/staff.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i data-lucide="chef-hat"></i>
+                    DineFlow<span class="text-primary">AI</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="menu.html" class="nav-item">
+                    <i data-lucide="book-open"></i>
+                    Menu Management
+                </a>
+                <a href="ordering.html" class="nav-item">
+                    <i data-lucide="shopping-cart"></i>
+                    Customer Ordering
+                </a>
+                <a href="pos.html" class="nav-item">
+                    <i data-lucide="monitor"></i>
+                    POS System
+                </a>
+                <a href="tables.html" class="nav-item">
+                    <i data-lucide="calendar-days"></i>
+                    Table Booking
+                </a>
+                <a href="kitchen.html" class="nav-item">
+                    <i data-lucide="flame"></i>
+                    Kitchen Dashboard
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i data-lucide="package"></i>
+                    Inventory
+                </a>
+                <a href="staff.html" class="nav-item active">
+                    <i data-lucide="users"></i>
+                    Staff Management
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i data-lucide="contact"></i>
+                    Customers
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    Analytics & Reports
+                </a>
+                <a href="ai-insights.html" class="nav-item text-accent">
+                    <i data-lucide="sparkles"></i>
+                    AI Insights
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-avatar" style="text-decoration:none;">AD</a>
+                <div class="user-info">
+                    <a href="profile.html" class="user-name" style="text-decoration:none;">Admin User</a>
+                    <div class="user-role">Restaurant Owner</div>
+                </div>
+                <button class="icon-btn theme-toggle" style="border:none;">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">Staff Roster</h1>
+                </div>
+                
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search staff members...">
+                </div>
+                
+                <div class="topbar-right">
+                    <button class="icon-btn">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <a href="settings.html" class="icon-btn">
+                        <i data-lucide="settings"></i>
+                    </a>
+                </div>
+            </header>
+            
+            <!-- Staff Content -->
+            <div class="content-wrapper">
+                <div class="menu-header-actions">
+                    <div class="menu-filters">
+                        <button class="filter-btn active" data-role="all">All Roles</button>
+                        <button class="filter-btn" data-role="Manager">Managers</button>
+                        <button class="filter-btn" data-role="Chef">Chefs</button>
+                        <button class="filter-btn" data-role="Waiter">Waiters</button>
+                        <button class="filter-btn" data-role="Cashier">Cashiers</button>
+                    </div>
+                    
+                    <button id="addStaffBtn" class="btn btn-primary">
+                        <i data-lucide="plus"></i> Add Staff
+                    </button>
+                </div>
+                
+                <!-- Staff Grid -->
+                <div id="staffGrid" class="staff-grid">
+                    <!-- Staff profiles loaded dynamically -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div id="addStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Staff Member</h2>
+                <button id="closeStaffModalBtn" class="close-btn">&times;</button>
+            </div>
+            <form id="addStaffForm">
+                <div class="form-group">
+                    <label for="staffName" class="form-label">Full Name</label>
+                    <input type="text" id="staffName" class="form-control" placeholder="e.g. Aurelius Antoninus" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffEmail" class="form-label">Email Address</label>
+                    <input type="email" id="staffEmail" class="form-control" placeholder="e.g. antoninus@dineflow.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffRole" class="form-label">Role</label>
+                    <select id="staffRole" class="form-control" required>
+                        <option value="Manager">Manager</option>
+                        <option value="Chef">Chef</option>
+                        <option value="Waiter">Waiter</option>
+                        <option value="Cashier">Cashier</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffShift" class="form-label">Shift Details</label>
+                    <select id="staffShift" class="form-control" required>
+                        <option value="Morning (08:00 AM - 04:00 PM)">Morning (08:00 AM - 04:00 PM)</option>
+                        <option value="Evening (04:00 PM - 12:00 AM)">Evening (04:00 PM - 12:00 AM)</option>
+                        <option value="Night (12:00 AM - 08:00 AM)">Night (12:00 AM - 08:00 AM)</option>
+                        <option value="Full-time (09:00 AM - 06:00 PM)">Full-time (09:00 AM - 06:00 PM)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1rem;">Save Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/pages/staff.js"></script>
+</body>
+</html>

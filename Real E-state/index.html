@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EstateAI – Find Your Dream Home with AI</title>
+<meta name="description" content="India's most intelligent AI-powered real estate platform. Discover, compare, and invest in properties with personalized AI recommendations.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+/* ─── Hero ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 70px;
+  background: radial-gradient(ellipse at 20% 50%, rgba(108,99,255,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(0,212,170,0.08) 0%, transparent 50%);
+}
+.hero-bg-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(15,23,42,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.25); border-radius: 100px; padding: 6px 14px 6px 6px; margin-bottom: 24px; }
+.hero-tag-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 1.5s infinite; }
+.hero-tag span { font-size: 0.78rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.8px; }
+.hero-title { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+.hero-subtitle { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 36px; max-width: 480px; }
+.hero-search {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+}
+.hero-search-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.hero-search-field { display: flex; flex-direction: column; gap: 4px; }
+.hero-search-field label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); }
+.hero-search-field input, .hero-search-field select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: var(--transition);
+}
+.hero-search-field input:focus, .hero-search-field select:focus { border-color: var(--primary); }
+.hero-search-field input::placeholder { color: var(--text-dim); }
+option { background: var(--card); }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ─── Hero Right ─── */
+.hero-visual { position: relative; }
+.hero-img {
+  width: 100%;
+  max-width: 560px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(15,23,42,0.12);
+  position: relative;
+}
+.hero-img img { width: 100%; height: 400px; object-fit: cover; display: block; }
+.hero-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(15,23,42,0.2), transparent);
+  border-radius: inherit;
+}
+.float-stats {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.float-stat {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 180px;
+  box-shadow: 0 10px 30px rgba(15,23,42,0.1);
+}
+.float-stat-icon { font-size: 1.4rem; }
+.float-stat-val { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+.float-stat-lbl { font-size: 0.72rem; color: var(--text-muted); }
+.float-stats-left { left: -30px; top: 60px; }
+.float-stats-right { right: -20px; bottom: 80px; }
+
+/* ─── Features ─── */
+.features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: var(--transition);
+}
+.feature-card:hover { transform: translateY(-5px); border-color: var(--border2); box-shadow: var(--glow); }
+.feature-icon { font-size: 2rem; margin-bottom: 16px; }
+.feature-card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+
+/* ─── How it Works ─── */
+.how-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; position: relative; }
+.how-step { text-align: center; padding: 28px 20px; }
+.how-number {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; font-weight: 800; color: #fff;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 24px rgba(108,99,255,0.4);
+}
+.how-step h4 { font-size: 0.95rem; margin-bottom: 8px; }
+
+/* ─── Testimonials ─── */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.testi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: var(--transition);
+}
+.testi-card:hover { transform: translateY(-4px); border-color: var(--border2); }
+.testi-stars { color: #FFB347; font-size: 0.9rem; margin-bottom: 14px; }
+.testi-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.testi-name { font-size: 0.88rem; font-weight: 700; }
+.testi-loc { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ─── Stats Banner ─── */
+.stats-banner { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 48px 0; }
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; text-align: center; }
+.stats-row-item h3 { font-size: 2.5rem; font-weight: 900; }
+.stats-row-item p { font-size: 0.85rem; }
+
+/* ─── CTA Banner ─── */
+.cta-banner {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(0,212,170,0.15));
+  border: 1px solid var(--border2);
+  padding: 60px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(108,99,255,0.2), transparent);
+  top: -100px; right: -100px;
+  border-radius: 50%;
+}
+
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .how-grid { grid-template-columns: repeat(2,1fr); }
+  .features-grid { grid-template-columns: repeat(2,1fr); }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 768px) {
+  .hero-search-row { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .how-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<!-- ─── Hero ─── -->
+<section class="hero">
+  <div class="hero-bg-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag anim-fade-up">
+        <span class="hero-tag-dot"></span>
+        <span>✨ AI-Powered Real Estate Platform</span>
+      </div>
+      <h1 class="hero-title anim-fade-up delay-1">
+        Find Your <span class="gradient-text">Dream Home</span><br>with AI
+      </h1>
+      <p class="hero-subtitle anim-fade-up delay-2">
+        EstateAI uses advanced machine learning to match you with perfect properties based on your lifestyle, budget, and preferences across India's top cities.
+      </p>
+
+      <div class="hero-search anim-fade-up delay-3">
+        <div class="hero-search-row">
+          <div class="hero-search-field">
+            <label>📍 Location</label>
+            <input type="text" placeholder="Mumbai, Bangalore, Delhi..." id="search-loc">
+          </div>
+          <div class="hero-search-field">
+            <label>🏠 Property Type</label>
+            <select id="search-type">
+              <option>Any Type</option>
+              <option>Apartment</option>
+              <option>Villa</option>
+              <option>Studio</option>
+              <option>Penthouse</option>
+              <option>Duplex</option>
+              <option>Cottage</option>
+            </select>
+          </div>
+          <div class="hero-search-field">
+            <label>💰 Budget</label>
+            <select id="search-budget">
+              <option>Any Budget</option>
+              <option>Under ₹50 L</option>
+              <option>₹50 L – ₹1 Cr</option>
+              <option>₹1 Cr – ₹2 Cr</option>
+              <option>₹2 Cr – ₹5 Cr</option>
+              <option>Above ₹5 Cr</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center" onclick="window.location='listings.html'">
+          🔍 Search Properties
+        </button>
+      </div>
+
+      <div class="hero-ctas anim-fade-up delay-4">
+        <a href="listings.html" class="btn btn-ghost btn-lg">🏘️ Explore Properties</a>
+        <a href="ai-recommendations.html" class="btn btn-accent btn-lg">🤖 Get AI Recommendations</a>
+      </div>
+    </div>
+
+    <div class="hero-visual anim-fade-right delay-2">
+      <div class="float-stats float-stats-left">
+        <div class="float-card float-stat anim-float">
+          <div class="float-stat-icon">🏠</div>
+          <div>
+            <div class="float-stat-val" data-count="12500" data-suffix="+">0</div>
+            <div class="float-stat-lbl">Properties Listed</div>
+          </div>
+        </div>
+        <div class="float-card float-stat anim-float" style="animation-delay:0.8s">
+          <div class="float-stat-icon">😊</div>
+          <div>
+            <div class="float-stat-val" data-count="8700" data-suffix="+">0</div>
+            <div class="float-stat-lbl">Happy Customers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Dream Home">
+      </div>
+
+      <div class="float-stats float-stats-right">
+        <div class="float-card float-stat anim-float" style="animation-delay:1.2s">
+          <div class="float-stat-icon">🏙️</div>
+          <div>
+            <div class="float-stat-val" data-count="50" data-suffix="+">0</div>
+            <div class="float-stat-lbl">Cities Covered</div>
+          </div>
+        </div>
+        <div class="float-card float-stat anim-float" style="animation-delay:1.6s">
+          <div class="float-stat-icon">🤖</div>
+          <div>
+            <div class="float-stat-val">94%</div>
+            <div class="float-stat-lbl">AI Match Accuracy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Stats Banner ─── -->
+<div class="stats-banner">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stats-row-item reveal">
+        <h3 class="gradient-text" data-count="12500" data-suffix="+">0</h3>
+        <p>Properties Listed</p>
+      </div>
+      <div class="stats-row-item reveal delay-2">
+        <h3 class="gradient-text" data-count="8700" data-suffix="+">0</h3>
+        <p>Happy Customers</p>
+      </div>
+      <div class="stats-row-item reveal delay-3">
+        <h3 class="gradient-text" data-count="50" data-suffix="+">0</h3>
+        <p>Cities Covered</p>
+      </div>
+      <div class="stats-row-item reveal delay-4">
+        <h3 class="gradient-text" data-count="350" data-suffix="Cr+">0</h3>
+        <p>Property Value Transacted</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Features ─── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">✨ Why EstateAI</div>
+      <h2>Smarter Property Search,<br><span class="gradient-text">Powered by AI</span></h2>
+      <p>Our platform combines cutting-edge AI with comprehensive market data to deliver the most accurate property recommendations in India.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal delay-1">
+        <div class="feature-icon">🤖</div>
+        <h3>AI-Powered Matching</h3>
+        <p>Our AI analyzes 200+ data points to match you with properties that align perfectly with your lifestyle and investment goals.</p>
+      </div>
+      <div class="feature-card reveal delay-2">
+        <div class="feature-icon">📊</div>
+        <h3>Real-Time Market Data</h3>
+        <p>Access live price trends, neighborhood analytics, and investment forecasts powered by live market intelligence.</p>
+      </div>
+      <div class="feature-card reveal delay-3">
+        <div class="feature-icon">🗺️</div>
+        <h3>Interactive Map Search</h3>
+        <p>Explore properties geographically with our dynamic map featuring school zones, hospital proximity, and commute times.</p>
+      </div>
+      <div class="feature-card reveal delay-4">
+        <div class="feature-icon">🔒</div>
+        <h3>RERA Verified Listings</h3>
+        <p>Every property is RERA-verified and legally vetted. Our team ensures complete documentation transparency.</p>
+      </div>
+      <div class="feature-card reveal delay-5">
+        <div class="feature-icon">💬</div>
+        <h3>AI Chat Assistant</h3>
+        <p>Chat with our AI to get instant answers about properties, neighborhoods, EMI calculations, and investment advice.</p>
+      </div>
+      <div class="feature-card reveal delay-6">
+        <div class="feature-icon">📱</div>
+        <h3>Virtual Property Tours</h3>
+        <p>Take immersive 360° virtual tours of properties from anywhere in India without stepping outside your home.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── How It Works ─── -->
+<section class="section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">🚀 How It Works</div>
+      <h2>Your Journey to the <span class="gradient-text">Perfect Home</span></h2>
+      <p>Four simple steps to find and secure your dream property with AI assistance at every stage.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-step reveal delay-1">
+        <div class="how-number">1</div>
+        <h4>Tell AI Your Preferences</h4>
+        <p>Share your budget, location, and lifestyle needs with our AI assistant through a simple chat interface.</p>
+      </div>
+      <div class="how-step reveal delay-2">
+        <div class="how-number">2</div>
+        <h4>Get Personalized Matches</h4>
+        <p>Our AI analyzes thousands of properties and surfaces the top matches tailored specifically for you.</p>
+      </div>
+      <div class="how-step reveal delay-3">
+        <div class="how-number">3</div>
+        <h4>Compare & Shortlist</h4>
+        <p>Use our powerful comparison tools to evaluate properties side-by-side on 20+ parameters.</p>
+      </div>
+      <div class="how-step reveal delay-4">
+        <div class="how-number">4</div>
+        <h4>Connect & Close</h4>
+        <p>Schedule visits, connect with verified agents, and get end-to-end support through your purchase journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Featured Properties ─── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">🏘️ Featured Properties</div>
+      <h2>Hand-Picked <span class="gradient-text">Premium Listings</span></h2>
+      <p>Explore our curated selection of top-rated properties across India's most sought-after locations.</p>
+    </div>
+    <div class="grid-3" id="featured-props"></div>
+    <div style="text-align:center;margin-top:36px">
+      <a href="listings.html" class="btn btn-primary btn-lg">View All Properties →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Testimonials ─── -->
+<section class="section" style="background:var(--surface);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">💬 Testimonials</div>
+      <h2>Loved by <span class="gradient-text">Thousands</span> of Homebuyers</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"EstateAI's recommendation engine found me a 3BHK in Whitefield that I never would have discovered on my own. The AI understood exactly what I needed. Closed the deal in 2 weeks!"</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="Kavya">
+          <div>
+            <div class="testi-name">Kavya Reddy</div>
+            <div class="testi-loc">Software Engineer, Bangalore</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The mortgage calculator and AI investment insights helped me make the smartest financial decision of my life. Bought a flat in Powai and it's already appreciated 18% in a year!"</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="Arjun">
+          <div>
+            <div class="testi-name">Arjun Mehta</div>
+            <div class="testi-loc">Investment Banker, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal delay-3">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The property comparison feature is game-changing. I compared 6 apartments side-by-side, and the AI score helped me pick the best value property. Absolutely brilliant product!"</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80" alt="Preethi">
+          <div>
+            <div class="testi-name">Preethi Nair</div>
+            <div class="testi-loc">Doctor, Chennai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA Banner ─── -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <div class="section-tag" style="margin:0 auto 20px">🤖 AI Assistant</div>
+      <h2 style="margin-bottom:16px">Ready to Find Your <span class="gradient-text">Dream Home?</span></h2>
+      <p style="max-width:500px;margin:0 auto 32px">Let our AI guide you to the perfect property. Start a conversation, share your needs, and get personalized recommendations in seconds.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <a href="ai-recommendations.html" class="btn btn-primary btn-lg">🤖 Chat with AI Assistant</a>
+        <a href="listings.html" class="btn btn-ghost btn-lg">🏘️ Browse All Properties</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('index.html');
+document.getElementById('footer-root').innerHTML = buildFooter();
+
+// Render 3 featured properties
+const featuredContainer = document.getElementById('featured-props');
+PROPERTIES.slice(0,3).forEach(p => {
+  const el = document.createElement('div');
+  el.className = 'reveal';
+  el.innerHTML = buildPropCard(p, savedIds.includes(p.id));
+  featuredContainer.appendChild(el);
+});
+
+// Re-init reveal for dynamically added elements
+setTimeout(initReveal, 100);
+</script>
+</body>
+</html>

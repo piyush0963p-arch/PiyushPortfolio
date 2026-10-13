@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Heritage University | Fresher Welcome</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+        /* Theme Variables */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #991b1b;       /* Royal Crimson */
+            --primary-hover: #7f1d1d;
+            --accent: #d97706;        /* Academic Gold */
+            --accent-hover: #b45309;
+            --border: #e2e8f0;
+            --border-glow: rgba(217, 119, 6, 0.1);
+            --error: #ef4444;
+            --success: #10b981;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #020617;
+            --bg-card: #0f172a;
+            --bg-card-hover: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #dc2626;       /* Brightened Crimson for dark mode */
+            --primary-hover: #ef4444;
+            --accent: #fbbf24;        /* Bright Gold for dark mode */
+            --accent-hover: #f59e0b;
+            --border: #1e293b;
+            --border-glow: rgba(251, 191, 36, 0.15);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Top Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-card);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo span {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 0.02em;
+        }
+
+        .theme-btn {
+            background: var(--bg-card-hover);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Hero Banner */
+        header {
+            text-align: center;
+            padding: 120px 20px 100px;
+            background: linear-gradient(rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            position: relative;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--bg-main));
+            pointer-events: none;
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 4rem;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            letter-spacing: -0.02em;
+        }
+
+        #dynamic-greeting {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: #f8fafc;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Live Statistics */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            color: var(--accent);
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: #cbd5e1;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Main Container Grid Layouts */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .media-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-container {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+            header h1 {
+                font-size: 2.5rem;
+            }
+            nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            header {
+                padding: 80px 15px 60px;
+            }
+            .card {
+                padding: 25px;
+            }
+            .digital-pass {
+                max-width: 95%;
+            }
+            .notice-controls {
+                flex-direction: column;
+            }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card-hover);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        /* Rules List */
+        .rules-list {
+            list-style: none;
+        }
+
+        .rules-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .rules-list li::before {
+            content: '♦';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1.2rem;
+            top: -2px;
+        }
+
+        /* Notice Board */
+        .notice-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(153, 27, 27, 0.1);
+        }
+
+        .category-select {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .notice-board {
+            height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Custom Scrollbar */
+        .notice-board::-webkit-scrollbar {
+            width: 6px;
+        }
+        .notice-board::-webkit-scrollbar-track {
+            background: var(--bg-main);
+            border-radius: 4px;
+        }
+        .notice-board::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .notice-item {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: var(--bg-main);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .notice-item:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+        }
+
+        .notice-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .notice-date {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .notice-tag {
+            background: var(--bg-card);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .notice-text {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Fee & Accommodation Calculator */
+        .calc-group {
+            margin-bottom: 20px;
+        }
+
+        .calc-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .calc-select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .calc-select:focus {
+            border-color: var(--primary);
+        }
+
+        .fee-receipt {
+            background: var(--bg-main);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .fee-row.total {
+            border-top: 2px solid var(--border);
+            padding-top: 15px;
+            margin-top: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Registration Form */
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(153, 27, 27, 0.2);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        #form-feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Media Players (Video & Audio) */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+
+        .media-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            background: #000;
+            position: relative;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            outline: none;
+        }
+
+        .audio-container {
+            background: var(--bg-main);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+            outline: none;
+        }
+
+        /* Digital Pass Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .digital-pass {
+            background: var(--bg-card);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .modal-overlay.open .digital-pass {
+            transform: translateY(0) scale(1);
+        }
+
+        .pass-header {
+            background: var(--primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .pass-header h2 {
+            color: white;
+            margin-bottom: 5px;
+            font-size: 1.6rem;
+        }
+
+        .close-pass-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pass-body {
+            padding: 30px;
+        }
+
+        .pass-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 8px;
+        }
+
+        .pass-detail span:first-child {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .pass-detail span:last-child {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .barcode-container {
+            margin-top: 25px;
+            text-align: center;
+            padding: 15px;
+            background: var(--bg-main);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .barcode-stripes {
+            height: 40px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--text-main),
+                var(--text-main) 2px,
+                transparent 2px,
+                transparent 4px,
+                var(--text-main) 4px,
+                var(--text-main) 7px,
+                transparent 7px,
+                transparent 10px
+            );
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .print-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .print-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        /* Print Mode */
+        @media print {
+            body * { visibility: hidden; }
+            .modal-overlay, .digital-pass, .digital-pass * { visibility: visible; }
+            .modal-overlay {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: none;
+                padding: 0;
+                align-items: flex-start;
+            }
+            .digital-pass {
+                box-shadow: none;
+                border: 2px solid #000;
+                width: 100%;
+                max-width: 600px;
+                transform: none !important;
+            }
+            .close-pass-btn, .print-btn { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Print / Confirmation Modal -->
+    <div class="modal-overlay" id="passModal">
+        <div class="digital-pass">
+            <button class="close-pass-btn" onclick="closeModal()">&times;</button>
+            <div class="pass-header">
+                <h2>Orientation Pass</h2>
+                <p style="color: #cbd5e1; font-size: 0.9rem;">Class of 2030</p>
+            </div>
+            <div class="pass-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span style="background: var(--success); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Registration Confirmed</span>
+                </div>
+                
+                <div class="pass-detail">
+                    <span>Pass ID</span>
+                    <span id="pass-id">GHU-0000</span>
+                </div>
+                <div class="pass-detail">
+                    <span>Student Name</span>
+                    <span id="pass-name">---</span>
+                </div>
+                <div class="pass-detail">
+                    <span>Email Address</span>
+                    <span id="pass-email">---</span>
+                </div>
+                <div class="pass-detail">
+                    <span>Enrolled Course</span>
+                    <span id="pass-course">---</span>
+                </div>
+                
+                <div class="barcode-container">
+                    <div class="barcode-stripes"></div>
+                    <span style="font-family: monospace; font-size: 0.9rem; letter-spacing: 2px;" id="pass-barcode">839485720193</span>
+                </div>
+
+                <button class="print-btn" onclick="window.print()">
+                    🖨️ Print Digital Pass
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-logo">
+            <span style="font-size: 2rem; color: var(--primary);">🏛️</span>
+            <span>GHU Portal</span>
+        </div>
+        <button class="theme-btn" id="theme-toggle">🌓 Dark Mode</button>
+    </nav>
+
+    <!-- Welcome Hero Section -->
+    <header>
+        <h1>Global Heritage University</h1>
+        <div id="dynamic-greeting">Welcome, Future Scholar</div>
+        <p style="color: #e2e8f0; font-size: 1.2rem; font-weight: 300; max-width: 600px; margin: 0 auto;">Embark on your journey of academic excellence and global leadership. Your future begins here today.</p>
+        
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-number" id="student-count">0</div>
+                <div class="stat-label">Freshers Enrolled</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">45+</div>
+                <div class="stat-label">Undergrad Programs</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">120</div>
+                <div class="stat-label">Acres of Campus</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- About & Notice Board Grid -->
+        <div class="grid-2">
+            <!-- About Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📖</div>
+                    <h2>About & Guidelines</h2>
+                </div>
+                <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 1.05rem;">Founded in 1952, Global Heritage University is ranked among the top elite institutions globally for research, innovation, and holistic academic excellence.</p>
+                
+                <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main);">Campus Rules & Regulations:</h3>
+                <ul class="rules-list">
+                    <li>Valid Digital Student ID pass must be scanned at entry gates.</li>
+                    <li>75% minimum academic attendance is strictly enforced.</li>
+                    <li>Zero-tolerance policy towards ragging governed by state laws.</li>
+                    <li>Hostel curfew for first-year undergraduates is 10:00 PM.</li>
+                    <li>Library clearance is mandatory before each semester exam.</li>
+                </ul>
+            </div>
+
+            <!-- Notice Board Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📌</div>
+                    <h2>Live Notice Board</h2>
+                </div>
+                
+                <div class="notice-controls">
+                    <input type="text" class="search-input" id="search-notice" placeholder="Search keyword...">
+                    <select class="category-select" id="filter-category">
+                        <option value="All">All Tags</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Hostel">Hostel</option>
+                        <option value="Event">Event</option>
+                    </select>
+                </div>
+
+                <div class="notice-board" id="notice-list">
+                    <!-- Javascript populates this -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Programs & Registration Grid -->
+        <div class="grid-2">
+            
+            <!-- Fee Calculator Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎓</div>
+                    <h2>Fee Calculator</h2>
+                </div>
+                <p style="margin-bottom: 25px; color: var(--text-muted);">Select your enrolled program and accommodation preferences to estimate your annual schedule.</p>
+                
+                <div class="calc-group">
+                    <label class="calc-label">Target Academic Program</label>
+                    <select class="calc-select" id="calc-course">
+                        <option value="none">-- Select Program --</option>
+                        <option value="cs">B.Tech Computer Science (CS)</option>
+                        <option value="med">MBBS Medical Sciences</option>
+                        <option value="bus">BBA Business Administration</option>
+                        <option value="arts">B.A. Hons. Liberal Arts</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label class="calc-label">Campus Accommodation</label>
+                    <select class="calc-select" id="calc-hostel">
+                        <option value="none">-- Select Accommodation --</option>
+                        <option value="single">Single Room (AC) + Mess Boarding</option>
+                        <option value="shared">Shared Room (Non-AC) + Mess Boarding</option>
+                        <option value="day">Day Scholar (No Campus Housing)</option>
+                    </select>
+                </div>
+
+                <div class="fee-receipt">
+                    <div class="fee-row">
+                        <span>Annual Tuition Fee:</span>
+                        <span id="fee-tuition">---</span>
+                    </div>
+                    <div class="fee-row">
+                        <span>Hostel & Mess Boarding:</span>
+                        <span id="fee-hostel">---</span>
+                    </div>
+                    <div class="fee-row">
+                        <span>Safety Deposit (Refundable):</span>
+                        <span id="fee-deposit">---</span>
+                    </div>
+                    <div class="fee-row total">
+                        <span>Total Payable:</span>
+                        <span id="fee-total">---</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fresher Registration Form -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📝</div>
+                    <h2>Orientation Registration</h2>
+                </div>
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Complete this mandatory form to generate your Digital Orientation Entry Pass.</p>
+                
+                <form id="registration-form">
+                    <input type="text" class="form-control" id="reg-name" placeholder="Student Full Legal Name" required>
+                    <input type="email" class="form-control" id="reg-email" placeholder="Personal Email Address" required>
+                    <input type="tel" class="form-control" id="reg-phone" placeholder="Mobile Number (10 Digits)" required>
+                    
+                    <select class="form-control" id="reg-course" required>
+                        <option value="">-- Enrolled Course For Orientation --</option>
+                        <option value="B.Tech Computer Science">B.Tech Computer Science</option>
+                        <option value="MBBS Medical Sciences">MBBS Medical Sciences</option>
+                        <option value="BBA Business Admin">BBA Business Admin</option>
+                        <option value="B.A. Liberal Arts">B.A. Liberal Arts</option>
+                    </select>
+
+                    <div id="form-feedback"></div>
+                    <button type="submit" class="submit-btn">Generate Entry Pass</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Campus Media Section -->
+        <h2 class="section-title">Campus Life Media</h2>
+        <div class="media-grid">
+            <!-- Video Player -->
+            <div class="card" style="padding: 25px;">
+                <h3 style="margin-bottom: 15px; font-size: 1.4rem;">Virtual Campus Tour</h3>
+                <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.95rem;">Experience the state-of-the-art facilities, libraries, and lush green walkways before you arrive.</p>
+                <div class="media-wrapper">
+                    <video controls poster="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80">
+                        <!-- Sample open source fallback video -->
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Your browser does not support HTML video.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="card" style="padding: 25px;">
+                <h3 style="margin-bottom: 15px; font-size: 1.4rem;">University Anthem</h3>
+                <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.95rem;">Listen to the official "Heritage of Tomorrow" anthem composed by our alumni orchestra.</p>
+                <div class="audio-container">
+                    <div style="font-size: 4rem; margin-bottom: 10px;">🎵</div>
+                    <h4 style="color: var(--text-main); margin-bottom: 5px;">Heritage of Tomorrow</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">GHU Orchestra</p>
+                    <audio controls>
+                        <!-- Sample open source fallback audio -->
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                        Your browser does not support HTML audio.
+                    </audio>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container" style="padding: 0; text-align: center;">
+            <div style="color: var(--text-muted); font-size: 0.95rem;">
+                <p>&copy; 2026 Global Heritage University. All rights reserved.</p>
+                <p style="margin-top: 10px;">📍 1 University Avenue, Academic District | 📞 +1 (800) 555-0198</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts for all JavaScript requirements -->
+    <script>
+        // --- 1. Theme Toggle (Light/Dark) ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const htmlDoc = document.documentElement;
+        
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = htmlDoc.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlDoc.setAttribute('data-theme', targetTheme);
+            themeBtn.innerHTML = targetTheme === 'dark' ? '☀️ Light Mode' : '🌓 Dark Mode';
+        });
+
+        // --- 2. Dynamic Welcome Message based on Time ---
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting = "Welcome";
+            if (hour >= 5 && hour < 12) greeting = "Good Morning, Future Scholar.";
+            else if (hour >= 12 && hour < 17) greeting = "Good Afternoon, Future Scholar.";
+            else greeting = "Good Evening, Future Scholar.";
+            document.getElementById('dynamic-greeting').textContent = greeting;
+        }
+        updateGreeting();
+
+        // --- 3. Animated Student Count Display ---
+        function animateCounter() {
+            const counter = document.getElementById('student-count');
+            const target = 2540; // Target value
+            let current = 0;
+            const duration = 2000; // 2 seconds
+            const interval = 30; // updates every 30ms
+            const step = Math.ceil(target / (duration / interval));
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    counter.textContent = target.toLocaleString() + "+";
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = current.toLocaleString();
+                }
+            }, interval);
+        }
+        // Start animation on load
+        window.addEventListener('load', animateCounter);
+
+        // --- 4. Notice Board Search & Category Filtering ---
+        const notices = [
+            { date: "Aug 10", tag: "Hostel", text: "Hostel allocation lists published on the student portal. Please check your assigned wings." },
+            { date: "Aug 12", tag: "Academic", text: "Mandatory orientation session for B.Tech students in the Main Auditorium at 10 AM." },
+            { date: "Aug 15", tag: "Event", text: "Independence Day flag hoisting ceremony at the Central Plaza. Dress code: Formals." },
+            { date: "Aug 18", tag: "Academic", text: "Last date to submit original academic transcripts and medical certificates to the registry." },
+            { date: "Aug 20", tag: "Academic", text: "Classes commence for all undergraduate programs according to block schedules." },
+            { date: "Aug 22", tag: "Sports", text: "Fresher sports trials (Basketball, Football, Tennis) registration opens online." }
+        ];
+        
+        const noticeList = document.getElementById('notice-list');
+        const searchInput = document.getElementById('search-notice');
+        const categorySelect = document.getElementById('filter-category');
+
+        function renderNotices() {
+            noticeList.innerHTML = "";
+            const filterText = searchInput.value.toLowerCase();
+            const filterCategory = categorySelect.value;
+
+            const filtered = notices.filter(n => {
+                const matchesText = n.text.toLowerCase().includes(filterText) || n.date.toLowerCase().includes(filterText);
+                const matchesCategory = filterCategory === "All" || n.tag === filterCategory;
+                return matchesText && matchesCategory;
+            });
+            
+            if(filtered.length === 0) {
+                noticeList.innerHTML = `<div style="color: var(--text-muted); padding: 15px; text-align: center;">No notices match your criteria.</div>`;
+                return;
+            }
+
+            filtered.forEach(n => {
+                const div = document.createElement('div');
+                div.className = 'notice-item';
+                div.innerHTML = `
+                    <div class="notice-meta">
+                        <span class="notice-date">${n.date}</span>
+                        <span class="notice-tag">${n.tag}</span>
+                    </div>
+                    <div class="notice-text">${n.text}</div>
+                `;
+                noticeList.appendChild(div);
+            });
+        }
+        
+        // Listeners for notice board
+        searchInput.addEventListener('input', renderNotices);
+        categorySelect.addEventListener('change', renderNotices);
+        renderNotices(); // Initial render
+
+        // --- 5. Course Fee & Accommodation Display Calculator ---
+        const tuitionFees = {
+            'cs': 450000,
+            'med': 850000,
+            'bus': 320000,
+            'arts': 180000
+        };
+        const hostelFees = {
+            'single': 120000,
+            'shared': 75000,
+            'day': 0
+        };
+
+        const calcCourse = document.getElementById('calc-course');
+        const calcHostel = document.getElementById('calc-hostel');
+        
+        const dispTuition = document.getElementById('fee-tuition');
+        const dispHostel = document.getElementById('fee-hostel');
+        const dispDeposit = document.getElementById('fee-deposit');
+        const dispTotal = document.getElementById('fee-total');
+
+        const formatCurrency = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+
+        function calculateFees() {
+            const courseVal = calcCourse.value;
+            const hostelVal = calcHostel.value;
+
+            let tFee = 0;
+            let hFee = 0;
+            let dFee = 0; // Deposit
+
+            if (courseVal !== 'none') {
+                tFee = tuitionFees[courseVal];
+                dispTuition.textContent = formatCurrency.format(tFee);
+                dFee = 15000; // Fixed safety deposit if enrolled
+            } else {
+                dispTuition.textContent = '---';
+            }
+
+            if (hostelVal !== 'none') {
+                hFee = hostelFees[hostelVal];
+                dispHostel.textContent = formatCurrency.format(hFee);
+            } else {
+                dispHostel.textContent = '---';
+            }
+
+            if (tFee > 0) {
+                dispDeposit.textContent = formatCurrency.format(dFee);
+            } else {
+                dispDeposit.textContent = '---';
+                dFee = 0;
+            }
+
+            const total = tFee + hFee + dFee;
+            if (total > 0) {
+                dispTotal.textContent = formatCurrency.format(total);
+            } else {
+                dispTotal.textContent = '---';
+            }
+        }
+
+        calcCourse.addEventListener('change', calculateFees);
+        calcHostel.addEventListener('change', calculateFees);
+
+        // --- 6. Form Validation & Digital Pass Generation ---
+        const regForm = document.getElementById('registration-form');
+        const feedback = document.getElementById('form-feedback');
+        const passModal = document.getElementById('passModal');
+
+        regForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const course = document.getElementById('reg-course').value;
+            
+            // Validation: Exactly 10 digits for phone
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone)) {
+                feedback.textContent = "Validation Error: Please enter a valid 10-digit mobile number.";
+                feedback.style.color = "var(--error)";
+                feedback.style.background = "rgba(239, 68, 68, 0.1)";
+                feedback.style.display = "block";
+                return;
+            }
+
+            // Remove error state if exists
+            feedback.style.display = "none";
+
+            // Generate Pass ID
+            const passId = "GHU-" + Math.floor(100000 + Math.random() * 900000);
+
+            // Populate Digital Pass UI
+            document.getElementById('pass-id').textContent = passId;
+            document.getElementById('pass-name').textContent = name;
+            document.getElementById('pass-email').textContent = email;
+            document.getElementById('pass-course').textContent = course;
+            
+            // Randomize barcode string visually
+            document.getElementById('pass-barcode').textContent = Math.floor(100000000000 + Math.random() * 900000000000);
+
+            // Open Modal
+            passModal.classList.add('open');
+            
+            // Reset form behind the modal
+            regForm.reset();
+        });
+
+        function closeModal() {
+            passModal.classList.remove('open');
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoorstepCarWash | Premium Car Wash Service</title>
+    <meta name="description" content="Premium doorstep car wash and detailing services. Book your car wash anytime, anywhere.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1d4ed8',
+                        secondary: '#1e293b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sans antialiased text-gray-800 bg-gray-50 scroll-smooth">
+
+    <!-- Header Navigation -->
+    <header id="header" class="fixed w-full z-50 transition-all duration-300 py-4 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <i class="fa-solid fa-car-side text-3xl text-primary"></i>
+                <span class="text-2xl font-bold text-secondary tracking-tight">Doorstep<span class="text-primary">CarWash</span></span>
+            </a>
+            
+            <nav class="hidden md:flex gap-8 items-center font-medium text-gray-600">
+                <a href="#home" class="hover:text-primary transition-colors">Home</a>
+                <a href="#services" class="hover:text-primary transition-colors">Services</a>
+                <a href="#gallery" class="hover:text-primary transition-colors">Gallery</a>
+                <a href="#packages" class="hover:text-primary transition-colors">Packages</a>
+                <a href="#contact" class="hover:text-primary transition-colors">Contact</a>
+            </nav>
+
+            <a href="#booking" class="hidden md:inline-block bg-primary text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-800 transition-colors shadow-lg shadow-blue-500/30">
+                Book Now
+            </a>
+
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-secondary">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex flex-col p-4 gap-4 font-medium text-gray-600">
+            <a href="#home" class="hover:text-primary p-2 border-b border-gray-50">Home</a>
+            <a href="#services" class="hover:text-primary p-2 border-b border-gray-50">Services</a>
+            <a href="#gallery" class="hover:text-primary p-2 border-b border-gray-50">Gallery</a>
+            <a href="#packages" class="hover:text-primary p-2 border-b border-gray-50">Packages</a>
+            <a href="#contact" class="hover:text-primary p-2">Contact</a>
+            <a href="#booking" class="bg-primary text-white text-center px-6 py-3 rounded-full font-semibold mt-2">Book Now</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-slate-50 -z-10 rounded-bl-[100px] hidden lg:block"></div>
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 space-y-8 z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-primary font-medium text-sm">
+                        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        Premium Doorstep Service
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-secondary leading-tight">
+                        Premium Car Wash Service At Your <span class="text-primary relative inline-block">Doorstep
+                            <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6C66 2 134 2 198 6" stroke="#1d4ed8" stroke-width="3" stroke-linecap="round"/></svg>
+                        </span>
+                    </h1>
+                    <p class="text-lg text-gray-600 leading-relaxed max-w-lg">
+                        Get professional car cleaning and detailing services at your home or office. Book your car wash anytime, anywhere with our expert team.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#booking" class="bg-primary text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-800 transition-colors shadow-xl shadow-blue-500/30 text-center flex items-center justify-center gap-2">
+                            Book a Car Wash <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#services" class="bg-white text-secondary border-2 border-gray-200 px-8 py-4 rounded-full font-semibold text-lg hover:border-primary hover:text-primary transition-colors text-center">
+                            View Services
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 relative">
+                    <!-- Main Hero Image (Clean, no floating badges) -->
+                    <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="images/real_hero_car_1781542630655.png" alt="Premium Car Wash" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Decorative Circle -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full -z-10 blur-3xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section with Real Images -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h4 class="text-primary font-bold tracking-wider uppercase text-sm mb-2">Our Core Services</h4>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-secondary mb-4">Complete Car Care Solutions</h2>
+                <p class="text-gray-600 text-lg">We offer a comprehensive range of premium car cleaning and detailing services tailored to your needs, performed by certified professionals.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift border border-gray-100 group">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="images/real_service_exterior_1781542645655.png" alt="Exterior Car Wash" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-6 text-white text-2xl"><i class="fa-solid fa-droplet"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-secondary mb-4">Premium Exterior Wash</h3>
+                        <p class="text-gray-600 mb-6">Thorough snow foam wash, high-pressure rinse, and careful hand drying to prevent swirls and scratches on your vehicle's paintwork.</p>
+                        <ul class="space-y-2 text-sm text-gray-500 font-medium">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Snow Foam Treatment</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Alloy & Tyre Deep Clean</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Streak-Free Finish</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift border border-gray-100 group">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="images/real_service_interior_1781542657081.png" alt="Interior Car Cleaning" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-6 text-white text-2xl"><i class="fa-solid fa-couch"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-secondary mb-4">Deep Interior Detailing</h3>
+                        <p class="text-gray-600 mb-6">Complete rejuvenation of your interior cabin. We deep clean carpets, condition leather seats, and sanitize all high-touch surfaces.</p>
+                        <ul class="space-y-2 text-sm text-gray-500 font-medium">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Intensive Vacuuming</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Leather Care & Conditioning</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Odor Neutralization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift border border-gray-100 group">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="images/real_service_detailing_1781542671381.png" alt="Car Detailing and Polishing" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-6 text-white text-2xl"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-secondary mb-4">Ceramic & Paint Correction</h3>
+                        <p class="text-gray-600 mb-6">Restore your car's showroom shine with professional paint correction and lock it in with our long-lasting ceramic coatings.</p>
+                        <ul class="space-y-2 text-sm text-gray-500 font-medium">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Scratch & Swirl Removal</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Mirror Gloss Enhancement</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 9H Ceramic Protection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before & After Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div class="max-w-2xl">
+                    <h4 class="text-primary font-bold tracking-wider uppercase text-sm mb-2">Gallery</h4>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-secondary">Stunning Transformations</h2>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <span class="text-primary font-semibold">Slide to see the difference <i class="fa-solid fa-arrows-left-right ml-1"></i></span>
+                </div>
+            </div>
+
+            <!-- Interactive Before & After Slider -->
+            <div class="image-comparison relative w-full max-w-5xl mx-auto h-[400px] md:h-[600px] rounded-2xl overflow-hidden shadow-2xl group select-none bg-gray-200">
+                <!-- After Image (Bottom) -->
+                <img src="images/after_wash_1781538557517.png" alt="After Car Wash" class="absolute inset-0 w-full h-full object-cover z-0">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-0 pointer-events-none"></div>
+                <div class="absolute bottom-6 right-6 z-0 text-white text-right pointer-events-none">
+                    <span class="bg-green-500 px-3 py-1 rounded-full text-xs font-bold uppercase mb-2 inline-block shadow-lg">After</span>
+                    <h3 class="text-xl md:text-2xl font-bold drop-shadow-md">Premium Gloss Finish</h3>
+                </div>
+                
+                <!-- Before Image (Top, Clipped) -->
+                <div class="image-comparison-before absolute inset-0 w-1/2 h-full z-10 overflow-hidden pointer-events-none border-r-[3px] border-white shadow-[1px_0_15px_rgba(0,0,0,0.5)]">
+                    <img src="images/before_wash_1781538541755.png" alt="Before Car Wash" class="absolute top-0 left-0 h-full object-cover max-w-none" style="width: 100vw;">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none w-[100vw] max-w-none"></div>
+                    <div class="absolute bottom-6 left-6 z-10 text-white pointer-events-none">
+                        <span class="bg-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase mb-2 inline-block shadow-lg">Before</span>
+                        <h3 class="text-xl md:text-2xl font-bold drop-shadow-md">Dirty & Muddy Exterior</h3>
+                    </div>
+                </div>
+                
+                <!-- Slider Input -->
+                <input type="range" min="0" max="100" value="50" class="image-comparison-slider absolute inset-0 w-full h-full z-20 opacity-0 cursor-ew-resize m-0">
+                
+                <!-- Slider Handle -->
+                <div class="image-comparison-line absolute top-0 bottom-0 left-1/2 w-0 bg-transparent z-10 pointer-events-none transform -translate-x-1/2 flex items-center justify-center">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-[0_0_15px_rgba(0,0,0,0.3)] ring-4 ring-white/50 text-sm absolute">
+                        <i class="fa-solid fa-arrows-left-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section id="packages" class="py-20 bg-secondary text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-primary opacity-20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-primary opacity-20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h4 class="text-primary font-bold tracking-wider uppercase text-sm mb-2">Pricing</h4>
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Car Wash Packages</h2>
+                <p class="text-gray-400 text-lg">Choose the perfect care package for your vehicle.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Basic Package -->
+                <div class="bg-slate-800 rounded-3xl p-8 border border-slate-700 hover:border-primary transition-colors flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">Basic Wash</h3>
+                    <p class="text-gray-400 text-sm mb-6">Perfect for regular maintenance.</p>
+                    <div class="text-4xl font-extrabold mb-8">₹499<span class="text-lg text-gray-500 font-medium">/wash</span></div>
+                    
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Exterior foam wash</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Tyre & alloy cleaning</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Basic interior vacuum</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Windows cleaning</li>
+                        <li class="flex items-center gap-3 text-gray-500"><i class="fa-solid fa-xmark"></i> Dashboard polishing</li>
+                        <li class="flex items-center gap-3 text-gray-500"><i class="fa-solid fa-xmark"></i> Ceramic protection</li>
+                    </ul>
+                    
+                    <a href="#booking" class="w-full block text-center bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-full transition-colors">Choose Basic</a>
+                </div>
+
+                <!-- Premium Package (Highlighted) -->
+                <div class="bg-primary rounded-3xl p-8 border-2 border-primary transform md:-translate-y-4 shadow-2xl shadow-blue-500/20 flex flex-col relative">
+                    <div class="absolute top-0 right-8 transform -translate-y-1/2 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Popular</div>
+                    <h3 class="text-2xl font-bold mb-2">Premium Wash</h3>
+                    <p class="text-blue-200 text-sm mb-6">Comprehensive cleaning inside out.</p>
+                    <div class="text-4xl font-extrabold mb-8">₹999<span class="text-lg text-blue-300 font-medium">/wash</span></div>
+                    
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-white"></i> Everything in Basic</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-white"></i> Intensive foam wash</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-white"></i> Deep interior vacuum</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-white"></i> Dashboard & plastic polishing</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-white"></i> Liquid wax application</li>
+                        <li class="flex items-center gap-3 text-blue-300"><i class="fa-solid fa-xmark"></i> Ceramic protection</li>
+                    </ul>
+                    
+                    <a href="#booking" class="w-full block text-center bg-white text-primary hover:bg-gray-100 font-bold py-3 rounded-full transition-colors shadow-lg">Choose Premium</a>
+                </div>
+
+                <!-- Ultimate Package -->
+                <div class="bg-slate-800 rounded-3xl p-8 border border-slate-700 hover:border-primary transition-colors flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">Ultimate Detailing</h3>
+                    <p class="text-gray-400 text-sm mb-6">Showroom shine and protection.</p>
+                    <div class="text-4xl font-extrabold mb-8">₹2499<span class="text-lg text-gray-500 font-medium">/wash</span></div>
+                    
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Everything in Premium</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Full interior dry cleaning</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Exterior rubbing & polishing</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Engine bay cleaning</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> AC sanitization</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-primary"></i> Basic ceramic protection layer</li>
+                    </ul>
+                    
+                    <a href="#booking" class="w-full block text-center bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-full transition-colors">Choose Ultimate</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="py-20 bg-gray-50" id="booking">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-10">
+                    <h4 class="text-primary font-bold tracking-wider uppercase text-sm mb-2">Ready to shine?</h4>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-secondary mb-4">Schedule Your Car Wash</h2>
+                    <p class="text-gray-600">Fill out the form below and our professionals will be at your doorstep.</p>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 md:p-10 shadow-2xl border border-gray-100">
+                    <form id="booking-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 focus:bg-white" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 focus:bg-white" placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Car Model</label>
+                                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 focus:bg-white" placeholder="e.g. Honda City">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Service Required</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 focus:bg-white">
+                                    <option value="basic">Basic Wash - ₹499</option>
+                                    <option value="premium" selected>Premium Wash - ₹999</option>
+                                    <option value="ultimate">Ultimate Detailing - ₹2499</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Date & Time</label>
+                            <input type="datetime-local" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 focus:bg-white">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Address</label>
+                            <textarea required rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 focus:bg-white resize-none" placeholder="Enter your home or office address..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition-colors shadow-lg shadow-blue-500/30 text-lg flex justify-center items-center">
+                            Confirm Booking
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer id="contact" class="bg-secondary text-gray-300 pt-16 pb-8 border-t-4 border-primary">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+                <!-- Brand -->
+                <div>
+                    <a href="#" class="flex items-center gap-2 mb-6">
+                        <i class="fa-solid fa-car-side text-3xl text-primary"></i>
+                        <span class="text-2xl font-bold text-white tracking-tight">Doorstep<span class="text-primary">CarWash</span></span>
+                    </a>
+                    <p class="text-gray-400 mb-6">Premium car cleaning and detailing services delivered directly to your doorstep. Real care for real cars.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-facebook-f text-white"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-instagram text-white"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-twitter text-white"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="#services" class="hover:text-primary transition-colors">Our Services</a></li>
+                        <li><a href="#gallery" class="hover:text-primary transition-colors">Gallery</a></li>
+                        <li><a href="#packages" class="hover:text-primary transition-colors">Pricing Packages</a></li>
+                        <li><a href="#booking" class="hover:text-primary transition-colors">Book Now</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-primary"></i>
+                            <span>123 Auto Avenue, Premium Sector, City, State 12345</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-primary"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-primary"></i>
+                            <span>info@doorstepcarwash.com</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-clock text-primary"></i>
+                            <span>Mon - Sun: 8:00 AM - 8:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 DoorstepCarWash. All rights reserved.</p>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-float">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Campaign Generator | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/ai-generator.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item">
+            <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+          </a>
+          <a href="campaigns.html" class="sidebar-nav-item">
+            <i data-lucide="megaphone"></i><span>Campaigns</span>
+          </a>
+          <a href="ai-generator.html" class="sidebar-nav-item active">
+            <i data-lucide="sparkles"></i><span>AI Generator</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item">
+            <i data-lucide="calendar-days"></i><span>Social Planner</span>
+          </a>
+          <a href="content-studio.html" class="sidebar-nav-item">
+            <i data-lucide="pen-tool"></i><span>Content Studio</span>
+          </a>
+          <a href="email-marketing.html" class="sidebar-nav-item">
+            <i data-lucide="mail"></i><span>Email Marketing</span>
+          </a>
+        </div>
+
+        <!-- Add the remaining nav groups identically to dashboard -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search...">
+            <span class="search-shortcut">Ctrl+K</span>
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle">
+            <i data-lucide="bell"></i><span class="badge-dot"></span>
+          </button>
+          <div class="dropdown">
+            <div class="navbar-profile">
+              <div class="navbar-profile-avatar">JD</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header flex-col items-center text-center mt-6 mb-8">
+          <div class="ai-hero-icon">
+            <i data-lucide="sparkles"></i>
+          </div>
+          <h1 class="page-title text-3xl mb-2">NexusAI Campaign Generator</h1>
+          <p class="page-subtitle max-w-2xl mx-auto">Generate comprehensive ad campaigns, copy, and targeting strategies in seconds using our advanced marketing AI.</p>
+        </div>
+
+        <div class="generator-container max-w-4xl mx-auto">
+          
+          <!-- Progress Stepper -->
+          <div class="wizard-stepper">
+            <div class="step active" data-step="1">
+              <div class="step-icon"><i data-lucide="target"></i></div>
+              <div class="step-label">Objective</div>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step" data-step="2">
+              <div class="step-icon"><i data-lucide="users"></i></div>
+              <div class="step-label">Audience</div>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step" data-step="3">
+              <div class="step-icon"><i data-lucide="settings"></i></div>
+              <div class="step-label">Parameters</div>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step" data-step="4">
+              <div class="step-icon"><i data-lucide="check"></i></div>
+              <div class="step-label">Generate</div>
+            </div>
+          </div>
+
+          <!-- Wizard Form Container -->
+          <div class="card wizard-card mt-6">
+            
+            <!-- Step 1: Objective & Product -->
+            <div class="wizard-step-content active" id="step1">
+              <div class="card-header border-0 pb-0">
+                <h2 class="card-title text-xl">What are we promoting?</h2>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Campaign Objective</label>
+                  <div class="grid grid-2 sm:grid-cols-4 gap-3" id="objectiveSelector">
+                    <div class="selectable-card selected" data-value="lead_gen">
+                      <i data-lucide="magnet"></i>
+                      <span>Lead Gen</span>
+                    </div>
+                    <div class="selectable-card" data-value="sales">
+                      <i data-lucide="shopping-cart"></i>
+                      <span>Sales</span>
+                    </div>
+                    <div class="selectable-card" data-value="awareness">
+                      <i data-lucide="eye"></i>
+                      <span>Awareness</span>
+                    </div>
+                    <div class="selectable-card" data-value="traffic">
+                      <i data-lucide="mouse-pointer-click"></i>
+                      <span>Traffic</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group mt-5">
+                  <label class="form-label">Product/Service Name</label>
+                  <input type="text" class="form-input" id="productName" placeholder="e.g., NexusAI Analytics Software">
+                </div>
+
+                <div class="form-group mt-4">
+                  <label class="form-label">Description & Unique Selling Proposition (USP)</label>
+                  <textarea class="form-textarea" id="productDesc" rows="4" placeholder="Describe your product, its main benefits, and why customers should choose you..."></textarea>
+                </div>
+              </div>
+              <div class="card-footer flex justify-end">
+                <button class="btn btn-primary next-step" data-next="2">Next Step <i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 2: Target Audience -->
+            <div class="wizard-step-content" id="step2">
+              <div class="card-header border-0 pb-0">
+                <h2 class="card-title text-xl">Who are we targeting?</h2>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Primary Target Audience</label>
+                  <input type="text" class="form-input" id="targetAudience" placeholder="e.g., B2B Marketing Managers, Tech Founders">
+                </div>
+                
+                <div class="grid grid-2 gap-4 mt-4">
+                  <div class="form-group">
+                    <label class="form-label">Age Range</label>
+                    <select class="form-select">
+                      <option>All Ages</option>
+                      <option>18-24</option>
+                      <option>25-34</option>
+                      <option selected>35-44</option>
+                      <option>45-54</option>
+                      <option>55+</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-input" placeholder="e.g., United States, UK, Canada">
+                  </div>
+                </div>
+
+                <div class="form-group mt-4">
+                  <label class="form-label">Pain Points to Address</label>
+                  <textarea class="form-textarea" rows="3" placeholder="What problems are your target audience facing that your product solves?"></textarea>
+                </div>
+              </div>
+              <div class="card-footer flex justify-between">
+                <button class="btn btn-secondary prev-step" data-prev="1"><i data-lucide="arrow-left"></i> Back</button>
+                <button class="btn btn-primary next-step" data-next="3">Next Step <i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 3: Parameters -->
+            <div class="wizard-step-content" id="step3">
+              <div class="card-header border-0 pb-0">
+                <h2 class="card-title text-xl">Campaign Parameters</h2>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Marketing Channels</label>
+                  <div class="grid grid-3 sm:grid-cols-3 gap-3">
+                    <div class="selectable-card selected checkbox-style">
+                      <div class="checkbox-indicator"></div>
+                      <i data-lucide="search"></i> Google Ads
+                    </div>
+                    <div class="selectable-card selected checkbox-style">
+                      <div class="checkbox-indicator"></div>
+                      <i data-lucide="facebook"></i> Facebook Ads
+                    </div>
+                    <div class="selectable-card selected checkbox-style">
+                      <div class="checkbox-indicator"></div>
+                      <i data-lucide="linkedin"></i> LinkedIn Ads
+                    </div>
+                    <div class="selectable-card checkbox-style">
+                      <div class="checkbox-indicator"></div>
+                      <i data-lucide="twitter"></i> Twitter Ads
+                    </div>
+                    <div class="selectable-card checkbox-style">
+                      <div class="checkbox-indicator"></div>
+                      <i data-lucide="mail"></i> Email
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group mt-5">
+                  <label class="form-label">Tone of Voice</label>
+                  <select class="form-select">
+                    <option>Professional & Authoritative</option>
+                    <option>Casual & Friendly</option>
+                    <option>Persuasive & Urgent</option>
+                    <option>Humorous & Witty</option>
+                    <option>Inspirational & Visionary</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-footer flex justify-between">
+                <button class="btn btn-secondary prev-step" data-prev="2"><i data-lucide="arrow-left"></i> Back</button>
+                <button class="btn btn-primary next-step" id="generateBtn" data-next="4">
+                  <i data-lucide="sparkles"></i> Generate Campaign
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 4: Loading / Results -->
+            <div class="wizard-step-content" id="step4">
+              
+              <!-- Loading State -->
+              <div class="loading-state" id="loadingState">
+                <div class="ai-pulsing-orb"></div>
+                <h3 class="text-xl font-semibold mt-6 mb-2">NexusAI is analyzing...</h3>
+                <p class="text-secondary text-sm" id="loadingText">Processing product description and audience data...</p>
+                
+                <div class="loading-progress-bar mt-6">
+                  <div class="loading-progress-fill"></div>
+                </div>
+              </div>
+
+              <!-- Results State (Hidden initially) -->
+              <div class="results-state hidden" id="resultsState">
+                <div class="card-header border-0 pb-0 flex justify-between items-center">
+                  <h2 class="card-title text-xl text-primary flex items-center gap-2">
+                    <i data-lucide="check-circle-2"></i> Campaign Generated
+                  </h2>
+                  <div class="flex gap-2">
+                    <button class="btn btn-sm btn-ghost"><i data-lucide="download"></i> Export</button>
+                    <button class="btn btn-sm btn-primary"><i data-lucide="save"></i> Save to Campaigns</button>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <div class="tabs mt-2 mb-4" id="resultsTabs">
+                    <div class="tab-item active" data-target="res-copy">Ad Copy</div>
+                    <div class="tab-item" data-target="res-keywords">Keywords</div>
+                    <div class="tab-item" data-target="res-audience">Targeting</div>
+                  </div>
+
+                  <!-- Tab Content: Ad Copy -->
+                  <div class="tab-content active" id="res-copy">
+                    <div class="result-block">
+                      <div class="result-block-header">
+                        <h4>Google Search Ads (3 Variations)</h4>
+                        <button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="copy"></i></button>
+                      </div>
+                      <div class="result-items stagger-children">
+                        <div class="ad-mockup google">
+                          <div class="ad-badge">Variation 1</div>
+                          <div class="ad-url">Ad · www.yourcompany.com/analytics</div>
+                          <div class="ad-headline text-primary-600">Stop Guessing, Start Growing | NexusAI Analytics Platform</div>
+                          <div class="ad-desc">Uncover hidden revenue opportunities with AI-driven marketing analytics. Designed specifically for B2B tech companies. Start your 14-day free trial today.</div>
+                        </div>
+                        <div class="ad-mockup google">
+                          <div class="ad-badge">Variation 2</div>
+                          <div class="ad-url">Ad · www.yourcompany.com/roi</div>
+                          <div class="ad-headline text-primary-600">Maximize Marketing ROI | AI Data Insights for B2B</div>
+                          <div class="ad-desc">Tired of wasted ad spend? Our predictive AI platform identifies your most profitable channels instantly. See a 30% ROI increase in 30 days. Book a demo.</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="result-block mt-6">
+                      <div class="result-block-header">
+                        <h4>LinkedIn Sponsored Content</h4>
+                        <button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="copy"></i></button>
+                      </div>
+                      <div class="result-items">
+                        <div class="ad-mockup linkedin">
+                          <div class="ad-desc mb-3">Marketing Leaders: Are you still relying on manual spreadsheets to track campaign performance? 📉<br><br>It's time to upgrade. NexusAI automatically aggregates your data across all platforms, providing predictive insights that help you allocate budget where it actually converts.<br><br>Join 500+ B2B companies already scaling faster with AI. 👇</div>
+                          <div class="ad-image-placeholder"><i data-lucide="image"></i> Suggestion: Dashboard screenshot with upward trending revenue graph</div>
+                          <div class="ad-headline mt-2 text-primary-600 font-semibold">NexusAI | The AI-Powered Marketing OS</div>
+                          <button class="btn btn-sm btn-secondary mt-2 w-full">Learn More</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab Content: Keywords -->
+                  <div class="tab-content hidden" id="res-keywords">
+                    <div class="table-responsive">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th>Keyword</th>
+                            <th>Match Type</th>
+                            <th>Intent</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>AI marketing analytics software</td>
+                            <td>Exact</td>
+                            <td><span class="badge badge-success">High (Purchase)</span></td>
+                            <td><button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="plus"></i></button></td>
+                          </tr>
+                          <tr>
+                            <td>predictive marketing tools B2B</td>
+                            <td>Phrase</td>
+                            <td><span class="badge badge-success">High (Purchase)</span></td>
+                            <td><button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="plus"></i></button></td>
+                          </tr>
+                          <tr>
+                            <td>how to improve marketing ROI</td>
+                            <td>Broad</td>
+                            <td><span class="badge badge-warning">Medium (Research)</span></td>
+                            <td><button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="plus"></i></button></td>
+                          </tr>
+                          <tr>
+                            <td>marketing attribution software</td>
+                            <td>Exact</td>
+                            <td><span class="badge badge-success">High (Purchase)</span></td>
+                            <td><button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="plus"></i></button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- Tab Content: Targeting -->
+                  <div class="tab-content hidden" id="res-audience">
+                    <div class="grid grid-2 gap-5">
+                      <div class="card bg-secondary border-0">
+                        <div class="card-body">
+                          <h4 class="font-semibold mb-3 flex items-center gap-2"><i data-lucide="linkedin" class="text-info"></i> LinkedIn Targeting</h4>
+                          <ul class="list-disc pl-5 text-sm text-secondary space-y-2">
+                            <li><strong>Job Titles:</strong> CMO, VP of Marketing, Demand Gen Director, Growth Hacker</li>
+                            <li><strong>Company Size:</strong> 50-500 employees</li>
+                            <li><strong>Industries:</strong> SaaS, Information Technology, Financial Services</li>
+                            <li><strong>Skills:</strong> Marketing Analytics, Data-Driven Marketing, Performance Marketing</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="card bg-secondary border-0">
+                        <div class="card-body">
+                          <h4 class="font-semibold mb-3 flex items-center gap-2"><i data-lucide="facebook" class="text-info"></i> Meta Targeting</h4>
+                          <ul class="list-disc pl-5 text-sm text-secondary space-y-2">
+                            <li><strong>Lookalike:</strong> 1% LAL of current paying customers</li>
+                            <li><strong>Interests:</strong> Hubspot, Salesforce, Google Analytics 4, Marketing Automation</li>
+                            <li><strong>Behaviors:</strong> B2B Enterprise Employees, FB Page Admins (Business Pages)</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/ai-generator.js"></script>
+</body>
+</html>

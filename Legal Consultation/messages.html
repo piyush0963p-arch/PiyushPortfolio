@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* Messaging Layout */
+        .messaging-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Chat List (Left) */
+        .chat-list-panel {
+            width: 320px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-list-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-item:hover {
+            background: var(--bg-surface);
+        }
+
+        .chat-item.active {
+            background: var(--info-bg);
+            border-left: 3px solid var(--primary);
+        }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .chat-avatar.online::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border: 2px solid var(--bg-card);
+            border-radius: 50%;
+        }
+
+        .chat-preview {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .chat-msg {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .unread-badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: var(--radius-full);
+            margin-left: 0.5rem;
+        }
+
+        /* Active Chat Area (Right) */
+        .active-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-main);
+        }
+
+        .active-chat-header {
+            padding: 1rem 2rem;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .message.sent .message-content {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+
+        .message.sent .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .attachment {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            margin-top: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .message.sent .attachment {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .chat-input-area {
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background: var(--bg-surface);
+            color: var(--primary);
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="client-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="folder-open"></i> Document Center
+                </a>
+                <a href="messages.html" class="nav-item active">
+                    <i data-lucide="message-square"></i> Messages
+                    <span class="badge badge-danger" style="margin-left: auto;">2</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">Secure Messages</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">JD</div>
+                </div>
+            </header>
+
+            <div class="messaging-layout animate-fade-in">
+                <!-- Chat List -->
+                <div class="chat-list-panel">
+                    <div class="chat-list-header">
+                        <div style="position: relative;">
+                            <i data-lucide="search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-muted);"></i>
+                            <input type="text" class="form-input" placeholder="Search messages..." style="padding-left: 2rem; border-radius: var(--radius-full);">
+                        </div>
+                    </div>
+                    
+                    <div class="chat-list">
+                        <div class="chat-item active">
+                            <div class="chat-avatar online">SJ</div>
+                            <div class="chat-preview">
+                                <div class="chat-name">
+                                    Sarah Jenkins (Lawyer)
+                                    <span class="chat-time">10:45 AM</span>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="chat-msg" style="font-weight: 600; color: var(--text-primary);">I've reviewed the documents you sent over.</span>
+                                    <span class="unread-badge">2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-item">
+                            <div class="chat-avatar">MR</div>
+                            <div class="chat-preview">
+                                <div class="chat-name">
+                                    Michael Ross
+                                    <span class="chat-time">Yesterday</span>
+                                </div>
+                                <div class="chat-msg">Let me know when you have time for a quick call regarding the estate.</div>
+                            </div>
+                        </div>
+
+                        <div class="chat-item">
+                            <div class="chat-avatar" style="background: var(--accent);">ST</div>
+                            <div class="chat-preview">
+                                <div class="chat-name">
+                                    Support Team
+                                    <span class="chat-time">Oct 12</span>
+                                </div>
+                                <div class="chat-msg">Your invoice has been successfully processed.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Chat -->
+                <div class="active-chat">
+                    <div class="active-chat-header">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="chat-avatar online" style="width: 40px; height: 40px; font-size: 0.875rem;">SJ</div>
+                            <div>
+                                <h3 style="font-size: 1rem;">Sarah Jenkins</h3>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary);">Senior Partner • Employment Law</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline" style="padding: 0.5rem;"><i data-lucide="phone"></i></button>
+                            <button class="btn btn-outline" style="padding: 0.5rem;"><i data-lucide="video"></i></button>
+                            <button class="btn btn-outline" style="padding: 0.5rem;"><i data-lucide="info"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages">
+                        
+                        <div style="text-align: center; margin-bottom: 1rem;">
+                            <span style="font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 0.25rem 0.75rem; border-radius: var(--radius-full);">Today, Oct 18</span>
+                        </div>
+
+                        <div class="message sent">
+                            <div class="message-content">
+                                <p>Hi Sarah, I've uploaded the revised settlement agreement to the Document Vault.</p>
+                                <div class="attachment">
+                                    <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+                                    <span style="font-size: 0.875rem;">Settlement_Agreement_v2.pdf</span>
+                                </div>
+                                <div class="message-time">10:30 AM <i data-lucide="check-check" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i></div>
+                            </div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-content">
+                                <p>Hi John! Great, I will take a look at it right away.</p>
+                                <div class="message-time">10:35 AM</div>
+                            </div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-content">
+                                <p>I've reviewed the documents you sent over. The AI flagged a non-compete clause in section 4. We should discuss this before you sign anything.</p>
+                                <p style="margin-top: 0.5rem;">Are you still available for our call tomorrow at 2 PM?</p>
+                                <div class="message-time">10:45 AM</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="chat-input-area">
+                        <button class="icon-btn"><i data-lucide="paperclip"></i></button>
+                        <input type="text" class="chat-input" placeholder="Type your message securely...">
+                        <button class="icon-btn"><i data-lucide="smile"></i></button>
+                        <button class="send-btn">
+                            <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="blog-page-title">Blog Insights — Patel Workspace</title>
+    <meta name="description" id="blog-meta-desc" content="Read guides, legal documents tips, and coworking workspace articles for Patel Workspace Navrangpura, Ahmedabad.">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" onerror="this.style.display='none';">
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Import Stylesheet -->
+    <link rel="stylesheet" href="assets/css/frontend-style.css">
+
+    <!-- Load LocalStorage Simulated DB Engine -->
+    <script src="assets/js/db.js"></script>
+    <style>
+        .blog-container {
+            max-width: 1200px;
+            margin: 120px auto 80px auto;
+            padding: 0 24px;
+        }
+        .single-post-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .blog-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .blog-title {
+            font-size: 40px;
+            font-family: var(--font-header);
+            color: var(--primary-blue-dark);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .blog-meta {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .blog-cover {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .blog-content {
+            font-size: 17px;
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+        .blog-content h2, .blog-content h3 {
+            font-family: var(--font-header);
+            color: var(--primary-blue-dark);
+            margin-top: 36px;
+            margin-bottom: 16px;
+        }
+        .blog-content p {
+            margin-bottom: 20px;
+        }
+        .blog-content ul, .blog-content ol {
+            margin-left: 24px;
+            margin-bottom: 24px;
+        }
+        .blog-content li {
+            margin-bottom: 8px;
+        }
+        /* Search and Feed styles */
+        .blog-feed-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .blog-search-box {
+            max-width: 500px;
+            margin: 20px auto 0 auto;
+            display: flex;
+            gap: 10px;
+        }
+        .blog-search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            outline: none;
+            font-family: var(--font-primary);
+            font-size: 14.5px;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .blog-card {
+            background-color: var(--white);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+        }
+        .blog-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .blog-card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 12px;
+        }
+        .blog-card-title {
+            font-size: 19px;
+            line-height: 1.3;
+            font-family: var(--font-header);
+            font-weight: 700;
+        }
+        .blog-card-title a {
+            color: var(--primary-blue-dark);
+            text-decoration: none;
+        }
+        .blog-card-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- STICKY NAVBAR -->
+    <header id="header">
+        <a href="index.html" class="logo" id="nav-logo">
+            <svg viewBox="0 0 100 100" style="width: 28px; height: 28px; fill: var(--accent-blue);">
+                <rect x="10" y="20" width="80" height="60" rx="8" />
+                <rect x="25" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+                <rect x="55" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+            </svg>
+            <span id="nav-site-name">Patel Workspace</span>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="index.html#on-demand" class="nav-link">Book On-Demand</a></li>
+            <li><a href="index.html#long-term" class="nav-link">Rent Longer-Term</a></li>
+            <li><a href="index.html#pricing" class="nav-link">Pricing</a></li>
+            <li><a href="index.html#location" class="nav-link">Location</a></li>
+            <li><a href="blog.html" class="nav-link active">Blogs</a></li>
+        </ul>
+
+        <div class="header-ctas">
+            <a href="tel:+919999999999" class="btn login-btn" id="nav-call-btn">Call Now</a>
+            <a href="#" class="btn header-cta" id="nav-tour-btn" target="_blank">
+                Book a Tour
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+        </div>
+
+        <button class="hamburger-btn" id="hamburger-toggle" aria-label="Toggle Navigation Menu">
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+        </button>
+    </header>
+
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-menu" id="mobile-drawer">
+        <ul class="mobile-links">
+            <li><a href="index.html#on-demand" class="mobile-link">Book On-Demand</a></li>
+            <li><a href="index.html#long-term" class="mobile-link">Rent Longer-Term</a></li>
+            <li><a href="index.html#pricing" class="mobile-link">Pricing</a></li>
+            <li><a href="index.html#location" class="mobile-link">Location</a></li>
+            <li><a href="blog.html" class="mobile-link">Blogs</a></li>
+        </ul>
+        <div class="mobile-ctas">
+            <a href="tel:+919999999999" class="btn btn-yellow" id="mobile-call-btn" style="width:100%;">Call Now</a>
+            <a href="#" class="btn btn-blue" id="mobile-tour-btn" style="width:100%;" target="_blank">
+                Book a Tour
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN BLOG CONTENT -->
+    <div class="blog-container">
+
+        <!-- SINGLE ARTICLE VIEWER PANEL -->
+        <div id="single-post-view" class="single-post-wrapper" style="display:none;">
+            <div class="blog-header">
+                <a href="blog.html" style="font-size: 14.5px; color: var(--accent-blue); text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px;">← Back to all articles</a>
+                <h1 class="blog-title" id="post-title">Blog Title</h1>
+                <div class="blog-meta" id="post-meta">By admin • June 15, 2026</div>
+            </div>
+            <img src="" alt="" class="blog-cover" id="post-cover">
+            <article class="blog-content" id="post-body">
+                <!-- Blog content HTML loads here -->
+            </article>
+        </div>
+
+        <!-- BLOG FEED DIRECTORY PANEL -->
+        <div id="feed-view" style="display:none;">
+            <div class="blog-feed-header">
+                <h1 class="blog-title">Patel Workspace <span class="underline-highlight">Insights</span></h1>
+                <p style="color:var(--text-muted); font-size: 16px;">Expert guides on Virtual Office setup, GST documentation requirements, and coworking compliance in Ahmedabad.</p>
+                <div class="blog-search-box">
+                    <input type="text" id="blog-search" class="blog-search-input" placeholder="Search guides by keyword...">
+                </div>
+            </div>
+            
+            <div class="blog-grid" id="blogs-feed-grid">
+                <!-- Blog feed cards load dynamically -->
+            </div>
+            
+            <div id="no-blogs-found" style="display:none; text-align:center; padding:50px; color:var(--text-muted); font-size:16px;">
+                No matching articles found. Please try another search.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo">
+                    <svg viewBox="0 0 100 100" style="width: 24px; height: 24px; fill: var(--accent-blue);">
+                        <rect x="10" y="20" width="80" height="60" rx="8" />
+                        <rect x="25" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+                        <rect x="55" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+                    </svg>
+                    <span id="footer-site-name">Patel Workspace</span>
+                </a>
+                <p class="footer-desc">Premium private cabins, shared coworking, and 100% compliant Virtual Office registration and GST address solutions in Navrangpura, Ahmedabad (380009).</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Workspace Offerings</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#on-demand" class="footer-link">Coworking Day Pass</a></li>
+                    <li><a href="index.html#on-demand" class="footer-link">Meeting Rooms</a></li>
+                    <li><a href="index.html#on-demand" class="footer-link">Event Spaces</a></li>
+                    <li><a href="index.html#cabins-status" class="footer-link">Private Executive Cabins</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>GST & Compliance</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#long-term" class="footer-link">Virtual Office GST</a></li>
+                    <li><a href="index.html#long-term" class="footer-link">Consent Documentation</a></li>
+                    <li><a href="index.html#long-term" class="footer-link">NOC Papers</a></li>
+                    <li><a href="index.html#long-term" class="footer-link">Courier scans</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Patel Workspace</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#location" class="footer-link">Our Ahmedabad Hub</a></li>
+                    <li><a href="index.html#pricing" class="footer-link">Rates & Pricing</a></li>
+                    <li><a href="index.html#location" class="footer-link">Get Directions</a></li>
+                    <li><a href="#" class="footer-link" id="footer-phone-link">Direct Line</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-cta-col">
+                <h4>Need a Tour?</h4>
+                <p>Chat directly with our reception desk on WhatsApp for instant cabin layouts and live availability details.</p>
+                <a href="#" class="btn btn-blue" id="footer-whatsapp-btn" style="background-color:var(--accent-blue);" target="_blank">
+                    WhatsApp Tour Booking
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="language-selector" style="cursor:default; border:none; padding:0; display:flex; align-items:center; gap:8px;">
+                <span>🌐</span> Patel Workspace Ahmedabad
+            </div>
+
+            <ul class="footer-bottom-links">
+                <li><a href="#" class="footer-bottom-link">Terms & Privacy Policy</a></li>
+                <li><a href="#" class="footer-bottom-link">GST Address NOC Legal</a></li>
+                <li><a href="admin/index.html" class="footer-bottom-link" id="footer-admin-link">🔑 Admin Console</a></li>
+                <li><a href="#" class="footer-bottom-link" id="footer-copyright-txt">© 2026 Patel Workspace Navrangpura.</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- BLOG LOGIC SCRIPT -->
+    <script>
+        function checkAndRenderAdminBar() {
+            const currentUser = db.getCurrentUser();
+            if (currentUser) {
+                const adminBar = document.createElement('div');
+                adminBar.id = 'admin-top-bar';
+                adminBar.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 40px;
+                    background-color: #043873;
+                    color: #ffffff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 32px;
+                    z-index: 999999;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 13.5px;
+                    border-bottom: 2px solid #FFE492;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+                `;
+                
+                const leftDiv = document.createElement('div');
+                leftDiv.style.display = 'flex';
+                leftDiv.style.alignItems = 'center';
+                leftDiv.style.gap = '8px';
+                leftDiv.innerHTML = `
+                    <span style="font-weight: 700; color: #FFE492;">🔧 Admin Mode Active</span>
+                    <span style="opacity: 0.8; font-size: 12px;">(Logged in as <strong>${currentUser.username}</strong>)</span>
+                `;
+                
+                const rightDiv = document.createElement('div');
+                rightDiv.style.display = 'flex';
+                rightDiv.style.alignItems = 'center';
+                rightDiv.style.gap = '12px';
+                
+                const dashLink = document.createElement('a');
+                dashLink.href = 'admin/index.html';
+                dashLink.textContent = 'Go to Dashboard';
+                dashLink.style.cssText = `
+                    background-color: #4F9CF9;
+                    color: #ffffff;
+                    padding: 4px 12px;
+                    border-radius: 6px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    font-size: 12px;
+                    transition: all 0.2s ease;
+                `;
+                dashLink.onmouseover = () => { dashLink.style.backgroundColor = '#3684E2'; };
+                dashLink.onmouseout = () => { dashLink.style.backgroundColor = '#4F9CF9'; };
+
+                const logoutBtn = document.createElement('button');
+                logoutBtn.textContent = 'Sign Out';
+                logoutBtn.style.cssText = `
+                    background: transparent;
+                    border: 1px solid rgba(255, 255, 255, 0.4);
+                    color: #ffffff;
+                    padding: 3px 10px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                `;
+                logoutBtn.onmouseover = () => { 
+                    logoutBtn.style.background = 'rgba(255, 255, 255, 0.1)'; 
+                    logoutBtn.style.borderColor = '#ffffff';
+                };
+                logoutBtn.onmouseout = () => { 
+                    logoutBtn.style.background = 'transparent'; 
+                    logoutBtn.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                };
+                logoutBtn.onclick = () => {
+                    db.logout();
+                    window.location.reload();
+                };
+                
+                rightDiv.appendChild(dashLink);
+                rightDiv.appendChild(logoutBtn);
+                
+                adminBar.appendChild(leftDiv);
+                adminBar.appendChild(rightDiv);
+                
+                document.body.prepend(adminBar);
+                
+                // Shift the header down
+                const header = document.getElementById('header');
+                if (header) {
+                    header.style.top = '40px';
+                }
+                document.body.style.paddingTop = '40px';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check session for Admin Bar
+            checkAndRenderAdminBar();
+
+            const settings = db.getSettings();
+            const blogs = db.getBlogs();
+
+            // Apply style configurations
+            db.applyThemeStyles();
+
+            // Populate navbar & footer parameters
+            document.getElementById('nav-site-name').textContent = settings.site_name;
+            document.getElementById('footer-site-name').textContent = settings.site_name;
+            
+            const cleanPhone = settings.site_phone.replace(/[^0-9+]/g, '');
+            document.getElementById('nav-call-btn').href = `tel:${cleanPhone}`;
+            document.getElementById('nav-call-btn').textContent = settings.site_phone;
+            document.getElementById('mobile-call-btn').href = `tel:${cleanPhone}`;
+            document.getElementById('mobile-call-btn').textContent = settings.site_phone;
+
+            const tourUrl = `https://wa.me/${settings.whatsapp_number}?text=Hi%2C%20I'd%20like%20to%20book%20a%20tour%20at%20${encodeURIComponent(settings.site_name)}.`;
+            document.getElementById('nav-tour-btn').href = tourUrl;
+            document.getElementById('mobile-tour-btn').href = tourUrl;
+            document.getElementById('footer-whatsapp-btn').href = tourUrl;
+            document.getElementById('footer-phone-link').href = `tel:${cleanPhone}`;
+            document.getElementById('footer-phone-link').textContent = settings.site_phone;
+            document.getElementById('footer-copyright-txt').textContent = settings.footer_copyright;
+
+            // Check URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+
+            if (slug) {
+                // Render Single Post View
+                const post = blogs.find(b => b.slug === slug);
+                if (post) {
+                    // Title tags
+                    document.title = `${post.title} — Patel Workspace`;
+                    document.getElementById('blog-page-title').textContent = `${post.title} — Patel Workspace`;
+                    document.getElementById('blog-meta-desc').setAttribute('content', post.meta_description || post.excerpt);
+                    
+                    document.getElementById('post-title').textContent = post.title;
+                    document.getElementById('post-meta').textContent = `By ${post.author} • ${new Date(post.created_at).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})}`;
+                    
+                    const coverEl = document.getElementById('post-cover');
+                    if (post.featured_image) {
+                        coverEl.src = post.featured_image;
+                        coverEl.alt = post.title;
+                        coverEl.style.display = 'block';
+                    } else {
+                        coverEl.src = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80';
+                        coverEl.style.display = 'block';
+                    }
+                    
+                    document.getElementById('post-body').innerHTML = post.content;
+                    document.getElementById('single-post-view').style.display = 'block';
+                } else {
+                    // Not Found state
+                    document.title = 'Article Not Found — Patel Workspace';
+                    document.getElementById('post-title').textContent = 'Article Not Found';
+                    document.getElementById('post-meta').textContent = '';
+                    document.getElementById('post-cover').style.display = 'none';
+                    document.getElementById('post-body').innerHTML = '<p style="text-align:center; padding: 40px 0;">Sorry, the requested blog post could not be found or has been deleted.</p>';
+                    document.getElementById('single-post-view').style.display = 'block';
+                }
+            } else {
+                // Render Feed View
+                document.getElementById('feed-view').style.display = 'block';
+                
+                const feedGrid = document.getElementById('blogs-feed-grid');
+                const searchInput = document.getElementById('blog-search');
+                const noBlogsFound = document.getElementById('no-blogs-found');
+
+                function renderFeed(filterText = '') {
+                    feedGrid.innerHTML = '';
+                    const published = blogs.filter(b => b.status === 'published');
+                    
+                    const filtered = published.filter(b => 
+                        b.title.toLowerCase().includes(filterText.toLowerCase()) || 
+                        b.excerpt.toLowerCase().includes(filterText.toLowerCase()) ||
+                        b.content.toLowerCase().includes(filterText.toLowerCase())
+                    );
+
+                    if (filtered.length === 0) {
+                        noBlogsFound.style.display = 'block';
+                    } else {
+                        noBlogsFound.style.display = 'none';
+                        filtered.forEach(b => {
+                            const blogImg = b.featured_image || 'https://images.unsplash.com/photo-1527192491265-7e15c55b1ed2?auto=format&fit=crop&w=400&q=80';
+                            feedGrid.innerHTML += `
+                                <div class="blog-card">
+                                    <img src="${blogImg}" alt="${b.title}" class="blog-card-img">
+                                    <div class="blog-card-body">
+                                        <div style="font-size:12px; color:var(--text-muted); font-weight:600;">📝 By ${b.author} • ${new Date(b.created_at).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})}</div>
+                                        <h3 class="blog-card-title"><a href="blog.html?slug=${b.slug}">${b.title}</a></h3>
+                                        <p class="blog-card-desc">${b.excerpt || ''}</p>
+                                        <a href="blog.html?slug=${b.slug}" style="color:var(--accent-blue); font-size:14px; font-weight:700; display:inline-flex; align-items:center; gap:6px; margin-top:auto; text-decoration:none;">Read Full Guide →</a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                }
+
+                searchInput.addEventListener('input', (e) => {
+                    renderFeed(e.target.value);
+                });
+
+                renderFeed();
+            }
+        });
+
+        // Hamburger drawer toggle
+        const hamburgerToggle = document.getElementById('hamburger-toggle');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+
+        hamburgerToggle.addEventListener('click', () => {
+            mobileDrawer.classList.toggle('active');
+            const bars = hamburgerToggle.children;
+            if (mobileDrawer.classList.contains('active')) {
+                bars[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                bars[1].style.opacity = '0';
+                bars[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+            } else {
+                bars[0].style.transform = 'none';
+                bars[1].style.opacity = '1';
+                bars[2].style.transform = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

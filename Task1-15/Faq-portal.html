@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Center | Frequently Asked Questions</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338ca;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --white: #FFFFFF;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            font-size: 2.6rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+            font-weight: 700;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Search Section */
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Category Filter Buttons */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--text-muted);
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        /* FAQ Accordion Styles */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item.hidden {
+            display: none;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 22px 24px;
+            background: none;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .faq-question::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234F46E5' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 4.5v15m7.5-7.5h-15' /%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
+            background: #fafafc;
+            padding: 0 24px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 350px;
+            padding: 0 24px 22px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .faq-answer p {
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        /* Helpfulness Section */
+        .helpfulness-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .help-btn {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .help-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(79, 70, 229, 0.02);
+        }
+
+        .help-btn.active {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        /* Ask a Question Panel widget */
+        .submit-question-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .submit-question-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .submit-question-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Empty Search State */
+        .empty-search {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>How can we help you?</h1>
+            <p>Browse our categorized FAQs or submit a question to our support desk.</p>
+        </header>
+
+        <!-- Search Input -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="faq-search" placeholder="Type keyphrases to search FAQs..." oninput="handleFaqSearch()">
+        </div>
+
+        <!-- Filter Categories -->
+        <div class="filter-container" id="filter-wrapper">
+            <button class="filter-btn active" onclick="filterCategory('all')">All Questions</button>
+            <button class="filter-btn" onclick="filterCategory('admissions')">Admissions</button>
+            <button class="filter-btn" onclick="filterCategory('academics')">Academics</button>
+            <button class="filter-btn" onclick="filterCategory('campus')">Campus Life</button>
+        </div>
+
+        <!-- FAQ Lists -->
+        <div class="faq-list" id="faq-list-container">
+            <!-- Preset items -->
+            <div class="faq-item" data-category="admissions" data-id="1">
+                <button class="faq-question">How do I apply for admission?</button>
+                <div class="faq-answer">
+                    <p>You can apply online through our official portal by filling out the registration form and submitting the required documents.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(1, 'yes')">👍 Yes (<span class="yes-count">12</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(1, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="admissions" data-id="2">
+                <button class="faq-question">What is the application deadline?</button>
+                <div class="faq-answer">
+                    <p>The application deadline for the Fall semester is typically August 1st. Please check the portal for exact dates.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(2, 'yes')">👍 Yes (<span class="yes-count">8</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(2, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="admissions" data-id="3">
+                <button class="faq-question">Are there any application fees?</button>
+                <div class="faq-answer">
+                    <p>Yes, there is a non-refundable application fee of $50, which can be paid online during registration.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(3, 'yes')">👍 Yes (<span class="yes-count">5</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(3, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="admissions" data-id="4">
+                <button class="faq-question">Can international students apply?</button>
+                <div class="faq-answer">
+                    <p>Absolutely! We welcome students from all over the world. Special visa documentation will be required upon acceptance.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(4, 'yes')">👍 Yes (<span class="yes-count">19</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(4, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="academics" data-id="5">
+                <button class="faq-question">How many credits are required to graduate?</button>
+                <div class="faq-answer">
+                    <p>Most undergraduate programs require 120 credit hours to graduate, but this varies slightly by major.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(5, 'yes')">👍 Yes (<span class="yes-count">7</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(5, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="academics" data-id="6">
+                <button class="faq-question">What is the student-to-faculty ratio?</button>
+                <div class="faq-answer">
+                    <p>We maintain a 15:1 student-to-faculty ratio to ensure personalized attention in the classroom.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(6, 'yes')">👍 Yes (<span class="yes-count">11</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(6, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="campus" data-id="7">
+                <button class="faq-question">Is on-campus housing mandatory?</button>
+                <div class="faq-answer">
+                    <p>On-campus housing is mandatory for first-year freshmen unless they live locally with their parents.</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(7, 'yes')">👍 Yes (<span class="yes-count">14</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(7, 'no')">👎 No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Custom FAQ Panel widget -->
+        <div class="submit-question-card">
+            <h3>Can't find what you need?</h3>
+            <p>Submit your question below. It will be sent to our support representatives and added to the board.</p>
+            <form id="submit-faq-form" onsubmit="handleQuestionSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="user-name">Your Name</label>
+                        <input type="text" class="form-control" id="user-name" required placeholder="Alex Mercer">
+                    </div>
+                    <div class="form-group">
+                        <label for="faq-select-category">Category</label>
+                        <select class="form-control" id="faq-select-category">
+                            <option value="admissions">Admissions</option>
+                            <option value="academics">Academics</option>
+                            <option value="campus" selected>Campus Life</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="user-question">Your Question</label>
+                    <input type="text" class="form-control" id="user-question" required placeholder="e.g. Is there free Wi-Fi in the library?">
+                </div>
+                <div class="form-group">
+                    <label for="user-answer">Provide Answer (Optional)</label>
+                    <textarea class="form-control" id="user-answer" rows="3" placeholder="If you already know the answer, add it here..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Question</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 1. Initial State Variables
+        let currentFilter = 'all';
+        let searchQuery = '';
+        const answeredFeedbacks = new Set();
+
+        // 2. Setup Accordion Delegation
+        document.getElementById('faq-list-container').addEventListener('click', (e) => {
+            const questionBtn = e.target.closest('.faq-question');
+            if (!questionBtn) return;
+
+            const item = questionBtn.parentElement;
+            const isActive = item.classList.contains('active');
+
+            // Collapse other active accordion cards
+            document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                if (activeItem !== item) {
+                    activeItem.classList.remove('active');
+                }
+            });
+
+            // Toggle active status
+            if (isActive) {
+                item.classList.remove('active');
+            } else {
+                item.classList.add('active');
+            }
+        });
+
+        // 3. Category Filter Logic
+        function filterCategory(categoryName) {
+            currentFilter = categoryName;
+
+            // Update active styles on buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            applyFilters();
+        }
+
+        // 4. Real-time Search Logic
+        function handleFaqSearch() {
+            searchQuery = document.getElementById('faq-search').value.toLowerCase();
+            applyFilters();
+        }
+
+        // 5. Apply Filters (Combined Category + Search query)
+        function applyFilters() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            let matchCount = 0;
+
+            faqItems.forEach(item => {
+                const questionText = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answerText = item.querySelector('.faq-answer p').textContent.toLowerCase();
+                const itemCategory = item.getAttribute('data-category');
+
+                const matchesFilter = (currentFilter === 'all' || itemCategory === currentFilter);
+                const matchesSearch = questionText.includes(searchQuery) || answerText.includes(searchQuery);
+
+                if (matchesFilter && matchesSearch) {
+                    item.classList.remove('hidden');
+                    matchCount++;
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('active'); // Close collapsed card if hidden
+                }
+            });
+
+            // Handle empty search feedback messages
+            const existingEmpty = document.querySelector('.empty-search');
+            if (matchCount === 0) {
+                if (!existingEmpty) {
+                    const emptyMsg = document.createElement('div');
+                    emptyMsg.className = 'empty-search';
+                    emptyMsg.textContent = 'No matching questions found in this category.';
+                    document.getElementById('faq-list-container').appendChild(emptyMsg);
+                }
+            } else {
+                if (existingEmpty) {
+                    existingEmpty.remove();
+                }
+            }
+        }
+
+        // 6. Helpful Votes Feedback Register
+        function submitFeedback(id, type) {
+            const feedbackKey = `${id}-${type}`;
+            if (answeredFeedbacks.has(id)) {
+                alert('You have already submitted feedback for this question.');
+                return;
+            }
+
+            const item = document.querySelector(`[data-id="${id}"]`);
+            if (type === 'yes') {
+                const countSpan = item.querySelector('.yes-count');
+                let count = parseInt(countSpan.textContent);
+                countSpan.textContent = count + 1;
+                event.target.classList.add('active');
+            } else {
+                event.target.classList.add('active');
+            }
+
+            answeredFeedbacks.add(id);
+            alert('Thank you for your feedback!');
+        }
+
+        // 7. Ask custom FAQ submit
+        function handleQuestionSubmit(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('user-name').value;
+            const category = document.getElementById('faq-select-category').value;
+            const question = document.getElementById('user-question').value;
+            let answer = document.getElementById('user-answer').value;
+
+            if (!answer.trim()) {
+                answer = "This question has been successfully logged. Our academic advisors are constructing a detailed answer.";
+            }
+
+            // Create new item card
+            const newId = Date.now();
+            const newItem = document.createElement('div');
+            newItem.className = 'faq-item';
+            newItem.setAttribute('data-category', category);
+            newItem.setAttribute('data-id', newId);
+
+            newItem.innerHTML = `
+                <button class="faq-question">${question} <span style="font-size:0.75rem; color:var(--primary); background:rgba(79,70,229,0.06); padding:2px 8px; border-radius:4px; margin-left: 10px;">New</span></button>
+                <div class="faq-answer">
+                    <p>${answer}</p>
+                    <p style="font-size:0.8rem; color:var(--text-muted); font-style:italic; margin-top:10px;">Submitted by ${name}</p>
+                    <div class="helpfulness-container">
+                        <span>Was this helpful?</span>
+                        <button class="help-btn" onclick="submitFeedback(${newId}, 'yes')">👍 Yes (<span class="yes-count">0</span>)</button>
+                        <button class="help-btn" onclick="submitFeedback(${newId}, 'no')">👎 No</button>
+                    </div>
+                </div>
+            `;
+
+            // Prepend new FAQ item to the list
+            const containerList = document.getElementById('faq-list-container');
+            containerList.insertBefore(newItem, containerList.firstChild);
+
+            // Clear Form
+            document.getElementById('submit-faq-form').reset();
+            alert('Your question has been added successfully to the FAQ Board!');
+
+            applyFilters();
+        }
+    </script>
+</body>
+</html>

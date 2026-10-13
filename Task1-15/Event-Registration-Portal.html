@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tops 2026 - Event Registration</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+        :root {
+            --primary: #4f46e5;       /* Indigo */
+            --primary-hover: #4338ca; /* Darker Indigo */
+            --vip: #d97706;           /* Amber/Gold */
+            --bg-color: #f8fafc;      /* Slate 50 */
+            --text-color: #1e293b;    /* Slate 800 */
+            --text-muted: #64748b;    /* Slate 500 */
+            --error: #ef4444;         /* Red */
+            --success: #10b981;       /* Emerald */
+            --border-color: #e2e8f0;  /* Slate 200 */
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 16px -6px rgba(0, 0, 0, 0.02);
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: var(--primary);
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        /* Responsive Grid */
+        @media (max-width: 800px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary);
+            display: block;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-box h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        /* Event Schedule List */
+        .schedule-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-item {
+            background: #ffffff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .schedule-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .schedule-content {
+            font-size: 0.95rem;
+        }
+
+        .schedule-content strong {
+            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif;
+            margin-right: 6px;
+        }
+
+        /* Agenda Buttons */
+        .add-agenda-btn {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-agenda-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .add-agenda-btn.added {
+            background: var(--success);
+            border-color: var(--success);
+            color: #ffffff;
+        }
+
+        /* Embedded Agenda Tracker */
+        .agenda-tracker {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .agenda-tracker-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .agenda-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .agenda-pill {
+            background: #e0e7ff;
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: popIn 0.2s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .agenda-pill button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agenda-empty {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Rules List customization */
+        .rules-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .rules-list li {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .rules-list li::before {
+            content: "•";
+            color: var(--error);
+            font-size: 1.4rem;
+            position: absolute;
+            left: 0;
+            top: -3px;
+        }
+
+        /* Registration Form Panel */
+        .registration-form {
+            background: #ffffff;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+        }
+
+        .registration-form h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            background-color: #ffffff;
+            transition: var(--transition);
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* VIP Options Panel (Dynamic Slider) */
+        .vip-options {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+            opacity: 0;
+        }
+
+        .vip-options.open {
+            max-height: 250px;
+            opacity: 1;
+            margin-top: 15px;
+            padding: 15px;
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 3px solid var(--vip);
+            border-radius: 8px;
+        }
+
+        /* Form Buttons */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button[type="submit"]:disabled {
+            background-color: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        /* Seat Counter Header Panel */
+        .seat-counter {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 16px 20px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .seat-counter div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seat-counter span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .vip-highlight {
+            color: var(--vip) !important;
+        }
+
+        .low-seats {
+            color: var(--error) !important;
+            animation: pulse-warn 1.5s infinite;
+        }
+
+        @keyframes pulse-warn {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Success Pass Ticket Overlay Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .ticket-modal {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 440px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.open .ticket-modal {
+            transform: scale(1);
+        }
+
+        .ticket-header {
+            background: #e0e7ff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        /* Half-circles on left and right for ticket aesthetic */
+        .ticket-notch {
+            width: 16px;
+            height: 16px;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -8px;
+            z-index: 2;
+        }
+
+        .notch-left { left: -8px; }
+        .notch-right { right: -8px; }
+
+        .ticket-body {
+            padding: 24px;
+            text-align: center;
+        }
+
+        .ticket-id {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .ticket-user-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .ticket-type-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .ticket-type-label.vip {
+            background: #fef3c7;
+            color: var(--vip);
+            border: 1px solid #fde68a;
+        }
+
+        .ticket-type-label.regular {
+            background: #e0e7ff;
+            color: var(--primary);
+            border: 1px solid #c7d2fe;
+        }
+
+        .ticket-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            text-align: left;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ticket-detail-item span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .ticket-detail-item strong {
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+
+        /* SVG QR */
+        .qr-box {
+            margin: 20px auto;
+            background: white;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            width: 120px;
+            height: 120px;
+        }
+
+        .qr-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .modal-btn-close {
+            background: #f1f5f9;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-btn-close:hover {
+            background: #e2e8f0;
+        }
+
+        .modal-btn-print {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-btn-print:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Print Media Overrides */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .modal-overlay,
+            .ticket-modal,
+            .ticket-modal * {
+                visibility: visible;
+            }
+            .modal-overlay {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: none;
+                backdrop-filter: none;
+                padding: 0;
+            }
+            .modal-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Tops 2026 Developer Summit</h1>
+            <p>Join the biggest tech event of the year! Secure your spot now.</p>
+        </header>
+
+        <div class="seat-counter">
+            <div>
+                <span id="reg-seats">50</span>
+                Regular Seats Left
+            </div>
+            <div>
+                <span id="vip-seats" class="vip-highlight">10</span>
+                VIP Seats Left
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <!-- Event schedule and rules -->
+            <div class="info-box">
+                <div>
+                    <h2>Event Schedule</h2>
+                    <ul class="schedule-list">
+                        <li class="schedule-item" data-id="keynote">
+                            <span class="schedule-content"><strong>09:00 AM:</strong> Keynote Address</span>
+                            <button class="add-agenda-btn" onclick="toggleAgenda('keynote', 'Keynote Address', '09:00 AM')">+ Add</button>
+                        </li>
+                        <li class="schedule-item" data-id="ai-ml">
+                            <span class="schedule-content"><strong>11:00 AM:</strong> AI & Machine Learning</span>
+                            <button class="add-agenda-btn" onclick="toggleAgenda('ai-ml', 'AI & Machine Learning', '11:00 AM')">+ Add</button>
+                        </li>
+                        <li class="schedule-item" data-id="lunch">
+                            <span class="schedule-content"><strong>01:00 PM:</strong> Networking Lunch</span>
+                            <button class="add-agenda-btn" onclick="toggleAgenda('lunch', 'Networking Lunch', '01:00 PM')">+ Add</button>
+                        </li>
+                        <li class="schedule-item" data-id="web3">
+                            <span class="schedule-content"><strong>03:00 PM:</strong> Web3 and the Future</span>
+                            <button class="add-agenda-btn" onclick="toggleAgenda('web3', 'Web3 and the Future', '03:00 PM')">+ Add</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Custom Agenda Drawer inside Schedule Box -->
+                <div class="agenda-tracker">
+                    <div class="agenda-tracker-title">⚡ My custom Agenda</div>
+                    <div id="agenda-pills" class="agenda-pills">
+                        <span class="agenda-empty">No sessions selected. Click "+ Add" above to build your day.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" style="border-left-color: var(--error);">
+                <h2>Event Rules</h2>
+                <ul class="rules-list">
+                    <li>Valid ID required for entry.</li>
+                    <li>Tickets are non-transferable.</li>
+                    <li>Laptops are highly recommended.</li>
+                    <li>VIP members get early access and backstage passes.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="registration-form">
+            <h2>Registration Form</h2>
+            <form id="event-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required placeholder="Sarah Jenkins">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="sarah@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="ticket-type">Ticket Type</label>
+                    <select id="ticket-type">
+                        <option value="regular">Regular Ticket</option>
+                        <option value="vip">VIP Ticket</option>
+                    </select>
+                </div>
+
+                <!-- Dynamic VIP Form Options -->
+                <div id="vip-options" class="vip-options">
+                    <div class="form-group">
+                        <label for="swag-shirt">Unisex Swag Shirt Size</label>
+                        <select id="swag-shirt">
+                            <option value="S">Small (S)</option>
+                            <option value="M" selected>Medium (M)</option>
+                            <option value="L">Large (L)</option>
+                            <option value="XL">Extra Large (XL)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="diet-pref">Lunch Dietary Preference</label>
+                        <select id="diet-pref">
+                            <option value="standard" selected>Standard Option</option>
+                            <option value="veg">Vegetarian</option>
+                            <option value="vegan">Vegan / Plant-Based</option>
+                            <option value="gf">Gluten Free</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" style="margin-top: 15px;">Register Now</button>
+            </form>
+            <div id="success-message" class="success-msg">Registration Successful! Your seat has been reserved.</div>
+        </div>
+    </div>
+
+    <!-- Success digital ticket modal -->
+    <div class="modal-overlay" id="ticketModal">
+        <div class="ticket-modal">
+            <div class="ticket-header">
+                <div class="ticket-notch notch-left"></div>
+                <div class="ticket-notch notch-right"></div>
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; color: var(--text-color);">TECHNOVA 2026 PASS</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-top: 2px;">OCTOBER 14-15 • SAN FRANCISCO, CA</p>
+            </div>
+            <div class="ticket-body">
+                <div class="ticket-id" id="ticket-pass-id">TN-2026-00000</div>
+                <div class="ticket-user-name" id="ticket-pass-name">Sarah Jenkins</div>
+                <div class="ticket-type-label" id="ticket-pass-type">VIP Ticket</div>
+                
+                <div class="ticket-details-grid">
+                    <div class="ticket-detail-item">
+                        <span>Attendee Email</span>
+                        <strong id="ticket-pass-email" style="word-break: break-all;">sarah@example.com</strong>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <span>Event Date</span>
+                        <strong>Oct 14-15, 2026</strong>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <span>Swag Shirt Size</span>
+                        <strong id="ticket-pass-shirt">-</strong>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <span>Lunch Option</span>
+                        <strong id="ticket-pass-lunch">-</strong>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.72rem; color: var(--text-muted); font-weight: bold; letter-spacing: 0.05em;">SCAN PASS AT FRONT ENTRANCE</p>
+                <div class="qr-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5,5 h90 v90 h-90 z" fill="none" stroke="#1e293b" stroke-width="5"/>
+                        <rect x="12" y="12" width="20" height="20" fill="#1e293b"/>
+                        <rect x="16" y="16" width="12" height="12" fill="#fff"/>
+                        <rect x="19" y="19" width="6" height="6" fill="#1e293b"/>
+                        <rect x="68" y="12" width="20" height="20" fill="#1e293b"/>
+                        <rect x="72" y="16" width="12" height="12" fill="#fff"/>
+                        <rect x="75" y="19" width="6" height="6" fill="#1e293b"/>
+                        <rect x="12" y="68" width="20" height="20" fill="#1e293b"/>
+                        <rect x="16" y="72" width="12" height="12" fill="#fff"/>
+                        <rect x="19" y="75" width="6" height="6" fill="#1e293b"/>
+                        <rect x="42" y="12" width="6" height="6" fill="#1e293b"/>
+                        <rect x="50" y="18" width="6" height="12" fill="#1e293b"/>
+                        <rect x="42" y="38" width="12" height="6" fill="#1e293b"/>
+                        <rect x="68" y="42" width="6" height="6" fill="#1e293b"/>
+                        <rect x="80" y="48" width="8" height="6" fill="#1e293b"/>
+                        <rect x="12" y="48" width="12" height="6" fill="#1e293b"/>
+                        <rect x="46" y="52" width="6" height="18" fill="#1e293b"/>
+                        <rect x="60" y="60" width="10" height="6" fill="#1e293b"/>
+                        <rect x="78" y="68" width="6" height="12" fill="#1e293b"/>
+                        <rect x="42" y="80" width="12" height="6" fill="#1e293b"/>
+                        <rect x="68" y="80" width="16" height="6" fill="#1e293b"/>
+                    </svg>
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="modal-btn modal-btn-close" onclick="closeModal()">Dismiss</button>
+                    <button class="modal-btn modal-btn-print" onclick="window.print()">Print Ticket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial Seat Data
+        let regularSeats = 50;
+        let vipSeats = 10;
+        const chosenAgenda = new Map();
+
+        // DOM Elements
+        const form = document.getElementById('event-form');
+        const regSeatDisplay = document.getElementById('reg-seats');
+        const vipSeatDisplay = document.getElementById('vip-seats');
+        const ticketType = document.getElementById('ticket-type');
+        const submitBtn = document.getElementById('submit-btn');
+        const successMessage = document.getElementById('success-message');
+        const vipOptionsPanel = document.getElementById('vip-options');
+        const agendaPillsContainer = document.getElementById('agenda-pills');
+        const ticketModal = document.getElementById('ticketModal');
+
+        // Toggle VIP options display on selection change
+        ticketType.addEventListener('change', () => {
+            if (ticketType.value === 'vip') {
+                vipOptionsPanel.classList.add('open');
+            } else {
+                vipOptionsPanel.classList.remove('open');
+            }
+            checkAvailability();
+        });
+
+        // Submit Form Handler
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const selectedTicket = ticketType.value;
+            const attendeeName = document.getElementById('name').value;
+            const attendeeEmail = document.getElementById('email').value;
+
+            if (selectedTicket === 'regular') {
+                if (regularSeats > 0) {
+                    regularSeats--;
+                    regSeatDisplay.textContent = regularSeats;
+                    triggerTicketSuccess(attendeeName, attendeeEmail, 'Regular Ticket', '-', '-');
+                }
+            } else if (selectedTicket === 'vip') {
+                if (vipSeats > 0) {
+                    vipSeats--;
+                    vipSeatDisplay.textContent = vipSeats;
+                    const size = document.getElementById('swag-shirt').value;
+                    const diet = document.getElementById('diet-pref').options[document.getElementById('diet-pref').selectedIndex].text;
+                    triggerTicketSuccess(attendeeName, attendeeEmail, 'VIP Ticket', size, diet);
+                }
+            }
+
+            checkAvailability();
+        });
+
+        // Generate success ticket and show modal
+        function triggerTicketSuccess(name, email, type, shirt, diet) {
+            const ticketId = 'TN-2026-' + Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('ticket-pass-id').textContent = ticketId;
+            document.getElementById('ticket-pass-name').textContent = name;
+            document.getElementById('ticket-pass-email').textContent = email;
+            
+            const typeLabel = document.getElementById('ticket-pass-type');
+            typeLabel.textContent = type;
+            if (type === 'VIP Ticket') {
+                typeLabel.className = 'ticket-type-label vip';
+            } else {
+                typeLabel.className = 'ticket-type-label regular';
+            }
+
+            document.getElementById('ticket-pass-shirt').textContent = shirt;
+            document.getElementById('ticket-pass-lunch').textContent = diet;
+
+            // Open Modal
+            ticketModal.classList.add('open');
+
+            // Reset Form Fields
+            form.reset();
+            vipOptionsPanel.classList.remove('open');
+        }
+
+        // Close Modal
+        function closeModal() {
+            ticketModal.classList.remove('open');
+        }
+
+        // Close Modal on clicking outside the ticket box
+        ticketModal.addEventListener('click', (e) => {
+            if (e.target === ticketModal) {
+                closeModal();
+            }
+        });
+
+        // Agenda Toggle Logic
+        function toggleAgenda(id, title, time) {
+            const itemElement = document.querySelector(`[data-id="${id}"]`);
+            const btn = itemElement.querySelector('.add-agenda-btn');
+
+            if (chosenAgenda.has(id)) {
+                chosenAgenda.delete(id);
+                btn.textContent = '+ Add';
+                btn.classList.remove('added');
+            } else {
+                chosenAgenda.set(id, { title, time });
+                btn.textContent = '✓ Added';
+                btn.classList.add('added');
+            }
+
+            updateAgendaUI();
+        }
+
+        function removeAgendaItem(id) {
+            chosenAgenda.delete(id);
+            const itemElement = document.querySelector(`[data-id="${id}"]`);
+            if (itemElement) {
+                const btn = itemElement.querySelector('.add-agenda-btn');
+                btn.textContent = '+ Add';
+                btn.classList.remove('added');
+            }
+            updateAgendaUI();
+        }
+
+        function updateAgendaUI() {
+            agendaPillsContainer.innerHTML = '';
+            
+            if (chosenAgenda.size === 0) {
+                agendaPillsContainer.innerHTML = `<span class="agenda-empty">No sessions selected. Click "+ Add" above to build your day.</span>`;
+                return;
+            }
+
+            chosenAgenda.forEach((value, key) => {
+                const pill = document.createElement('span');
+                pill.className = 'agenda-pill';
+                pill.innerHTML = `
+                    ${value.time} - ${value.title}
+                    <button onclick="removeAgendaItem('${key}')">&times;</button>
+                `;
+                agendaPillsContainer.appendChild(pill);
+            });
+        }
+
+        // Check availability and low seat feedback
+        function checkAvailability() {
+            // Visual feedback for low seats
+            if (regularSeats <= 5) {
+                regSeatDisplay.classList.add('low-seats');
+            } else {
+                regSeatDisplay.classList.remove('low-seats');
+            }
+
+            if (vipSeats <= 3) {
+                vipSeatDisplay.classList.add('low-seats');
+            } else {
+                vipSeatDisplay.classList.remove('low-seats');
+            }
+
+            // Disable button based on dropdown selection if sold out
+            const currentSelection = ticketType.value;
+            if ((currentSelection === 'regular' && regularSeats === 0) ||
+                (currentSelection === 'vip' && vipSeats === 0)) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sold Out';
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register Now';
+            }
+        }
+
+        // Check availability when user changes ticket type dropdown
+        ticketType.addEventListener('change', checkAvailability);
+    </script>
+</body>
+
+</html>

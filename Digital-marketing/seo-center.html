@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Optimization Center | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/seo-center.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <!-- Core -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+        <!-- Content -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+        <!-- Data -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item active"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <!-- System -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search keywords...">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">SEO Optimization Center</h1>
+            <p class="page-subtitle">Monitor rankings, track backlinks, and audit site health.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary"><i data-lucide="refresh-cw"></i> Run Audit</button>
+            <button class="btn btn-primary"><i data-lucide="plus"></i> Add Keywords</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+          
+          <!-- SEO Health Score -->
+          <div class="card flex flex-col items-center justify-center p-6 bg-gradient-primary border-0 text-white shadow-primary">
+            <h3 class="text-md font-semibold mb-4 opacity-90">Site Health Score</h3>
+            <div class="seo-score-gauge relative w-32 h-32 flex items-center justify-center mb-2">
+              <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3"></path>
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="88, 100" class="score-path transition-all duration-1000"></path>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-3xl font-bold">88</span>
+                <span class="text-[10px] uppercase tracking-wider opacity-80">Good</span>
+              </div>
+            </div>
+            <p class="text-xs text-center opacity-80 mt-2">Analyzed 142 pages today</p>
+          </div>
+
+          <!-- SEO Metrics -->
+          <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div>
+                  <div class="stat-card-label">Organic Traffic</div>
+                  <div class="stat-card-value">45,210</div>
+                </div>
+                <div class="stat-card-icon success"><i data-lucide="mouse-pointer-click"></i></div>
+              </div>
+              <div class="stat-card-trend up"><i data-lucide="trending-up"></i> +12.4%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div>
+                  <div class="stat-card-label">Ranking Keywords</div>
+                  <div class="stat-card-value">1,482</div>
+                </div>
+                <div class="stat-card-icon primary"><i data-lucide="key"></i></div>
+              </div>
+              <div class="stat-card-trend up"><i data-lucide="trending-up"></i> +45 New</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div>
+                  <div class="stat-card-label">Domain Authority</div>
+                  <div class="stat-card-value">54</div>
+                </div>
+                <div class="stat-card-icon accent"><i data-lucide="shield"></i></div>
+              </div>
+              <div class="stat-card-trend up"><i data-lucide="trending-up"></i> +2 Points</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Keyword Rankings -->
+          <div class="card lg:col-span-2">
+            <div class="card-header">
+              <h2 class="card-title">Keyword Rankings</h2>
+              <div class="tabs m-0 border-0">
+                <div class="tab-item active">Top 10</div>
+                <div class="tab-item">Improved</div>
+                <div class="tab-item">Declined</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Keyword</th>
+                    <th>Position</th>
+                    <th>Search Volume</th>
+                    <th>KD %</th>
+                    <th>Traffic %</th>
+                  </tr>
+                </thead>
+                <tbody id="keywordTableBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Site Audit Checklist -->
+          <div class="card flex flex-col">
+            <div class="card-header">
+              <h2 class="card-title">Technical Audit Issues</h2>
+              <span class="badge badge-warning">4 Issues</span>
+            </div>
+            <div class="card-body p-0 flex-1 overflow-y-auto">
+              <div class="audit-list">
+                <div class="audit-item flex gap-3 p-4 border-b border-light hover:bg-secondary transition">
+                  <i data-lucide="alert-circle" class="text-danger shrink-0 mt-1"></i>
+                  <div>
+                    <h4 class="text-sm font-semibold text-primary">Broken Links (404)</h4>
+                    <p class="text-xs text-secondary mt-1">Found 12 broken internal links. This negatively affects crawl budget.</p>
+                    <button class="btn btn-sm btn-ghost p-0 h-auto text-primary mt-2">View Links</button>
+                  </div>
+                </div>
+                <div class="audit-item flex gap-3 p-4 border-b border-light hover:bg-secondary transition">
+                  <i data-lucide="alert-triangle" class="text-warning shrink-0 mt-1"></i>
+                  <div>
+                    <h4 class="text-sm font-semibold text-primary">Missing Meta Descriptions</h4>
+                    <p class="text-xs text-secondary mt-1">45 pages are missing meta descriptions. Use AI to generate them.</p>
+                    <button class="btn btn-sm btn-primary p-1 px-3 mt-2 text-xs">Generate with AI</button>
+                  </div>
+                </div>
+                <div class="audit-item flex gap-3 p-4 border-b border-light hover:bg-secondary transition">
+                  <i data-lucide="alert-triangle" class="text-warning shrink-0 mt-1"></i>
+                  <div>
+                    <h4 class="text-sm font-semibold text-primary">Slow Page Load Time</h4>
+                    <p class="text-xs text-secondary mt-1">3 key landing pages have a LCP greater than 2.5 seconds.</p>
+                  </div>
+                </div>
+                <div class="audit-item flex gap-3 p-4 hover:bg-secondary transition">
+                  <i data-lucide="check-circle-2" class="text-success shrink-0 mt-1"></i>
+                  <div>
+                    <h4 class="text-sm font-semibold text-primary">Mobile Usability</h4>
+                    <p class="text-xs text-secondary mt-1">All pages pass mobile-friendly tests.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/seo-center.js"></script>
+</body>
+</html>

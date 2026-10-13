@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Listings – EstateAI</title>
+<meta name="description" content="Browse thousands of verified properties across India. Filter by location, price, type, and more.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.listings-layout { display: grid; grid-template-columns: 280px 1fr; gap: 28px; padding-top: 100px; min-height: 100vh; align-items: start; }
+
+/* Sidebar Filters */
+.filters-sidebar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: sticky;
+  top: 90px;
+}
+.filters-title { font-size: 1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.filter-group { margin-bottom: 22px; }
+.filter-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-muted); margin-bottom: 10px; display: block; }
+.filter-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: var(--transition);
+}
+.filter-input:focus { border-color: var(--primary); }
+.filter-input::placeholder { color: var(--text-dim); }
+option { background: var(--card); }
+.price-range-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.range-input { width: 100%; accent-color: var(--primary); }
+
+.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.chip:hover, .chip.active { border-color: var(--primary); background: rgba(108,99,255,0.1); color: var(--primary-light); }
+
+/* Main Area */
+.listings-main {}
+.listings-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.listings-count { font-size: 0.9rem; color: var(--text-muted); }
+.listings-count strong { color: var(--text); font-weight: 700; }
+.view-toggle { display: flex; gap: 4px; }
+.view-btn {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+.view-btn.active { border-color: var(--primary); background: rgba(108,99,255,0.1); color: var(--primary-light); }
+.sort-select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Grid / List Views */
+.props-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.props-list { display: flex; flex-direction: column; gap: 16px; }
+.prop-list-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.prop-list-card:hover { transform: translateY(-3px); border-color: var(--border2); box-shadow: var(--glow); }
+.prop-list-img { width: 260px; height: 180px; object-fit: cover; flex-shrink: 0; }
+.prop-list-body { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.prop-list-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.prop-list-price { font-size: 1.4rem; font-weight: 800; color: var(--accent); }
+.prop-list-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.prop-list-stats { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; }
+.prop-list-actions { display: flex; gap: 8px; }
+
+/* Mobile filter toggle */
+.mobile-filter-btn {
+  display: none;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .props-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 900px) {
+  .listings-layout { grid-template-columns: 1fr; padding-top: 90px; }
+  .filters-sidebar { position: relative; top: 0; display: none; }
+  .filters-sidebar.open { display: block; }
+  .mobile-filter-btn { display: flex; }
+  .props-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 600px) {
+  .props-grid { grid-template-columns: 1fr; }
+  .prop-list-card { flex-direction: column; }
+  .prop-list-img { width: 100%; height: 200px; }
+}
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="container">
+  <div class="listings-layout">
+    <!-- Sidebar -->
+    <aside>
+      <button class="mobile-filter-btn" onclick="document.querySelector('.filters-sidebar').classList.toggle('open')">
+        🔧 Filters
+      </button>
+      <div class="filters-sidebar">
+        <div class="filters-title">🔧 Filters <span id="active-filters-count" style="background:var(--primary);color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:100px;font-weight:700"></span></div>
+
+        <div class="filter-group">
+          <label class="filter-label">Search</label>
+          <input type="text" class="filter-input" placeholder="Property name..." id="fSearch">
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Location</label>
+          <select class="filter-input" id="fLocation">
+            <option value="">All Locations</option>
+            <option>Mumbai</option>
+            <option>Bangalore</option>
+            <option>Hyderabad</option>
+            <option>Chennai</option>
+            <option>Puducherry</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Price Range</label>
+          <div class="price-range-row">
+            <input type="number" class="filter-input" placeholder="Min ₹" id="fPriceMin">
+            <input type="number" class="filter-input" placeholder="Max ₹" id="fPriceMax">
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Property Type</label>
+          <div class="filter-chips" id="fType">
+            <div class="chip active" data-val="">All</div>
+            <div class="chip" data-val="Apartment">Apartment</div>
+            <div class="chip" data-val="Villa">Villa</div>
+            <div class="chip" data-val="Studio">Studio</div>
+            <div class="chip" data-val="Penthouse">Penthouse</div>
+            <div class="chip" data-val="Duplex">Duplex</div>
+            <div class="chip" data-val="Cottage">Cottage</div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Bedrooms</label>
+          <div class="filter-chips" id="fBeds">
+            <div class="chip active" data-val="0">Any</div>
+            <div class="chip" data-val="1">1+</div>
+            <div class="chip" data-val="2">2+</div>
+            <div class="chip" data-val="3">3+</div>
+            <div class="chip" data-val="4">4+</div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Bathrooms</label>
+          <div class="filter-chips" id="fBaths">
+            <div class="chip active" data-val="0">Any</div>
+            <div class="chip" data-val="1">1+</div>
+            <div class="chip" data-val="2">2+</div>
+            <div class="chip" data-val="3">3+</div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Status</label>
+          <select class="filter-input" id="fStatus">
+            <option value="">Any Status</option>
+            <option>For Sale</option>
+            <option>For Rent</option>
+          </select>
+        </div>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="resetFilters()">↩ Reset Filters</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="listings-main">
+      <div class="listings-topbar">
+        <div class="listings-count">Showing <strong id="prop-count">0</strong> properties</div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <select class="sort-select" id="sortBy" onchange="renderProps()">
+            <option value="default">Sort: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="area-desc">Area: Largest First</option>
+            <option value="score-desc">AI Score: Best Match</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Grid View">⊞</button>
+            <button class="view-btn" id="listBtn" onclick="setView('list')" title="List View">☰</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="props-container"></div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('listings.html');
+document.getElementById('footer-root').innerHTML = buildFooter();
+
+let currentView = 'grid';
+let currentPage = 1;
+const PER_PAGE = 6;
+let filtered = [...PROPERTIES];
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('gridBtn').classList.toggle('active', v === 'grid');
+  document.getElementById('listBtn').classList.toggle('active', v === 'list');
+  renderProps();
+}
+
+function getFilters() {
+  return {
+    search: document.getElementById('fSearch').value.toLowerCase(),
+    location: document.getElementById('fLocation').value,
+    priceMin: parseFloat(document.getElementById('fPriceMin').value) || 0,
+    priceMax: parseFloat(document.getElementById('fPriceMax').value) || Infinity,
+    type: document.querySelector('#fType .chip.active')?.dataset.val || '',
+    beds: parseInt(document.querySelector('#fBeds .chip.active')?.dataset.val) || 0,
+    baths: parseInt(document.querySelector('#fBaths .chip.active')?.dataset.val) || 0,
+    status: document.getElementById('fStatus').value,
+  };
+}
+
+function applyFilters() {
+  const f = getFilters();
+  const sort = document.getElementById('sortBy').value;
+  filtered = PROPERTIES.filter(p => {
+    if (f.search && !p.title.toLowerCase().includes(f.search) && !p.location.toLowerCase().includes(f.search)) return false;
+    if (f.location && !p.location.includes(f.location)) return false;
+    if (p.priceNum < f.priceMin || p.priceNum > f.priceMax) return false;
+    if (f.type && p.type !== f.type) return false;
+    if (f.beds && p.beds < f.beds) return false;
+    if (f.baths && p.baths < f.baths) return false;
+    if (f.status && p.status !== f.status) return false;
+    return true;
+  });
+  if (sort === 'price-asc') filtered.sort((a,b) => a.priceNum - b.priceNum);
+  if (sort === 'price-desc') filtered.sort((a,b) => b.priceNum - a.priceNum);
+  if (sort === 'area-desc') filtered.sort((a,b) => b.area - a.area);
+  if (sort === 'score-desc') filtered.sort((a,b) => b.score - a.score);
+  currentPage = 1;
+  renderProps();
+}
+
+function renderProps() {
+  applyFilters();
+  const start = (currentPage-1)*PER_PAGE;
+  const page = filtered.slice(start, start+PER_PAGE);
+  document.getElementById('prop-count').textContent = filtered.length;
+  const container = document.getElementById('props-container');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:80px 20px;color:var(--text-muted)">
+      <div style="font-size:3rem;margin-bottom:16px">🔍</div>
+      <h3 style="margin-bottom:8px">No Properties Found</h3>
+      <p>Try adjusting your filters to see more results.</p>
+    </div>`;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  if (currentView === 'grid') {
+    container.className = 'props-grid';
+    container.innerHTML = page.map(p => buildPropCard(p, savedIds.includes(p.id))).join('');
+  } else {
+    container.className = 'props-list';
+    container.innerHTML = page.map(p => `
+      <div class="prop-list-card" onclick="window.location='property-details.html'">
+        <img class="prop-list-img" src="${p.img}" alt="${p.title}" loading="lazy">
+        <div class="prop-list-body">
+          <div class="prop-list-top">
+            <div>
+              <div class="prop-list-price">${p.price}</div>
+              <div class="prop-list-title">${p.title}</div>
+              <div class="prop-card-loc">📍 ${p.location}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+              <span class="badge ${p.status==='For Sale'?'badge-accent':'badge-warning'}">${p.status}</span>
+              <span class="badge badge-primary">AI ${p.score}%</span>
+            </div>
+          </div>
+          <div class="prop-list-stats">
+            <div class="prop-stat">🛏 ${p.beds} Beds</div>
+            <div class="prop-stat">🚿 ${p.baths} Baths</div>
+            <div class="prop-stat">📐 ${p.area} sqft</div>
+            <div class="prop-stat">🏠 ${p.type}</div>
+          </div>
+          <div class="prop-list-actions">
+            <a href="property-details.html" class="btn btn-primary btn-sm" onclick="event.stopPropagation()">View Details</a>
+            <a href="comparison.html" class="btn btn-ghost btn-sm" onclick="event.stopPropagation()">Compare</a>
+            <button class="btn btn-ghost btn-sm prop-fav-btn ${savedIds.includes(p.id)?'active':''}" onclick="toggleFav(event,${p.id})" id="fav-${p.id}">♥ Save</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  renderPagination();
+}
+
+function renderPagination() {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  const pEl = document.getElementById('pagination');
+  if (total <= 1) { pEl.innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled style="opacity:0.4"':''}>‹</button>`;
+  for (let i=1;i<=total;i++) {
+    if (i===1||i===total||Math.abs(i-currentPage)<=1) html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if (Math.abs(i-currentPage)===2) html+=`<span style="color:var(--text-dim);padding:0 4px">…</span>`;
+  }
+  html+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled style="opacity:0.4"':''}>›</button>`;
+  pEl.innerHTML = html;
+}
+
+function goPage(p) {
+  const total = Math.ceil(filtered.length/PER_PAGE);
+  if (p<1||p>total) return;
+  currentPage = p;
+  const container = document.getElementById('props-container');
+  const start = (currentPage-1)*PER_PAGE;
+  const page = filtered.slice(start, start+PER_PAGE);
+  if (currentView==='grid') {
+    container.innerHTML = page.map(p=>buildPropCard(p,savedIds.includes(p.id))).join('');
+  } else {
+    // re-render list
+    renderProps();
+    return;
+  }
+  renderPagination();
+  window.scrollTo({top:80,behavior:'smooth'});
+}
+
+function resetFilters() {
+  document.getElementById('fSearch').value='';
+  document.getElementById('fLocation').value='';
+  document.getElementById('fPriceMin').value='';
+  document.getElementById('fPriceMax').value='';
+  document.getElementById('fStatus').value='';
+  document.querySelectorAll('#fType .chip').forEach((c,i)=>c.classList.toggle('active',i===0));
+  document.querySelectorAll('#fBeds .chip').forEach((c,i)=>c.classList.toggle('active',i===0));
+  document.querySelectorAll('#fBaths .chip').forEach((c,i)=>c.classList.toggle('active',i===0));
+  applyFilters();
+}
+
+// Chip toggle logic
+document.querySelectorAll('.filter-chips').forEach(group => {
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      applyFilters();
+    });
+  });
+});
+
+// Input listeners
+['fSearch','fLocation','fStatus'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyFilters);
+  document.getElementById(id).addEventListener('change', applyFilters);
+});
+['fPriceMin','fPriceMax'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyFilters);
+});
+
+// Initial render
+applyFilters();
+</script>
+</body>
+</html>

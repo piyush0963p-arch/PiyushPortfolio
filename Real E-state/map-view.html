@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map View – EstateAI</title>
+<meta name="description" content="Explore properties on an interactive map. Find homes near schools, hospitals, and shopping centers.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.map-page { display: flex; height: 100vh; padding-top: 70px; overflow: hidden; }
+
+/* Left panel */
+.map-list-panel {
+  width: 400px;
+  min-width: 360px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.map-panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.map-search { display: flex; gap: 8px; margin-bottom: 12px; }
+.map-search input {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+}
+.map-search input:focus { border-color: var(--primary); }
+.map-filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.map-chip {
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-muted);
+  font-size: 0.75rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+  white-space: nowrap;
+}
+.map-chip.active, .map-chip:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(108,99,255,0.1); }
+
+.map-prop-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.map-prop-list::-webkit-scrollbar { width: 4px; }
+.map-prop-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.map-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.map-card:hover, .map-card.active { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.map-card-img { width: 110px; height: 90px; object-fit: cover; flex-shrink: 0; }
+.map-card-body { padding: 10px 12px; flex: 1; }
+.map-card-price { font-size: 0.95rem; font-weight: 800; color: var(--accent); }
+.map-card-title { font-size: 0.8rem; font-weight: 600; margin: 2px 0; }
+.map-card-loc { font-size: 0.72rem; color: var(--text-muted); }
+.map-card-stats { display: flex; gap: 8px; margin-top: 4px; }
+.map-card-stat { font-size: 0.7rem; color: var(--text-dim); }
+
+/* Right Map */
+.map-canvas {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #EBF2F7;
+}
+.map-bg {
+  width: 100%; height: 100%;
+  background:
+    linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px),
+    #EBF2F7;
+  background-size: 60px 60px;
+}
+.map-roads {
+  position: absolute; inset: 0; pointer-events: none;
+}
+/* SVG map decorations */
+.map-overlay-controls {
+  position: absolute;
+  right: 16px; top: 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  z-index: 10;
+}
+.map-ctrl-btn {
+  width: 36px; height: 36px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-muted);
+  box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+}
+.map-ctrl-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+.map-poi-toggle {
+  position: absolute;
+  bottom: 16px; left: 16px;
+  display: flex; gap: 8px;
+  z-index: 10; flex-wrap: wrap;
+}
+.poi-chip {
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem; font-weight: 600;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.92);
+  color: var(--text);
+  cursor: pointer; transition: var(--transition);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(15,23,42,0.08);
+}
+.poi-chip.active { color: var(--text); }
+.poi-chip.school.active { border-color: #16A34A; color: #16A34A; background: #DCFCE7; }
+.poi-chip.hospital.active { border-color: #DC2626; color: #DC2626; background: #FEE2E2; }
+.poi-chip.mall.active { border-color: #D97706; color: #D97706; background: #FEF3C7; }
+
+/* Markers */
+.map-marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+  z-index: 5;
+  transition: var(--transition);
+}
+.marker-bubble {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 4px 12px rgba(108,99,255,0.5);
+  transition: var(--transition);
+}
+.map-marker:hover .marker-bubble, .map-marker.active .marker-bubble {
+  background: var(--accent);
+  transform: scale(1.1);
+}
+.marker-pin {
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--primary);
+  margin: 0 auto;
+}
+.map-marker:hover .marker-pin, .map-marker.active .marker-pin { border-top-color: var(--accent); }
+
+/* Cluster */
+.cluster-marker {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  z-index: 4;
+}
+.cluster-bubble {
+  width: 44px; height: 44px;
+  background: rgba(108,99,255,0.8);
+  border: 3px solid rgba(108,99,255,0.4);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.85rem; color: #fff;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 20px rgba(108,99,255,0.5);
+  transition: var(--transition);
+}
+.cluster-marker:hover .cluster-bubble { background: rgba(108,99,255,1); transform: scale(1.15); }
+
+/* POI markers */
+.poi-marker {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+.poi-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  transition: var(--transition);
+}
+.poi-dot.school { background: #2e7d32; }
+.poi-dot.hospital { background: #c62828; }
+.poi-dot.mall { background: #e65100; }
+
+/* Popup */
+.map-popup {
+  position: absolute;
+  z-index: 20;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 16px;
+  width: 240px;
+  box-shadow: var(--shadow);
+  display: none;
+  animation: scaleIn 0.2s ease;
+}
+.map-popup.visible { display: block; }
+.popup-img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
+.popup-price { font-size: 1rem; font-weight: 800; color: var(--accent); }
+.popup-title { font-size: 0.85rem; font-weight: 600; margin: 2px 0; }
+.popup-loc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
+.popup-close { position: absolute; top: 8px; right: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; }
+
+/* Map style selector */
+.map-style-panel {
+  position: absolute;
+  top: 16px; left: 16px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(15,23,42,0.08);
+}
+.map-style-panel strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+@media (max-width: 768px) {
+  .map-page { flex-direction: column; height: auto; }
+  .map-list-panel { width: 100%; min-width: unset; max-height: 50vh; }
+  .map-canvas { height: 50vh; }
+}
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="map-page">
+  <!-- Left: Property List -->
+  <div class="map-list-panel">
+    <div class="map-panel-header">
+      <div class="map-search">
+        <input type="text" placeholder="🔍 Search location or property..." id="mapSearch" oninput="filterMapList()">
+        <button class="btn btn-primary btn-sm">Search</button>
+      </div>
+      <div class="map-filter-chips">
+        <div class="map-chip active" onclick="filterByType(this,'')">All</div>
+        <div class="map-chip" onclick="filterByType(this,'Apartment')">Apartment</div>
+        <div class="map-chip" onclick="filterByType(this,'Villa')">Villa</div>
+        <div class="map-chip" onclick="filterByType(this,'For Sale')">For Sale</div>
+        <div class="map-chip" onclick="filterByType(this,'For Rent')">For Rent</div>
+      </div>
+    </div>
+    <div class="map-prop-list" id="mapPropList"></div>
+  </div>
+
+  <!-- Right: Map -->
+  <div class="map-canvas" id="mapCanvas">
+    <div class="map-bg"></div>
+
+    <!-- Roads SVG Overlay -->
+    <svg class="map-roads" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.7">
+      <line x1="0" y1="30%" x2="100%" y2="35%" stroke="#FFFFFF" stroke-width="10"/>
+      <line x1="0" y1="30%" x2="100%" y2="35%" stroke="#CBD5E1" stroke-width="2"/>
+      <line x1="0" y1="60%" x2="100%" y2="55%" stroke="#FFFFFF" stroke-width="8"/>
+      <line x1="0" y1="60%" x2="100%" y2="55%" stroke="#CBD5E1" stroke-width="2"/>
+      <line x1="25%" y1="0" x2="20%" y2="100%" stroke="#FFFFFF" stroke-width="10"/>
+      <line x1="25%" y1="0" x2="20%" y2="100%" stroke="#CBD5E1" stroke-width="2"/>
+      <line x1="65%" y1="0" x2="70%" y2="100%" stroke="#FFFFFF" stroke-width="8"/>
+      <line x1="65%" y1="0" x2="70%" y2="100%" stroke="#CBD5E1" stroke-width="2"/>
+      <line x1="0" y1="80%" x2="100%" y2="75%" stroke="#FFFFFF" stroke-width="6"/>
+      <line x1="45%" y1="0" x2="48%" y2="100%" stroke="#FFFFFF" stroke-width="6"/>
+      <circle cx="25%" cy="33%" r="12" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2"/>
+      <circle cx="65%" cy="55%" r="10" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2"/>
+    </svg>
+
+    <!-- Style Info -->
+    <div class="map-style-panel">
+      <strong>🗺️ EstateAI Map</strong>
+      Interactive Property Map
+    </div>
+
+    <!-- Controls -->
+    <div class="map-overlay-controls">
+      <button class="map-ctrl-btn" title="Zoom In" onclick="alert('Zoom In')">+</button>
+      <button class="map-ctrl-btn" title="Zoom Out" onclick="alert('Zoom Out')">−</button>
+      <button class="map-ctrl-btn" title="My Location">📍</button>
+      <button class="map-ctrl-btn" title="Satellite View">🛰️</button>
+      <button class="map-ctrl-btn" title="Fullscreen">⛶</button>
+    </div>
+
+    <!-- Property Markers (rendered by JS) -->
+    <div id="markersContainer"></div>
+
+    <!-- POI Markers -->
+    <div id="poiContainer"></div>
+
+    <!-- Popup -->
+    <div class="map-popup" id="mapPopup">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <img class="popup-img" id="popupImg" src="" alt="">
+      <div class="popup-price" id="popupPrice"></div>
+      <div class="popup-title" id="popupTitle"></div>
+      <div class="popup-loc" id="popupLoc"></div>
+      <a href="property-details.html" class="btn btn-primary btn-sm" style="width:100%;justify-content:center">View Details →</a>
+    </div>
+
+    <!-- POI Toggle -->
+    <div class="map-poi-toggle">
+      <div class="poi-chip school active" onclick="togglePOI(this,'school')">🏫 Schools</div>
+      <div class="poi-chip hospital active" onclick="togglePOI(this,'hospital')">🏥 Hospitals</div>
+      <div class="poi-chip mall" onclick="togglePOI(this,'mall')">🛍️ Malls</div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('map-view.html');
+
+// Property positions on the fake map (percentages)
+const markerPositions = [
+  { id:1, x:22, y:28 },
+  { id:2, x:38, y:62 },
+  { id:3, x:55, y:40 },
+  { id:4, x:72, y:25 },
+  { id:5, x:48, y:72 },
+  { id:6, x:63, y:58 },
+  { id:7, x:30, y:48 },
+  { id:8, x:80, y:65 },
+];
+
+const poiData = [
+  { type:'school', x:18, y:42, name:'Delhi Public School' },
+  { type:'school', x:42, y:20, name:'Oakridge International' },
+  { type:'school', x:75, y:48, name:'Kendriya Vidyalaya' },
+  { type:'hospital', x:35, y:75, name:'Apollo Hospital' },
+  { type:'hospital', x:60, y:30, name:'Fortis Healthcare' },
+  { type:'mall', x:55, y:80, name:'Phoenix Mall' },
+];
+
+let activePropId = null;
+let hiddenPOI = [];
+
+function renderMarkers(data) {
+  const mc = document.getElementById('markersContainer');
+  mc.innerHTML = '';
+
+  // Cluster at 50% 50% area if many props
+  const clusterDiv = document.createElement('div');
+  clusterDiv.className = 'cluster-marker';
+  clusterDiv.style.cssText = `left:50%;top:50%;`;
+  clusterDiv.innerHTML = `<div class="cluster-bubble">+${Math.max(0,data.length-6)}</div>`;
+  if (data.length > 6) mc.appendChild(clusterDiv);
+
+  data.forEach((p, i) => {
+    const pos = markerPositions.find(m=>m.id===p.id) || { x:20+i*10, y:30+i*8 };
+    const div = document.createElement('div');
+    div.className = `map-marker ${activePropId===p.id?'active':''}`;
+    div.id = `marker-${p.id}`;
+    div.style.cssText = `left:${pos.x}%;top:${pos.y}%;`;
+    div.innerHTML = `<div class="marker-bubble">${p.price}</div><div class="marker-pin"></div>`;
+    div.onclick = () => showPopup(p, div);
+    mc.appendChild(div);
+  });
+}
+
+function renderPOI() {
+  const pc = document.getElementById('poiContainer');
+  pc.innerHTML = '';
+  poiData.forEach(poi => {
+    if (hiddenPOI.includes(poi.type)) return;
+    const div = document.createElement('div');
+    div.className = 'poi-marker';
+    div.style.cssText = `left:${poi.x}%;top:${poi.y}%;`;
+    const icon = poi.type==='school'?'🏫':poi.type==='hospital'?'🏥':'🛍️';
+    div.innerHTML = `<div class="poi-dot ${poi.type}" title="${poi.name}">${icon}</div>`;
+    pc.appendChild(div);
+  });
+}
+
+function showPopup(p, markerEl) {
+  activePropId = p.id;
+  document.querySelectorAll('.map-marker').forEach(m=>m.classList.remove('active'));
+  markerEl.classList.add('active');
+  document.querySelectorAll('.map-card').forEach(c=>c.classList.remove('active'));
+  const card = document.getElementById('mapcard-'+p.id);
+  if (card) { card.classList.add('active'); card.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  const popup = document.getElementById('mapPopup');
+  document.getElementById('popupImg').src = p.img;
+  document.getElementById('popupPrice').textContent = p.price;
+  document.getElementById('popupTitle').textContent = p.title;
+  document.getElementById('popupLoc').textContent = '📍 ' + p.location;
+  // Position popup near marker
+  const canvas = document.getElementById('mapCanvas');
+  const cRect = canvas.getBoundingClientRect();
+  const pos = markerPositions.find(m=>m.id===p.id)||{x:50,y:40};
+  let px = (pos.x/100)*cRect.width;
+  let py = (pos.y/100)*cRect.height - 80;
+  if (px > cRect.width - 260) px = px - 240;
+  if (py < 20) py = py + 140;
+  popup.style.left = px + 'px';
+  popup.style.top = py + 'px';
+  popup.classList.add('visible');
+}
+
+function closePopup() {
+  document.getElementById('mapPopup').classList.remove('visible');
+  document.querySelectorAll('.map-marker').forEach(m=>m.classList.remove('active'));
+  document.querySelectorAll('.map-card').forEach(c=>c.classList.remove('active'));
+  activePropId = null;
+}
+
+function togglePOI(chip, type) {
+  chip.classList.toggle('active');
+  if (hiddenPOI.includes(type)) hiddenPOI = hiddenPOI.filter(t=>t!==type);
+  else hiddenPOI.push(type);
+  renderPOI();
+}
+
+let currentMapData = [...PROPERTIES];
+function filterMapList() {
+  const q = document.getElementById('mapSearch').value.toLowerCase();
+  currentMapData = PROPERTIES.filter(p =>
+    p.title.toLowerCase().includes(q) || p.location.toLowerCase().includes(q)
+  );
+  renderMapCards(currentMapData);
+  renderMarkers(currentMapData);
+}
+function filterByType(chip, type) {
+  document.querySelectorAll('.map-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  if (!type) currentMapData = [...PROPERTIES];
+  else currentMapData = PROPERTIES.filter(p => p.type===type || p.status===type);
+  renderMapCards(currentMapData);
+  renderMarkers(currentMapData);
+}
+
+function renderMapCards(data) {
+  const listEl = document.getElementById('mapPropList');
+  if (data.length === 0) {
+    listEl.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-muted)"><div style="font-size:2rem;margin-bottom:8px">🔍</div><p>No properties found</p></div>`;
+    return;
+  }
+  listEl.innerHTML = data.map(p => `
+    <div class="map-card ${activePropId===p.id?'active':''}" id="mapcard-${p.id}" onclick="selectMapCard(${p.id})">
+      <img class="map-card-img" src="${p.img}" alt="${p.title}" loading="lazy">
+      <div class="map-card-body">
+        <div class="map-card-price">${p.price}</div>
+        <div class="map-card-title">${p.title}</div>
+        <div class="map-card-loc">📍 ${p.location}</div>
+        <div class="map-card-stats">
+          <span class="map-card-stat">🛏${p.beds}</span>
+          <span class="map-card-stat">🚿${p.baths}</span>
+          <span class="map-card-stat">📐${p.area}sqft</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function selectMapCard(id) {
+  const p = PROPERTIES.find(x=>x.id===id);
+  if (!p) return;
+  const markerEl = document.getElementById('marker-'+id);
+  if (markerEl) showPopup(p, markerEl);
+}
+
+// Init
+renderMapCards(PROPERTIES);
+renderMarkers(PROPERTIES);
+renderPOI();
+</script>
+</body>
+</html>

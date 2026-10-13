@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Telemedicine — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<style>
+body { background:#060e1f; }
+[data-theme="light"] body { background:#0a0e1a; }
+.tele-page { height:calc(100vh - var(--nav-h)); padding:20px; display:flex; flex-direction:column; gap:16px; }
+.video-layout { display:grid; grid-template-columns:1fr 340px; gap:16px; flex:1; min-height:0; }
+.video-main { position:relative; border-radius:20px; overflow:hidden; background:#0d1929; border:1px solid rgba(37,99,235,0.2); }
+.video-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; }
+.video-doc-avatar { font-size:100px; margin-bottom:16px; }
+.video-doc-name { font-size:24px; font-weight:700; color:#f1f5f9; }
+.video-doc-spec { color:#94a3b8; margin-top:4px; }
+.video-pip { position:absolute; bottom:24px; right:24px; width:150px; height:110px; border-radius:14px; overflow:hidden; border:2px solid rgba(255,255,255,0.2); background:#1a2744; display:flex; align-items:center; justify-content:center; font-size:44px; cursor:pointer; }
+.video-controls { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); display:flex; gap:12px; padding:12px 24px; border-radius:99px; background:rgba(0,0,0,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1); }
+.ctrl-btn { width:52px; height:52px; border-radius:50%; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px; background:rgba(255,255,255,0.12); color:#fff; transition:var(--transition); }
+.ctrl-btn:hover { background:rgba(255,255,255,0.22); transform:scale(1.05); }
+.ctrl-btn.active { background:var(--primary); }
+.ctrl-btn.muted { background:rgba(244,63,94,0.6); }
+.ctrl-btn.end { background:var(--rose); width:60px; height:60px; font-size:22px; }
+.video-timer { position:absolute; top:20px; left:20px; background:rgba(0,0,0,0.6); border-radius:8px; padding:6px 12px; color:#fff; font-size:14px; font-weight:600; font-family:'Plus Jakarta Sans',sans-serif; }
+.video-quality { position:absolute; top:20px; right:20px; display:flex; align-items:center; gap:6px; background:rgba(0,0,0,0.6); border-radius:8px; padding:6px 12px; }
+.quality-dot { width:8px; height:8px; border-radius:50%; background:var(--emerald); animation:pulse 2s infinite; }
+.video-sidebar { display:flex; flex-direction:column; gap:12px; overflow:hidden; }
+.v-card { background:rgba(13,25,41,0.9); border:1px solid rgba(37,99,235,0.2); border-radius:16px; padding:16px; }
+.v-card h4 { color:#f1f5f9; font-size:14px; margin-bottom:12px; }
+.v-chat-msg { padding:8px 12px; border-radius:12px; font-size:13px; margin-bottom:8px; }
+.v-chat-msg.dr { background:rgba(37,99,235,0.2); color:#bfdbfe; border-bottom-left-radius:4px; }
+.v-chat-msg.pt { background:rgba(16,185,129,0.2); color:#a7f3d0; border-bottom-right-radius:4px; text-align:right; }
+.v-input { display:flex; gap:8px; margin-top:8px; }
+.v-input input { flex:1; padding:8px 12px; border-radius:10px; border:1px solid rgba(37,99,235,0.3); background:rgba(37,99,235,0.1); color:#f1f5f9; font-size:13px; outline:none; }
+.v-input button { padding:8px 14px; border-radius:10px; border:none; background:var(--primary); color:#fff; cursor:pointer; font-size:13px; }
+.notes-area { width:100%; padding:10px; border-radius:10px; border:1px solid rgba(37,99,235,0.3); background:rgba(37,99,235,0.08); color:#f1f5f9; font-size:13px; resize:none; outline:none; font-family:inherit; }
+.notes-area::placeholder { color:#475569; }
+@media(max-width:900px){ .video-layout{grid-template-columns:1fr} .video-sidebar{display:none} }
+</style>
+</head>
+<body>
+<nav class="navbar" style="background:rgba(6,14,31,0.9);border-bottom-color:rgba(37,99,235,0.2)">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text" style="color:#f1f5f9">Medi<span>Care</span></span></a>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="theme-toggle" style="border-color:rgba(255,255,255,0.15);color:#94a3b8">🌙</button>
+    <span class="badge badge-emerald"><span class="ping-dot"></span> Live Consultation</span>
+    <div class="nav-avatar">JD</div>
+  </div>
+</nav>
+
+<div style="padding-top:var(--nav-h)">
+<div class="tele-page">
+  <!-- TOP INFO BAR -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:40px;height:40px;border-radius:12px;background:var(--primary-glow);display:flex;align-items:center;justify-content:center;font-size:20px">👨‍⚕️</div>
+      <div><div style="color:#f1f5f9;font-weight:700">Dr. James Wilson — Cardiology</div><div style="color:#94a3b8;font-size:13px">City Medical Center • Online Consultation</div></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <span style="background:rgba(244,63,94,0.15);border:1px solid rgba(244,63,94,0.3);color:#fca5a5;padding:6px 14px;border-radius:8px;font-size:13px">🔴 Recording</span>
+      <button class="btn btn-outline btn-sm" style="border-color:rgba(255,255,255,0.2);color:#94a3b8" onclick="showToast('Session report saved!','success')">📋 Save Notes</button>
+      <a href="patient-dashboard.html" class="btn btn-sm" style="background:var(--rose);color:#fff" onclick="return confirm('End this consultation?')">📵 End Call</a>
+    </div>
+  </div>
+
+  <div class="video-layout">
+    <!-- MAIN VIDEO -->
+    <div class="video-main">
+      <div class="video-placeholder">
+        <div class="video-doc-avatar">👨‍⚕️</div>
+        <div class="video-doc-name">Dr. James Wilson</div>
+        <div class="video-doc-spec">Cardiologist · MBBS, MD</div>
+        <div style="margin-top:16px;color:#64748b;font-size:14px">Camera is off — Audio only mode</div>
+      </div>
+
+      <div class="video-pip" onclick="showToast('PIP view expanded!','info')">😊</div>
+
+      <div class="video-timer" id="callTimer">00:14:32</div>
+      <div class="video-quality"><div class="quality-dot"></div><span style="color:#f1f5f9;font-size:12px;font-weight:600">HD · Excellent</span></div>
+
+      <div class="video-controls">
+        <button class="ctrl-btn muted" id="muteBtn" onclick="toggleCtrl(this,'muteBtn','🎤','🔇')" title="Mute">🔇</button>
+        <button class="ctrl-btn" id="camBtn" onclick="toggleCtrl(this,'camBtn','📷','📵')" title="Camera">📵</button>
+        <button class="ctrl-btn active" onclick="showToast('Screen sharing started!','success')" title="Screen Share">🖥️</button>
+        <button class="ctrl-btn" onclick="showToast('Chat opened!','info')" title="Chat">💬</button>
+        <button class="ctrl-btn end" onclick="if(confirm('End consultation?'))window.location.href='patient-dashboard.html'" title="End Call">📵</button>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="video-sidebar">
+      <!-- DOCTOR INFO -->
+      <div class="v-card">
+        <h4>👨‍⚕️ Doctor Info</h4>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--primary-glow);display:flex;align-items:center;justify-content:center;font-size:26px">👨‍⚕️</div>
+          <div><div style="color:#f1f5f9;font-weight:700">Dr. James Wilson</div><div style="color:#94a3b8;font-size:12px">Cardiologist · 12 yrs exp</div><div style="color:var(--emerald);font-size:12px;margin-top:2px">⭐ 4.9 Rating</div></div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:rgba(37,99,235,0.1);border-radius:10px;font-size:12px;color:#94a3b8">
+          📋 Reason: Routine cardiac checkup & BP review
+        </div>
+      </div>
+
+      <!-- CHAT PANEL -->
+      <div class="v-card" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+        <h4>💬 Chat</h4>
+        <div style="flex:1;overflow-y:auto;min-height:0" id="videoChat">
+          <div class="v-chat-msg dr">Hello John! How are you feeling today?</div>
+          <div class="v-chat-msg pt">Good morning Dr. Wilson! Feeling better, but still some chest discomfort.</div>
+          <div class="v-chat-msg dr">I see. Can you describe the discomfort — is it sharp or dull?</div>
+          <div class="v-chat-msg pt">More of a dull pressure, especially when I climb stairs.</div>
+          <div class="v-chat-msg dr">Understood. Let me review your latest ECG. One moment...</div>
+        </div>
+        <div class="v-input">
+          <input type="text" placeholder="Type message..." id="vcInput" onkeydown="if(event.key==='Enter')sendVChat()"/>
+          <button onclick="sendVChat()">Send</button>
+        </div>
+      </div>
+
+      <!-- NOTES PANEL -->
+      <div class="v-card">
+        <h4>📝 Session Notes</h4>
+        <textarea class="notes-area" rows="5" placeholder="Add consultation notes here...">Patient reports dull chest pressure on exertion. BP reading: 128/84. ECG reviewed — normal sinus rhythm. Adjust Amlodipine dosage to 10mg.</textarea>
+        <button class="btn btn-primary w-full" style="margin-top:10px;font-size:13px" onclick="showToast('Notes saved!','success')">Save Notes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="main.js"></script>
+<script>
+// Timer
+let secs = 872;
+setInterval(() => {
+  secs++;
+  const h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60), s = secs%60;
+  document.getElementById('callTimer').textContent = [h>0?String(h).padStart(2,'0'):null,String(m).padStart(2,'0'),String(s).padStart(2,'0')].filter(Boolean).join(':');
+}, 1000);
+
+function toggleCtrl(btn, id, onEmoji, offEmoji) {
+  btn.classList.toggle('muted');
+  btn.textContent = btn.classList.contains('muted') ? offEmoji : onEmoji;
+}
+
+function sendVChat() {
+  const input = document.getElementById('vcInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const chat = document.getElementById('videoChat');
+  const div = document.createElement('div');
+  div.className = 'v-chat-msg pt';
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  input.value = '';
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'v-chat-msg dr';
+    reply.textContent = 'I understand. Let me note that down.';
+    chat.appendChild(reply);
+    chat.scrollTop = chat.scrollHeight;
+  }, 1500);
+}
+</script>
+</body>
+</html>
+

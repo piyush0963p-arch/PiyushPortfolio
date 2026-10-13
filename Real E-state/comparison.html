@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Properties – EstateAI</title>
+<meta name="description" content="Compare up to 4 properties side by side with AI-powered scoring and detailed feature analysis.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.compare-page { padding-top: 70px; min-height: 100vh; }
+.compare-hero { padding: 40px 0 28px; background: radial-gradient(ellipse at 50% 0%, rgba(108,99,255,0.1) 0%, transparent 70%); border-bottom: 1px solid var(--border); }
+.compare-hero h1 { font-size: 2rem; margin-bottom: 6px; }
+
+/* Slot selector */
+.slots-bar { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+.prop-slot {
+  flex: 1; min-width: 180px;
+  background: var(--card);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: var(--transition);
+  position: relative;
+}
+.prop-slot:hover { border-color: var(--primary); }
+.prop-slot.filled { border-style: solid; border-color: var(--border2); cursor: default; }
+.slot-img { width: 60px; height: 50px; border-radius: 8px; object-fit: cover; }
+.slot-placeholder { width: 60px; height: 50px; border-radius: 8px; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--text-dim); }
+.slot-text h4 { font-size: 0.82rem; font-weight: 700; }
+.slot-text p { font-size: 0.72rem; color: var(--text-muted); }
+.slot-remove {
+  position: absolute; top: -8px; right: -8px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--danger); color: #fff; border: none;
+  font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.add-slot-hint { font-size: 0.78rem; color: var(--text-dim); text-align: center; width: 100%; margin-top: 4px; }
+
+/* Property Picker Modal */
+.picker-modal {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(15,23,42,0.5); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+}
+.picker-modal.open { display: flex; }
+.picker-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px; max-width: 640px; width: 92%;
+  max-height: 80vh; overflow-y: auto;
+}
+.picker-box h3 { margin-bottom: 16px; }
+.picker-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+.picker-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px;
+  cursor: pointer; transition: var(--transition);
+  display: flex; gap: 10px; align-items: center;
+}
+.picker-card:hover { border-color: var(--primary); }
+.picker-card img { width: 60px; height: 50px; border-radius: 6px; object-fit: cover; }
+.picker-card-info h5 { font-size: 0.82rem; font-weight: 700; }
+.picker-card-info p { font-size: 0.72rem; color: var(--text-muted); }
+
+/* Comparison Table */
+.compare-table-wrap { overflow-x: auto; margin-top: 32px; }
+.compare-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+
+/* Sticky header row */
+.compare-table .header-row { position: sticky; top: 70px; z-index: 10; }
+.compare-table .header-row td {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border2);
+  padding: 0;
+}
+.prop-col-header {
+  background: var(--card);
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+  margin: 0 4px;
+}
+.prop-col-img { width: 100%; height: 140px; object-fit: cover; }
+.prop-col-info { padding: 14px 16px; }
+.prop-col-price { font-size: 1.1rem; font-weight: 900; color: var(--accent); }
+.prop-col-title { font-size: 0.85rem; font-weight: 700; margin: 4px 0; }
+.prop-col-loc { font-size: 0.72rem; color: var(--text-muted); }
+
+/* Row label */
+.compare-table .row-label {
+  background: var(--surface);
+  padding: 14px 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  min-width: 150px;
+}
+.compare-table .data-cell {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  background: var(--card);
+  transition: var(--transition);
+}
+.compare-table .data-cell.best { background: rgba(0,212,170,0.08); color: var(--accent); font-weight: 700; }
+.compare-table .data-cell.worst { color: var(--text-dim); }
+.compare-table tr:hover .data-cell { background: rgba(108,99,255,0.04); }
+
+/* Score bar */
+.score-bar { height: 6px; border-radius: 3px; background: var(--border); margin-top: 6px; }
+.score-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+
+/* Amenity check */
+.check-yes { color: var(--accent); font-size: 1.1rem; }
+.check-no { color: var(--text-dim); font-size: 1.1rem; }
+
+/* Section rows */
+.section-row td { background: var(--bg2); padding: 10px 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--primary-light); border-bottom: 1px solid var(--border); }
+
+/* Empty state */
+.compare-empty {
+  text-align: center; padding: 80px 20px;
+  color: var(--text-muted);
+}
+.compare-empty-icon { font-size: 4rem; margin-bottom: 16px; }
+
+@media (max-width: 768px) {
+  .picker-grid { grid-template-columns: 1fr; }
+  .slots-bar { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="compare-page">
+  <div class="compare-hero">
+    <div class="container">
+      <div class="section-tag">⚖️ Property Comparison</div>
+      <h1>Compare Properties <span class="gradient-text">Side by Side</span></h1>
+      <p>Select up to 4 properties and compare them across 15+ parameters. Best values are highlighted automatically.</p>
+
+      <div class="slots-bar" id="slotsBar">
+        <div class="prop-slot" id="slot-0" onclick="openPicker(0)">
+          <div class="slot-placeholder">+</div>
+          <div class="slot-text"><h4>Add Property</h4><p>Click to select</p></div>
+        </div>
+        <div class="prop-slot" id="slot-1" onclick="openPicker(1)">
+          <div class="slot-placeholder">+</div>
+          <div class="slot-text"><h4>Add Property</h4><p>Click to select</p></div>
+        </div>
+        <div class="prop-slot" id="slot-2" onclick="openPicker(2)">
+          <div class="slot-placeholder">+</div>
+          <div class="slot-text"><h4>Add Property</h4><p>Click to select</p></div>
+        </div>
+        <div class="prop-slot" id="slot-3" onclick="openPicker(3)">
+          <div class="slot-placeholder">+</div>
+          <div class="slot-text"><h4>Add Property</h4><p>Click to select</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="padding-bottom:60px">
+    <div id="compareContent">
+      <div class="compare-empty">
+        <div class="compare-empty-icon">⚖️</div>
+        <h3>No Properties Selected</h3>
+        <p>Add at least 2 properties from the slots above to start comparing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Picker Modal -->
+<div class="picker-modal" id="pickerModal">
+  <div class="picker-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h3>Select a Property</h3>
+      <button class="btn btn-ghost btn-sm" onclick="closePicker()">✕ Close</button>
+    </div>
+    <div class="picker-grid" id="pickerGrid"></div>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('comparison.html');
+document.getElementById('footer-root').innerHTML = buildFooter();
+
+let selectedProps = [null, null, null, null];
+let activeSlot = -1;
+
+function openPicker(slotIdx) {
+  activeSlot = slotIdx;
+  const grid = document.getElementById('pickerGrid');
+  const usedIds = selectedProps.filter(p=>p).map(p=>p.id);
+  grid.innerHTML = PROPERTIES.map(p => {
+    const used = usedIds.includes(p.id);
+    return `<div class="picker-card ${used?'':'hover'}" onclick="${used?'':'pickProp('+p.id+')'}" style="${used?'opacity:0.4;cursor:not-allowed':''}">
+      <img src="${p.img}" alt="${p.title}">
+      <div class="picker-card-info">
+        <h5>${p.title}</h5>
+        <p>${p.price} · ${p.location}</p>
+        <p style="color:var(--text-dim);font-size:0.68rem">${used?'Already added':p.type+' · '+p.beds+'BHK'}</p>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pickerModal').classList.add('open');
+}
+
+function closePicker() { document.getElementById('pickerModal').classList.remove('open'); }
+
+function pickProp(id) {
+  selectedProps[activeSlot] = PROPERTIES.find(p=>p.id===id);
+  closePicker();
+  updateSlots();
+  renderTable();
+}
+
+function removeSlot(idx) {
+  selectedProps[idx] = null;
+  updateSlots();
+  renderTable();
+}
+
+function updateSlots() {
+  for (let i=0;i<4;i++) {
+    const slot = document.getElementById('slot-'+i);
+    const p = selectedProps[i];
+    if (p) {
+      slot.className = 'prop-slot filled';
+      slot.onclick = null;
+      slot.innerHTML = `
+        <button class="slot-remove" onclick="removeSlot(${i})">✕</button>
+        <img class="slot-img" src="${p.img}" alt="${p.title}">
+        <div class="slot-text"><h4>${p.title}</h4><p>${p.price} · ${p.type}</p></div>`;
+    } else {
+      slot.className = 'prop-slot';
+      slot.onclick = () => openPicker(i);
+      slot.innerHTML = `
+        <div class="slot-placeholder">+</div>
+        <div class="slot-text"><h4>Add Property</h4><p>Click to select</p></div>`;
+    }
+  }
+}
+
+function renderTable() {
+  const props = selectedProps.filter(p=>p);
+  const content = document.getElementById('compareContent');
+  if (props.length < 2) {
+    content.innerHTML = `<div class="compare-empty"><div class="compare-empty-icon">⚖️</div><h3>Add at least 2 Properties</h3><p>Select properties from the slots above to start comparing.</p></div>`;
+    return;
+  }
+
+  const cols = props.length;
+
+  // Find best/worst for numeric fields
+  function bestIdx(arr, higher=true) {
+    let best = higher ? -Infinity : Infinity;
+    let idx = 0;
+    arr.forEach((v,i)=>{ if(higher?v>best:v<best){best=v;idx=i;} });
+    return idx;
+  }
+
+  const prices = props.map(p=>p.priceNum);
+  const areas = props.map(p=>p.area);
+  const beds = props.map(p=>p.beds);
+  const baths = props.map(p=>p.baths);
+  const scores = props.map(p=>p.score);
+  const ages = [3,6,1,8]; // dummy
+
+  const amenityData = {
+    '🅿️ Parking': [true,true,true,false],
+    '🏊 Pool': [true,false,true,false],
+    '💪 Gym': [true,true,true,false],
+    '🔒 Security': [true,true,true,true],
+    '📶 WiFi': [true,true,true,true],
+    '🌿 Garden': [false,true,false,true],
+  };
+
+  const pBestIdx = bestIdx(prices, false); // cheaper = better
+  const aBestIdx = bestIdx(areas, true);
+  const bBestIdx = bestIdx(beds, true);
+  const sBestIdx = bestIdx(scores, true);
+
+  function cellClass(arr, idx, higher=true) {
+    const bestI = higher ? arr.indexOf(Math.max(...arr)) : arr.indexOf(Math.min(...arr));
+    return idx === bestI ? 'data-cell best' : 'data-cell';
+  }
+
+  let html = `<div class="compare-table-wrap reveal">
+  <table class="compare-table">
+    <thead>
+      <tr class="header-row">
+        <td style="background:var(--surface);padding:0;min-width:150px"></td>
+        ${props.map(p=>`<td style="padding:4px">
+          <div class="prop-col-header">
+            <img class="prop-col-img" src="${p.img}" alt="${p.title}">
+            <div class="prop-col-info">
+              <div class="prop-col-price">${p.price}</div>
+              <div class="prop-col-title">${p.title}</div>
+              <div class="prop-col-loc">📍 ${p.location}</div>
+              <div style="margin-top:8px">
+                <a href="property-details.html" class="btn btn-primary btn-sm" style="font-size:0.72rem;padding:6px 12px">View →</a>
+              </div>
+            </div>
+          </div>
+        </td>`).join('')}
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-row"><td colspan="${cols+1}">Basic Info</td></tr>
+      <tr>
+        <td class="row-label">💰 Price</td>
+        ${props.map((p,i)=>`<td class="${cellClass(prices,i,false)}">${p.price}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">📐 Area (sqft)</td>
+        ${props.map((p,i)=>`<td class="${cellClass(areas,i,true)}">${p.area.toLocaleString()}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">🏠 Type</td>
+        ${props.map(p=>`<td class="data-cell">${p.type}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">📍 Location</td>
+        ${props.map(p=>`<td class="data-cell" style="font-size:0.78rem">${p.location}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">📊 Status</td>
+        ${props.map(p=>`<td class="data-cell"><span class="badge ${p.status==='For Sale'?'badge-accent':'badge-warning'}">${p.status}</span></td>`).join('')}
+      </tr>
+
+      <tr class="section-row"><td colspan="${cols+1}">Property Details</td></tr>
+      <tr>
+        <td class="row-label">🛏 Bedrooms</td>
+        ${props.map((p,i)=>`<td class="${cellClass(beds,i,true)}">${p.beds} BHK</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">🚿 Bathrooms</td>
+        ${props.map((p,i)=>`<td class="${cellClass(baths,i,true)}">${p.baths}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">🚗 Parking</td>
+        ${props.map((_,i)=>`<td class="data-cell">${i===2?'2 Spots':'1 Spot'}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">📅 Property Age</td>
+        ${props.map((_,i)=>`<td class="data-cell ${i===2?'best':''}">${ages[i]||2} yrs</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">💵 Price/sqft</td>
+        ${props.map((p,i)=>`<td class="${cellClass(props.map(x=>x.priceNum/x.area),i,false)}">₹${Math.round(p.priceNum/p.area).toLocaleString()}</td>`).join('')}
+      </tr>
+
+      <tr class="section-row"><td colspan="${cols+1}">Amenities</td></tr>
+      ${Object.entries(amenityData).slice(0,props.length<3?4:6).map(([name,vals])=>`
+      <tr>
+        <td class="row-label">${name}</td>
+        ${props.map((_,i)=>`<td class="data-cell">${vals[i]?'<span class="check-yes">✓</span>':'<span class="check-no">✗</span>'}</td>`).join('')}
+      </tr>`).join('')}
+
+      <tr class="section-row"><td colspan="${cols+1}">AI Analysis</td></tr>
+      <tr>
+        <td class="row-label">🤖 AI Score</td>
+        ${props.map((p,i)=>`<td class="${cellClass(scores,i,true)}">
+          <div style="font-size:1.1rem;font-weight:800">${p.score}%</div>
+          <div class="score-bar"><div class="score-fill" style="width:${p.score}%"></div></div>
+        </td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">🏆 Recommendation</td>
+        ${props.map((p,i)=>`<td class="data-cell">
+          ${i===sBestIdx?'<span class="badge badge-accent">Best Match</span>':i===pBestIdx?'<span class="badge badge-primary">Best Value</span>':'<span class="badge" style="opacity:0.5">—</span>'}
+        </td>`).join('')}
+      </tr>
+    </tbody>
+  </table>
+  </div>`;
+
+  content.innerHTML = html;
+  setTimeout(initReveal, 50);
+}
+
+// Pre-load 2 properties for demo
+selectedProps[0] = PROPERTIES[2];
+selectedProps[1] = PROPERTIES[0];
+updateSlots();
+renderTable();
+</script>
+</body>
+</html>

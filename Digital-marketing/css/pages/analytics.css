@@ -1,0 +1,73 @@
+/* ============================================
+   PAGE: ANALYTICS & REPORTS
+   ============================================ */
+
+/* ── KPI Cards ── */
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+
+@media (min-width: 640px) {
+  .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .lg\:col-span-2 { grid-column: span 2 / span 2; }
+}
+
+.stat-card-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: var(--font-medium);
+}
+
+.stat-card-trend.up { color: var(--success); }
+.stat-card-trend.down { color: var(--danger); }
+
+/* ── Custom Background Helpers ── */
+.bg-primary-50 {
+  background-color: var(--primary-50);
+}
+
+.border-primary {
+  border-color: var(--primary);
+  border-width: 1px;
+  border-style: solid;
+}
+
+[data-theme="dark"] .bg-primary-50 {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* ── Chart Container Adjustments ── */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+
+/* ── Typography Adjustments ── */
+.text-primary-700 {
+  color: var(--primary-700);
+}
+
+[data-theme="dark"] .text-primary-700 {
+  color: var(--primary-light);
+}
+
+/* Responsive Table in Card */
+.card .table-responsive {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-light);
+}
+
+.card .table-responsive .data-table thead th {
+  background: transparent;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.card .table-responsive .data-table tbody tr:last-child td {
+  border-bottom: none;
+}

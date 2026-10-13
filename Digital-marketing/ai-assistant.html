@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Marketing Assistant | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/ai-assistant.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <!-- Core -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+        <!-- Content -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+        <!-- Data -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <!-- System -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item active"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search hidden-mobile">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search conversations...">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up h-[calc(100vh-var(--navbar-height))] flex flex-col p-0">
+        
+        <div class="chat-layout flex flex-1 overflow-hidden">
+          
+          <!-- Chat History Sidebar -->
+          <div class="chat-sidebar w-64 border-r border-light bg-card flex flex-col flex-shrink-0 hidden-mobile">
+            <div class="p-4 border-b border-light">
+              <button class="btn btn-primary w-full"><i data-lucide="plus"></i> New Chat</button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-2">
+              
+              <div class="chat-history-group mb-4">
+                <div class="text-xs font-semibold text-tertiary uppercase tracking-wider px-3 mb-2 mt-2">Today</div>
+                <a href="#" class="chat-history-item active">
+                  <i data-lucide="message-square"></i>
+                  <span class="text-truncate">Q3 Campaign Analysis</span>
+                </a>
+                <a href="#" class="chat-history-item">
+                  <i data-lucide="message-square"></i>
+                  <span class="text-truncate">SEO Keyword Strategy</span>
+                </a>
+              </div>
+
+              <div class="chat-history-group mb-4">
+                <div class="text-xs font-semibold text-tertiary uppercase tracking-wider px-3 mb-2">Previous 7 Days</div>
+                <a href="#" class="chat-history-item">
+                  <i data-lucide="message-square"></i>
+                  <span class="text-truncate">LinkedIn Ad Copy Generation</span>
+                </a>
+                <a href="#" class="chat-history-item">
+                  <i data-lucide="message-square"></i>
+                  <span class="text-truncate">Email Subject Line Testing</span>
+                </a>
+                <a href="#" class="chat-history-item">
+                  <i data-lucide="message-square"></i>
+                  <span class="text-truncate">Competitor Backlink Analysis</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Chat Main Area -->
+          <div class="chat-main flex-1 flex flex-col bg-primary">
+            
+            <div class="chat-header p-4 border-b border-light bg-card flex justify-between items-center z-10 shadow-sm">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white shadow-primary">
+                  <i data-lucide="sparkles"></i>
+                </div>
+                <div>
+                  <h2 class="text-md font-semibold m-0">NexusAI Assistant</h2>
+                  <p class="text-xs text-success flex items-center gap-1 m-0"><span class="w-2 h-2 rounded-full bg-success inline-block"></span> Online & Ready</p>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button class="btn btn-sm btn-ghost btn-icon"><i data-lucide="download"></i></button>
+                <button class="btn btn-sm btn-ghost btn-icon text-danger"><i data-lucide="trash-2"></i></button>
+              </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages flex-1 overflow-y-auto p-6 space-y-6" id="chatContainer">
+              
+              <div class="chat-message ai">
+                <div class="chat-avatar bg-gradient-primary"><i data-lucide="sparkles"></i></div>
+                <div class="chat-bubble">
+                  <p>Hi John! 👋 I'm NexusAI, your personal marketing assistant. I can help you analyze campaign data, generate content, research competitors, or build audience segments.</p>
+                  <p class="mt-2">How can I help you grow today?</p>
+                </div>
+              </div>
+
+              <div class="chat-message user">
+                <div class="chat-bubble bg-primary text-white">
+                  <p>Can you analyze our current Q3 B2B Lead Gen campaign on LinkedIn? It seems like the CPC is getting high.</p>
+                </div>
+                <div class="chat-avatar bg-secondary text-primary">JD</div>
+              </div>
+
+              <div class="chat-message ai">
+                <div class="chat-avatar bg-gradient-primary"><i data-lucide="sparkles"></i></div>
+                <div class="chat-bubble">
+                  <p>I've analyzed the <strong>Q3 B2B Lead Gen</strong> campaign on LinkedIn. Here are my findings:</p>
+                  <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li>The overall CPC has increased from <strong>$4.50 to $6.20</strong> over the last 14 days.</li>
+                    <li>This is primarily due to ad fatigue on <em>Variation B (Video)</em>, which has seen its CTR drop by 45%.</li>
+                    <li>However, <em>Variation A (Carousel)</em> is still performing well with a CPC of $3.80.</li>
+                  </ul>
+                  <p class="mt-2 text-primary font-semibold">Recommendation:</p>
+                  <p>Pause Variation B immediately and let me generate 3 new video script angles targeting "Marketing Directors in SaaS" to refresh the creative.</p>
+                  <div class="mt-3 flex gap-2">
+                    <button class="btn btn-sm btn-secondary">Pause Variation B</button>
+                    <button class="btn btn-sm btn-primary"><i data-lucide="pen-tool"></i> Generate Scripts</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-area p-4 bg-card border-t border-light relative">
+              
+              <!-- Suggested Prompts (Scrollable) -->
+              <div class="suggested-prompts flex gap-2 overflow-x-auto pb-3 hide-scrollbar">
+                <button class="chip"><i data-lucide="bar-chart-2" style="width:14px;height:14px"></i> Analyze traffic drop</button>
+                <button class="chip"><i data-lucide="pen-tool" style="width:14px;height:14px"></i> Write a welcome email</button>
+                <button class="chip"><i data-lucide="search" style="width:14px;height:14px"></i> SEO ideas for SaaS</button>
+                <button class="chip"><i data-lucide="users" style="width:14px;height:14px"></i> Build a retargeting audience</button>
+              </div>
+
+              <div class="chat-input-wrapper relative">
+                <textarea class="form-textarea w-full pl-4 pr-16 py-3 rounded-xl resize-none" rows="2" placeholder="Ask NexusAI anything..." id="chatInput" style="min-height: 60px"></textarea>
+                <div class="absolute right-2 bottom-2 flex gap-1">
+                  <button class="btn btn-sm btn-ghost btn-icon text-tertiary hover:text-primary"><i data-lucide="mic"></i></button>
+                  <button class="btn btn-sm btn-primary btn-icon rounded-lg shadow-primary" id="sendBtn"><i data-lucide="send"></i></button>
+                </div>
+              </div>
+              <div class="text-center mt-2">
+                <span class="text-xs text-tertiary">AI can make mistakes. Consider verifying important metrics.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/ai-assistant.js"></script>
+</body>
+</html>

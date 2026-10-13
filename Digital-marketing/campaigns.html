@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaigns | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/campaigns.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item">
+            <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+          </a>
+          <a href="campaigns.html" class="sidebar-nav-item active">
+            <i data-lucide="megaphone"></i><span>Campaigns</span>
+          </a>
+          <a href="ai-generator.html" class="sidebar-nav-item">
+            <i data-lucide="sparkles"></i><span>AI Generator</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item">
+            <i data-lucide="calendar-days"></i><span>Social Planner</span>
+          </a>
+          <a href="content-studio.html" class="sidebar-nav-item">
+            <i data-lucide="pen-tool"></i><span>Content Studio</span>
+          </a>
+          <a href="email-marketing.html" class="sidebar-nav-item">
+            <i data-lucide="mail"></i><span>Email Marketing</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item">
+            <i data-lucide="users"></i><span>Audience</span>
+          </a>
+          <a href="funnel.html" class="sidebar-nav-item">
+            <i data-lucide="filter"></i><span>Marketing Funnel</span>
+          </a>
+          <a href="analytics.html" class="sidebar-nav-item">
+            <i data-lucide="bar-chart-2"></i><span>Analytics</span>
+          </a>
+          <a href="seo-center.html" class="sidebar-nav-item">
+            <i data-lucide="search"></i><span>SEO Center</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item">
+            <i data-lucide="bot"></i><span>AI Assistant</span>
+          </a>
+          <a href="team.html" class="sidebar-nav-item">
+            <i data-lucide="users-2"></i><span>Team</span>
+          </a>
+          <a href="settings.html" class="sidebar-nav-item">
+            <i data-lucide="settings"></i><span>Settings</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search campaigns...">
+            <span class="search-shortcut">Ctrl+K</span>
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle">
+            <i data-lucide="bell"></i><span class="badge-dot"></span>
+          </button>
+          <div class="dropdown">
+            <div class="navbar-profile">
+              <div class="navbar-profile-avatar">JD</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Campaigns</h1>
+            <p class="page-subtitle">Manage, track, and optimize all your marketing campaigns.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" onclick="document.getElementById('viewToggleBtn').querySelector('i').setAttribute('data-lucide', this.dataset.view === 'grid' ? 'list' : 'grid'); this.dataset.view = this.dataset.view === 'grid' ? 'list' : 'grid';" data-view="grid" id="viewToggleBtn" aria-label="Toggle View">
+              <i data-lucide="list"></i>
+            </button>
+            <button class="btn btn-secondary"><i data-lucide="filter"></i> <span class="hidden-mobile">Filters</span></button>
+            <button class="btn btn-primary" onclick="document.getElementById('campaignModal').classList.add('show')"><i data-lucide="plus"></i> <span class="hidden-mobile">Create Campaign</span></button>
+          </div>
+        </div>
+
+        <div class="card mb-6">
+          <div class="card-body p-4 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex gap-2 overflow-auto" id="campaignFilters">
+              <button class="chip selected" data-filter="all">All Campaigns</button>
+              <button class="chip" data-filter="active">Active</button>
+              <button class="chip" data-filter="paused">Paused</button>
+              <button class="chip" data-filter="draft">Drafts</button>
+              <button class="chip" data-filter="completed">Completed</button>
+            </div>
+            <div class="flex gap-3 w-full sm:w-auto">
+              <select class="form-select w-full sm:w-auto">
+                <option>All Platforms</option>
+                <option>Google Ads</option>
+                <option>Facebook</option>
+                <option>LinkedIn</option>
+                <option>Email</option>
+              </select>
+              <select class="form-select w-full sm:w-auto">
+                <option>Sort by: Newest</option>
+                <option>Sort by: ROI (High to Low)</option>
+                <option>Sort by: Budget (High to Low)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="campaign-grid stagger-children" id="campaignContainer">
+          <!-- Campaign Cards will be injected by JS -->
+        </div>
+
+        <div class="mt-6 flex justify-center">
+          <div class="pagination">
+            <button class="pagination-btn" disabled><i data-lucide="chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn"><i data-lucide="chevron-right"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Create/Edit Campaign Modal -->
+  <div class="modal-overlay" id="campaignModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Create New Campaign</h2>
+        <button class="modal-close" onclick="document.getElementById('campaignModal').classList.remove('show')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Campaign Name</label>
+          <input type="text" class="form-input" placeholder="e.g., Q3 B2B Lead Gen">
+        </div>
+        <div class="grid grid-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">Platform</label>
+            <select class="form-select">
+              <option>Google Ads</option>
+              <option>Facebook</option>
+              <option>LinkedIn</option>
+              <option>Twitter</option>
+              <option>Email</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Objective</label>
+            <select class="form-select">
+              <option>Lead Generation</option>
+              <option>Brand Awareness</option>
+              <option>Website Traffic</option>
+              <option>Sales</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">Budget ($)</label>
+            <input type="number" class="form-input" placeholder="5000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Audience</label>
+            <select class="form-select">
+              <option>All Segments</option>
+              <option>B2B Tech Execs</option>
+              <option>Recent Visitors</option>
+              <option>Cart Abandoners</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-input">
+          </div>
+        </div>
+        
+        <div class="card bg-primary-50 border-0 mt-2">
+          <div class="card-body flex items-center justify-between p-4">
+            <div class="flex items-center gap-3">
+              <i data-lucide="sparkles" class="text-primary"></i>
+              <div>
+                <div class="text-sm font-semibold text-primary-700">Generate with AI</div>
+                <div class="text-xs text-primary-600">Let NexusAI create ad copy and target suggestions for this campaign.</div>
+              </div>
+            </div>
+            <a href="ai-generator.html" class="btn btn-sm btn-primary">Use AI</a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="document.getElementById('campaignModal').classList.remove('show')">Cancel</button>
+        <button class="btn btn-primary" onclick="showToast('Campaign saved as draft!', 'success'); document.getElementById('campaignModal').classList.remove('show')">Save Campaign</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/campaigns.js"></script>
+</body>
+</html>

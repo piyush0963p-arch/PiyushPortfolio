@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Health Assistant — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<style>
+.ai-page { display:flex; height:calc(100vh - var(--nav-h)); overflow:hidden; }
+.ai-sidebar-left { width:280px; border-right:1px solid var(--border); background:var(--bg-glass); backdrop-filter:blur(20px); display:flex; flex-direction:column; overflow-y:auto; }
+.ai-main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.ai-sidebar-right { width:300px; border-left:1px solid var(--border); background:var(--bg-glass); backdrop-filter:blur(20px); overflow-y:auto; padding:20px; }
+.chat-history-item { padding:12px; border-radius:12px; cursor:pointer; transition:var(--transition); margin-bottom:4px; }
+.chat-history-item:hover, .chat-history-item.active { background:var(--primary-glow); color:var(--primary); }
+.chat-history-item .ch-title { font-size:13px; font-weight:600; }
+.chat-history-item .ch-date { font-size:11px; color:var(--text-muted); margin-top:2px; }
+.typing-indicator { display:flex; gap:4px; align-items:center; padding:12px 16px; }
+.typing-dot { width:8px; height:8px; border-radius:50%; background:var(--primary); animation:typingBounce 1s infinite; }
+.typing-dot:nth-child(2) { animation-delay:.15s; }
+.typing-dot:nth-child(3) { animation-delay:.3s; }
+@keyframes typingBounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} }
+.suggestion-chip { padding:8px 14px; border-radius:99px; border:1px solid var(--border); background:var(--bg); font-size:12px; cursor:pointer; transition:var(--transition); white-space:nowrap; }
+.suggestion-chip:hover { border-color:var(--primary); background:var(--primary-glow); color:var(--primary); }
+.health-tip-card { padding:14px; border-radius:14px; border:1px solid var(--border); background:var(--bg); margin-bottom:10px; }
+.health-tip-card:last-child { margin-bottom:0; }
+@media(max-width:900px){ .ai-sidebar-left,.ai-sidebar-right{display:none} }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text">Medi<span>Care</span></span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="appointments.html">Appointments</a>
+    <a href="ai-assistant.html" class="active">AI Assistant</a>
+    <a href="reports.html">Reports</a>
+    <a href="telemedicine.html">Telemedicine</a>
+  </div>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="theme-toggle">🌙</button>
+    <a href="patient-dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
+    <div class="nav-avatar">JD</div>
+  </div>
+  <div class="nav-toggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile">
+  <a href="index.html">Home</a>
+  <a href="appointments.html">Appointments</a>
+  <a href="ai-assistant.html" class="active">AI Assistant</a>
+  <a href="reports.html">Reports</a>
+  <a href="telemedicine.html">Telemedicine</a>
+  <a href="patient-dashboard.html" class="btn btn-primary">Dashboard</a>
+</div>
+
+<div style="padding-top:var(--nav-h)">
+<div class="ai-page">
+
+  <!-- LEFT SIDEBAR -->
+  <div class="ai-sidebar-left">
+    <div style="padding:16px;border-bottom:1px solid var(--border)">
+      <button class="btn btn-primary w-full" onclick="startNewChat()">+ New Chat</button>
+    </div>
+    <div style="padding:16px">
+      <div class="text-xs text-muted font-semibold" style="letter-spacing:1px;margin-bottom:8px">RECENT CHATS</div>
+      <div class="chat-history-item active">
+        <div class="ch-title">Headache & Fever Symptoms</div>
+        <div class="ch-date">Today, 11:30 AM</div>
+      </div>
+      <div class="chat-history-item">
+        <div class="ch-title">Blood Pressure Guidance</div>
+        <div class="ch-date">Jun 10, 3:15 PM</div>
+      </div>
+      <div class="chat-history-item">
+        <div class="ch-title">Diabetes Diet Tips</div>
+        <div class="ch-date">Jun 9, 9:00 AM</div>
+      </div>
+      <div class="chat-history-item">
+        <div class="ch-title">Exercise Recommendations</div>
+        <div class="ch-date">Jun 7, 2:30 PM</div>
+      </div>
+      <div class="chat-history-item">
+        <div class="ch-title">Vitamin D Deficiency</div>
+        <div class="ch-date">Jun 5, 5:00 PM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CHAT -->
+  <div class="ai-main">
+    <!-- Chat Header -->
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg-glass);backdrop-filter:blur(20px)">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--emerald));display:flex;align-items:center;justify-content:center;font-size:20px">🤖</div>
+      <div>
+        <div class="font-semibold">MediAI Health Assistant</div>
+        <div class="text-sm text-secondary flex gap-6 items-center"><span class="ping-dot" style="background:var(--emerald)"></span> Online — Ready to help</div>
+      </div>
+      <div style="margin-left:auto;padding:10px 16px;border-radius:99px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);color:var(--rose);font-size:12px;font-weight:600">⚠️ Not a medical diagnosis</div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+      <!-- AI Welcome -->
+      <div class="chat-msg-row">
+        <div class="chat-avatar ai">🤖</div>
+        <div>
+          <div class="chat-bubble ai">
+            <div style="font-weight:700;margin-bottom:8px">Hello John! 👋 I'm your AI Health Assistant.</div>
+            <p>I can help you with symptom guidance, health tips, medication information, and wellness recommendations. Remember — I provide informational guidance only, not medical diagnoses.</p>
+            <p style="margin-top:8px">How can I help you today?</p>
+          </div>
+          <div class="text-xs text-muted" style="margin-top:4px;padding:0 4px">MediAI • 11:30 AM</div>
+        </div>
+      </div>
+
+      <!-- User message -->
+      <div class="chat-msg-row user">
+        <div class="chat-avatar" style="background:linear-gradient(135deg,var(--primary-glow),#dbeafe);color:var(--primary);font-weight:700;font-size:13px">JD</div>
+        <div>
+          <div class="chat-bubble user">I have a headache and fever for 2 days. What should I do?</div>
+          <div class="text-xs text-muted" style="margin-top:4px;padding:0 4px;text-align:right">You • 11:32 AM</div>
+        </div>
+      </div>
+
+      <!-- AI Response -->
+      <div class="chat-msg-row">
+        <div class="chat-avatar ai">🤖</div>
+        <div style="max-width:80%">
+          <div class="chat-bubble ai">
+            <div style="font-weight:700;margin-bottom:10px">🔍 Based on your symptoms (headache + fever for 2 days):</div>
+            <div style="background:rgba(37,99,235,0.06);border-radius:12px;padding:12px;margin-bottom:10px">
+              <div style="font-weight:600;margin-bottom:6px;color:var(--primary)">📋 Possible Causes:</div>
+              <div style="font-size:13px;line-height:1.8">
+                • Viral infection (common cold/flu)<br>
+                • Sinusitis or upper respiratory infection<br>
+                • Dehydration-related headache<br>
+                • COVID-19 (if not vaccinated recently)
+              </div>
+            </div>
+            <div style="background:rgba(16,185,129,0.06);border-radius:12px;padding:12px;margin-bottom:10px">
+              <div style="font-weight:600;margin-bottom:6px;color:var(--emerald)">✅ Recommended Precautions:</div>
+              <div style="font-size:13px;line-height:1.8">
+                • 💧 Stay well hydrated — drink 8-10 glasses of water<br>
+                • 😴 Get adequate rest (7-8 hours)<br>
+                • 🌡️ Monitor temperature — take Paracetamol if >100°F<br>
+                • 🍲 Eat light, nutritious meals<br>
+                • 🏠 Isolate if fever persists (possible infection)
+              </div>
+            </div>
+            <div style="background:rgba(244,63,94,0.06);border-radius:12px;padding:12px;margin-bottom:10px">
+              <div style="font-weight:600;margin-bottom:6px;color:var(--rose)">🚨 Consult a Doctor If:</div>
+              <div style="font-size:13px;line-height:1.8">
+                • Fever exceeds 103°F (39.4°C)<br>
+                • Severe headache with stiff neck<br>
+                • Difficulty breathing or chest pain<br>
+                • Symptoms worsen after 3 days
+              </div>
+            </div>
+            <div style="background:rgba(245,158,11,0.06);border-radius:12px;padding:10px;font-size:12px;color:var(--text-secondary)">
+              ⚠️ <strong>Disclaimer:</strong> This is general health information, not a medical diagnosis. Please consult a qualified doctor for proper evaluation.
+            </div>
+          </div>
+          <div class="flex gap-8 mt-8">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Feedback recorded!','success')">👍 Helpful</button>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Feedback recorded!','info')">👎 Not helpful</button>
+            <a href="appointments.html" class="btn btn-primary btn-sm">📅 Book Doctor</a>
+          </div>
+          <div class="text-xs text-muted" style="margin-top:4px;padding:0 4px">MediAI • 11:32 AM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggestions -->
+    <div style="padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border);background:var(--bg-card)">
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">💊 What medications help?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">🏥 Should I see a doctor?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">🥗 What foods help recovery?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">🌡️ How to reduce fever?</button>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-bar">
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask me about your symptoms, medications, health tips..." onkeydown="handleEnter(event)"></textarea>
+      <button class="btn btn-ghost btn-icon" title="Attach file" onclick="showToast('File attachment coming soon!','info')">📎</button>
+      <button class="btn btn-primary btn-icon" onclick="sendMessage()" title="Send">➤</button>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="ai-sidebar-right">
+    <h4 style="margin-bottom:16px;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)">Health Tips</h4>
+    <div class="health-tip-card">
+      <div style="font-size:20px;margin-bottom:6px">💧</div>
+      <div class="font-semibold text-sm">Stay Hydrated</div>
+      <div class="text-xs text-secondary mt-4">Drink 8-10 glasses of water daily for optimal organ function.</div>
+    </div>
+    <div class="health-tip-card">
+      <div style="font-size:20px;margin-bottom:6px">🏃</div>
+      <div class="font-semibold text-sm">Daily Exercise</div>
+      <div class="text-xs text-secondary mt-4">30 minutes of moderate exercise improves cardiovascular health.</div>
+    </div>
+    <div class="health-tip-card">
+      <div style="font-size:20px;margin-bottom:6px">😴</div>
+      <div class="font-semibold text-sm">Sleep Well</div>
+      <div class="text-xs text-secondary mt-4">7-9 hours of quality sleep boosts immunity and mental health.</div>
+    </div>
+    <div class="health-tip-card">
+      <div style="font-size:20px;margin-bottom:6px">🥗</div>
+      <div class="font-semibold text-sm">Eat Balanced</div>
+      <div class="text-xs text-secondary mt-4">Include fruits, vegetables, and whole grains in every meal.</div>
+    </div>
+    <h4 style="margin:20px 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)">Quick Links</h4>
+    <a href="appointments.html" class="btn btn-outline w-full mb-8" style="justify-content:flex-start;gap:8px">📅 Book Appointment</a>
+    <a href="telemedicine.html" class="btn btn-outline w-full mb-8" style="justify-content:flex-start;gap:8px">📹 Video Consult</a>
+    <a href="prescriptions.html" class="btn btn-outline w-full" style="justify-content:flex-start;gap:8px">💊 My Medications</a>
+  </div>
+</div>
+</div>
+
+<script src="main.js"></script>
+<script>
+const aiReplies = [
+  "Based on what you've described, I recommend staying hydrated and getting plenty of rest. If symptoms persist for more than 3 days or worsen, please consult a doctor.",
+  "That's a great health question! Here's what I recommend: maintain a balanced diet, exercise regularly, and ensure adequate sleep. Would you like more specific advice?",
+  "For that concern, it would be best to schedule a consultation with a specialist. Would you like me to help book an appointment?",
+  "I understand your concern. Let me share some evidence-based guidance: stay well-hydrated, avoid self-medication, and monitor your symptoms closely.",
+];
+
+let msgCount = 0;
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  addUserMessage(text);
+  input.value = '';
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addAIMessage(aiReplies[msgCount % aiReplies.length]);
+    msgCount++;
+  }, 1800);
+}
+
+function sendSuggestion(btn) {
+  addUserMessage(btn.textContent);
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addAIMessage(aiReplies[msgCount % aiReplies.length]);
+    msgCount++;
+  }, 1800);
+}
+
+function addUserMessage(text) {
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg-row user animate-fadeInUp';
+  div.innerHTML = `<div class="chat-avatar" style="background:linear-gradient(135deg,var(--primary-glow),#dbeafe);color:var(--primary);font-weight:700;font-size:13px">JD</div><div><div class="chat-bubble user">${text}</div><div class="text-xs text-muted" style="margin-top:4px;text-align:right">You • now</div></div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addAIMessage(text) {
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg-row animate-fadeInUp';
+  div.innerHTML = `<div class="chat-avatar ai">🤖</div><div><div class="chat-bubble ai">${text}</div><div class="text-xs text-muted" style="margin-top:4px">MediAI • now</div></div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping() {
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg-row'; div.id = 'typingIndicator';
+  div.innerHTML = `<div class="chat-avatar ai">🤖</div><div class="chat-bubble ai"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTyping() {
+  document.getElementById('typingIndicator')?.remove();
+}
+
+function handleEnter(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function startNewChat() {
+  document.getElementById('chatMessages').innerHTML = `
+    <div class="chat-msg-row">
+      <div class="chat-avatar ai">🤖</div>
+      <div><div class="chat-bubble ai"><div style="font-weight:700;margin-bottom:8px">Hello! 👋 Starting a new conversation.</div><p>How can I assist you with your health today?</p></div></div>
+    </div>`;
+  showToast('New chat started!', 'success');
+}
+</script>
+</body>
+</html>
+

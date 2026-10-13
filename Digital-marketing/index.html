@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | AI Digital Marketing Platform</title>
+  
+  <!-- CSS Dependencies -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <!-- Icon Font (Lucide) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- App Shell -->
+  <div class="app">
+    
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i data-lucide="zap"></i>
+        </div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">Nexus</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item active">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="campaigns.html" class="sidebar-nav-item">
+            <i data-lucide="megaphone"></i>
+            <span>Campaigns</span>
+          </a>
+          <a href="ai-generator.html" class="sidebar-nav-item">
+            <i data-lucide="sparkles"></i>
+            <span>AI Generator</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item">
+            <i data-lucide="calendar-days"></i>
+            <span>Social Planner</span>
+          </a>
+          <a href="content-studio.html" class="sidebar-nav-item">
+            <i data-lucide="pen-tool"></i>
+            <span>Content Studio</span>
+          </a>
+          <a href="email-marketing.html" class="sidebar-nav-item">
+            <i data-lucide="mail"></i>
+            <span>Email Marketing</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item">
+            <i data-lucide="users"></i>
+            <span>Audience</span>
+          </a>
+          <a href="funnel.html" class="sidebar-nav-item">
+            <i data-lucide="filter"></i>
+            <span>Marketing Funnel</span>
+          </a>
+          <a href="analytics.html" class="sidebar-nav-item">
+            <i data-lucide="bar-chart-2"></i>
+            <span>Analytics</span>
+          </a>
+          <a href="seo-center.html" class="sidebar-nav-item">
+            <i data-lucide="search"></i>
+            <span>SEO Center</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item">
+            <i data-lucide="bot"></i>
+            <span>AI Assistant</span>
+          </a>
+          <a href="team.html" class="sidebar-nav-item">
+            <i data-lucide="users-2"></i>
+            <span>Team</span>
+          </a>
+          <a href="settings.html" class="sidebar-nav-item">
+            <i data-lucide="settings"></i>
+            <span>Settings</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navbar -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search campaigns, metrics, etc...">
+            <span class="search-shortcut">Ctrl+K</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle" aria-label="Toggle Theme">
+            <i data-lucide="moon"></i>
+          </button>
+          
+          <div class="dropdown">
+            <button class="navbar-btn notification-toggle" aria-label="Notifications">
+              <i data-lucide="bell"></i>
+              <span class="badge-dot"></span>
+            </button>
+            
+            <div class="notification-panel">
+              <div class="notification-panel-header">
+                <h3>Notifications</h3>
+                <button class="btn btn-ghost btn-sm">Mark all as read</button>
+              </div>
+              <div class="notification-list">
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-primary-50 text-primary">
+                    <i data-lucide="sparkles"></i>
+                  </div>
+                  <div class="notification-content">
+                    <p class="notification-text">AI generated 5 new ad variations for <strong>Summer Sale</strong>.</p>
+                    <span class="notification-time">10 mins ago</span>
+                  </div>
+                </div>
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-success-light text-success">
+                    <i data-lucide="trending-up"></i>
+                  </div>
+                  <div class="notification-content">
+                    <p class="notification-text">Goal reached! <strong>Q3 Leads Gen</strong> hit 10,000 leads.</p>
+                    <span class="notification-time">1 hour ago</span>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notification-icon bg-warning-light text-warning">
+                    <i data-lucide="alert-triangle"></i>
+                  </div>
+                  <div class="notification-content">
+                    <p class="notification-text">Budget alert: <strong>Google Ads B2B</strong> is at 90% of daily limit.</p>
+                    <span class="notification-time">3 hours ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <div class="navbar-profile">
+              <div class="navbar-profile-avatar">JD</div>
+              <div class="navbar-profile-info hidden-mobile">
+                <span class="navbar-profile-name">John Doe</span>
+                <span class="navbar-profile-role">Admin</span>
+              </div>
+              <i data-lucide="chevron-down" class="text-tertiary"></i>
+            </div>
+            
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item">
+                <i data-lucide="user"></i> My Profile
+              </a>
+              <a href="settings.html" class="dropdown-item">
+                <i data-lucide="settings"></i> Settings
+              </a>
+              <a href="billing.html" class="dropdown-item">
+                <i data-lucide="credit-card"></i> Billing
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item text-danger">
+                <i data-lucide="log-out"></i> Sign Out
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Welcome back, John! Here's what's happening with your marketing campaigns.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary">
+              <i data-lucide="download"></i> <span class="hidden-mobile">Export Report</span>
+            </button>
+            <a href="ai-generator.html" class="btn btn-primary">
+              <i data-lucide="plus"></i> <span class="hidden-mobile">New Campaign</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Stat Cards Row 1 -->
+        <div class="grid grid-4 gap-5 mb-6 stagger-children">
+          <!-- Card 1 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Total Campaigns</div>
+                <div class="stat-card-value">48</div>
+              </div>
+              <div class="stat-card-icon primary">
+                <i data-lucide="layers"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +12%
+            </div>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Active Campaigns</div>
+                <div class="stat-card-value">23</div>
+              </div>
+              <div class="stat-card-icon success">
+                <i data-lucide="activity"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +8%
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Leads Generated</div>
+                <div class="stat-card-value">12,847</div>
+              </div>
+              <div class="stat-card-icon accent">
+                <i data-lucide="users"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +23%
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Conversion Rate</div>
+                <div class="stat-card-value">4.8%</div>
+              </div>
+              <div class="stat-card-icon secondary">
+                <i data-lucide="mouse-pointer-click"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +0.6%
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat Cards Row 2 -->
+        <div class="grid grid-4 gap-5 mb-6 stagger-children" style="animation-delay: 0.2s;">
+          <!-- Card 5 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Marketing Spend</div>
+                <div class="stat-card-value">$84,500</div>
+              </div>
+              <div class="stat-card-icon warning">
+                <i data-lucide="dollar-sign"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend down">
+              <i data-lucide="trending-down"></i> -3%
+            </div>
+          </div>
+          
+          <!-- Card 6 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Revenue Generated</div>
+                <div class="stat-card-value">$342,800</div>
+              </div>
+              <div class="stat-card-icon success">
+                <i data-lucide="pie-chart"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +18%
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Overall ROI</div>
+                <div class="stat-card-value">305%</div>
+              </div>
+              <div class="stat-card-icon primary">
+                <i data-lucide="percent"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +24%
+            </div>
+          </div>
+
+          <!-- Card 8 -->
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div>
+                <div class="stat-card-label">Social Media Reach</div>
+                <div class="stat-card-value">2.4M</div>
+              </div>
+              <div class="stat-card-icon info">
+                <i data-lucide="share-2"></i>
+              </div>
+            </div>
+            <div class="stat-card-trend up">
+              <i data-lucide="trending-up"></i> +15%
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Charts Section -->
+        <div class="dashboard-grid mb-6">
+          
+          <!-- Revenue vs Spend Chart -->
+          <div class="card dashboard-main-chart">
+            <div class="card-header">
+              <h2 class="card-title">Revenue vs Spend Overview</h2>
+              <div class="tabs m-0 border-0">
+                <div class="tab-item active">7D</div>
+                <div class="tab-item">30D</div>
+                <div class="tab-item">3M</div>
+                <div class="tab-item">1Y</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" style="height: 320px;">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Insights Widget -->
+          <div class="card glass-strong ai-widget">
+            <div class="card-header border-0 pb-0">
+              <h2 class="card-title flex items-center gap-2">
+                <i data-lucide="sparkles" class="text-primary"></i> 
+                NexusAI Insights
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="ai-insight-list">
+                <div class="ai-insight-item">
+                  <div class="insight-dot primary"></div>
+                  <div class="insight-content">
+                    <p><strong>Opportunity:</strong> Shifting 15% budget from Facebook to LinkedIn could increase B2B conversions by estimated 22%.</p>
+                    <button class="btn btn-sm btn-ghost mt-2">Apply Recommendation</button>
+                  </div>
+                </div>
+                <div class="ai-insight-item">
+                  <div class="insight-dot warning"></div>
+                  <div class="insight-content">
+                    <p><strong>Alert:</strong> "Summer Promo" email open rates are dropping. Consider changing the subject line format.</p>
+                    <button class="btn btn-sm btn-ghost mt-2">Generate New Subject</button>
+                  </div>
+                </div>
+                <div class="ai-insight-item">
+                  <div class="insight-dot success"></div>
+                  <div class="insight-content">
+                    <p><strong>Trend:</strong> Video content engagement is up 40% this week. Schedule more video posts.</p>
+                    <button class="btn btn-sm btn-ghost mt-2">Open Content Studio</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Grid Section -->
+        <div class="grid grid-3 gap-5 mb-6">
+          
+          <!-- Campaign Performance -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Campaign Performance</h2>
+              <a href="campaigns.html" class="btn btn-sm btn-ghost">View All</a>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" style="height: 250px;">
+                <canvas id="campaignBarChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity Timeline -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Recent Activities</h2>
+            </div>
+            <div class="card-body p-5">
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-dot success"></div>
+                  <div class="timeline-content">
+                    <p>Campaign <strong>Q3 App Launch</strong> approved</p>
+                    <div class="timeline-time">10:30 AM • by Sarah Jenkins</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot primary"></div>
+                  <div class="timeline-content">
+                    <p>AI generated 3 new blog posts</p>
+                    <div class="timeline-time">Yesterday, 4:15 PM • NexusAI</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot warning"></div>
+                  <div class="timeline-content">
+                    <p>Budget increased for <strong>Retargeting Ads</strong></p>
+                    <div class="timeline-time">Yesterday, 11:00 AM • by John Doe</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <p>New team member added: Mike Ross</p>
+                    <div class="timeline-time">Oct 12, 2:40 PM • by Admin</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Posts -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Upcoming Posts</h2>
+              <a href="social-planner.html" class="btn btn-sm btn-ghost">Calendar</a>
+            </div>
+            <div class="card-body p-0">
+              <div class="post-list">
+                <!-- Post 1 -->
+                <div class="post-list-item">
+                  <div class="post-date">
+                    <span class="day">15</span>
+                    <span class="month">Oct</span>
+                  </div>
+                  <div class="post-details">
+                    <div class="post-title text-truncate">5 Tips for B2B Growth</div>
+                    <div class="post-meta">
+                      <span class="platform-badge linkedin"><i data-lucide="linkedin" style="width:12px;height:12px;"></i> LinkedIn</span>
+                      <span class="text-xs text-tertiary">9:00 AM</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Post 2 -->
+                <div class="post-list-item">
+                  <div class="post-date">
+                    <span class="day">15</span>
+                    <span class="month">Oct</span>
+                  </div>
+                  <div class="post-details">
+                    <div class="post-title text-truncate">New Feature Announcement Video</div>
+                    <div class="post-meta">
+                      <span class="platform-badge youtube"><i data-lucide="youtube" style="width:12px;height:12px;"></i> YouTube</span>
+                      <span class="text-xs text-tertiary">2:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Post 3 -->
+                <div class="post-list-item">
+                  <div class="post-date">
+                    <span class="day">16</span>
+                    <span class="month">Oct</span>
+                  </div>
+                  <div class="post-details">
+                    <div class="post-title text-truncate">Customer Success Story</div>
+                    <div class="post-meta">
+                      <span class="platform-badge twitter"><i data-lucide="twitter" style="width:12px;height:12px;"></i> Twitter</span>
+                      <span class="text-xs text-tertiary">11:30 AM</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Post 4 -->
+                <div class="post-list-item">
+                  <div class="post-date">
+                    <span class="day">17</span>
+                    <span class="month">Oct</span>
+                  </div>
+                  <div class="post-details">
+                    <div class="post-title text-truncate">Weekly Newsletter Q3 Review</div>
+                    <div class="post-meta">
+                      <span class="platform-badge email"><i data-lucide="mail" style="width:12px;height:12px;"></i> Email</span>
+                      <span class="text-xs text-tertiary">8:00 AM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

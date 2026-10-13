@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Bites | Order Online</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #dc2626;        /* Warm Red */
+            --primary-hover: #b91c1c;  /* Darker Red */
+            --bg-light: #f8fafc;       /* Slate 50 */
+            --text-dark: #0f172a;      /* Slate 900 */
+            --text-muted: #64748b;     /* Slate 500 */
+            --white: #ffffff;
+            --border: #e2e8f0;         /* Slate 200 */
+            --success: #10b981;        /* Emerald */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Premium Header */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--white);
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(220, 38, 38, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: 3.2rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        header h1 span {
+            color: var(--primary);
+        }
+
+        header p {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        /* Top Category Navigation Bar */
+        .category-nav {
+            max-width: 1200px;
+            margin: 30px auto 10px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+        }
+
+        /* Layout Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin: 25px 0 20px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        /* Menu list & Cards */
+        .menu-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+
+        @media (max-width: 500px) {
+            .menu-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .menu-item img {
+                margin: 0 auto;
+            }
+            .item-right {
+                align-items: center !important;
+            }
+        }
+
+        .menu-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.06);
+            border-color: #cbd5e1;
+        }
+
+        .menu-item img {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-details h3 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .item-details p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        /* Tags */
+        .combo-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            font-size: 0.72rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            align-self: flex-start;
+        }
+
+        .diet-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-right: 6px;
+        }
+
+        .combo-item {
+            border: 2px solid var(--primary);
+            background: #fffdfd;
+        }
+
+        .item-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .item-price {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Custom Quantity Buttons Adjusters */
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .qty-btn {
+            background: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Original Inputs mapped dynamically to remain backwards compatible */
+        input[type="number"].qty-input {
+            width: 32px;
+            border: none;
+            background: none;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            outline: none;
+            appearance: textfield; /* Remove arrows Chrome */
+        }
+
+        input[type="number"].qty-input::-webkit-outer-spin-button,
+        input[type="number"].qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Sidebar summary container */
+        aside {
+            position: sticky;
+            top: 30px;
+            height: fit-content;
+        }
+
+        .order-summary {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+
+        .order-summary h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .cart-items-list {
+            min-height: 50px;
+            max-height: 240px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 15px;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            animation: popIn 0.2s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+        }
+
+        .cart-item-remove-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: var(--transition);
+        }
+
+        .cart-item-remove-btn:hover {
+            color: var(--primary-hover);
+        }
+
+        /* Promo code widget styles */
+        .promo-section {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .promo-input:focus {
+            border-color: var(--primary);
+        }
+
+        .promo-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .promo-btn:hover {
+            background: var(--primary);
+        }
+
+        .promo-message {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        /* Delivery select styling */
+        .delivery-section {
+            margin-bottom: 20px;
+        }
+
+        .delivery-section label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .delivery-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .delivery-select:focus {
+            border-color: var(--primary);
+        }
+
+        /* Bill calculations */
+        .bill-totals {
+            margin-bottom: 25px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .bill-row.discount-row {
+            color: var(--success);
+            font-weight: 600;
+            display: none;
+        }
+
+        .bill-row.grand-total {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            border-top: 2px solid var(--border);
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--success);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            transition: var(--transition);
+        }
+
+        .checkout-btn:hover {
+            background-color: #059669;
+        }
+
+        .checkout-btn:disabled {
+            background-color: #cbd5e1;
+            color: #94a3b8;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* Checkout Drawer Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Drawer on right side */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .drawer-content {
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+            padding: 35px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .modal-overlay.open .drawer-content {
+            transform: translateX(0);
+        }
+
+        .close-drawer-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drawer-content h2 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .checkout-form-group {
+            margin-bottom: 18px;
+        }
+
+        .checkout-form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        .checkout-form-control {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .checkout-form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+        }
+
+        /* Order Tracker Overlay dashboard styling */
+        .tracker-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ffffff;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .tracker-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .tracker-container {
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+        }
+
+        .tracker-container h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .tracker-container p.eta-text {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* Timeline Stepper */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .stepper::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .stepper-progress {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            height: 4px;
+            background: var(--success);
+            z-index: 2;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .step {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60px;
+        }
+
+        .step-icon {
+            width: 44px;
+            height: 44px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+            border: 2px solid white;
+        }
+
+        .step.active .step-icon {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25);
+        }
+
+        .step.completed .step-icon {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+        }
+
+        .step-label {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+        }
+
+        .step.completed .step-label {
+            color: var(--success);
+        }
+
+        .close-tracker-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-tracker-btn:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Order Progress Stepper Overlay Dashboard -->
+    <div class="tracker-overlay" id="orderTracker">
+        <div class="tracker-container">
+            <h2>Order Dispatched!</h2>
+            <p class="eta-text" id="eta-timer">Estimated delivery: 25 seconds</p>
+            
+            <div class="stepper">
+                <div class="stepper-progress" id="step-progress-bar"></div>
+                <div class="step active" id="step-1">
+                    <div class="step-icon">📝</div>
+                    <div class="step-label">Received</div>
+                </div>
+                <div class="step" id="step-2">
+                    <div class="step-icon">🍳</div>
+                    <div class="step-label">Preparing</div>
+                </div>
+                <div class="step" id="step-3">
+                    <div class="step-icon">🛵</div>
+                    <div class="step-label">On Way</div>
+                </div>
+                <div class="step" id="step-4">
+                    <div class="step-icon">🏠</div>
+                    <div class="step-label">Arrived</div>
+                </div>
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px;" id="status-comment">
+                The kitchen has accepted your request. We're sourcing the freshest ingredients now.
+            </p>
+            <button class="close-tracker-btn" onclick="closeTracker()">Order Something Else</button>
+        </div>
+    </div>
+
+    <!-- Sliding Checkout Drawer Modal Overlay -->
+    <div class="modal-overlay" id="checkoutDrawer" onclick="handleDrawerOutsideClick(event)">
+        <div class="drawer-content">
+            <button class="close-drawer-btn" onclick="toggleDrawer(false)">&times;</button>
+            <h2>Checkout Details</h2>
+            
+            <form id="checkout-form">
+                <div class="checkout-form-group">
+                    <label for="checkout-name">Your Full Name</label>
+                    <input type="text" class="checkout-form-control" id="checkout-name" required placeholder="Alex Mercer">
+                </div>
+                <div class="checkout-form-group">
+                    <label for="checkout-phone">Phone Number</label>
+                    <input type="tel" class="checkout-form-control" id="checkout-phone" required placeholder="+1 (555) 019-2834">
+                </div>
+                <div class="checkout-form-group">
+                    <label for="checkout-address">Delivery Address</label>
+                    <input type="text" class="checkout-form-control" id="checkout-address" required placeholder="428 Broadway Ave, Suite 3">
+                </div>
+                
+                <div class="checkout-form-group">
+                    <label for="checkout-payment">Payment Method</label>
+                    <select class="checkout-form-control" id="checkout-payment" onchange="toggleCardInputs()">
+                        <option value="card" selected>Credit / Debit Card</option>
+                        <option value="cash">Cash on Delivery</option>
+                    </select>
+                </div>
+
+                <div id="card-details-panel">
+                    <div class="checkout-form-group">
+                        <label for="card-num">Card Number</label>
+                        <input type="text" class="checkout-form-control" id="card-num" placeholder="4111 2222 3333 4444">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="checkout-form-group">
+                            <label for="card-expiry">Expiry Date</label>
+                            <input type="text" class="checkout-form-control" id="card-expiry" placeholder="MM/YY">
+                        </div>
+                        <div class="checkout-form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="password" class="checkout-form-control" id="card-cvv" placeholder="***">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="checkout-btn" style="margin-top: 15px;">Confirm & Pay</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header banner -->
+    <header>
+        <h1><span>Food</span> Zone</h1>
+        <p>Premium ingredients, hand-cooked and delivered directly to your door.</p>
+    </header>
+
+    <!-- Category filters -->
+    <div class="category-nav">
+        <button class="category-btn active" onclick="filterMenu('all')">All Options</button>
+        <button class="category-btn" onclick="filterMenu('burgers')">Burgers & Mains</button>
+        <button class="category-btn" onclick="filterMenu('sides')">Sides</button>
+        <button class="category-btn" onclick="filterMenu('combos')">Special Combos</button>
+    </div>
+
+    <div class="container">
+        <main>
+            <h2 class="section-title" id="feed-title">Our Gourmet Menu</h2>
+            <div class="menu-list" id="menu-container">
+                
+                <!-- Truffle Burger Card -->
+                <div class="menu-item" data-category="burgers">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" alt="Truffle Burger">
+                    <div class="item-details">
+                        <span class="combo-badge" style="background:#0369a1;">Best Seller</span>
+                        <h3>Truffle Beef Burger</h3>
+                        <p>Angus beef, truffle aioli, melted swiss cheese, toasted brioche bun.</p>
+                        <div>
+                            <span class="diet-badge">Dairy Free Option</span>
+                        </div>
+                    </div>
+                    <div class="item-right">
+                        <div class="item-price">$14.00</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="adjustQty('item-1', -1)">-</button>
+                            <!-- Backwards compatible raw numeric inputs -->
+                            <input type="number" id="item-1" class="qty-input" data-name="Truffle Burger" data-price="14.00" min="0" value="0" readonly>
+                            <button class="qty-btn" onclick="adjustQty('item-1', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Margherita Flatbread Card -->
+                <div class="menu-item" data-category="burgers">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80" alt="Margherita Flatbread">
+                    <div class="item-details">
+                        <h3>Margherita Flatbread</h3>
+                        <p>Fresh mozzarella, sliced basil leaves, San Marzano tomato puree.</p>
+                        <div>
+                            <span class="diet-badge" style="background:#dcfce7; color:#15803d;">Vegetarian</span>
+                        </div>
+                    </div>
+                    <div class="item-right">
+                        <div class="item-price">$12.50</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="adjustQty('item-2', -1)">-</button>
+                            <input type="number" id="item-2" class="qty-input" data-name="Flatbread" data-price="12.50" min="0" value="0" readonly>
+                            <button class="qty-btn" onclick="adjustQty('item-2', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Truffle Fries Card -->
+                <div class="menu-item" data-category="sides">
+                    <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=300&q=80" alt="Truffle Fries">
+                    <div class="item-details">
+                        <h3>Truffle Fries</h3>
+                        <p>Crispy thick cut fries dusted with imported parmesan and white truffle oil.</p>
+                        <div>
+                            <span class="diet-badge" style="background:#fef3c7; color:#b45309;">Gluten Free</span>
+                        </div>
+                    </div>
+                    <div class="item-right">
+                        <div class="item-price">$6.00</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="adjustQty('item-3', -1)">-</button>
+                            <input type="number" id="item-3" class="qty-input" data-name="Truffle Fries" data-price="6.00" min="0" value="0" readonly>
+                            <button class="qty-btn" onclick="adjustQty('item-3', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classic Combo Offer -->
+                <div class="menu-item combo-item" data-category="combos">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80" alt="Classic Combo">
+                    <div class="item-details">
+                        <span class="combo-badge">Save 15%</span>
+                        <h3>The Classic Combo</h3>
+                        <p>1 Truffle Burger + 1 Truffle Fries + 1 Craft Soda.</p>
+                    </div>
+                    <div class="item-right">
+                        <div class="item-price">$18.50</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="adjustQty('item-4', -1)">-</button>
+                            <input type="number" id="item-4" class="qty-input" data-name="Classic Combo" data-price="18.50" min="0" value="0" readonly>
+                            <button class="qty-btn" onclick="adjustQty('item-4', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date Night Offer -->
+                <div class="menu-item combo-item" data-category="combos">
+                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=300&q=80" alt="Date Night Special">
+                    <div class="item-details">
+                        <span class="combo-badge">Perfect for Two</span>
+                        <h3>Date Night Special</h3>
+                        <p>2 Margherita Flatbreads + 1 Large Truffle Fries + 2 Decadent Desserts.</p>
+                    </div>
+                    <div class="item-right">
+                        <div class="item-price">$34.00</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="adjustQty('item-5', -1)">-</button>
+                            <input type="number" id="item-5" class="qty-input" data-name="Date Night Combo" data-price="34.00" min="0" value="0" readonly>
+                            <button class="qty-btn" onclick="adjustQty('item-5', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <aside>
+            <div class="order-summary">
+                <h2>Your Cart</h2>
+                
+                <div class="cart-items-list" id="cart-items">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Your cart is currently empty.</p>
+                </div>
+
+                <!-- Promo Code -->
+                <div class="promo-section">
+                    <input type="text" class="promo-input" id="promo-code-input" placeholder="Promo Code (WELCOME10)">
+                    <button class="promo-btn" onclick="applyPromo()">Apply</button>
+                </div>
+                <div class="promo-message" id="promo-msg">Code applied successfully!</div>
+
+                <!-- Delivery Speed Options -->
+                <div class="delivery-section">
+                    <label for="delivery-tier">Select Delivery Option</label>
+                    <select class="delivery-select" id="delivery-tier" onchange="calculateBill()">
+                        <option value="3.99" selected>Standard Courier Delivery ($3.99)</option>
+                        <option value="7.99">Priority Express Courier ($7.99)</option>
+                        <option value="0.00">Local Self-Pickup (Free)</option>
+                    </select>
+                </div>
+
+                <!-- Bill Totals -->
+                <div class="bill-totals">
+                    <div class="bill-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal-display">$0.00</span>
+                    </div>
+                    <div class="bill-row">
+                        <span>Tax (8%):</span>
+                        <span id="tax-display">$0.00</span>
+                    </div>
+                    <div class="bill-row discount-row" id="discount-display-row">
+                        <span>Promo Discount (10%):</span>
+                        <span id="discount-display">-$0.00</span>
+                    </div>
+                    <div class="bill-row" id="shipping-display-row">
+                        <span>Delivery Fee:</span>
+                        <span id="shipping-display">$3.99</span>
+                    </div>
+                    <div class="bill-row grand-total">
+                        <span>Total:</span>
+                        <span id="total-display">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Form wrapper triggers sliding drawer details panel -->
+                <button type="button" class="checkout-btn" id="checkout-btn" onclick="toggleDrawer(true)" disabled>Proceed to Checkout</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // 1. Initial configuration parameters
+        const qtyInputs = document.querySelectorAll('.qty-input');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const subtotalDisplay = document.getElementById('subtotal-display');
+        const taxDisplay = document.getElementById('tax-display');
+        const totalDisplay = document.getElementById('total-display');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        const TAX_RATE = 0.08;
+        let activeDiscountRatio = 0.00; // Updated when valid promo code is validated
+
+        // 2. Adjust Quantity button triggers
+        function adjustQty(inputId, delta) {
+            const input = document.getElementById(inputId);
+            let val = parseInt(input.value) + delta;
+            if (val < 0) val = 0;
+            input.value = val;
+            calculateBill();
+        }
+
+        // 3. Remove Item completely from cart row
+        function removeCartItem(inputId) {
+            const input = document.getElementById(inputId);
+            input.value = 0;
+            calculateBill();
+        }
+
+        // 4. Calculate total bill sum
+        function calculateBill() {
+            let subtotal = 0;
+            let cartHTML = '';
+            let hasItems = false;
+
+            qtyInputs.forEach(input => {
+                const qty = parseInt(input.value);
+                
+                if (qty > 0) {
+                    hasItems = true;
+                    const id = input.id;
+                    const name = input.getAttribute('data-name');
+                    const price = parseFloat(input.getAttribute('data-price'));
+                    const lineTotal = qty * price;
+                    
+                    subtotal += lineTotal;
+
+                    // Build dynamic cart row HTML
+                    cartHTML += `
+                        <div class="cart-row">
+                            <span class="cart-item-name">${qty}x ${name}</span>
+                            <span style="display:flex; align-items:center;">
+                                $${lineTotal.toFixed(2)}
+                                <button class="cart-item-remove-btn" onclick="removeCartItem('${id}')">&times;</button>
+                            </span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Update DOM with cart items or empty message
+            if (hasItems) {
+                cartItemsContainer.innerHTML = cartHTML;
+                checkoutBtn.disabled = false;
+            } else {
+                cartItemsContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Your cart is currently empty.</p>';
+                checkoutBtn.disabled = true;
+            }
+
+            // Calculations
+            const tax = subtotal * TAX_RATE;
+            const discount = subtotal * activeDiscountRatio;
+
+            // Delivery Tier fee extraction
+            const deliverySelect = document.getElementById('delivery-tier');
+            const deliveryFee = parseFloat(deliverySelect.value);
+            
+            const grandTotal = subtotal + tax - discount + deliveryFee;
+
+            // Update UI totals displays
+            subtotalDisplay.textContent = `$${subtotal.toFixed(2)}`;
+            taxDisplay.textContent = `$${tax.toFixed(2)}`;
+            
+            const discountRow = document.getElementById('discount-display-row');
+            if (activeDiscountRatio > 0 && subtotal > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('discount-display').textContent = `-$${discount.toFixed(2)}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            const shippingDisplay = document.getElementById('shipping-display');
+            shippingDisplay.textContent = deliveryFee > 0 ? `$${deliveryFee.toFixed(2)}` : 'Free';
+
+            totalDisplay.textContent = `$${grandTotal.toFixed(2)}`;
+        }
+
+        // 5. Apply Coupon Code validation
+        function applyPromo() {
+            const code = document.getElementById('promo-code-input').value.trim().toUpperCase();
+            const msg = document.getElementById('promo-msg');
+            
+            if (code === 'WELCOME10') {
+                activeDiscountRatio = 0.10;
+                msg.style.display = 'block';
+                msg.style.color = 'var(--success)';
+                msg.textContent = 'Coupon WELCOME10 code applied! (10% Off)';
+            } else {
+                activeDiscountRatio = 0.00;
+                msg.style.display = 'block';
+                msg.style.color = 'var(--primary)';
+                msg.textContent = 'Invalid promo code option.';
+            }
+
+            calculateBill();
+        }
+
+        // 6. Sliding Checkout Drawer control
+        function toggleDrawer(isOpen) {
+            const drawer = document.getElementById('checkoutDrawer');
+            if (isOpen) {
+                drawer.classList.add('open');
+            } else {
+                drawer.classList.remove('open');
+            }
+        }
+
+        function handleDrawerOutsideClick(e) {
+            if (e.target === document.getElementById('checkoutDrawer')) {
+                toggleDrawer(false);
+            }
+        }
+
+        // Payment method form logic
+        function toggleCardInputs() {
+            const payment = document.getElementById('checkout-payment').value;
+            const panel = document.getElementById('card-details-panel');
+            if (payment === 'cash') {
+                panel.style.display = 'none';
+            } else {
+                panel.style.display = 'block';
+            }
+        }
+
+        // 7. Menu Filtering tabs
+        function filterMenu(category) {
+            // Update active styles on buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Set dynamic title
+            const titles = {
+                all: 'Our Gourmet Menu',
+                burgers: 'Burgers & Hot Mains',
+                sides: 'Delicious Side Accents',
+                combos: 'Special Combo Packages'
+            };
+            document.getElementById('feed-title').textContent = titles[category];
+
+            // Render cards visibility
+            document.querySelectorAll('.menu-item').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'grid';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 8. simulated Order Status Stepper tracker controls
+        let trackingInterval = null;
+        let remainingSeconds = 25;
+        let currentStep = 1;
+
+        // Form confirmation placement submission handler
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Close Drawer
+            toggleDrawer(false);
+
+            // Open Tracker Dashboard overlay
+            document.getElementById('orderTracker').classList.add('open');
+            startSimulatedDelivery();
+        });
+
+        function startSimulatedDelivery() {
+            remainingSeconds = 25;
+            currentStep = 1;
+
+            const timerText = document.getElementById('eta-timer');
+            const commentText = document.getElementById('status-comment');
+            const stepProgress = document.getElementById('step-progress-bar');
+
+            // Initialize resets on stepper elements
+            document.querySelectorAll('.step').forEach((el, index) => {
+                if (index === 0) {
+                    el.className = 'step active';
+                } else {
+                    el.className = 'step';
+                }
+            });
+            stepProgress.style.width = '0%';
+
+            // Start countdown loop
+            if (trackingInterval) clearInterval(trackingInterval);
+            
+            trackingInterval = setInterval(() => {
+                remainingSeconds--;
+                timerText.textContent = `Estimated delivery: ${remainingSeconds} seconds`;
+
+                // Update comments & steps based on timeline countdown ticks
+                if (remainingSeconds === 18) {
+                    currentStep = 2;
+                    document.getElementById('step-1').className = 'step completed';
+                    document.getElementById('step-2').className = 'step active';
+                    stepProgress.style.width = '33%';
+                    commentText.textContent = 'Ingredients are ready. Our gourmet chef is preparing your meal in the kitchen!';
+                } else if (remainingSeconds === 10) {
+                    currentStep = 3;
+                    document.getElementById('step-2').className = 'step completed';
+                    document.getElementById('step-3').className = 'step active';
+                    stepProgress.style.width = '66%';
+                    commentText.textContent = 'Order picked up! Our priority delivery driver is heading to your coordinate address.';
+                } else if (remainingSeconds === 2) {
+                    currentStep = 4;
+                    document.getElementById('step-3').className = 'step completed';
+                    document.getElementById('step-4').className = 'step active';
+                    stepProgress.style.width = '100%';
+                    commentText.textContent = 'Arrived! Look out for your delivery driver at the front entrance door.';
+                }
+
+                if (remainingSeconds <= 0) {
+                    clearInterval(trackingInterval);
+                    timerText.textContent = 'Arrived!';
+                    document.getElementById('step-4').className = 'step completed';
+                    commentText.textContent = 'Enjoy your delicious hot meal! Bon appétit!';
+                }
+            }, 1000);
+        }
+
+        // Close Tracker panel and reset cart values
+        function closeTracker() {
+            if (trackingInterval) clearInterval(trackingInterval);
+            document.getElementById('orderTracker').classList.remove('open');
+            
+            // Clear cart quantities
+            qtyInputs.forEach(input => input.value = 0);
+            calculateBill();
+        }
+
+        // Attach event listeners to all input boxes so it updates instantly
+        qtyInputs.forEach(input => {
+            input.addEventListener('input', calculateBill);
+        });
+    </script>
+</body>
+</html>

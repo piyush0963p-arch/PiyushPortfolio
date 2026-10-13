@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Marketing | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/email.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <!-- Core -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+        <!-- Content -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item active"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+        <!-- Data -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <!-- System -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search emails...">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Email Marketing</h1>
+            <p class="page-subtitle">Build, send, and track automated email sequences.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary"><i data-lucide="layers"></i> Sequences</button>
+            <button class="btn btn-primary" onclick="document.getElementById('emailBuilderModal').classList.add('open')"><i data-lucide="plus"></i> New Email</button>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-4 gap-4 mb-6">
+          <div class="card p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-primary-50 text-primary flex items-center justify-center">
+              <i data-lucide="send"></i>
+            </div>
+            <div>
+              <div class="text-xs text-secondary">Emails Sent (30d)</div>
+              <div class="text-xl font-bold">142.5K</div>
+            </div>
+          </div>
+          <div class="card p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-success text-white flex items-center justify-center shadow-sm">
+              <i data-lucide="mail-open"></i>
+            </div>
+            <div>
+              <div class="text-xs text-secondary">Avg. Open Rate</div>
+              <div class="text-xl font-bold">34.2%</div>
+            </div>
+          </div>
+          <div class="card p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-secondary text-primary flex items-center justify-center">
+              <i data-lucide="mouse-pointer-click"></i>
+            </div>
+            <div>
+              <div class="text-xs text-secondary">Avg. Click Rate</div>
+              <div class="text-xl font-bold">4.8%</div>
+            </div>
+          </div>
+          <div class="card p-4 flex items-center gap-4 border-primary">
+            <div class="w-12 h-12 rounded-full bg-gradient-primary text-white flex items-center justify-center shadow-primary">
+              <i data-lucide="sparkles"></i>
+            </div>
+            <div>
+              <div class="text-xs text-primary font-semibold">AI Subject Tester</div>
+              <div class="text-xs mt-1"><button class="btn btn-sm btn-ghost p-0 h-auto text-primary hover:underline">Run Test</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Recent Campaigns -->
+          <div class="card lg:col-span-2">
+            <div class="card-header">
+              <h2 class="card-title">Recent Campaigns</h2>
+              <div class="tabs m-0 border-0">
+                <div class="tab-item active">All</div>
+                <div class="tab-item">Sent</div>
+                <div class="tab-item">Drafts</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Campaign Name</th>
+                    <th>Status</th>
+                    <th>Sent To</th>
+                    <th>Open Rate</th>
+                    <th>Click Rate</th>
+                  </tr>
+                </thead>
+                <tbody id="emailTableBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Templates -->
+          <div class="card flex flex-col">
+            <div class="card-header border-b border-light pb-4">
+              <h2 class="card-title">AI Templates</h2>
+              <button class="btn btn-sm btn-ghost text-primary p-0 h-auto font-medium text-xs">View All</button>
+            </div>
+            <div class="card-body p-4 flex-1 overflow-y-auto space-y-4">
+              
+              <div class="template-card border border-light rounded-lg p-3 hover:border-primary hover:shadow-md transition cursor-pointer flex gap-3">
+                <div class="w-16 h-20 bg-secondary rounded flex items-center justify-center flex-shrink-0 relative overflow-hidden">
+                  <i data-lucide="layout" class="text-tertiary"></i>
+                  <div class="absolute inset-0 bg-primary opacity-0 hover:opacity-10 transition flex items-center justify-center"></div>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-primary">SaaS Welcome Series</h4>
+                  <p class="text-xs text-secondary mt-1 line-clamp-2">A 3-part sequence designed to onboard new software users.</p>
+                </div>
+              </div>
+
+              <div class="template-card border border-light rounded-lg p-3 hover:border-primary hover:shadow-md transition cursor-pointer flex gap-3">
+                <div class="w-16 h-20 bg-secondary rounded flex items-center justify-center flex-shrink-0 relative overflow-hidden">
+                  <i data-lucide="tag" class="text-tertiary"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-primary">Flash Sale Promo</h4>
+                  <p class="text-xs text-secondary mt-1 line-clamp-2">High-urgency promotional email with countdown timer placeholder.</p>
+                </div>
+              </div>
+
+              <div class="template-card border border-light rounded-lg p-3 hover:border-primary hover:shadow-md transition cursor-pointer flex gap-3">
+                <div class="w-16 h-20 bg-secondary rounded flex items-center justify-center flex-shrink-0 relative overflow-hidden">
+                  <i data-lucide="file-text" class="text-tertiary"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-primary">Monthly Newsletter</h4>
+                  <p class="text-xs text-secondary mt-1 line-clamp-2">Standard multi-column layout for sharing blog posts and updates.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Email Builder Modal (Full Screen) -->
+  <div class="modal" id="emailBuilderModal">
+    <div class="modal-dialog" style="max-width: 95vw; height: 95vh; margin: 2.5vh auto; display: flex; flex-direction: column;">
+      
+      <div class="modal-header border-b border-light p-4 flex justify-between items-center shrink-0">
+        <div class="flex items-center gap-3">
+          <button class="btn btn-sm btn-ghost btn-icon" onclick="document.getElementById('emailBuilderModal').classList.remove('open')"><i data-lucide="x"></i></button>
+          <h2 class="text-lg font-bold">New Email Campaign</h2>
+          <span class="badge badge-secondary ml-2">Draft</span>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-sm btn-secondary"><i data-lucide="eye"></i> Preview</button>
+          <button class="btn btn-sm btn-primary"><i data-lucide="save"></i> Save & Continue</button>
+        </div>
+      </div>
+      
+      <div class="modal-body p-0 flex-1 flex overflow-hidden">
+        
+        <!-- Builder Sidebar -->
+        <div class="w-80 border-r border-light bg-card flex flex-col shrink-0">
+          <div class="p-4 border-b border-light">
+            <div class="form-group">
+              <label class="form-label">Campaign Name</label>
+              <input type="text" class="form-input" value="October Newsletter v1">
+            </div>
+            <div class="form-group mt-3">
+              <label class="form-label flex justify-between">
+                Subject Line
+                <button class="text-xs text-primary bg-transparent border-0 flex items-center gap-1 hover:underline cursor-pointer"><i data-lucide="sparkles" style="width:12px;height:12px"></i> AI Optimize</button>
+              </label>
+              <input type="text" class="form-input" value="Top 5 Marketing Trends for 2026 🚀">
+            </div>
+            <div class="form-group mt-3">
+              <label class="form-label">Preheader Text</label>
+              <input type="text" class="form-input" value="Don't miss out on these emerging strategies...">
+            </div>
+          </div>
+
+          <div class="flex-1 overflow-y-auto p-4">
+            <h3 class="text-sm font-semibold mb-3">Blocks</h3>
+            <div class="grid grid-2 gap-2">
+              <div class="builder-block-tool border border-light rounded flex flex-col items-center justify-center p-3 cursor-grab hover:bg-secondary">
+                <i data-lucide="type" class="mb-1 text-tertiary"></i>
+                <span class="text-xs font-medium">Text</span>
+              </div>
+              <div class="builder-block-tool border border-light rounded flex flex-col items-center justify-center p-3 cursor-grab hover:bg-secondary">
+                <i data-lucide="image" class="mb-1 text-tertiary"></i>
+                <span class="text-xs font-medium">Image</span>
+              </div>
+              <div class="builder-block-tool border border-light rounded flex flex-col items-center justify-center p-3 cursor-grab hover:bg-secondary">
+                <i data-lucide="mouse-pointer-click" class="mb-1 text-tertiary"></i>
+                <span class="text-xs font-medium">Button</span>
+              </div>
+              <div class="builder-block-tool border border-light rounded flex flex-col items-center justify-center p-3 cursor-grab hover:bg-secondary">
+                <i data-lucide="minus" class="mb-1 text-tertiary"></i>
+                <span class="text-xs font-medium">Divider</span>
+              </div>
+              <div class="builder-block-tool border border-light rounded flex flex-col items-center justify-center p-3 cursor-grab hover:bg-secondary">
+                <i data-lucide="layout" class="mb-1 text-tertiary"></i>
+                <span class="text-xs font-medium">Columns</span>
+              </div>
+              <div class="builder-block-tool border border-light rounded flex flex-col items-center justify-center p-3 cursor-grab hover:bg-secondary">
+                <i data-lucide="share-2" class="mb-1 text-tertiary"></i>
+                <span class="text-xs font-medium">Social</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Builder Canvas -->
+        <div class="flex-1 bg-secondary p-8 overflow-y-auto flex justify-center">
+          <div class="email-canvas bg-white shadow-md w-full max-w-2xl rounded" style="min-height: 600px;">
+            <!-- Mock Email Preview -->
+            <div class="p-8 text-center text-gray-800 font-sans border border-transparent hover:border-primary border-dashed relative group cursor-pointer transition">
+              <div class="absolute top-0 right-0 p-1 bg-primary text-white text-xs hidden group-hover:block rounded-bl">Header</div>
+              <h1 class="text-2xl font-bold mb-4" style="color: var(--primary-700)">Your Weekly Insights</h1>
+              <p class="mb-4">Hello {{first_name}},</p>
+              <p>Here is what is new in the world of AI marketing...</p>
+            </div>
+
+            <div class="p-8 text-center bg-gray-50 border border-transparent hover:border-primary border-dashed relative group cursor-pointer transition">
+              <div class="absolute top-0 right-0 p-1 bg-primary text-white text-xs hidden group-hover:block rounded-bl">Image</div>
+              <div class="w-full h-48 bg-gray-200 flex items-center justify-center rounded text-gray-400">
+                <i data-lucide="image" style="width: 48px; height: 48px;"></i>
+              </div>
+            </div>
+
+            <div class="p-8 text-center border border-transparent hover:border-primary border-dashed relative group cursor-pointer transition">
+              <div class="absolute top-0 right-0 p-1 bg-primary text-white text-xs hidden group-hover:block rounded-bl">Button</div>
+              <button style="background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 4px; font-weight: bold; cursor: pointer;">Read the Full Article</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/email-marketing.js"></script>
+</body>
+</html>

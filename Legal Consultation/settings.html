@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .dashboard-content {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Settings Layout */
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .settings-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .settings-tab {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .settings-tab:hover {
+            background: var(--bg-surface);
+        }
+
+        .settings-tab.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        .settings-panel {
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar-lg {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h4 {
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .setting-info p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="client-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> My Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="folder-open"></i> Document Center
+                </a>
+                <a href="messages.html" class="nav-item">
+                    <i data-lucide="message-square"></i> Messages
+                </a>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <a href="settings.html" class="nav-item active">
+                        <i data-lucide="settings"></i> Settings
+                    </a>
+                    <a href="index.html" class="nav-item text-danger">
+                        <i data-lucide="log-out"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">Settings</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">JD</div>
+                </div>
+            </header>
+
+            <div class="dashboard-content animate-fade-in">
+                
+                <div class="settings-layout">
+                    
+                    <!-- Settings Nav -->
+                    <div class="settings-nav">
+                        <div class="settings-tab active" data-target="profile">
+                            <i data-lucide="user"></i> My Profile
+                        </div>
+                        <div class="settings-tab" data-target="security">
+                            <i data-lucide="shield"></i> Security
+                        </div>
+                        <div class="settings-tab" data-target="notifications">
+                            <i data-lucide="bell"></i> Notifications
+                        </div>
+                        <div class="settings-tab" data-target="billing">
+                            <i data-lucide="credit-card"></i> Billing Details
+                        </div>
+                    </div>
+
+                    <!-- Settings Panels -->
+                    <div class="card" style="padding: 2rem;">
+                        
+                        <!-- Profile Panel -->
+                        <div id="profile" class="settings-panel active">
+                            <h3 class="section-title">Profile Information</h3>
+                            
+                            <div class="profile-header">
+                                <div class="profile-avatar-lg">JD</div>
+                                <div>
+                                    <button class="btn btn-secondary" style="margin-bottom: 0.5rem;">Change Photo</button>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted);">JPG, GIF or PNG. Max size 2MB.</p>
+                                </div>
+                            </div>
+
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-input" value="John">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-input" value="Doe">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" class="form-input" value="john.doe@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-input" value="+1 (555) 123-4567">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" class="form-input" value="123 Legal Way, Suite 100">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-input" value="New York">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Zip Code</label>
+                                        <input type="text" class="form-input" value="10001">
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                                    <button type="button" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Security Panel -->
+                        <div id="security" class="settings-panel">
+                            <h3 class="section-title">Security Settings</h3>
+                            
+                            <form style="margin-bottom: 3rem;">
+                                <h4 style="margin-bottom: 1rem;">Change Password</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Current Password</label>
+                                    <input type="password" class="form-input">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">New Password</label>
+                                        <input type="password" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-input">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary">Update Password</button>
+                            </form>
+
+                            <h4 style="margin-bottom: 1rem;">Two-Factor Authentication</h4>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Require 2FA for login</h4>
+                                    <p>Protect your account with an extra layer of security.</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Notifications Panel -->
+                        <div id="notifications" class="settings-panel">
+                            <h3 class="section-title">Notification Preferences</h3>
+                            
+                            <h4 style="margin-bottom: 1rem;">Email Notifications</h4>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Case Updates</h4>
+                                    <p>Receive an email when there is an update on your active cases.</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>New Messages</h4>
+                                    <p>Receive an email when your lawyer sends a new message.</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Document Alerts</h4>
+                                    <p>Receive an email when a document requires your signature.</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <h4 style="margin: 2rem 0 1rem;">In-App Notifications</h4>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>AI Insights</h4>
+                                    <p>Show AI suggestions and risk alerts in the dashboard.</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // Tab Switching Logic
+        const tabs = document.querySelectorAll('.settings-tab');
+        const panels = document.querySelectorAll('.settings-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and panels
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding panel
+                tab.classList.add('active');
+                const targetId = tab.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

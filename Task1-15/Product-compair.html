@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaTech | Compare Smartwatches</title>
+    <style>
+        /* Import Modern Web Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* CSS Variables for Clean Tech Theme */
+        :root {
+            --bg-base: #f4f7f6;
+            --bg-surface: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary-accent: #2563eb;
+            /* Tech Blue */
+            --highlight-border: #3b82f6;
+            --success-green: #10b981;
+            --border-color: #e5e7eb;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 4rem;
+        }
+
+        /* Header Navigation */
+        nav {
+            background-color: var(--bg-surface);
+            padding: 1.5rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        .brand span {
+            color: var(--primary-accent);
+        }
+
+        /* Page Header */
+        .header-section {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Utility Buttons */
+        .controls {
+            text-align: center;
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: var(--bg-surface);
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .btn-action {
+            background-color: var(--primary-accent);
+            color: white;
+            border-color: var(--primary-accent);
+        }
+
+        .btn-action:hover {
+            background-color: #1d4ed8;
+            color: white;
+        }
+
+        /* Comparison Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background-color: var(--bg-surface);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hover & JS Highlight State */
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card.selected {
+            border-color: var(--highlight-border);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+            transform: scale(1.02);
+            z-index: 10;
+        }
+
+        .product-card.best-value-highlight {
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+        }
+
+        /* Challenge: Best Value Badge */
+        .best-value-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success-green);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+            display: none;
+            /* Hidden by default, shown via JS */
+            white-space: nowrap;
+        }
+
+        .product-img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            align-self: center;
+            background-color: #fff;
+            border-radius: 8px;
+            mix-blend-mode: multiply;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Specifications List */
+        .specs-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out, margin-bottom 0.3s ease-out;
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .specs-list.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            margin-bottom: 0.5rem;
+            border-top: none;
+        }
+
+        .specs-list li {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .specs-list li::before {
+            content: "✓";
+            color: var(--success-green);
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .specs-list li.missing {
+            color: var(--text-muted);
+        }
+
+        .specs-list li.missing::before {
+            content: "×";
+            color: #ef4444;
+        }
+
+        /* Toggle Specs Button */
+        .toggle-specs-btn {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-base);
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-specs-btn:hover {
+            background: var(--border-color);
+            border-color: var(--text-muted);
+        }
+
+        /* Select Button */
+        .select-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .product-card.selected .select-btn {
+            background-color: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: white;
+        }
+
+        /* Custom Compare Checkbox Label */
+        .compare-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            z-index: 5;
+            background: rgba(244, 247, 246, 0.8);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .compare-toggle:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .compare-toggle input {
+            cursor: pointer;
+            accent-color: var(--primary-accent);
+        }
+
+        /* View Details Button */
+        .details-btn {
+            width: 100%;
+            padding: 0.6rem;
+            margin-top: 0.5rem;
+            border-radius: 8px;
+            border: 2px dashed var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .details-btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        /* Modal Overlays and Cards */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background-color: var(--bg-surface);
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            transform: translateY(-30px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            max-height: 90vh;
+            overflow-y: auto;
+            border-top: 6px solid var(--primary-accent);
+            width: 90%;
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #ef4444;
+        }
+
+        /* Details Modal Layout */
+        .details-modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .details-large-img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            background: var(--bg-base);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .details-badge {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-accent);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .details-reviews-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .details-reviews-section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-box {
+            background-color: var(--bg-base);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Side-by-Side Comparison Table */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .compare-table th,
+        .compare-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .compare-table th {
+            background-color: var(--bg-base);
+            font-weight: 600;
+        }
+
+        .compare-table tr:hover td {
+            background-color: rgba(244, 247, 246, 0.5);
+        }
+
+        .compare-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            background-color: var(--bg-base);
+            width: 200px;
+        }
+
+        /* Mobile Responsive Enhancements */
+        @media (max-width: 900px) {
+            .compare-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .header-section {
+                padding: 3rem 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-section {
+                padding: 2rem 1rem 1.5rem;
+            }
+            .header-section h1 {
+                font-size: 1.8rem;
+            }
+            .controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+            }
+            .details-modal-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .modal-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand">Nova<span>Tech</span></div>
+    </nav>
+
+    <header class="header-section">
+        <h1>Which NovaWatch is right for you?</h1>
+        <p>Compare specifications, features, and pricing to find the perfect smartwatch for your lifestyle.</p>
+
+        <div class="controls">
+            <button class="btn btn-action" id="find-value-btn">🏆 Find Best Value</button>
+            <button class="btn btn-action" id="compare-selected-btn" disabled>📊 Compare Selected (0)</button>
+            <button class="btn" id="clear-btn">Clear Selection</button>
+            <button class="btn btn-action" id="global-toggle-specs">Hide All Specs</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="compare-grid" id="product-grid">
+
+            <article class="product-card" data-price="149" data-features="4">
+                <div class="best-value-badge">Best Value Ratio</div>
+                <label class="compare-toggle">
+                    <input type="checkbox" class="compare-checkbox" value="NovaWatch Lite">
+                    Compare
+                </label>
+                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=300"
+                    alt="NovaWatch Lite" class="product-img">
+                <h2 class="product-name">NovaWatch Lite</h2>
+                <div class="price">$149</div>
+
+                <ul class="specs-list">
+                    <li>1.2" OLED Display</li>
+                    <li>Heart Rate Monitor</li>
+                    <li>Up to 7 days battery</li>
+                    <li>Water resistant (50m)</li>
+                    <li class="missing">No GPS Tracking</li>
+                    <li class="missing">No ECG App</li>
+                    <li class="missing">No Always-On Display</li>
+                </ul>
+                <button class="show-specs-btn btn">Show Specs</button>
+                <button class="select-btn">Select Model</button>
+                <button class="details-btn">🔍 View Full Details</button>
+            </article>
+
+            <article class="product-card" data-price="249" data-features="7">
+                <div class="best-value-badge">Best Value Ratio</div>
+                <label class="compare-toggle">
+                    <input type="checkbox" class="compare-checkbox" value="NovaWatch Pro">
+                    Compare
+                </label>
+                <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&q=80&w=300"
+                    alt="NovaWatch Pro" class="product-img">
+                <h2 class="product-name">NovaWatch Pro</h2>
+                <div class="price">$249</div>
+
+                <ul class="specs-list">
+                    <li>1.5" Retina Display</li>
+                    <li>Heart Rate Monitor</li>
+                    <li>Up to 14 days battery</li>
+                    <li>Water resistant (50m)</li>
+                    <li>Built-in GPS Tracking</li>
+                    <li>Always-On Display</li>
+                    <li class="missing">No ECG App</li>
+                </ul>
+                <button class="show-specs-btn btn">Show Specs</button>
+                <button class="select-btn">Select Model</button>
+                <button class="details-btn">🔍 View Full Details</button>
+            </article>
+
+            <article class="product-card" data-price="499" data-features="8">
+                <div class="best-value-badge">Best Value Ratio</div>
+                <label class="compare-toggle">
+                    <input type="checkbox" class="compare-checkbox" value="NovaWatch Ultra">
+                    Compare
+                </label>
+                <img src="https://images.unsplash.com/photo-1617043786394-f977fa12eddf?auto=format&fit=crop&q=80&w=300"
+                    alt="NovaWatch Ultra" class="product-img">
+                <h2 class="product-name">NovaWatch Ultra</h2>
+                <div class="price">$499</div>
+
+                <ul class="specs-list">
+                    <li>1.9" Titanium Display</li>
+                    <li>Heart Rate Monitor</li>
+                    <li>Up to 21 days battery</li>
+                    <li>Dive resistant (100m)</li>
+                    <li>Precision Dual-GPS</li>
+                    <li>Always-On Display</li>
+                    <li>Advanced ECG App</li>
+                </ul>
+                <button class="show-specs-btn btn">Show Specs</button>
+                <button class="select-btn">Select Model</button>
+                <button class="details-btn">🔍 View Full Details</button>
+            </article>
+
+            <article class="product-card" data-price="199" data-features="5">
+                <div class="best-value-badge">Best Value Ratio</div>
+                <label class="compare-toggle">
+                    <input type="checkbox" class="compare-checkbox" value="NovaWatch Active">
+                    Compare
+                </label>
+                <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=300"
+                    alt="NovaWatch Active" class="product-img">
+                <h2 class="product-name">NovaWatch Active</h2>
+                <div class="price">$199</div>
+
+                <ul class="specs-list">
+                    <li>1.4" OLED Display</li>
+                    <li>Heart Rate Monitor</li>
+                    <li>Up to 10 days battery</li>
+                    <li>Water resistant (50m)</li>
+                    <li>Built-in GPS Tracking</li>
+                    <li class="missing">No ECG App</li>
+                    <li class="missing">No Always-On Display</li>
+                </ul>
+                <button class="show-specs-btn btn">Show Specs</button>
+                <button class="select-btn">Select Model</button>
+                <button class="details-btn">🔍 View Full Details</button>
+            </article>
+
+            <article class="product-card" data-price="299" data-features="7">
+                <div class="best-value-badge">Best Value Ratio</div>
+                <label class="compare-toggle">
+                    <input type="checkbox" class="compare-checkbox" value="NovaWatch Steel">
+                    Compare
+                </label>
+                <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=300"
+                    alt="NovaWatch Steel" class="product-img">
+                <h2 class="product-name">NovaWatch Steel</h2>
+                <div class="price">$299</div>
+
+                <ul class="specs-list">
+                    <li>1.6" Sapphire Display</li>
+                    <li>Heart Rate Monitor</li>
+                    <li>Up to 14 days battery</li>
+                    <li>Water resistant (50m)</li>
+                    <li>Built-in GPS Tracking</li>
+                    <li>Always-On Display</li>
+                    <li class="missing">No ECG App</li>
+                </ul>
+                <button class="show-specs-btn btn">Show Specs</button>
+                <button class="select-btn">Select Model</button>
+                <button class="details-btn">🔍 View Full Details</button>
+            </article>
+
+            <article class="product-card" data-price="399" data-features="8">
+                <div class="best-value-badge">Best Value Ratio</div>
+                <label class="compare-toggle">
+                    <input type="checkbox" class="compare-checkbox" value="NovaWatch Luxe">
+                    Compare
+                </label>
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=300"
+                    alt="NovaWatch Luxe" class="product-img">
+                <h2 class="product-name">NovaWatch Luxe</h2>
+                <div class="price">$399</div>
+
+                <ul class="specs-list">
+                    <li>1.8" Crystal Display</li>
+                    <li>Heart Rate Monitor</li>
+                    <li>Up to 10 days battery</li>
+                    <li>Water resistant (50m)</li>
+                    <li>Precision GPS Tracking</li>
+                    <li>Always-On Display</li>
+                    <li>Advanced ECG App</li>
+                </ul>
+                <button class="show-specs-btn btn">Show Specs</button>
+                <button class="select-btn">Select Model</button>
+                <button class="details-btn">🔍 View Full Details</button>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- 1. Product Details Modal -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-card" style="max-width: 700px;">
+            <span class="modal-close" onclick="closeModal('detailsModal')">&times;</span>
+            <div class="details-modal-grid">
+                <div class="details-left">
+                    <img id="details-img" src="" alt="" class="details-large-img">
+                </div>
+                <div class="details-right">
+                    <span class="details-badge" id="details-badge">Smartwatch</span>
+                    <h2 id="details-title">NovaWatch Model</h2>
+                    <div class="price" id="details-price" style="margin-bottom: 0.5rem; font-size: 2.2rem;">$199</div>
+                    <div class="ratings" style="margin-bottom: 1rem;">
+                        <span style="color: #fbbf24;">★★★★★</span>
+                        <span id="details-rating" style="font-size: 0.9rem; color: var(--text-muted);">(4.8 / 5 from 124 reviews)</span>
+                    </div>
+                    <p id="details-desc"
+                        style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem; text-align: left;">
+                        Detailed product description goes here...
+                    </p>
+                    <div id="details-specs" style="margin-bottom: 1.5rem;">
+                        <!-- Dynamic specifications list will be injected here -->
+                    </div>
+                    <button class="btn btn-action" id="details-order-btn" style="width: 100%; margin: 0;">Order Model Now</button>
+                </div>
+            </div>
+
+            <div class="details-reviews-section">
+                <h3 style="text-align: left;">Customer Reviews</h3>
+                <div class="review-box" style="text-align: left;">
+                    <div class="review-header">
+                        <strong>Alex P.</strong> <span style="color: var(--success-green); font-weight: 600;">✓ Verified Purchaser</span>
+                    </div>
+                    <p>"The battery life is exactly what they promised. Switched from my old watch and I only charge this once every two weeks!"</p>
+                </div>
+                <div class="review-box" style="text-align: left;">
+                    <div class="review-header">
+                        <strong>Jessica K.</strong> <span style="color: var(--success-green); font-weight: 600;">✓ Verified Purchaser</span>
+                    </div>
+                    <p>"Extremely premium titanium construction. Feels solid and the display is incredibly bright even in bright daylight."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Compare Selected Modal -->
+    <div class="modal-overlay" id="compareModal">
+        <div class="modal-card" style="max-width: 900px; width: 95%;">
+            <span class="modal-close" onclick="closeModal('compareModal')">&times;</span>
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Side-by-Side Comparison</h2>
+            <div style="overflow-x: auto; width: 100%;">
+                <table class="compare-table" id="compareTable">
+                    <!-- Dynamic comparison rows will be injected here -->
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Pre-Order Form Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-card" style="max-width: 450px;">
+            <span class="modal-close" onclick="closeModal('orderModal')">&times;</span>
+            <div id="orderFormContainer">
+                <h2 style="margin-bottom: 0.5rem; text-align: center;">Place Pre-Order</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Fill out the details below to reserve your <strong id="order-watch-name">NovaWatch</strong>.
+                </p>
+                <form id="orderForm">
+                    <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem;">Full Name</label>
+                        <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px;" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem;">Email Address</label>
+                        <input type="email" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px;" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem;">Shipping Address</label>
+                        <textarea style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; resize: vertical;" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-action" style="width: 100%; margin-top: 1rem;">Confirm Pre-Order</button>
+                </form>
+            </div>
+            <div id="orderSuccessMessage" style="display: none; text-align: center; padding: 1.5rem 0;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--success-green);">🎉</div>
+                <h2 style="margin-bottom: 0.5rem; color: var(--text-main);">Order Placed!</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">
+                    Your pre-order for <strong id="success-model-name"></strong> has been received. We'll send shipping updates to <strong id="success-email"></strong>.
+                </p>
+                <button class="btn btn-action" onclick="closeModal('orderModal')" style="width: 100%; margin: 0;">Awesome</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UI Helper Script -->
+    <script>
+        // 1. Data mapping for details modal
+        const productDetailsMap = {
+            "NovaWatch Lite": {
+                description: "The perfect entry point to the smart ecosystem. NovaWatch Lite offers core health metrics tracking and battery life that outlasts the competition. Features a lightweight, comfortable design built for daily wear.",
+                rating: "4.5 / 5 from 342 reviews"
+            },
+            "NovaWatch Pro": {
+                description: "Built for professionals and active fitness enthusiasts. Featuring an always-on Retina display, precise GPS tracking, and a premium aluminum chassis. Track your workouts, monitor sleep patterns, and stay connected with notifications.",
+                rating: "4.7 / 5 from 512 reviews"
+            },
+            "NovaWatch Ultra": {
+                description: "The ultimate smartwatch experience. Designed with a robust titanium case, dual-frequency GPS, and deep-sea water resistance up to 100 meters. Includes the cutting-edge ECG application and advanced athletic metrics.",
+                rating: "4.9 / 5 from 215 reviews"
+            },
+            "NovaWatch Active": {
+                description: "Engineered specifically for outdoor adventures and sport tracking. Features a rugged, sweat-resistant design, built-in GPS, and real-time coaching metrics. Stay safe and motivated during your toughest runs.",
+                rating: "4.6 / 5 from 188 reviews"
+            },
+            "NovaWatch Steel": {
+                description: "Elegant, sophisticated, and durable. The Steel model combines traditional watch aesthetics with high-tech features. Protected by scratch-resistant sapphire crystal and featuring a premium leather strap option.",
+                rating: "4.8 / 5 from 276 reviews"
+            },
+            "NovaWatch Luxe": {
+                description: "Where luxury meets cutting-edge technology. Features a gorgeous crystal display, premium finishes, precision GPS tracking, and advanced ECG diagnostics. The absolute benchmark for style and performance.",
+                rating: "4.9 / 5 from 144 reviews"
+            }
+        };
+
+        // 2. DOM Elements
+        const findValueBtn = document.getElementById('find-value-btn');
+        const compareSelectedBtn = document.getElementById('compare-selected-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const globalToggleSpecsBtn = document.getElementById('global-toggle-specs');
+        const productCards = document.querySelectorAll('.product-card');
+        const showSpecsBtns = document.querySelectorAll('.show-specs-btn');
+        const detailsBtns = document.querySelectorAll('.details-btn');
+        
+        // Modal elements
+        const detailsModal = document.getElementById('detailsModal');
+        const compareModal = document.getElementById('compareModal');
+        const orderModal = document.getElementById('orderModal');
+        
+        // Order Form elements
+        const orderForm = document.getElementById('orderForm');
+        const orderFormContainer = document.getElementById('orderFormContainer');
+        const orderSuccessMessage = document.getElementById('orderSuccessMessage');
+        const successModelName = document.getElementById('success-model-name');
+        const successEmail = document.getElementById('success-email');
+        const orderWatchName = document.getElementById('order-watch-name');
+        
+        let selectedModelForOrder = '';
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('open');
+        }
+        
+        // Modal background click to close
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('open');
+                }
+            });
+        });
+
+        // 3. Selection State management
+        function updateSelectedState() {
+            const selectedCards = document.querySelectorAll('.product-card.selected');
+            const count = selectedCards.length;
+            
+            // Update compare button count
+            compareSelectedBtn.textContent = `📊 Compare Selected (${count})`;
+            
+            // Enable compare button if at least 1 card is selected
+            compareSelectedBtn.disabled = count === 0;
+        }
+
+        // Toggle card selection
+        function toggleCardSelection(card, forceState) {
+            const checkbox = card.querySelector('.compare-checkbox');
+            const selectBtn = card.querySelector('.select-btn');
+            
+            let shouldSelect;
+            if (forceState !== undefined) {
+                shouldSelect = forceState;
+            } else {
+                shouldSelect = !card.classList.contains('selected');
+            }
+            
+            if (shouldSelect) {
+                card.classList.add('selected');
+                checkbox.checked = true;
+                selectBtn.textContent = 'Deselect';
+            } else {
+                card.classList.remove('selected');
+                checkbox.checked = false;
+                selectBtn.textContent = 'Select Model';
+            }
+            
+            updateSelectedState();
+        }
+
+        // Add event listeners to select buttons and checkboxes
+        productCards.forEach(card => {
+            const checkbox = card.querySelector('.compare-checkbox');
+            const selectBtn = card.querySelector('.select-btn');
+            
+            selectBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleCardSelection(card);
+            });
+            
+            checkbox.addEventListener('change', (e) => {
+                e.stopPropagation();
+                toggleCardSelection(card, checkbox.checked);
+            });
+        });
+
+        // 4. Clear Selections
+        clearBtn.addEventListener('click', () => {
+            productCards.forEach(card => {
+                toggleCardSelection(card, false);
+                card.classList.remove('best-value-highlight');
+                const badge = card.querySelector('.best-value-badge');
+                if (badge) badge.style.display = 'none';
+            });
+            updateSelectedState();
+        });
+
+        // 5. Global Toggle Specs
+        let globalSpecsCollapsed = false;
+        globalToggleSpecsBtn.addEventListener('click', () => {
+            globalSpecsCollapsed = !globalSpecsCollapsed;
+            
+            productCards.forEach(card => {
+                const list = card.querySelector('.specs-list');
+                const btn = card.querySelector('.show-specs-btn');
+                if (globalSpecsCollapsed) {
+                    list.classList.add('collapsed');
+                    if (btn) btn.textContent = 'Show Specs';
+                } else {
+                    list.classList.remove('collapsed');
+                    if (btn) btn.textContent = 'Hide Specs';
+                }
+            });
+            
+            globalToggleSpecsBtn.textContent = globalSpecsCollapsed ? 'Show All Specs' : 'Hide All Specs';
+        });
+
+        // Individual Show/Hide Specs
+        showSpecsBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.product-card');
+                const list = card.querySelector('.specs-list');
+                const isCollapsed = list.classList.toggle('collapsed');
+                btn.textContent = isCollapsed ? 'Show Specs' : 'Hide Specs';
+            });
+        });
+
+        // 6. Find Best Value Ratio
+        findValueBtn.addEventListener('click', () => {
+            let maxRatio = -1;
+            let bestCard = null;
+            
+            productCards.forEach(card => {
+                const price = parseFloat(card.getAttribute('data-price'));
+                const features = parseFloat(card.getAttribute('data-features'));
+                
+                // Hide all badges first
+                const badge = card.querySelector('.best-value-badge');
+                if (badge) badge.style.display = 'none';
+                card.classList.remove('best-value-highlight');
+                
+                if (price > 0) {
+                    const ratio = features / price;
+                    if (ratio > maxRatio) {
+                        maxRatio = ratio;
+                        bestCard = card;
+                    }
+                }
+            });
+            
+            if (bestCard) {
+                // Show badge on best value
+                const badge = bestCard.querySelector('.best-value-badge');
+                if (badge) {
+                    badge.style.display = 'block';
+                }
+                
+                // Add highlight class
+                bestCard.classList.add('best-value-highlight');
+                
+                // Scroll to card
+                bestCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        // 7. View Full Details Modal
+        detailsBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const card = btn.closest('.product-card');
+                const name = card.querySelector('.product-name').textContent;
+                const price = card.querySelector('.price').textContent;
+                const imgUrl = card.querySelector('.product-img').src;
+                
+                // Set details content
+                document.getElementById('details-img').src = imgUrl;
+                document.getElementById('details-img').alt = name;
+                document.getElementById('details-title').textContent = name;
+                document.getElementById('details-price').textContent = price;
+                
+                // Set custom description and rating
+                const details = productDetailsMap[name] || {
+                    description: "Experience premium quality and seamless integration with the NovaWatch series. Track your fitness, view real-time notifications, and stay ahead of your schedule.",
+                    rating: "4.7 / 5 from 150 reviews"
+                };
+                document.getElementById('details-desc').textContent = details.description;
+                document.getElementById('details-rating').textContent = `(${details.rating})`;
+                
+                // Build dynamic specs list
+                const detailsSpecsDiv = document.getElementById('details-specs');
+                detailsSpecsDiv.innerHTML = '';
+                
+                const cardSpecs = card.querySelectorAll('.specs-list li');
+                const specsListElement = document.createElement('ul');
+                specsListElement.style.listStyle = 'none';
+                specsListElement.style.textAlign = 'left';
+                specsListElement.style.padding = '0';
+                
+                cardSpecs.forEach(spec => {
+                    const li = document.createElement('li');
+                    li.textContent = spec.textContent;
+                    li.style.marginBottom = '0.5rem';
+                    li.style.fontSize = '0.95rem';
+                    li.style.display = 'flex';
+                    li.style.alignItems = 'center';
+                    li.style.gap = '0.5rem';
+                    
+                    if (spec.classList.contains('missing')) {
+                        li.innerHTML = `<span style="color: #ef4444;">✗</span> ${spec.textContent}`;
+                        li.style.color = 'var(--text-muted)';
+                    } else {
+                        li.innerHTML = `<span style="color: var(--success-green);">✓</span> ${spec.textContent}`;
+                    }
+                    specsListElement.appendChild(li);
+                });
+                
+                detailsSpecsDiv.appendChild(specsListElement);
+                
+                selectedModelForOrder = name;
+                
+                // Open modal
+                detailsModal.classList.add('open');
+            });
+        });
+
+        // Details Modal Order Button
+        document.getElementById('details-order-btn').addEventListener('click', () => {
+            detailsModal.classList.remove('open');
+            
+            // Set order watch name
+            orderWatchName.textContent = selectedModelForOrder;
+            
+            // Reset order form state
+            orderForm.reset();
+            orderFormContainer.style.display = 'block';
+            orderSuccessMessage.style.display = 'none';
+            
+            // Open pre-order modal
+            orderModal.classList.add('open');
+        });
+
+        // 8. Side-by-Side Comparison Generator
+        compareSelectedBtn.addEventListener('click', () => {
+            const selectedCards = document.querySelectorAll('.product-card.selected');
+            if (selectedCards.length === 0) return;
+            
+            const compareTable = document.getElementById('compareTable');
+            compareTable.innerHTML = '';
+            
+            const specKeys = [
+                "Display",
+                "Heart Rate Monitor",
+                "Battery Life",
+                "Water Resistance",
+                "GPS Tracking",
+                "Always-On Display",
+                "ECG App"
+            ];
+            
+            // Dynamic parsing helper
+            function parseSpecs(card) {
+                const lis = card.querySelectorAll('.specs-list li');
+                const specs = {};
+                
+                lis.forEach(li => {
+                    const text = li.textContent;
+                    
+                    if (text.includes("Display")) {
+                        specs["Display"] = { text: text, present: !li.classList.contains('missing') };
+                    } else if (text.includes("Heart Rate")) {
+                        specs["Heart Rate Monitor"] = { text: "Yes", present: !li.classList.contains('missing') };
+                    } else if (text.includes("battery")) {
+                        specs["Battery Life"] = { text: text, present: !li.classList.contains('missing') };
+                    } else if (text.includes("resistant") || text.includes("Water") || text.includes("resistant")) {
+                        specs["Water Resistance"] = { text: text, present: !li.classList.contains('missing') };
+                    } else if (text.includes("GPS")) {
+                        specs["GPS Tracking"] = { text: li.classList.contains('missing') ? "No" : text, present: !li.classList.contains('missing') };
+                    } else if (text.includes("Always-On")) {
+                        specs["Always-On Display"] = { text: li.classList.contains('missing') ? "No" : "Yes", present: !li.classList.contains('missing') };
+                    } else if (text.includes("ECG")) {
+                        specs["ECG App"] = { text: li.classList.contains('missing') ? "No" : "Yes", present: !li.classList.contains('missing') };
+                    }
+                });
+                
+                return specs;
+            }
+            
+            // Build header row
+            const headerRow = document.createElement('tr');
+            const cornerHeader = document.createElement('th');
+            cornerHeader.style.background = 'var(--bg-base)';
+            cornerHeader.style.position = 'sticky';
+            cornerHeader.style.left = '0';
+            cornerHeader.style.zIndex = '1';
+            cornerHeader.textContent = 'Specs & Features';
+            headerRow.appendChild(cornerHeader);
+            
+            const selectedData = Array.from(selectedCards).map(card => {
+                const name = card.querySelector('.product-name').textContent;
+                const price = card.querySelector('.price').textContent;
+                const imgUrl = card.querySelector('.product-img').src;
+                const specs = parseSpecs(card);
+                return { name, price, imgUrl, specs };
+            });
+            
+            selectedData.forEach(item => {
+                const th = document.createElement('th');
+                th.style.textAlign = 'center';
+                th.innerHTML = `
+                    <img src="${item.imgUrl}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 0.5rem;">
+                    <div style="font-weight: 700; font-size: 1rem; color: var(--text-main);">${item.name}</div>
+                    <div style="font-weight: 600; color: var(--primary-accent); margin-top: 0.2rem;">${item.price}</div>
+                    <button class="btn btn-action compare-order-btn" data-model="${item.name}" style="padding: 0.3rem 0.8rem; font-size: 0.8rem; margin-top: 0.5rem; width: auto;">Pre-Order</button>
+                `;
+                headerRow.appendChild(th);
+            });
+            compareTable.appendChild(headerRow);
+            
+            // Build rows
+            specKeys.forEach(key => {
+                const row = document.createElement('tr');
+                
+                const labelCell = document.createElement('td');
+                labelCell.style.fontWeight = '600';
+                labelCell.style.background = 'var(--bg-base)';
+                labelCell.style.position = 'sticky';
+                labelCell.style.left = '0';
+                labelCell.textContent = key;
+                row.appendChild(labelCell);
+                
+                selectedData.forEach(item => {
+                    const td = document.createElement('td');
+                    td.style.textAlign = 'center';
+                    const spec = item.specs[key];
+                    if (spec) {
+                        if (spec.present) {
+                            td.innerHTML = `<span style="color: var(--success-green); font-weight: bold; margin-right: 0.3rem;">✓</span> ${spec.text}`;
+                        } else {
+                            td.innerHTML = `<span style="color: #ef4444; font-weight: bold; margin-right: 0.3rem;">✗</span> <span style="color: var(--text-muted); text-decoration: line-through;">${spec.text}</span>`;
+                        }
+                    } else {
+                        td.innerHTML = `<span style="color: var(--text-muted);">-</span>`;
+                    }
+                    row.appendChild(td);
+                });
+                compareTable.appendChild(row);
+            });
+            
+            // Add click handlers for comparison table order buttons
+            setTimeout(() => {
+                document.querySelectorAll('.compare-order-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        compareModal.classList.remove('open');
+                        const model = btn.getAttribute('data-model');
+                        selectedModelForOrder = model;
+                        
+                        orderWatchName.textContent = model;
+                        orderForm.reset();
+                        orderFormContainer.style.display = 'block';
+                        orderSuccessMessage.style.display = 'none';
+                        orderModal.classList.add('open');
+                    });
+                });
+            }, 50);
+
+            // Open modal
+            compareModal.classList.add('open');
+        });
+
+        // 9. Pre-Order Form Submission
+        orderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const emailInput = orderForm.querySelector('input[type="email"]');
+            
+            // Display success message
+            successModelName.textContent = selectedModelForOrder;
+            successEmail.textContent = emailInput.value;
+            
+            orderFormContainer.style.display = 'none';
+            orderSuccessMessage.style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>

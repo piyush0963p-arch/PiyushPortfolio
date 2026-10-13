@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insights - DineFlow AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/pages/menu.css">
+    <link rel="stylesheet" href="assets/css/pages/ai-insights.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i data-lucide="chef-hat"></i>
+                    DineFlow<span class="text-primary">AI</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="menu.html" class="nav-item">
+                    <i data-lucide="book-open"></i>
+                    Menu Management
+                </a>
+                <a href="ordering.html" class="nav-item">
+                    <i data-lucide="shopping-cart"></i>
+                    Customer Ordering
+                </a>
+                <a href="pos.html" class="nav-item">
+                    <i data-lucide="monitor"></i>
+                    POS System
+                </a>
+                <a href="tables.html" class="nav-item">
+                    <i data-lucide="calendar-days"></i>
+                    Table Booking
+                </a>
+                <a href="kitchen.html" class="nav-item">
+                    <i data-lucide="flame"></i>
+                    Kitchen Dashboard
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i data-lucide="package"></i>
+                    Inventory
+                </a>
+                <a href="staff.html" class="nav-item">
+                    <i data-lucide="users"></i>
+                    Staff Management
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i data-lucide="contact"></i>
+                    Customers
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    Analytics & Reports
+                </a>
+                <a href="ai-insights.html" class="nav-item active text-accent">
+                    <i data-lucide="sparkles"></i>
+                    AI Insights
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-avatar" style="text-decoration:none;">AD</a>
+                <div class="user-info">
+                    <a href="profile.html" class="user-name" style="text-decoration:none;">Admin User</a>
+                    <div class="user-role">Restaurant Owner</div>
+                </div>
+                <button class="icon-btn theme-toggle" style="border:none;">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">AI Predictive Center</h1>
+                </div>
+                
+                <div class="topbar-right">
+                    <button class="icon-btn">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <a href="settings.html" class="icon-btn">
+                        <i data-lucide="settings"></i>
+                    </a>
+                </div>
+            </header>
+            
+            <!-- AI Container -->
+            <div class="content-wrapper">
+                <div class="ai-grid">
+                    
+                    <!-- Chat window -->
+                    <div class="ai-main-chat">
+                        <div class="ai-chat-header">
+                            <i data-lucide="sparkles" style="color:var(--primary);"></i>
+                            <div>
+                                <strong style="font-size:0.95rem;">DineFlow Assistant</strong>
+                                <div style="font-size:0.75rem; color:var(--accent);">Active Real-Time Analysis</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-chat-body" id="chatBody">
+                            <div class="chat-bubble bot">
+                                Hello! I'm your DineFlow AI Agent. Click any of the growth targets on the sidebar, or ask me directly about your menu popularity, inventory shortages, or peak hour schedules.
+                            </div>
+                        </div>
+                        
+                        <form id="chatForm" class="ai-chat-footer">
+                            <input type="text" id="chatInput" class="form-control" placeholder="Ask DineFlow AI..." style="border-radius:var(--radius-full);" required autocomplete="off">
+                            <button type="submit" class="btn btn-primary" style="border-radius:50%; width:40px; height:40px; padding:0; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="send" style="width:16px; height:16px;"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- KPI Score and Suggestions List -->
+                    <div class="ai-sidebar">
+                        <div class="health-score-container">
+                            <div class="health-number">94%</div>
+                            <strong>Restaurant Health Score</strong>
+                            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem; line-height:1.4;">Overall performance calculated by table occupancy, delivery dispatch timings, and inventory supply chain efficiency.</p>
+                        </div>
+                        
+                        <div class="card suggestion-card" data-type="bestsellers">
+                            <i data-lucide="trending-up" style="color:var(--primary); margin-bottom:0.5rem;"></i>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">Trending Item Opportunity</div>
+                            <strong>Best Selling Pizza</strong>
+                        </div>
+                        
+                        <div class="card suggestion-card" data-type="forecast">
+                            <i data-lucide="calendar" style="color:var(--secondary); margin-bottom:0.5rem;"></i>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">Predictive Demand Analysis</div>
+                            <strong>Revenue Forecast</strong>
+                        </div>
+                        
+                        <div class="card suggestion-card" data-type="staff">
+                            <i data-lucide="users" style="color:var(--info); margin-bottom:0.5rem;"></i>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">Scheduling Recommendation</div>
+                            <strong>Staff Optimization</strong>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/pages/ai-insights.js"></script>
+</body>
+</html>

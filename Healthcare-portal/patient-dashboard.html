@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Patient Dashboard — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">M</div>
+    <span class="nav-brand-text">Medi<span>Care</span></span>
+  </a>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="btn btn-ghost btn-sm" onclick="openModal('notifModal')">🔔 <span class="notif-badge">3</span></button>
+    <button class="theme-toggle">🌙</button>
+    <div class="nav-avatar" title="John Doe">JD</div>
+  </div>
+  <button class="btn btn-ghost btn-icon sidebar-toggle" style="margin-left:8px">☰</button>
+</nav>
+
+<div class="dashboard-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section-label">Main Menu</div>
+    <a href="patient-dashboard.html" class="sidebar-link active"><span class="icon">🏠</span> Dashboard</a>
+    <a href="appointments.html" class="sidebar-link"><span class="icon">📅</span> Appointments <span class="badge-dot"></span></a>
+    <a href="medical-history.html" class="sidebar-link"><span class="icon">📋</span> Medical History</a>
+    <a href="prescriptions.html" class="sidebar-link"><span class="icon">💊</span> Prescriptions</a>
+    <a href="reports.html" class="sidebar-link"><span class="icon">📊</span> Reports</a>
+    <div class="sidebar-section-label" style="margin-top:16px">Tools</div>
+    <a href="ai-assistant.html" class="sidebar-link"><span class="icon">🤖</span> AI Assistant</a>
+    <a href="telemedicine.html" class="sidebar-link"><span class="icon">📹</span> Telemedicine</a>
+    <a href="analytics.html" class="sidebar-link"><span class="icon">📈</span> Analytics</a>
+    <div class="sidebar-section-label" style="margin-top:16px">Account</div>
+    <a href="doctor-dashboard.html" class="sidebar-link"><span class="icon">👨‍⚕️</span> Doctor Portal</a>
+    <a href="#" class="sidebar-link"><span class="icon">⚙️</span> Settings</a>
+    <a href="index.html" class="sidebar-link"><span class="icon">🚪</span> Sign Out</a>
+  </aside>
+
+  <main class="dashboard-content">
+    <!-- HEADER -->
+    <div class="page-header flex-between" style="flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="page-title">Good morning, John 👋</div>
+        <div class="page-subtitle">Here's your health summary for today, June 11, 2026</div>
+      </div>
+      <div class="flex gap-12">
+        <a href="ai-assistant.html" class="btn btn-outline btn-sm">🤖 Ask AI</a>
+        <a href="appointments.html" class="btn btn-primary btn-sm">+ Book Appointment</a>
+      </div>
+    </div>
+
+    <!-- HEALTH SCORE BANNER -->
+    <div class="health-banner glass-card mb-24">
+      <div class="hb-left">
+        <div class="health-score-ring">
+          <svg viewBox="0 0 80 80" class="ring-svg">
+            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="6"/>
+            <circle cx="40" cy="40" r="34" fill="none" stroke="url(#scoreGrad)" stroke-width="6"
+              stroke-dasharray="213.6" stroke-dashoffset="42.7" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+            <defs>
+              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2563eb"/>
+                <stop offset="100%" stop-color="#10b981"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="ring-label"><div class="ring-val text-gradient">94</div><div class="ring-text">Score</div></div>
+        </div>
+        <div>
+          <h3 style="font-size:20px;margin-bottom:4px">Excellent Health</h3>
+          <p class="text-secondary text-sm">Your health score is above average. Keep it up!</p>
+          <div class="flex gap-8 mt-8">
+            <span class="badge badge-emerald">✅ Blood Normal</span>
+            <span class="badge badge-primary">💙 BP Stable</span>
+          </div>
+        </div>
+      </div>
+      <div class="hb-vitals">
+        <div class="vital-item">
+          <div class="vital-icon" style="color:#f43f5e">❤️</div>
+          <div class="vital-val">72 BPM</div>
+          <div class="vital-label">Heart Rate</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-icon" style="color:#2563eb">🩸</div>
+          <div class="vital-val">120/80</div>
+          <div class="vital-label">Blood Pressure</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-icon" style="color:#f59e0b">🌡️</div>
+          <div class="vital-val">98.6°F</div>
+          <div class="vital-label">Temperature</div>
+        </div>
+        <div class="vital-item">
+          <div class="vital-icon" style="color:#10b981">⚖️</div>
+          <div class="vital-val">74 kg</div>
+          <div class="vital-label">Weight</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METRIC CARDS -->
+    <div class="grid-4 mb-24">
+      <div class="metric-card">
+        <div class="metric-icon blue">📅</div>
+        <div class="metric-value text-gradient-blue">3</div>
+        <div class="metric-label">Upcoming Appointments</div>
+        <div class="metric-change up">↑ 1 this week</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon green">💊</div>
+        <div class="metric-value" style="color:var(--emerald)">5</div>
+        <div class="metric-label">Active Prescriptions</div>
+        <div class="metric-change" style="color:var(--text-muted)">2 to refill soon</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon purple">📋</div>
+        <div class="metric-value" style="color:var(--purple)">8</div>
+        <div class="metric-label">Recent Reports</div>
+        <div class="metric-change up">↑ 2 new</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon amber">🏥</div>
+        <div class="metric-value" style="color:var(--amber)">12</div>
+        <div class="metric-label">Total Visits</div>
+        <div class="metric-change" style="color:var(--text-muted)">Since Jan 2026</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- QUICK ACTIONS -->
+      <div class="glass-card" style="padding:24px">
+        <h3 style="margin-bottom:16px">⚡ Quick Actions</h3>
+        <div class="quick-actions-grid">
+          <a href="appointments.html" class="qa-item">
+            <div class="qa-icon" style="background:var(--primary-glow);color:var(--primary)">📅</div>
+            <span>Book Appointment</span>
+          </a>
+          <a href="reports.html" class="qa-item">
+            <div class="qa-icon" style="background:var(--emerald-glow);color:var(--emerald)">📊</div>
+            <span>View Reports</span>
+          </a>
+          <a href="prescriptions.html" class="qa-item">
+            <div class="qa-icon" style="background:rgba(245,158,11,0.12);color:var(--amber)">💊</div>
+            <span>Download Rx</span>
+          </a>
+          <a href="ai-assistant.html" class="qa-item">
+            <div class="qa-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">🤖</div>
+            <span>AI Assistant</span>
+          </a>
+          <a href="telemedicine.html" class="qa-item">
+            <div class="qa-icon" style="background:rgba(6,182,212,0.12);color:var(--cyan)">📹</div>
+            <span>Video Call</span>
+          </a>
+          <a href="medical-history.html" class="qa-item">
+            <div class="qa-icon" style="background:rgba(244,63,94,0.12);color:var(--rose)">📋</div>
+            <span>Medical History</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- UPCOMING APPOINTMENTS -->
+      <div class="glass-card" style="padding:24px">
+        <div class="flex-between mb-16">
+          <h3>📅 Upcoming Appointments</h3>
+          <a href="appointments.html" class="btn btn-ghost btn-sm">View All</a>
+        </div>
+        <div class="appt-list">
+          <div class="appt-item">
+            <div class="appt-avatar" style="background:var(--primary-glow)">👨‍⚕️</div>
+            <div class="appt-info">
+              <div class="appt-doctor">Dr. James Wilson</div>
+              <div class="appt-spec text-sm text-secondary">Cardiology • Online</div>
+            </div>
+            <div class="appt-time">
+              <div class="font-semibold text-sm">Today</div>
+              <div class="text-xs text-muted">3:30 PM</div>
+              <span class="badge badge-primary" style="margin-top:4px">Confirmed</span>
+            </div>
+          </div>
+          <div class="appt-item">
+            <div class="appt-avatar" style="background:var(--emerald-glow)">👩‍⚕️</div>
+            <div class="appt-info">
+              <div class="appt-doctor">Dr. Sarah Mitchell</div>
+              <div class="appt-spec text-sm text-secondary">Neurology • In-Person</div>
+            </div>
+            <div class="appt-time">
+              <div class="font-semibold text-sm">Jun 14</div>
+              <div class="text-xs text-muted">10:00 AM</div>
+              <span class="badge badge-amber" style="margin-top:4px">Upcoming</span>
+            </div>
+          </div>
+          <div class="appt-item">
+            <div class="appt-avatar" style="background:rgba(139,92,246,0.12)">🧑‍⚕️</div>
+            <div class="appt-info">
+              <div class="appt-doctor">Dr. Robert Chen</div>
+              <div class="appt-spec text-sm text-secondary">Orthopedics • Online</div>
+            </div>
+            <div class="appt-time">
+              <div class="font-semibold text-sm">Jun 18</div>
+              <div class="text-xs text-muted">2:15 PM</div>
+              <span class="badge badge-amber" style="margin-top:4px">Upcoming</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- HEALTH CHART -->
+      <div class="glass-card" style="padding:24px">
+        <div class="flex-between mb-16">
+          <h3>📈 Health Score Trend</h3>
+          <span class="badge badge-emerald">Last 7 days</span>
+        </div>
+        <div style="height:200px"><canvas id="healthTrendChart"></canvas></div>
+      </div>
+
+      <!-- ACTIVITY TIMELINE -->
+      <div class="glass-card" style="padding:24px">
+        <div class="flex-between mb-16">
+          <h3>🕐 Activity Timeline</h3>
+          <a href="medical-history.html" class="btn btn-ghost btn-sm">Full History</a>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="tl-content">
+              <div class="tl-title">Blood Test Report Uploaded</div>
+              <div class="tl-sub text-sm text-secondary">CBC, Lipid Panel — All Normal</div>
+              <div class="tl-time text-xs text-muted">Today, 9:00 AM</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="tl-content">
+              <div class="tl-title">Prescription Added</div>
+              <div class="tl-sub text-sm text-secondary">Amlodipine 5mg — Dr. Wilson</div>
+              <div class="tl-time text-xs text-muted">Jun 9, 3:45 PM</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot amber"></div>
+            <div class="tl-content">
+              <div class="tl-title">Doctor Visit — Cardiology</div>
+              <div class="tl-sub text-sm text-secondary">Routine checkup, ECG done</div>
+              <div class="tl-time text-xs text-muted">Jun 8, 11:30 AM</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="tl-content">
+              <div class="tl-title">Vaccination — Flu Shot</div>
+              <div class="tl-sub text-sm text-secondary">Influenza vaccine administered</div>
+              <div class="tl-time text-xs text-muted">Jun 5, 2:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDICATIONS & NOTIFICATIONS ROW -->
+    <div class="grid-2 mb-24">
+      <div class="glass-card" style="padding:24px">
+        <div class="flex-between mb-16">
+          <h3>💊 Active Medications</h3>
+          <a href="prescriptions.html" class="btn btn-ghost btn-sm">View All</a>
+        </div>
+        <div class="med-list">
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--primary-glow)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Amlodipine 5mg</div>
+              <div class="text-xs text-secondary">1 tablet — Morning</div>
+            </div>
+            <div class="text-right">
+              <span class="badge badge-emerald">Active</span>
+              <div class="text-xs text-muted mt-4">30 days left</div>
+            </div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--emerald-glow)">💉</div>
+            <div class="med-info">
+              <div class="med-name">Metformin 500mg</div>
+              <div class="text-xs text-secondary">2 tablets — After meals</div>
+            </div>
+            <div class="text-right">
+              <span class="badge badge-amber">Refill Soon</span>
+              <div class="text-xs text-muted mt-4">7 days left</div>
+            </div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:rgba(139,92,246,0.12)">🧴</div>
+            <div class="med-info">
+              <div class="med-name">Vitamin D3 1000IU</div>
+              <div class="text-xs text-secondary">1 capsule — Evening</div>
+            </div>
+            <div class="text-right">
+              <span class="badge badge-emerald">Active</span>
+              <div class="text-xs text-muted mt-4">60 days left</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT NOTIFICATIONS -->
+      <div class="glass-card" style="padding:24px">
+        <div class="flex-between mb-16">
+          <h3>🔔 Recent Notifications</h3>
+          <span class="badge badge-primary">3 New</span>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:var(--primary-glow)">📅</div>
+          <div class="notif-content">
+            <div class="notif-title">Appointment Reminder</div>
+            <div class="notif-msg">Dr. Wilson consultation at 3:30 PM today</div>
+            <div class="notif-time">30 minutes ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:var(--amber-glow,rgba(245,158,11,0.12))">💊</div>
+          <div class="notif-content">
+            <div class="notif-title">Medication Reminder</div>
+            <div class="notif-msg">Time to take Metformin 500mg</div>
+            <div class="notif-time">1 hour ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:var(--emerald-glow)">📊</div>
+          <div class="notif-content">
+            <div class="notif-title">New Report Available</div>
+            <div class="notif-msg">Your CBC report has been uploaded</div>
+            <div class="notif-time">2 hours ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:rgba(244,63,94,0.12)">🚨</div>
+          <div class="notif-content">
+            <div class="notif-title">Emergency Contact Updated</div>
+            <div class="notif-msg">Contact info verified successfully</div>
+            <div class="notif-time">Yesterday</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI HEALTH INSIGHTS -->
+    <div class="ai-insight-card glass-card mb-24">
+      <div class="ai-insight-left">
+        <div class="ai-icon-big">🤖</div>
+        <div>
+          <h3>AI Health Insights</h3>
+          <p class="text-secondary text-sm mt-4">Based on your recent vitals and reports, here are personalized recommendations.</p>
+        </div>
+      </div>
+      <div class="ai-insights">
+        <div class="ai-tip"><span>💧</span> Drink 8-10 glasses of water daily to maintain kidney health</div>
+        <div class="ai-tip"><span>🏃</span> 30-minute walk recommended based on your cardiac profile</div>
+        <div class="ai-tip"><span>🥗</span> Reduce sodium intake — your BP is borderline high</div>
+        <div class="ai-tip"><span>😴</span> Maintain 7-8 hours of sleep for optimal recovery</div>
+      </div>
+      <a href="ai-assistant.html" class="btn btn-primary">Talk to AI →</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- NOTIFICATION MODAL -->
+<div class="modal-overlay" id="notifModal" style="display:none" onclick="closeModal('notifModal')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>🔔 Notifications</h3>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('notifModal')">✕</button>
+    </div>
+    <div style="padding:16px">
+      <div class="notif-item"><div class="notif-icon" style="background:var(--primary-glow)">📅</div><div class="notif-content"><div class="notif-title">Appointment Reminder</div><div class="notif-msg">Dr. Wilson at 3:30 PM</div><div class="notif-time">30 min ago</div></div></div>
+      <div class="notif-item"><div class="notif-icon" style="background:rgba(245,158,11,0.12)">💊</div><div class="notif-content"><div class="notif-title">Medication Reminder</div><div class="notif-msg">Take Metformin 500mg</div><div class="notif-time">1 hr ago</div></div></div>
+      <div class="notif-item"><div class="notif-icon" style="background:var(--emerald-glow)">📊</div><div class="notif-content"><div class="notif-title">New Report Ready</div><div class="notif-msg">CBC test results uploaded</div><div class="notif-time">2 hrs ago</div></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('healthTrendChart');
+  if (ctx && window.Chart) {
+    const grad = ctx.getContext('2d').createLinearGradient(0,0,0,200);
+    grad.addColorStop(0,'rgba(37,99,235,0.25)');
+    grad.addColorStop(1,'rgba(37,99,235,0)');
+    drawLineChart(ctx, ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], [{
+      label: 'Health Score', data: [88,90,87,93,91,95,94],
+      borderColor:'#2563eb', backgroundColor: grad, fill:true, borderWidth:2.5
+    }]);
+  }
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing & Invoices - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        /* Billing Cards Grid */
+        .billing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .kpi-info h3 {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-blue { background: rgba(59, 130, 246, 0.1); color: #3B82F6; }
+        .icon-green { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+        .icon-yellow { background: rgba(245, 158, 11, 0.1); color: #F59E0B; }
+
+        /* Data Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-surface);
+        }
+
+        .data-table tr:hover {
+            background: var(--bg-surface);
+        }
+
+        /* Invoice Layout inside table */
+        .invoice-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .invoice-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="client-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> My Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="folder-open"></i> Document Center
+                </a>
+                <a href="billing.html" class="nav-item active">
+                    <i data-lucide="credit-card"></i> Billing & Invoices
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">Billing & Invoices</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button class="btn btn-primary">
+                        <i data-lucide="credit-card"></i> Pay Outstanding Balance
+                    </button>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">JD</div>
+                </div>
+            </header>
+
+            <div class="dashboard-content animate-fade-in">
+                
+                <!-- KPI Widgets -->
+                <div class="billing-grid">
+                    <div class="card kpi-card">
+                        <div class="kpi-info">
+                            <p>Outstanding Balance</p>
+                            <h3>$450.00</h3>
+                            <p style="font-size: 0.75rem; color: var(--danger); margin-top: 0.5rem;">Due in 5 days</p>
+                        </div>
+                        <div class="kpi-icon icon-yellow">
+                            <i data-lucide="alert-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-info">
+                            <p>Total Paid (YTD)</p>
+                            <h3>$5,200.00</h3>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Last payment: Oct 01, 2026</p>
+                        </div>
+                        <div class="kpi-icon icon-green">
+                            <i data-lucide="check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-info">
+                            <p>Payment Methods</p>
+                            <h3 style="font-size: 1.25rem; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                Visa ending in 4242
+                            </h3>
+                            <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-top: 0.5rem;">Manage Payment Methods</button>
+                        </div>
+                        <div class="kpi-icon icon-blue">
+                            <i data-lucide="credit-card"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Invoices -->
+                <div class="card" style="padding: 0;">
+                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0;">Invoice History</h3>
+                        <button class="btn btn-secondary"><i data-lucide="download"></i> Export CSV</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice Details</th>
+                                    <th>Date Issued</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="invoice-item">
+                                            <div class="invoice-icon"><i data-lucide="file-text"></i></div>
+                                            <div>
+                                                <div style="font-weight: 500; color: var(--text-primary);">INV-2026-042</div>
+                                                <div style="color: var(--text-muted); font-size: 0.75rem;">Consultation Fee - Sarah Jenkins</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Oct 15, 2026</td>
+                                    <td style="font-weight: 600;">$450.00</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-primary" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;">Pay Now</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="invoice-item">
+                                            <div class="invoice-icon"><i data-lucide="file-text"></i></div>
+                                            <div>
+                                                <div style="font-weight: 500; color: var(--text-primary);">INV-2026-038</div>
+                                                <div style="color: var(--text-muted); font-size: 0.75rem;">Document Review - M&A Agreement</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Oct 01, 2026</td>
+                                    <td style="font-weight: 600;">$1,200.00</td>
+                                    <td><span class="badge badge-success">Paid</span></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;"><i data-lucide="download" style="width: 14px; height: 14px; margin: 0;"></i> PDF</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="invoice-item">
+                                            <div class="invoice-icon"><i data-lucide="file-text"></i></div>
+                                            <div>
+                                                <div style="font-weight: 500; color: var(--text-primary);">INV-2026-015</div>
+                                                <div style="color: var(--text-muted); font-size: 0.75rem;">Retainer Fee Replenishment</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Sep 01, 2026</td>
+                                    <td style="font-weight: 600;">$4,000.00</td>
+                                    <td><span class="badge badge-success">Paid</span></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;"><i data-lucide="download" style="width: 14px; height: 14px; margin: 0;"></i> PDF</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

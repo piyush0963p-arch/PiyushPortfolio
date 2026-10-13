@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System - DineFlow AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/pages/menu.css">
+    <link rel="stylesheet" href="assets/css/pages/pos.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i data-lucide="chef-hat"></i>
+                    DineFlow<span class="text-primary">AI</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="menu.html" class="nav-item">
+                    <i data-lucide="book-open"></i>
+                    Menu Management
+                </a>
+                <a href="ordering.html" class="nav-item">
+                    <i data-lucide="shopping-cart"></i>
+                    Customer Ordering
+                </a>
+                <a href="pos.html" class="nav-item active">
+                    <i data-lucide="monitor"></i>
+                    POS System
+                </a>
+                <a href="tables.html" class="nav-item">
+                    <i data-lucide="calendar-days"></i>
+                    Table Booking
+                </a>
+                <a href="kitchen.html" class="nav-item">
+                    <i data-lucide="flame"></i>
+                    Kitchen Dashboard
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i data-lucide="package"></i>
+                    Inventory
+                </a>
+                <a href="staff.html" class="nav-item">
+                    <i data-lucide="users"></i>
+                    Staff Management
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i data-lucide="contact"></i>
+                    Customers
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    Analytics & Reports
+                </a>
+                <a href="ai-insights.html" class="nav-item text-accent">
+                    <i data-lucide="sparkles"></i>
+                    AI Insights
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-avatar" style="text-decoration:none;">AD</a>
+                <div class="user-info">
+                    <a href="profile.html" class="user-name" style="text-decoration:none;">Admin User</a>
+                    <div class="user-role">Restaurant Owner</div>
+                </div>
+                <button class="icon-btn theme-toggle" style="border:none;">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">Point of Sale (POS)</h1>
+                </div>
+                
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="posSearch" placeholder="Quick search dishes...">
+                </div>
+                
+                <div class="topbar-right">
+                    <button class="icon-btn">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <a href="settings.html" class="icon-btn">
+                        <i data-lucide="settings"></i>
+                    </a>
+                </div>
+            </header>
+            
+            <!-- POS Layout -->
+            <div class="content-wrapper">
+                <div class="pos-container">
+                    
+                    <!-- Left Panel: Categories -->
+                    <div class="pos-categories">
+                        <button class="pos-category-btn active" data-category="all">
+                            <i data-lucide="grid"></i> All
+                        </button>
+                        <button class="pos-category-btn" data-category="starters">
+                            <i data-lucide="egg"></i> Starters
+                        </button>
+                        <button class="pos-category-btn" data-category="mains">
+                            <i data-lucide="utensils"></i> Mains
+                        </button>
+                        <button class="pos-category-btn" data-category="desserts">
+                            <i data-lucide="cake"></i> Desserts
+                        </button>
+                        <button class="pos-category-btn" data-category="beverages">
+                            <i data-lucide="coffee"></i> Drinks
+                        </button>
+                    </div>
+                    
+                    <!-- Center Panel: Grid -->
+                    <div class="pos-menu-section">
+                        <div id="posGrid" class="pos-items-grid">
+                            <!-- Items loaded dynamically -->
+                        </div>
+                    </div>
+                    
+                    <!-- Right Panel: Cart & Checkout -->
+                    <div class="pos-cart glass">
+                        <div class="pos-cart-header">
+                            <h2 style="font-size: 1rem; font-weight:600; margin:0;">Active Ticket</h2>
+                            <div class="table-selector">
+                                <select id="posTableSelect" class="form-control" style="font-size:0.8rem; padding:0.4rem;">
+                                    <option value="Table 01">Table 01</option>
+                                    <option value="Table 02">Table 02</option>
+                                    <option value="Table 03">Table 03</option>
+                                    <option value="Table 04" selected>Table 04</option>
+                                    <option value="Takeaway">Takeaway</option>
+                                    <option value="Delivery">Delivery</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Cart Items -->
+                        <div id="posCartItems" class="pos-cart-items">
+                            <div style="text-align: center; color: var(--text-muted); padding: 2rem;">Cart is Empty</div>
+                        </div>
+                        
+                        <!-- Billing summary -->
+                        <div class="pos-checkout-section">
+                            <div class="form-group" style="margin-bottom:0.5rem; display:flex; justify-content:space-between; align-items:center;">
+                                <label for="posDiscountInput" class="form-label" style="margin-bottom:0; font-size:0.8rem;">Discount %</label>
+                                <input type="number" id="posDiscountInput" class="form-control" min="0" max="100" value="0" style="width:70px; padding:0.25rem 0.5rem; text-align:center;">
+                            </div>
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="posSubtotal">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax (8%)</span>
+                                <span id="posTax">$0.00</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total Amount</span>
+                                <span id="posTotal">$0.00</span>
+                            </div>
+                            
+                            <!-- Payment Grid -->
+                            <div class="payment-grid">
+                                <button class="payment-btn active" data-method="cash">CASH</button>
+                                <button class="payment-btn" data-method="card">CARD</button>
+                                <button class="payment-btn" data-method="upi">UPI / QR</button>
+                            </div>
+                            
+                            <button id="payBtn" class="btn btn-primary btn-block" style="padding:0.75rem;">
+                                Process Payment
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content" style="max-width:360px;">
+            <div id="receiptDetails" style="font-family: monospace;">
+                <!-- Filled by JS -->
+            </div>
+            <button id="closeReceiptBtn" class="btn btn-primary btn-block" style="margin-top:1.5rem;">Print & Complete Order</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/pages/pos.js"></script>
+</body>
+</html>

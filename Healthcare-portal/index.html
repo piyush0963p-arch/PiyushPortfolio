@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MediAI Care — AI-Powered Healthcare Companion</title>
+<meta name="description" content="Book appointments, access medical records, receive AI health guidance, and manage your healthcare journey in one place."/>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="landing.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">M</div>
+    <span class="nav-brand-text">Medi<span>Care</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="appointments.html">Appointments</a>
+    <a href="ai-assistant.html">AI Assistant</a>
+    <a href="reports.html">Reports</a>
+    <a href="telemedicine.html">Telemedicine</a>
+  </div>
+  <div class="nav-actions">
+    <button class="theme-toggle" title="Toggle theme">🌙</button>
+    <a href="patient-dashboard.html" class="btn btn-outline btn-sm">Sign In</a>
+    <a href="patient-dashboard.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <div class="nav-toggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile">
+  <a href="index.html" class="active">Home</a>
+  <a href="appointments.html">Appointments</a>
+  <a href="ai-assistant.html">AI Assistant</a>
+  <a href="reports.html">Reports</a>
+  <a href="telemedicine.html">Telemedicine</a>
+  <a href="patient-dashboard.html" class="btn btn-primary">Get Started</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+    <div class="grid-pattern"></div>
+  </div>
+  <div class="container hero-container">
+    <div class="hero-left">
+      <div class="section-label">🏥 AI-Powered Healthcare Platform</div>
+      <h1 class="hero-title">Your <span class="text-gradient">AI-Powered</span><br/>Healthcare Companion</h1>
+      <p class="hero-subtitle">Book appointments, access medical records, receive AI health guidance, and manage your healthcare journey in one place.</p>
+      <div class="hero-features">
+        <div class="hero-feature"><span class="feat-icon blue">🤖</span> AI Health Assistant</div>
+        <div class="hero-feature"><span class="feat-icon green">📹</span> Online Consultation</div>
+        <div class="hero-feature"><span class="feat-icon purple">📋</span> Medical Records</div>
+        <div class="hero-feature"><span class="feat-icon amber">📅</span> Appointment Booking</div>
+      </div>
+      <div class="hero-cta">
+        <a href="appointments.html" class="btn btn-primary btn-lg">📅 Book Appointment</a>
+        <a href="ai-assistant.html" class="btn btn-emerald btn-lg">🤖 Talk to AI Assistant</a>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat"><div class="h-stat-val" data-count="50000" data-suffix="+">0</div><div class="h-stat-label">Patients</div></div>
+        <div class="h-stat-div"></div>
+        <div class="h-stat"><div class="h-stat-val" data-count="2000" data-suffix="+">0</div><div class="h-stat-label">Doctors</div></div>
+        <div class="h-stat-div"></div>
+        <div class="h-stat"><div class="h-stat-val" data-count="100" data-suffix="+">0</div><div class="h-stat-label">Hospitals</div></div>
+        <div class="h-stat-div"></div>
+        <div class="h-stat"><div class="h-stat-val" data-count="98" data-suffix="%">0</div><div class="h-stat-label">Satisfaction</div></div>
+      </div>
+    </div>
+    <div class="hero-right delay-3 animate-fadeInUp">
+      <div class="hero-visual">
+        <div class="hero-dashboard-card animate-float">
+          <div class="hdc-header">
+            <div class="hdc-avatar">👨‍⚕️</div>
+            <div><div class="hdc-name">Dr. Sarah Mitchell</div><div class="hdc-spec">Cardiologist</div></div>
+            <div class="hdc-online"><span class="ping-dot"></span>Online</div>
+          </div>
+          <div class="hdc-stats">
+            <div class="hdc-stat"><div class="hdc-s-val text-gradient">94</div><div class="hdc-s-label">Health Score</div></div>
+            <div class="hdc-stat"><div class="hdc-s-val" style="color:var(--emerald)">Normal</div><div class="hdc-s-label">BP Status</div></div>
+            <div class="hdc-stat"><div class="hdc-s-val" style="color:var(--amber)">3 Active</div><div class="hdc-s-label">Medications</div></div>
+          </div>
+          <div class="hdc-appt">
+            <div class="hdc-appt-icon">📅</div>
+            <div><div class="hdc-appt-title">Next Appointment</div><div class="hdc-appt-time">Today, 3:30 PM — Dr. Mitchell</div></div>
+            <span class="badge badge-primary">Confirmed</span>
+          </div>
+          <div class="hero-chart-container" style="height: 80px; width: 100%; position: relative; margin-top: 16px;">
+            <canvas id="heroChart"></canvas>
+          </div>
+        </div>
+        <div class="float-card fc1 animate-float" style="animation-delay:.5s">
+          <div class="fc-icon">🩺</div>
+          <div><div class="fc-val">98.6°F</div><div class="fc-label">Body Temp</div></div>
+        </div>
+        <div class="float-card fc2 animate-float" style="animation-delay:1s">
+          <div class="fc-icon">❤️</div>
+          <div><div class="fc-val">72 BPM</div><div class="fc-label">Heart Rate</div></div>
+        </div>
+        <div class="float-card fc3 animate-float" style="animation-delay:1.5s">
+          <div class="fc-icon">🩸</div>
+          <div><div class="fc-val">120/80</div><div class="fc-label">Blood Pressure</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="text-center mb-24" data-reveal>
+      <div class="section-label">✨ Everything You Need</div>
+      <h2 class="section-title">Comprehensive <span class="text-gradient">Healthcare</span> Platform</h2>
+      <p class="section-subtitle" style="margin:0 auto">From AI-powered diagnostics to seamless appointment booking — all your healthcare needs in one place.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon" style="background:var(--primary-glow);color:var(--primary)">🤖</div>
+        <h3>AI Health Assistant</h3>
+        <p>Get instant health guidance powered by advanced AI. Describe symptoms and receive personalized recommendations 24/7.</p>
+        <a href="ai-assistant.html" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon" style="background:var(--emerald-glow);color:var(--emerald)">📹</div>
+        <h3>Telemedicine</h3>
+        <p>Connect with certified doctors via HD video call from the comfort of your home. No travel needed.</p>
+        <a href="telemedicine.html" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">📋</div>
+        <h3>Medical Records</h3>
+        <p>Securely store and access your complete medical history, prescriptions, lab results, and diagnostic reports.</p>
+        <a href="medical-history.html" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon" style="background:rgba(245,158,11,0.12);color:var(--amber)">📅</div>
+        <h3>Smart Scheduling</h3>
+        <p>Book appointments with top specialists in seconds. View real-time availability and get instant confirmations.</p>
+        <a href="appointments.html" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon" style="background:rgba(244,63,94,0.12);color:var(--rose)">📊</div>
+        <h3>Health Analytics</h3>
+        <p>Track vital signs, health trends, and wellness metrics with beautiful interactive dashboards and reports.</p>
+        <a href="analytics.html" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon" style="background:rgba(6,182,212,0.12);color:var(--cyan)">💊</div>
+        <h3>Prescriptions</h3>
+        <p>Manage medications, set reminders, request refills, and download digital prescriptions anytime.</p>
+        <a href="prescriptions.html" class="feature-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="container">
+    <div class="text-center mb-24" data-reveal>
+      <div class="section-label">🚀 Simple Process</div>
+      <h2 class="section-title">Get Started in <span class="text-gradient">3 Easy Steps</span></h2>
+    </div>
+    <div class="steps-container">
+      <div class="step" data-reveal>
+        <div class="step-num">01</div>
+        <div class="step-icon">👤</div>
+        <h3>Create Profile</h3>
+        <p>Sign up and complete your health profile with medical history, allergies, and current medications.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step" data-reveal>
+        <div class="step-num">02</div>
+        <div class="step-icon">🔍</div>
+        <h3>Find & Book</h3>
+        <p>Search doctors by specialty, location, and availability. Book instantly with real-time slots.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step" data-reveal>
+        <div class="step-num">03</div>
+        <div class="step-icon">🏥</div>
+        <h3>Get Care</h3>
+        <p>Consult online or in-person, receive AI guidance, and manage your health journey seamlessly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS SECTION -->
+<section class="doctors-section" id="doctors">
+  <div class="container">
+    <div class="flex-between mb-24" data-reveal>
+      <div>
+        <div class="section-label">👨‍⚕️ Our Specialists</div>
+        <h2 class="section-title" style="margin-bottom:0">Top <span class="text-gradient">Doctors</span></h2>
+      </div>
+      <a href="appointments.html" class="btn btn-outline">View All Doctors</a>
+    </div>
+    <div class="doctors-grid">
+      <div class="doctor-card glass-card" data-reveal>
+        <div class="dc-top">
+          <div class="dc-avatar" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">👨‍⚕️</div>
+          <div class="dc-badge"><span class="ping-dot"></span> Available</div>
+        </div>
+        <h3 class="dc-name">Dr. James Wilson</h3>
+        <div class="dc-spec badge badge-primary">Cardiologist</div>
+        <div class="dc-meta"><span>⭐ 4.9</span><span>12 yrs exp.</span><span>$120/session</span></div>
+        <a href="appointments.html" class="btn btn-primary w-full">Book Appointment</a>
+      </div>
+      <div class="doctor-card glass-card" data-reveal>
+        <div class="dc-top">
+          <div class="dc-avatar" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">👩‍⚕️</div>
+          <div class="dc-badge"><span class="ping-dot green"></span> Available</div>
+        </div>
+        <h3 class="dc-name">Dr. Sarah Mitchell</h3>
+        <div class="dc-spec badge badge-emerald">Neurologist</div>
+        <div class="dc-meta"><span>⭐ 4.8</span><span>9 yrs exp.</span><span>$100/session</span></div>
+        <a href="appointments.html" class="btn btn-primary w-full">Book Appointment</a>
+      </div>
+      <div class="doctor-card glass-card" data-reveal>
+        <div class="dc-top">
+          <div class="dc-avatar" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">🧑‍⚕️</div>
+          <div class="dc-badge"><span class="ping-dot"></span> Available</div>
+        </div>
+        <h3 class="dc-name">Dr. Robert Chen</h3>
+        <div class="dc-spec badge badge-purple">Orthopedist</div>
+        <div class="dc-meta"><span>⭐ 4.7</span><span>15 yrs exp.</span><span>$150/session</span></div>
+        <a href="appointments.html" class="btn btn-primary w-full">Book Appointment</a>
+      </div>
+      <div class="doctor-card glass-card" data-reveal>
+        <div class="dc-top">
+          <div class="dc-avatar" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">👩‍⚕️</div>
+          <div class="dc-badge"><span class="ping-dot amber"></span> Available</div>
+        </div>
+        <h3 class="dc-name">Dr. Emily Davis</h3>
+        <div class="dc-spec badge badge-amber">Pediatrician</div>
+        <div class="dc-meta"><span>⭐ 4.9</span><span>8 yrs exp.</span><span>$90/session</span></div>
+        <a href="appointments.html" class="btn btn-primary w-full">Book Appointment</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="text-center mb-24" data-reveal>
+      <div class="section-label">💬 Patient Stories</div>
+      <h2 class="section-title">What Our <span class="text-gradient">Patients Say</span></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card glass-card" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p>"MediAI Care transformed how I manage my health. The AI assistant accurately identified my symptoms and the doctor was amazing!"</p>
+        <div class="testi-author"><div class="testi-avatar">JM</div><div><div class="font-semibold">Jennifer M.</div><div class="text-sm text-secondary">Patient since 2024</div></div></div>
+      </div>
+      <div class="testi-card glass-card" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p>"Booking appointments is so easy now. I had a video call with my cardiologist within 2 hours. Incredible service!"</p>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,var(--emerald-glow),#d1fae5)">RK</div><div><div class="font-semibold">Robert K.</div><div class="text-sm text-secondary">Patient since 2023</div></div></div>
+      </div>
+      <div class="testi-card glass-card" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p>"Having all my medical records in one place is a game changer. The AI health reports give me real insights into my wellness."</p>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(139,92,246,0.05))">AL</div><div><div class="font-semibold">Amanda L.</div><div class="text-sm text-secondary">Patient since 2024</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card" data-reveal>
+      <div class="cta-blob c1"></div>
+      <div class="cta-blob c2"></div>
+      <div class="cta-content">
+        <div class="section-label" style="background:rgba(255,255,255,0.15);color:#fff">🚀 Start Today — It's Free</div>
+        <h2 style="color:#fff;font-size:clamp(26px,4vw,42px)">Ready to Take Control of<br/>Your Health?</h2>
+        <p style="color:rgba(255,255,255,0.8);max-width:520px;margin:16px auto">Join 50,000+ patients who trust MediAI Care for their healthcare journey. Sign up free and get your first consultation at no cost.</p>
+        <div class="flex-center gap-16 mt-24" style="flex-wrap:wrap">
+          <a href="patient-dashboard.html" class="btn btn-lg" style="background:#fff;color:var(--primary);font-weight:700">🏥 Get Started Free</a>
+          <a href="ai-assistant.html" class="btn btn-lg btn-outline" style="border-color:rgba(255,255,255,0.4);color:#fff">🤖 Try AI Assistant</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-brand" style="text-decoration:none">
+          <div class="nav-logo">M</div>
+          <span class="nav-brand-text" style="color:#f1f5f9">Medi<span style="color:var(--primary-light)">AI</span> Care</span>
+        </a>
+        <p>AI-powered healthcare platform connecting patients with top specialists for a healthier tomorrow.</p>
+        <div class="footer-socials mt-16">
+          <a href="#" class="footer-social">🐦</a>
+          <a href="#" class="footer-social">💼</a>
+          <a href="#" class="footer-social">📘</a>
+          <a href="#" class="footer-social">📸</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="patient-dashboard.html">Patient Dashboard</a>
+        <a href="doctor-dashboard.html">Doctor Portal</a>
+        <a href="appointments.html">Book Appointment</a>
+        <a href="ai-assistant.html">AI Assistant</a>
+        <a href="telemedicine.html">Telemedicine</a>
+      </div>
+      <div class="footer-col">
+        <h4>Health Tools</h4>
+        <a href="medical-history.html">Medical History</a>
+        <a href="prescriptions.html">Prescriptions</a>
+        <a href="reports.html">Lab Reports</a>
+        <a href="analytics.html">Health Analytics</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MediAI Care. All rights reserved.</p>
+      <p style="color:#475569;font-size:13px">Built with ❤️ for better healthcare</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Hero mini-chart
+  const ctx = document.getElementById('heroChart');
+  if (ctx && window.Chart) {
+    const gradient = ctx.getContext('2d').createLinearGradient(0,0,0,80);
+    gradient.addColorStop(0,'rgba(37,99,235,0.3)');
+    gradient.addColorStop(1,'rgba(37,99,235,0)');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets: [{
+          data: [88,91,87,94,90,96,94],
+          borderColor: '#2563eb', backgroundColor: gradient,
+          borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0
+        }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{display:false},y:{display:false}}
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>

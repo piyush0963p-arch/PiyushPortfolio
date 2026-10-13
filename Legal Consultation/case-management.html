@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Management - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Kanban Board Styles */
+        .kanban-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-main);
+        }
+
+        .kanban-filters {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .kanban-board {
+            flex: 1;
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 2rem 2rem 2rem;
+            overflow-x: auto;
+            align-items: flex-start;
+        }
+
+        .kanban-column {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            width: 320px;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+        }
+
+        .column-header {
+            padding: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .column-body {
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .case-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            cursor: grab;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .case-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--primary-light);
+        }
+
+        .case-category {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .case-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .case-client {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .case-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .avatars {
+            display: flex;
+        }
+
+        .avatars .avatar-sm {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            border: 2px solid var(--bg-card);
+            margin-left: -8px;
+        }
+        
+        .avatars .avatar-sm:first-child {
+            margin-left: 0;
+        }
+
+        /* Custom Scrollbar for board */
+        .kanban-board::-webkit-scrollbar {
+            height: 8px;
+        }
+        .kanban-board::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        .kanban-board::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="lawyer-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <i data-lucide="users"></i> Clients
+                </a>
+                <a href="case-management.html" class="nav-item active">
+                    <i data-lucide="briefcase"></i> Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="file-text"></i> Documents
+                </a>
+                <a href="calendar.html" class="nav-item">
+                    <i data-lucide="calendar"></i> Calendar
+                </a>
+                <a href="messages.html" class="nav-item">
+                    <i data-lucide="message-square"></i> Messages
+                </a>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <a href="index.html" class="nav-item text-danger">
+                        <i data-lucide="log-out"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">Case Management</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">SJ</div>
+                </div>
+            </header>
+
+            <div class="kanban-header">
+                <div class="kanban-filters">
+                    <div style="position: relative;">
+                        <i data-lucide="search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-muted);"></i>
+                        <input type="text" class="filter-select" placeholder="Search cases..." style="padding-left: 2rem; width: 250px;">
+                    </div>
+                    <select class="filter-select">
+                        <option>All Practice Areas</option>
+                        <option>Corporate Law</option>
+                        <option>Employment Law</option>
+                        <option>Real Estate</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary">
+                    <i data-lucide="plus"></i> Create New Case
+                </button>
+            </div>
+
+            <!-- Kanban Board -->
+            <div class="kanban-board animate-fade-in">
+                
+                <!-- Column 1 -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted);"></span>
+                            Under Review
+                        </div>
+                        <span class="badge" style="background: var(--bg-card); color: var(--text-secondary);">2</span>
+                    </div>
+                    <div class="column-body">
+                        
+                        <div class="case-card">
+                            <span class="case-category" style="color: var(--accent);">Corporate Law</span>
+                            <div class="case-title">Acme Corp M&A Due Diligence</div>
+                            <div class="case-client"><i data-lucide="user" style="width: 14px; height: 14px;"></i> Acme Corp</div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span>Progress</span>
+                                    <span>10%</span>
+                                </div>
+                                <div style="width: 100%; height: 6px; background: var(--bg-main); border-radius: 4px;">
+                                    <div style="width: 10%; height: 100%; background: var(--accent); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="case-footer">
+                                <span style="display: flex; align-items: center; gap: 0.25rem; color: var(--danger);">
+                                    <i data-lucide="alert-circle" style="width: 14px; height: 14px;"></i> Missing Docs
+                                </span>
+                                <div class="avatars">
+                                    <div class="avatar-sm">SJ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="case-card">
+                            <span class="case-category" style="color: var(--info);">Employment Law</span>
+                            <div class="case-title">Severance Agreement Review</div>
+                            <div class="case-client"><i data-lucide="user" style="width: 14px; height: 14px;"></i> Mark Davis</div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span>Progress</span>
+                                    <span>25%</span>
+                                </div>
+                                <div style="width: 100%; height: 6px; background: var(--bg-main); border-radius: 4px;">
+                                    <div style="width: 25%; height: 100%; background: var(--info); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="case-footer">
+                                <span>Created 2d ago</span>
+                                <div class="avatars">
+                                    <div class="avatar-sm">SJ</div>
+                                    <div class="avatar-sm" style="background: var(--success);">MD</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--info);"></span>
+                            In Progress
+                        </div>
+                        <span class="badge" style="background: var(--bg-card); color: var(--text-secondary);">1</span>
+                    </div>
+                    <div class="column-body">
+                        
+                        <div class="case-card">
+                            <span class="case-category" style="color: var(--info);">Employment Law</span>
+                            <div class="case-title">Smith vs. TechCorp</div>
+                            <div class="case-client"><i data-lucide="user" style="width: 14px; height: 14px;"></i> John Doe</div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span>Progress</span>
+                                    <span>65%</span>
+                                </div>
+                                <div style="width: 100%; height: 6px; background: var(--bg-main); border-radius: 4px;">
+                                    <div style="width: 65%; height: 100%; background: var(--info); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="case-footer">
+                                <span>Phase: Discovery</span>
+                                <div class="avatars">
+                                    <div class="avatar-sm">SJ</div>
+                                    <div class="avatar-sm" style="background: var(--accent);">JD</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--danger);"></span>
+                            Hearing Scheduled
+                        </div>
+                        <span class="badge" style="background: var(--bg-card); color: var(--text-secondary);">1</span>
+                    </div>
+                    <div class="column-body">
+                        
+                        <div class="case-card">
+                            <span class="case-category" style="color: var(--warning);">Real Estate</span>
+                            <div class="case-title">Property Boundary Dispute</div>
+                            <div class="case-client"><i data-lucide="user" style="width: 14px; height: 14px;"></i> Emma Watson</div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span>Progress</span>
+                                    <span>80%</span>
+                                </div>
+                                <div style="width: 100%; height: 6px; background: var(--bg-main); border-radius: 4px;">
+                                    <div style="width: 80%; height: 100%; background: var(--danger); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="case-footer">
+                                <span style="display: flex; align-items: center; gap: 0.25rem; font-weight: 600; color: var(--text-primary);">
+                                    <i data-lucide="calendar" style="width: 14px; height: 14px; color: var(--danger);"></i> Oct 20
+                                </span>
+                                <div class="avatars">
+                                    <div class="avatar-sm">SJ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
+                            Completed
+                        </div>
+                        <span class="badge" style="background: var(--bg-card); color: var(--text-secondary);">0</span>
+                    </div>
+                    <div class="column-body" style="justify-content: center; align-items: center; text-align: center; color: var(--text-muted); opacity: 0.5;">
+                        <i data-lucide="check-circle" style="width: 32px; height: 32px; margin-bottom: 0.5rem;"></i>
+                        <p style="font-size: 0.875rem;">No recently completed cases</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

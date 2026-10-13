@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Consultation - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .booking-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Wizard Steps */
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .wizard-steps::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .step.active .step-circle {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-circle {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+        }
+
+        /* Step Content */
+        .step-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Lawyer Grid */
+        .lawyer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .lawyer-card {
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .lawyer-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .lawyer-card.selected {
+            border-color: var(--primary);
+            background: var(--info-bg);
+        }
+
+        .lawyer-header {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .lawyer-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Calendar Selector */
+        .calendar-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .date-picker-placeholder {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--text-muted);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .time-slot {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            background: var(--bg-card);
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .time-slot.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: var(--bg-surface);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="client-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> My Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="folder-open"></i> Document Center
+                </a>
+                <a href="booking.html" class="nav-item active">
+                    <i data-lucide="calendar"></i> Appointments
+                </a>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <a href="index.html" class="nav-item text-danger">
+                        <i data-lucide="log-out"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">Book Consultation</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">JD</div>
+                </div>
+            </header>
+
+            <div class="booking-container animate-fade-in">
+                
+                <!-- Wizard Steps -->
+                <div class="wizard-steps">
+                    <div class="step completed">
+                        <div class="step-circle"><i data-lucide="check"></i></div>
+                        <span class="step-label">Select Lawyer</span>
+                    </div>
+                    <div class="step active">
+                        <div class="step-circle">2</div>
+                        <span class="step-label">Date & Time</span>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        <span class="step-label">Details</span>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">4</div>
+                        <span class="step-label">Confirm</span>
+                    </div>
+                </div>
+
+                <!-- Step Content (Step 2 Active) -->
+                <div class="step-content">
+                    <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">Select Date and Time</h3>
+                    
+                    <!-- Selected Lawyer Info -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding: 1rem; background: var(--info-bg); border-radius: var(--radius-md); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <div class="lawyer-avatar" style="width: 48px; height: 48px; font-size: 1.25rem;">SJ</div>
+                        <div>
+                            <h4 style="margin: 0;">Sarah Jenkins</h4>
+                            <span style="font-size: 0.875rem; color: var(--text-secondary);">Senior Partner - Employment Law</span>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <span class="badge badge-success">Available</span>
+                        </div>
+                    </div>
+
+                    <div class="calendar-selector">
+                        <!-- Date Picker Mock -->
+                        <div>
+                            <label class="form-label" style="font-size: 1rem; margin-bottom: 1rem;">1. Choose a Date</label>
+                            <div class="date-picker-placeholder">
+                                <i data-lucide="calendar" style="width: 48px; height: 48px; margin-bottom: 1rem; color: var(--border-color);"></i>
+                                <p>Interactive Calendar Component</p>
+                                <p style="font-size: 0.75rem;">(Selecting October 24, 2026)</p>
+                            </div>
+                        </div>
+
+                        <!-- Time Slots -->
+                        <div>
+                            <label class="form-label" style="font-size: 1rem; margin-bottom: 1rem;">2. Choose a Time</label>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Available slots for Thursday, Oct 24</p>
+                            
+                            <div class="time-slots">
+                                <div class="time-slot disabled">09:00 AM</div>
+                                <div class="time-slot disabled">09:30 AM</div>
+                                <div class="time-slot">10:00 AM</div>
+                                <div class="time-slot">10:30 AM</div>
+                                <div class="time-slot disabled">11:00 AM</div>
+                                <div class="time-slot">11:30 AM</div>
+                                <div class="time-slot">01:00 PM</div>
+                                <div class="time-slot">01:30 PM</div>
+                                <div class="time-slot selected">02:00 PM</div>
+                                <div class="time-slot">02:30 PM</div>
+                                <div class="time-slot">03:00 PM</div>
+                                <div class="time-slot">03:30 PM</div>
+                                <div class="time-slot disabled">04:00 PM</div>
+                                <div class="time-slot">04:30 PM</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                        <button class="btn btn-secondary">Back</button>
+                        <button class="btn btn-primary" onclick="alert('Proceeding to Details step')">Next Step</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // Time slot selection logic
+        const timeSlots = document.querySelectorAll('.time-slot:not(.disabled)');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', () => {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                slot.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .date-filter {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="lawyer-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <i data-lucide="users"></i> Clients
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="file-text"></i> Documents
+                </a>
+                <a href="calendar.html" class="nav-item">
+                    <i data-lucide="calendar"></i> Calendar
+                </a>
+                <a href="messages.html" class="nav-item">
+                    <i data-lucide="message-square"></i> Messages
+                </a>
+                <a href="billing.html" class="nav-item">
+                    <i data-lucide="dollar-sign"></i> Billing
+                </a>
+                <a href="analytics.html" class="nav-item active">
+                    <i data-lucide="bar-chart-2"></i> Analytics
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">Analytics & Reports</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <select class="date-filter">
+                        <option>Last 30 Days</option>
+                        <option>This Quarter</option>
+                        <option>This Year</option>
+                        <option>All Time</option>
+                    </select>
+                    <button class="btn btn-secondary">
+                        <i data-lucide="download"></i> Export Report
+                    </button>
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-content animate-fade-in">
+                
+                <div class="charts-grid">
+                    <!-- Revenue Chart -->
+                    <div class="card">
+                        <div class="chart-header">
+                            <h3>Revenue Overview</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Case Success Rate -->
+                    <div class="card">
+                        <div class="chart-header">
+                            <h3>Case Outcomes</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="outcomeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="grid-template-columns: 1fr 1fr;">
+                    <!-- Case Categories -->
+                    <div class="card">
+                        <div class="chart-header">
+                            <h3>Cases by Category</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Client Acquisition -->
+                    <div class="card">
+                        <div class="chart-header">
+                            <h3>New Client Acquisition</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="clientChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+            
+            // Update charts on theme toggle to adjust label colors if necessary
+            // (Skipped for brevity, but real implementation would redraw charts with new text colors)
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // --- Chart.js Initializations --- //
+
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary')
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted') },
+                    grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--border-color') }
+                },
+                y: {
+                    ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted') },
+                    grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--border-color') }
+                }
+            }
+        };
+
+        const pieOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary') }
+                }
+            }
+        };
+
+        // Revenue Chart
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: [30000, 35000, 32000, 40000, 38000, 42500],
+                    borderColor: '#2563EB',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Case Outcomes Chart
+        new Chart(document.getElementById('outcomeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Won/Settled', 'Lost', 'In Progress', 'Dismissed'],
+                datasets: [{
+                    data: [65, 10, 20, 5],
+                    backgroundColor: ['#10B981', '#EF4444', '#3B82F6', '#94A3B8'],
+                    borderWidth: 0
+                }]
+            },
+            options: pieOptions
+        });
+
+        // Case Categories Chart
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Corporate', 'Employment', 'Real Estate', 'Family', 'IP'],
+                datasets: [{
+                    label: 'Active Cases',
+                    data: [15, 8, 12, 5, 3],
+                    backgroundColor: '#F59E0B',
+                    borderRadius: 4
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Client Acquisition Chart
+        new Chart(document.getElementById('clientChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'New Clients',
+                    data: [5, 7, 4, 9, 8, 12],
+                    backgroundColor: '#8B5CF6',
+                    borderRadius: 4
+                }]
+            },
+            options: chartOptions
+        });
+    </script>
+</body>
+</html>

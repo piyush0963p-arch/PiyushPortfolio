@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Legal Assistant - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar - standard */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* AI Assistant Layout */
+        .ai-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-main);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 80%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .message-content {
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .message.user .message-content {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .message.user .message-content a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .chat-input-area {
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 1.5rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .chat-send-btn {
+            position: absolute;
+            right: 0.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-send-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* Insights Panel */
+        .insights-panel {
+            width: 350px;
+            background: var(--bg-card);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .insights-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .insights-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .suggestion-chip {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .suggestion-chip:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="client-dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="folder-open"></i> Document Center
+                </a>
+                <a href="ai-assistant.html" class="nav-item active">
+                    <i data-lucide="bot"></i> AI Assistant
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.25rem;">LexAI Assistant</h2>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">JD</div>
+                </div>
+            </header>
+
+            <div class="ai-layout animate-fade-in">
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="chat-messages">
+                        
+                        <div class="message ai">
+                            <div class="message-avatar">
+                                <i data-lucide="sparkles"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello John! I'm your LexAI legal assistant. I can help you analyze documents, summarize your case files, and answer general legal questions based on your jurisdiction.</p>
+                                <p style="margin-top: 1rem;">What would you like assistance with today?</p>
+                            </div>
+                        </div>
+
+                        <div class="message user">
+                            <div class="message-avatar">JD</div>
+                            <div class="message-content">
+                                <p>Can you summarize the Settlement_Agreement_v2.pdf I uploaded earlier?</p>
+                            </div>
+                        </div>
+
+                        <div class="message ai">
+                            <div class="message-avatar">
+                                <i data-lucide="sparkles"></i>
+                            </div>
+                            <div class="message-content">
+                                <p><strong>Document Summary: Settlement_Agreement_v2.pdf</strong></p>
+                                <ul style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <li><strong>Parties:</strong> John Doe (Employee) and TechCorp Inc. (Employer)</li>
+                                    <li><strong>Settlement Amount:</strong> $45,000 to be paid within 30 days of execution.</li>
+                                    <li><strong>Release of Claims:</strong> General release of all claims related to employment and termination.</li>
+                                    <li><strong style="color: var(--danger);">Non-Compete Clause (Risk):</strong> Prevents employment with direct competitors for 24 months globally.</li>
+                                    <li><strong>Confidentiality:</strong> Strict non-disclosure regarding the terms of this settlement.</li>
+                                </ul>
+                                <p style="margin-top: 1rem;">Would you like me to flag the non-compete clause for your lawyer's review?</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="chat-input-area">
+                        <div style="margin-bottom: 1rem;">
+                            <span class="suggestion-chip">Flag for lawyer</span>
+                            <span class="suggestion-chip">What is a standard non-compete?</span>
+                            <span class="suggestion-chip">Analyze another document</span>
+                        </div>
+                        <div class="chat-input-wrapper">
+                            <input type="text" class="chat-input" placeholder="Type your message here...">
+                            <button class="chat-send-btn">
+                                <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem;">LexAI provides general information and document analysis, not formal legal advice.</p>
+                    </div>
+                </div>
+
+                <!-- Insights Panel -->
+                <div class="insights-panel">
+                    <div class="insights-header">
+                        <i data-lucide="activity" style="color: var(--primary);"></i>
+                        <h3 style="font-size: 1rem;">Case Insights</h3>
+                    </div>
+                    <div class="insights-content">
+                        
+                        <div>
+                            <h4 style="font-size: 0.875rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 1rem;">Current Case Health</h4>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--success);">85%</div>
+                                <div style="font-size: 0.875rem; color: var(--text-secondary);">Good standing.<br>No urgent deadlines missed.</div>
+                            </div>
+                            <div style="width: 100%; height: 6px; background: var(--bg-main); border-radius: 4px;">
+                                <div style="width: 85%; height: 100%; background: var(--success); border-radius: 4px;"></div>
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                            <h4 style="font-size: 0.875rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 1rem;">Missing Documents</h4>
+                            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); padding: 1rem; border-radius: var(--radius-md);">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--warning); font-weight: 500; margin-bottom: 0.5rem;">
+                                    <i data-lucide="alert-triangle" style="width: 16px; height: 16px;"></i>
+                                    Action Required
+                                </div>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary);">Your profile is missing a <strong>Gov. ID</strong>. Please upload it to complete identity verification.</p>
+                                <button class="btn btn-outline" style="margin-top: 0.75rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; width: 100%;">Upload ID</button>
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                            <h4 style="font-size: 0.875rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 1rem;">Recent AI Activities</h4>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+                                <li style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
+                                    <i data-lucide="check-circle" style="color: var(--success); width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;"></i>
+                                    <div>
+                                        <p style="color: var(--text-primary);">Analyzed Settlement_Agreement_v2.pdf</p>
+                                        <p style="color: var(--text-muted); font-size: 0.75rem;">Today, 10:30 AM</p>
+                                    </div>
+                                </li>
+                                <li style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
+                                    <i data-lucide="check-circle" style="color: var(--success); width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;"></i>
+                                    <div>
+                                        <p style="color: var(--text-primary);">Categorized 15 emails to "Evidence"</p>
+                                        <p style="color: var(--text-muted); font-size: 0.75rem;">Yesterday</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Doctor Dashboard — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text">Medi<span>Care</span></span></a>
+  <div class="nav-actions" style="margin-left:auto">
+    <span class="badge badge-emerald">👨‍⚕️ Dr. James Wilson</span>
+    <button class="theme-toggle">🌙</button>
+    <div class="nav-avatar">JW</div>
+  </div>
+  <button class="btn btn-ghost btn-icon sidebar-toggle" style="margin-left:8px">☰</button>
+</nav>
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section-label">Doctor Menu</div>
+    <a href="doctor-dashboard.html" class="sidebar-link active"><span class="icon">🏠</span> Dashboard</a>
+    <a href="appointments.html" class="sidebar-link"><span class="icon">📅</span> Appointments</a>
+    <a href="#" class="sidebar-link"><span class="icon">👥</span> Patients</a>
+    <a href="prescriptions.html" class="sidebar-link"><span class="icon">💊</span> Prescriptions</a>
+    <a href="reports.html" class="sidebar-link"><span class="icon">📊</span> Reports</a>
+    <a href="#" class="sidebar-link"><span class="icon">💬</span> Messages <span class="badge-dot"></span></a>
+    <a href="analytics.html" class="sidebar-link"><span class="icon">📈</span> Analytics</a>
+    <div class="sidebar-section-label" style="margin-top:16px">Account</div>
+    <a href="patient-dashboard.html" class="sidebar-link"><span class="icon">👤</span> Patient View</a>
+    <a href="index.html" class="sidebar-link"><span class="icon">🚪</span> Sign Out</a>
+  </aside>
+  <main class="dashboard-content">
+    <div class="page-header flex-between" style="flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="page-title">Doctor Dashboard 👨‍⚕️</div>
+        <div class="page-subtitle">Wednesday, June 11, 2026 — 8 appointments today</div>
+      </div>
+      <div class="flex gap-12">
+        <a href="patient-dashboard.html" class="btn btn-outline btn-sm">Patient View</a>
+        <button class="btn btn-primary btn-sm" onclick="showToast('Patient added!','success')">+ Add Patient</button>
+      </div>
+    </div>
+
+    <div class="grid-4 mb-24">
+      <div class="metric-card">
+        <div class="metric-icon blue">👥</div>
+        <div class="metric-value text-gradient-blue" data-count="248">0</div>
+        <div class="metric-label">Total Patients</div>
+        <div class="metric-change up">↑ 12 this month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon green">📅</div>
+        <div class="metric-value" style="color:var(--emerald)" data-count="8">0</div>
+        <div class="metric-label">Today's Appointments</div>
+        <div class="metric-change" style="color:var(--text-muted)">4 completed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon amber">📋</div>
+        <div class="metric-value" style="color:var(--amber)" data-count="14">0</div>
+        <div class="metric-label">Pending Reports</div>
+        <div class="metric-change down">3 urgent</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon purple">✅</div>
+        <div class="metric-value" style="color:var(--purple)" data-count="1284">0</div>
+        <div class="metric-label">Consultations Done</div>
+        <div class="metric-change up">↑ 48 this month</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>📊 Weekly Appointments</h3><span class="badge badge-primary">This Week</span></div>
+        <div style="height:200px"><canvas id="weeklyChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>📈 Patient Growth</h3><span class="badge badge-emerald">6 Months</span></div>
+        <div style="height:200px"><canvas id="growthChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>💰 Revenue Overview</h3><span class="badge badge-amber">Monthly</span></div>
+        <div style="height:200px"><canvas id="revenueChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><h3>🩺 Consultation Types</h3></div>
+        <div style="height:200px"><canvas id="typeChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-card mb-24">
+      <div class="chart-card-header"><h3>📅 Today's Schedule</h3><div class="flex gap-8"><span class="badge badge-emerald">4 Done</span><span class="badge badge-amber">4 Pending</span></div></div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>Time</th><th>Patient</th><th>Type</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>9:00 AM</td><td>Alice Johnson</td><td><span class="badge badge-primary">Online</span></td><td>Chest Pain Follow-up</td><td><span class="badge badge-emerald">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+            <tr><td>10:00 AM</td><td>Bob Kumar</td><td><span class="badge badge-emerald">In-Person</span></td><td>ECG Review</td><td><span class="badge badge-emerald">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+            <tr><td>11:30 AM</td><td>Maria Chen</td><td><span class="badge badge-primary">Online</span></td><td>Hypertension Consult</td><td><span class="badge badge-amber">In Progress</span></td><td><a href="telemedicine.html" class="btn btn-primary btn-sm">Join</a></td></tr>
+            <tr><td>2:00 PM</td><td>John Doe</td><td><span class="badge badge-primary">Online</span></td><td>Routine Checkup</td><td><span class="badge badge-cyan">Upcoming</span></td><td><button class="btn btn-ghost btn-sm">Prepare</button></td></tr>
+            <tr><td>3:30 PM</td><td>Sarah Mills</td><td><span class="badge badge-emerald">In-Person</span></td><td>Post-surgery Review</td><td><span class="badge badge-cyan">Upcoming</span></td><td><button class="btn btn-ghost btn-sm">Prepare</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-card-header"><h3>👥 Recent Patients</h3><a href="#" class="btn btn-ghost btn-sm">View All</a></div>
+      <div class="grid-2" style="gap:10px;margin-top:8px">
+        <div class="patient-row"><div class="patient-avatar">👤</div><div style="flex:1"><div class="font-semibold text-sm">Alice Johnson, 42F</div><div class="text-xs text-secondary">Last: Jun 9</div></div><span class="badge badge-emerald">Stable</span></div>
+        <div class="patient-row"><div class="patient-avatar">👤</div><div style="flex:1"><div class="font-semibold text-sm">Bob Kumar, 58M</div><div class="text-xs text-secondary">Last: Jun 10</div></div><span class="badge badge-amber">Review</span></div>
+        <div class="patient-row"><div class="patient-avatar">👤</div><div style="flex:1"><div class="font-semibold text-sm">Maria Chen, 35F</div><div class="text-xs text-secondary">Last: Jun 8</div></div><span class="badge badge-rose">Critical</span></div>
+        <div class="patient-row"><div class="patient-avatar">👤</div><div style="flex:1"><div class="font-semibold text-sm">David Park, 45M</div><div class="text-xs text-secondary">Last: Jun 7</div></div><span class="badge badge-emerald">Stable</span></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  drawBarChart(document.getElementById('weeklyChart'),['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],[{label:'Appointments',data:[6,8,5,9,7,4,8],backgroundColor:'rgba(37,99,235,0.7)',borderRadius:6}]);
+  const g2=document.getElementById('growthChart').getContext('2d').createLinearGradient(0,0,0,200);
+  g2.addColorStop(0,'rgba(16,185,129,0.3)');g2.addColorStop(1,'rgba(16,185,129,0)');
+  drawLineChart(document.getElementById('growthChart'),['Jan','Feb','Mar','Apr','May','Jun'],[{label:'Patients',data:[180,195,210,225,238,248],borderColor:'#10b981',backgroundColor:g2,fill:true,borderWidth:2.5}]);
+  drawBarChart(document.getElementById('revenueChart'),['Jan','Feb','Mar','Apr','May','Jun'],[{label:'Revenue ($)',data:[12400,15200,13800,17600,16200,19400],backgroundColor:'rgba(245,158,11,0.7)',borderRadius:6}]);
+  drawDoughnutChart(document.getElementById('typeChart'),['Online','In-Person','Emergency','Follow-up'],[45,30,10,15],['#2563eb','#10b981','#f43f5e','#f59e0b']);
+});
+</script>
+</body>
+</html>
+

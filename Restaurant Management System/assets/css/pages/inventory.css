@@ -1,0 +1,16 @@
+/* Inventory page styling */
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+}
+
+.inventory-table-container {
+    grid-column: span 12;
+}
+
+.stock-status-in { background-color: rgba(34, 197, 94, 0.1); color: var(--accent); }
+.stock-status-low { background-color: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.stock-status-critical { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+.stock-status-out { background-color: rgba(100, 116, 139, 0.1); color: var(--text-muted); }

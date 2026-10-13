@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - LexAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-main);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .dashboard-content {
+            padding: 2rem;
+            flex: 1;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .kpi-info h3 {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-blue { background: rgba(59, 130, 246, 0.1); color: #3B82F6; }
+        .icon-green { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+        .icon-yellow { background: rgba(245, 158, 11, 0.1); color: #F59E0B; }
+
+        /* Main Dashboard Sections */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Lists */
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .list-item:hover {
+            border-color: var(--primary-light);
+        }
+
+        .item-details h4 {
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Progress Tracker */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="font-size: 1.5rem;">
+                    <i data-lucide="scale"></i>
+                    <span>Lex</span>AI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="client-dashboard.html" class="nav-item active">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="case-management.html" class="nav-item">
+                    <i data-lucide="briefcase"></i> My Cases
+                </a>
+                <a href="documents.html" class="nav-item">
+                    <i data-lucide="folder-open"></i> Document Center
+                </a>
+                <a href="messages.html" class="nav-item">
+                    <i data-lucide="message-square"></i> Messages
+                    <span class="badge badge-danger" style="margin-left: auto;">2</span>
+                </a>
+                <a href="booking.html" class="nav-item">
+                    <i data-lucide="calendar"></i> Appointments
+                </a>
+                <a href="billing.html" class="nav-item">
+                    <i data-lucide="credit-card"></i> Invoices
+                </a>
+                <a href="ai-assistant.html" class="nav-item">
+                    <i data-lucide="bot"></i> AI Assistant
+                </a>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <a href="settings.html" class="nav-item">
+                        <i data-lucide="settings"></i> Settings
+                    </a>
+                    <a href="index.html" class="nav-item text-danger">
+                        <i data-lucide="log-out"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar glass">
+                <div>
+                    <h2 style="font-size: 1.25rem;">Welcome back, John!</h2>
+                    <p style="font-size: 0.875rem; color: var(--text-muted);">Here's what's happening with your legal matters today.</p>
+                </div>
+                <div class="topbar-actions">
+                    <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <button class="btn btn-outline" style="padding: 0.5rem; border: none; position: relative;">
+                        <i data-lucide="bell"></i>
+                        <span style="position: absolute; top: 0.25rem; right: 0.25rem; width: 8px; height: 8px; background: var(--danger); border-radius: 50%;"></span>
+                    </button>
+                    <div class="user-profile">
+                        <div class="avatar">JD</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 0.875rem; font-weight: 600;">John Doe</span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Client</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content animate-fade-in">
+                
+                <!-- Quick Actions -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <a href="booking.html" class="btn btn-primary">
+                        <i data-lucide="plus"></i> Book Consultation
+                    </a>
+                    <a href="documents.html" class="btn btn-secondary">
+                        <i data-lucide="upload"></i> Upload Document
+                    </a>
+                </div>
+
+                <!-- KPI Widgets -->
+                <div class="dashboard-grid">
+                    <div class="card kpi-card">
+                        <div class="kpi-info">
+                            <p>Active Cases</p>
+                            <h3>2</h3>
+                            <p style="font-size: 0.75rem; color: var(--success); margin-top: 0.5rem;">All cases on track</p>
+                        </div>
+                        <div class="kpi-icon icon-blue">
+                            <i data-lucide="briefcase"></i>
+                        </div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-info">
+                            <p>Upcoming Meetings</p>
+                            <h3>1</h3>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Next on Oct 24, 2:00 PM</p>
+                        </div>
+                        <div class="kpi-icon icon-yellow">
+                            <i data-lucide="calendar"></i>
+                        </div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-info">
+                            <p>Pending Invoices</p>
+                            <h3>$450.00</h3>
+                            <p style="font-size: 0.75rem; color: var(--danger); margin-top: 0.5rem;">Due in 5 days</p>
+                        </div>
+                        <div class="kpi-icon icon-green">
+                            <i data-lucide="file-text"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sections-grid">
+                    <!-- Left Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        
+                        <!-- Case Progress -->
+                        <div class="card">
+                            <div class="section-header">
+                                <h3>Active Cases Progress</h3>
+                                <a href="case-management.html" style="font-size: 0.875rem;">View All</a>
+                            </div>
+                            <div class="item-list">
+                                <div class="list-item" style="flex-direction: column; align-items: stretch;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                        <div>
+                                            <h4>Smith vs. TechCorp (Employment Dispute)</h4>
+                                            <div class="item-meta">
+                                                <span><i data-lucide="user" style="width: 14px; height: 14px;"></i> Sarah Jenkins (Lawyer)</span>
+                                                <span><i data-lucide="clock" style="width: 14px; height: 14px;"></i> Updated 2 days ago</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge badge-info">In Progress</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                        <span>Phase: Discovery</span>
+                                        <span>65%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="list-item" style="flex-direction: column; align-items: stretch;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                        <div>
+                                            <h4>Estate Planning - Doe Family</h4>
+                                            <div class="item-meta">
+                                                <span><i data-lucide="user" style="width: 14px; height: 14px;"></i> Michael Ross (Lawyer)</span>
+                                                <span><i data-lucide="clock" style="width: 14px; height: 14px;"></i> Updated 1 week ago</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge badge-warning">Document Review</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                        <span>Phase: Drafting</span>
+                                        <span>30%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 30%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Documents -->
+                        <div class="card">
+                            <div class="section-header">
+                                <h3>Recent Documents</h3>
+                                <a href="documents.html" style="font-size: 0.875rem;">Open Vault</a>
+                            </div>
+                            <div class="item-list">
+                                <div class="list-item">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <div style="padding: 0.5rem; background: var(--info-bg); color: var(--primary); border-radius: var(--radius-sm);">
+                                            <i data-lucide="file-signature"></i>
+                                        </div>
+                                        <div class="item-details">
+                                            <h4>Settlement_Agreement_v2.pdf</h4>
+                                            <div class="item-meta">
+                                                <span>Added Oct 18</span>
+                                                <span>Requires Signature</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;">Sign Now</button>
+                                </div>
+                                <div class="list-item">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <div style="padding: 0.5rem; background: var(--success-bg); color: var(--success); border-radius: var(--radius-sm);">
+                                            <i data-lucide="file-check"></i>
+                                        </div>
+                                        <div class="item-details">
+                                            <h4>Tax_Returns_2025.pdf</h4>
+                                            <div class="item-meta">
+                                                <span>Added Oct 15</span>
+                                                <span>Verified by AI</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;">View</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        
+                        <!-- Upcoming Schedule -->
+                        <div class="card">
+                            <div class="section-header">
+                                <h3>Schedule</h3>
+                                <a href="calendar.html" style="font-size: 0.875rem;">Calendar</a>
+                            </div>
+                            <div class="item-list">
+                                <div class="list-item" style="background: var(--info-bg); border-color: var(--primary-light);">
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="font-size: 0.75rem; font-weight: 600; color: var(--primary);">TOMORROW</span>
+                                        <h4 style="margin: 0.25rem 0;">Strategy Call</h4>
+                                        <span style="font-size: 0.75rem; color: var(--text-secondary);">2:00 PM - 3:00 PM • Video Call</span>
+                                        <span style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">with Sarah Jenkins</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Suggestions -->
+                        <div class="card" style="background: linear-gradient(135deg, var(--bg-card) 0%, rgba(37, 99, 235, 0.05) 100%);">
+                            <div class="section-header">
+                                <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i data-lucide="sparkles" style="color: var(--accent); width: 18px; height: 18px;"></i>
+                                    AI Insights
+                                </h3>
+                            </div>
+                            <div class="item-list">
+                                <div style="font-size: 0.875rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                                    <strong style="color: var(--text-primary);">Missing Document Alert:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 0.25rem;">Your Employment Dispute case is missing the initial offer letter. Uploading it may strengthen the strategy phase.</p>
+                                </div>
+                                <div style="font-size: 0.875rem; padding-top: 0.25rem;">
+                                    <strong style="color: var(--text-primary);">Contract Analysis:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 0.25rem;">The recently uploaded Settlement Agreement looks standard, but Clause 4.2 contains a non-compete. <a href="#">Read full analysis</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Messages -->
+                        <div class="card">
+                            <div class="section-header">
+                                <h3>Messages</h3>
+                            </div>
+                            <div class="item-list">
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <div class="avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">SJ</div>
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                            <span style="font-size: 0.875rem; font-weight: 600;">Sarah Jenkins</span>
+                                            <span style="font-size: 0.75rem; color: var(--text-muted);">2h ago</span>
+                                        </div>
+                                        <p style="font-size: 0.875rem; color: var(--text-secondary);">I've reviewed the documents you sent over. Let's discuss them on our call tomorrow.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggleBtn.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

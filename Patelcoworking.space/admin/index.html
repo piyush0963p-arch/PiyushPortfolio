@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patel Workspace — Unified CMS Administration Panel</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Load LocalStorage Simulated DB Engine -->
+    <script src="../assets/js/db.js"></script>
+
+    <!-- Unified Admin Style Customizations -->
+    <style>
+        :root {
+            --admin-primary: #043873;
+            --admin-accent: #4F9CF9;
+            --admin-yellow: #FFE492;
+            --admin-bg: #f8fafc;
+            --admin-card: #ffffff;
+            --admin-text: #1e293b;
+            --admin-muted: #64748b;
+            --admin-border: #e2e8f0;
+            --admin-success: #10b981;
+            --admin-danger: #ef4444;
+            --admin-radius: 12px;
+            --transition: all 0.25s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--admin-bg);
+            color: var(--admin-text);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Glassmorphic Login Screen */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--admin-primary) 0%, #021a37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 24px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .login-logo {
+            margin-bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .login-logo svg {
+            width: 36px;
+            height: 36px;
+            fill: var(--admin-accent);
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .login-subtitle {
+            font-size: 13.5px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-label.dark {
+            color: var(--admin-text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            outline: none;
+            font-size: 14.5px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--admin-accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-input.dark {
+            border: 1px solid var(--admin-border);
+            background: #ffffff;
+            color: var(--admin-text);
+        }
+
+        .form-input.dark:focus {
+            border-color: var(--admin-accent);
+            box-shadow: 0 0 0 3px rgba(79, 156, 249, 0.15);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            background: var(--admin-accent);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #3988e7;
+            transform: translateY(-1px);
+        }
+
+        .login-alert {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ff8a8a;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .demo-credentials {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        /* Sidebar Navigation Layout */
+        .admin-sidebar {
+            width: 260px;
+            background-color: var(--admin-primary);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-brand {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 19px;
+        }
+
+        .sidebar-brand svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--admin-accent);
+        }
+
+        .sidebar-user {
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--admin-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 10.5px;
+            opacity: 0.6;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            margin-bottom: 4px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .menu-link:hover, .menu-link.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .menu-link.active {
+            border-left: 3px solid var(--admin-accent);
+        }
+
+        .menu-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            opacity: 0.8;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* View Content Layout */
+        .admin-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        .admin-header {
+            height: 70px;
+            background-color: var(--admin-card);
+            border-bottom: 1px solid var(--admin-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            flex-shrink: 0;
+        }
+
+        .header-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--admin-border);
+            background-color: #ffffff;
+            color: var(--admin-text);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: #f8fafc;
+        }
+
+        .btn-primary {
+            background-color: var(--admin-accent);
+            color: #ffffff;
+            border-color: var(--admin-accent);
+        }
+
+        .btn-primary:hover {
+            background-color: #3988e7;
+        }
+
+        .btn-danger {
+            background-color: var(--admin-danger);
+            color: #ffffff;
+            border-color: var(--admin-danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .admin-viewport {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+            background-color: var(--admin-bg);
+        }
+
+        .view-panel {
+            display: none;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        /* Cards and Grids */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            color: var(--admin-primary);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--admin-muted);
+            font-weight: 500;
+        }
+
+        .admin-card {
+            background-color: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            margin-bottom: 32px;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--admin-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16.5px;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Table Design */
+        .admin-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13.5px;
+        }
+
+        .admin-table th {
+            padding: 14px 20px;
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--admin-border);
+            color: var(--admin-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--admin-border);
+            color: var(--admin-text);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-info {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        /* Modal styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--admin-card);
+            border-radius: var(--admin-radius);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            border: 1px solid var(--admin-border);
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--admin-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--admin-muted);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--admin-border);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Color Picker Live */
+        .color-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .color-picker-wrapper {
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #f8fafc;
+        }
+
+        .color-input {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 0;
+            background: none;
+        }
+
+        /* Accordion for page builder */
+        .accordion-item {
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            background-color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .accordion-header-title {
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accordion-body {
+            padding: 20px;
+            border-top: 1px solid var(--admin-border);
+            display: none;
+            background-color: #ffffff;
+        }
+
+        .accordion-body.active {
+            display: block;
+        }
+
+        /* Chart Canvas Sim */
+        .chart-box {
+            height: 180px;
+            background-color: #f8fafc;
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .chart-bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 40px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            background-color: var(--admin-accent);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+        }
+
+        .chart-label {
+            font-size: 10px;
+            color: var(--admin-muted);
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MOCK LOGIN VIEW -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <svg viewBox="0 0 100 100">
+                    <rect x="10" y="20" width="80" height="60" rx="8" />
+                    <rect x="25" y="35" width="20" height="30" rx="3" fill="var(--admin-yellow)" />
+                    <rect x="55" y="35" width="20" height="30" rx="3" fill="var(--admin-yellow)" />
+                </svg>
+                <span>Patel Workspace</span>
+            </div>
+            <h2 class="login-title">Admin Console</h2>
+            <p class="login-subtitle">Simulated Client-Side CMS Dashboard</p>
+            
+            <div id="login-alert" class="login-alert">Invalid credentials. Please try again.</div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Username / Email</label>
+                    <input type="text" id="login-user" class="form-input" required placeholder="admin">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-pass" class="form-input" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">Sign In</button>
+            </form>
+            
+            <div class="demo-credentials">
+                <strong>💡 Demo Accounts:</strong> admin / admin123 (or editor / editor123)
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN BACKEND VIEW -->
+    <div id="admin-layout" style="display:none; width:100%; min-height:100vh; display:flex;">
+        
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <svg viewBox="0 0 100 100">
+                    <rect x="10" y="20" width="80" height="60" rx="8" />
+                    <rect x="25" y="35" width="20" height="30" rx="3" fill="var(--admin-yellow)" />
+                    <rect x="55" y="35" width="20" height="30" rx="3" fill="var(--admin-yellow)" />
+                </svg>
+                <span>Patel Admin CMS</span>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="user-avatar" id="avatar-letters">AD</div>
+                <div class="user-info">
+                    <span class="user-name" id="user-display-name">Administrator</span>
+                    <span class="user-role" id="user-display-role">System Admin</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li class="menu-item"><a href="#" class="menu-link active" data-target="dashboard"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>Dashboard</a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="page-builder"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z" /></svg>Page Builder</a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="cabins"><svg viewBox="0 0 24 24"><path d="M4 18v3h3v-3h10v3h3v-6H4v3zm15-8h-3V6H8v4H5V5h14v5z" /></svg>Private Cabins</a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="services"><svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zm-2 12H4v-2h6v2zm0-4H4v-2h6v2zm0-4H4V9h6v2zm0-4H4V5h6v2zm10 12h-8v-2h8v2zm0-4h-8v-2h8v2zm0-4h-8V9h8v2z" /></svg>Services</a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="blogs"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" /></svg>Blog Posts</a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="submissions"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>Tour Inbox <span class="badge badge-danger" id="inbox-count" style="display:none; padding:2px 6px;">0</span></a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="branding"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.58 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" /></svg>Branding & Theme</a></li>
+                <li class="menu-item"><a href="#" class="menu-link" data-target="backup"><svg viewBox="0 0 24 24"><path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z" /></svg>Backup & Logs</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-danger" id="btn-logout" style="width:100%; justify-content:center;">Sign Out</button>
+            </div>
+        </aside>
+
+        <!-- VIEWPORT PORTAL -->
+        <main class="admin-main">
+            
+            <header class="admin-header">
+                <h2 class="header-title" id="view-title">Dashboard Overview</h2>
+                <div class="header-actions">
+                    <a href="../index.html" class="btn" target="_blank">🌐 Live Website</a>
+                </div>
+            </header>
+
+            <div class="admin-viewport">
+
+                <!-- PANEL 1: DASHBOARD VIEW -->
+                <div id="panel-dashboard" class="view-panel active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-label">Cabin Occupancy</span>
+                            <span class="stat-value" id="stat-occupancy-rate">50%</span>
+                            <div style="width:100%; height:6px; background-color:#e2e8f0; border-radius:3px; overflow:hidden;">
+                                <div id="stat-occupancy-bar" style="width:50%; height:100%; background-color:var(--admin-accent);"></div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Tour Inquiries</span>
+                            <span class="stat-value" id="stat-unread-count">0</span>
+                            <span class="stat-label" style="color:var(--admin-success); font-weight:700;">Unread messages</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Blog Articles</span>
+                            <span class="stat-value" id="stat-blogs-count">0</span>
+                            <span class="stat-label">Published guides</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Services List</span>
+                            <span class="stat-value" id="stat-services-count">0</span>
+                            <span class="stat-label">Total workspace offerings</span>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
+                        
+                        <div class="admin-card" style="margin-bottom:0;">
+                            <div class="card-header">
+                                <h3>Floor Plan Availability Metrics</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size:13px; color:var(--admin-muted); margin-bottom:12px;">Shows visual occupancy ratio for the flagship 6 cabins:</p>
+                                <div class="chart-box">
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" id="bar-avail" style="height: 60%;"></div>
+                                        <div class="chart-label">Available</div>
+                                    </div>
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" id="bar-occ" style="height: 40%; background-color: var(--admin-yellow);"></div>
+                                        <div class="chart-label">Occupied</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-card" style="margin-bottom:0;">
+                            <div class="card-header">
+                                <h3>Activity Audit</h3>
+                            </div>
+                            <div class="card-body" style="padding:0;">
+                                <div style="max-height:220px; overflow-y:auto; padding: 12px 20px;" id="dashboard-recent-logs">
+                                    <!-- Recent activity logs -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PANEL 2: PAGE BUILDER VIEW -->
+                <div id="panel-page-builder" class="view-panel">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>Page Sections & Layout Configuration</h3>
+                            <span style="font-size:12px; color:var(--admin-muted);">Drag/Drop or use Up/Down controls to reorder sections.</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="accordion-sections-container">
+                                <!-- Accordion list injects dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 3: CABINS VIEW -->
+                <div id="panel-cabins" class="view-panel">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>6 Flagship Private Cabins</h3>
+                            <button class="btn btn-primary" onclick="openCabinModal('add')">+ Add Cabin</button>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                        <th>Capacity</th>
+                                        <th>Status</th>
+                                        <th style="text-align:right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cabins-table-body">
+                                    <!-- Cabin rows inject -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 4: SERVICES VIEW -->
+                <div id="panel-services" class="view-panel">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>Workspace Services & Offerings</h3>
+                            <button class="btn btn-primary" onclick="openServiceModal('add')">+ Add Offering</button>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Pricing Rate</th>
+                                        <th>Icon</th>
+                                        <th style="text-align:right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="services-table-body">
+                                    <!-- Service rows inject -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 5: BLOGS VIEW -->
+                <div id="panel-blogs" class="view-panel">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>Blog Articles & Guides</h3>
+                            <button class="btn btn-primary" onclick="openBlogModal('add')">+ Create Article</button>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Slug</th>
+                                        <th>Author</th>
+                                        <th>Created Date</th>
+                                        <th>Status</th>
+                                        <th style="text-align:right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="blogs-table-body">
+                                    <!-- Blog rows inject -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 6: SUBMISSIONS VIEW -->
+                <div id="panel-submissions" class="view-panel">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>Tour Request Inbox</h3>
+                            <button class="btn btn-primary" onclick="db.exportBackup()"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor;"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z" /></svg>Download Backup JSON</button>
+                            <button class="btn" onclick="exportSubmissionsCSV()">📊 Export Inbox CSV</button>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Message Snippet</th>
+                                        <th>Status</th>
+                                        <th style="text-align:right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="submissions-table-body">
+                                    <!-- Submissions inject -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 7: BRANDING & THEME EDITOR -->
+                <div id="panel-branding" class="view-panel">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>Live Brand Styling Tokens</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="theme-settings-form">
+                                <div class="color-row">
+                                    <div>
+                                        <label class="form-label dark">Primary Color (Hex)</label>
+                                        <div class="color-picker-wrapper">
+                                            <input type="color" class="color-input" id="theme-primary" name="primary_color">
+                                            <input type="text" class="form-input dark" style="padding:8px;" id="theme-primary-hex">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label dark">Secondary Color (Hex)</label>
+                                        <div class="color-picker-wrapper">
+                                            <input type="color" class="color-input" id="theme-secondary" name="secondary_color">
+                                            <input type="text" class="form-input dark" style="padding:8px;" id="theme-secondary-hex">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label dark">Accent Yellow (Hex)</label>
+                                        <div class="color-picker-wrapper">
+                                            <input type="color" class="color-input" id="theme-accent" name="accent_yellow">
+                                            <input type="text" class="form-input dark" style="padding:8px;" id="theme-accent-hex">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="color-row" style="grid-template-columns: 1fr 1fr;">
+                                    <div class="form-group">
+                                        <label class="form-label dark">Primary Font Family</label>
+                                        <select class="form-input dark" name="font_family" id="theme-font">
+                                            <option value="Inter">Inter (Recommended)</option>
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Outfit">Outfit</option>
+                                            <option value="system-ui">System Default</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label dark">Header Titles Font</label>
+                                        <select class="form-input dark" name="font_header" id="theme-font-header">
+                                            <option value="Outfit">Outfit (Recommended)</option>
+                                            <option value="Inter">Inter</option>
+                                            <option value="Georgia">Georgia</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <hr style="margin:20px 0; border:none; border-top:1px solid var(--admin-border);">
+
+                                <h3>Corporate Metadata & SEO Parameters</h3>
+                                <br>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+                                    <div class="form-group">
+                                        <label class="form-label dark">Website Name</label>
+                                        <input type="text" class="form-input dark" name="site_name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label dark">WhatsApp Helpline (Numeric with Country Code)</label>
+                                        <input type="text" class="form-input dark" name="whatsapp_number" required placeholder="e.g. 919999999999">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label dark">Helpline Phone Label</label>
+                                        <input type="text" class="form-input dark" name="site_phone" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label dark">Support Email Address</label>
+                                        <input type="email" class="form-input dark" name="site_email" required>
+                                    </div>
+                                    <div class="form-group" style="grid-column: span 2;">
+                                        <label class="form-label dark">Physical Office Location Address</label>
+                                        <input type="text" class="form-input dark" name="site_address" required>
+                                    </div>
+                                    <div class="form-group" style="grid-column: span 2;">
+                                        <label class="form-label dark">Footer Copyright Notice</label>
+                                        <input type="text" class="form-input dark" name="footer_copyright" required>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div style="display:grid; grid-template-columns:1fr; gap:16px;">
+                                    <div class="form-group">
+                                        <label class="form-label dark">Meta Header Title</label>
+                                        <input type="text" class="form-input dark" name="meta_title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label dark">Meta Search Description</label>
+                                        <textarea class="form-input dark" name="meta_description" rows="2" style="resize:none;"></textarea>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" style="padding:12px 24px;">Save Style & Brand Options</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 8: BACKUP & AUDIT LOGS -->
+                <div id="panel-backup" class="view-panel">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+                        
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Export Simulated Database Backup</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size:13.5px; color:var(--admin-muted); margin-bottom:20px;">Download your entire website layout, cabins status, submissions database, color configurations, and articles as a clean JSON file.</p>
+                                <button class="btn btn-primary" onclick="db.exportBackup()"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>Download Database Backup (.json)</button>
+                            </div>
+                        </div>
+
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Restore Database Backup</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size:13.5px; color:var(--admin-muted); margin-bottom:20px;">Upload a previously saved `.json` database file to instantly restore your layout and logs state.</p>
+                                <div style="display:flex; gap:10px;">
+                                    <input type="file" id="backup-file-input" accept=".json" style="font-size:13px;">
+                                    <button class="btn" onclick="importBackupFile()">Upload & Restore</button>
+                                </div>
+                                <div id="restore-status" style="margin-top:12px; font-size:13.5px; font-weight:700;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3>Audit Trail Activity Logs</h3>
+                            <input type="text" id="log-search" class="form-input dark" style="max-width:260px; padding:6px 12px; font-size:13px;" placeholder="Filter logs by keyword...">
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <div style="max-height:400px; overflow-y:auto;">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>User</th>
+                                            <th>Action Type</th>
+                                            <th>Details / Notes</th>
+                                            <th>IP Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="logs-table-body">
+                                        <!-- Logs inject -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- CABIN EDIT MODAL -->
+    <div class="modal" id="cabinModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="cabin-modal-title">Edit Cabin</h3>
+                <button class="modal-close" onclick="closeModal('cabinModal')">&times;</button>
+            </div>
+            <form id="cabin-form">
+                <input type="hidden" id="cabin-id-field" value="">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label dark">Cabin Identifier / Name</label>
+                        <input type="text" id="cabin-name" class="form-input dark" required placeholder="e.g. Cabin 7 (Premium 4-Seater)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label dark">Detailed Description</label>
+                        <input type="text" id="cabin-desc" class="form-input dark" required placeholder="e.g. Executive chairs, soundproof doors">
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">Monthly Price Rate (INR)</label>
+                            <input type="number" id="cabin-price" class="form-input dark" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Price Unit Suffix</label>
+                            <input type="text" id="cabin-suffix" class="form-input dark" value="/ month" required>
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">Seat Capacity</label>
+                            <input type="text" id="cabin-capacity" class="form-input dark" placeholder="e.g. 4 Seats">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Status</label>
+                            <select id="cabin-status" class="form-input dark">
+                                <option value="available">Available</option>
+                                <option value="occupied">Occupied</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('cabinModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SERVICE EDIT MODAL -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="service-modal-title">Edit Offering</h3>
+                <button class="modal-close" onclick="closeModal('serviceModal')">&times;</button>
+            </div>
+            <form id="service-form">
+                <input type="hidden" id="service-id-field" value="">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label dark">Service Name / Title</label>
+                        <input type="text" id="service-title" class="form-input dark" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label dark">Summary Description</label>
+                        <textarea id="service-desc" class="form-input dark" rows="2" style="resize:none;" required></textarea>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">Pricing Rate</label>
+                            <input type="text" id="service-price" class="form-input dark" required placeholder="e.g. ₹999 or Custom">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Period Suffix</label>
+                            <input type="text" id="service-suffix" class="form-input dark" placeholder="e.g. / day">
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">Category Tier</label>
+                            <select id="service-type" class="form-input dark">
+                                <option value="on-demand">On-Demand Pass</option>
+                                <option value="long-term">Long-Term Contract</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Visual Icon Representing Service</label>
+                            <select id="service-icon" class="form-input dark">
+                                <option value="wifi">Wifi Link</option>
+                                <option value="calendar">Calendar Booking</option>
+                                <option value="team">Team Meeting</option>
+                                <option value="building">Office Complex</option>
+                                <option value="desk">Desk Hub</option>
+                                <option value="briefcase">Briefcase Managed</option>
+                                <option value="virtual">Virtual Address</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label dark">CTA Link URL</label>
+                        <input type="text" id="service-link" class="form-input dark" required placeholder="https://wa.me/...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('serviceModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- BLOG EDIT MODAL -->
+    <div class="modal" id="blogModal">
+        <div class="modal-content" style="max-width:800px;">
+            <div class="modal-header">
+                <h3 id="blog-modal-title">Edit Article</h3>
+                <button class="modal-close" onclick="closeModal('blogModal')">&times;</button>
+            </div>
+            <form id="blog-form">
+                <input type="hidden" id="blog-id-field" value="">
+                <div class="modal-body" style="max-height: 70vh;">
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">Article Title</label>
+                            <input type="text" id="blog-title" class="form-input dark" required placeholder="e.g. Virtual GST compliance options...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">URL Slug (Auto if blank)</label>
+                            <input type="text" id="blog-slug" class="form-input dark" placeholder="e.g. virtual-gst-compliance">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label dark">Short Excerpt (Search snippet)</label>
+                        <textarea id="blog-excerpt" class="form-input dark" rows="2" style="resize:none;" required placeholder="Write a short summary for search results..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label dark">HTML Body Content</label>
+                        <textarea id="blog-content" class="form-input dark" rows="8" required placeholder="<p>Article body html goes here...</p>"></textarea>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">Featured Image URL (Optional)</label>
+                            <input type="text" id="blog-image" class="form-input dark" placeholder="https://unsplash.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Status</label>
+                            <select id="blog-status" class="form-input dark">
+                                <option value="published">Published</option>
+                                <option value="draft">Draft</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label dark">SEO Title Tag</label>
+                            <input type="text" id="blog-meta-title" class="form-input dark" placeholder="e.g. GST Address guide Ahmedabad">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">SEO Meta Description</label>
+                            <input type="text" id="blog-meta-desc" class="form-input dark" placeholder="e.g. Read the ultimate legal guide...">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('blogModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUBMISSION READ MODAL -->
+    <div class="modal" id="submissionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tour Request Details</h3>
+                <button class="modal-close" onclick="closeModal('submissionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; flex-direction:column; gap:16px;">
+                    <div>
+                        <strong style="font-size:11px; text-transform:uppercase; color:var(--admin-muted);">Inquiry Date</strong>
+                        <div id="sub-detail-date" style="font-size:14.5px; margin-top:4px;"></div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div>
+                            <strong style="font-size:11px; text-transform:uppercase; color:var(--admin-muted);">Visitor Name</strong>
+                            <div id="sub-detail-name" style="font-size:14.5px; font-weight:700; margin-top:4px;"></div>
+                        </div>
+                        <div>
+                            <strong style="font-size:11px; text-transform:uppercase; color:var(--admin-muted);">Status Badge</strong>
+                            <div style="margin-top:4px;"><span id="sub-detail-status" class="badge"></span></div>
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div>
+                            <strong style="font-size:11px; text-transform:uppercase; color:var(--admin-muted);">Email Address</strong>
+                            <div id="sub-detail-email" style="font-size:14.5px; margin-top:4px;"></div>
+                        </div>
+                        <div>
+                            <strong style="font-size:11px; text-transform:uppercase; color:var(--admin-muted);">Contact Phone</strong>
+                            <div id="sub-detail-phone" style="font-size:14.5px; margin-top:4px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <strong style="font-size:11px; text-transform:uppercase; color:var(--admin-muted);">Message Sent</strong>
+                        <div id="sub-detail-message" style="background:#f8fafc; border:1px solid var(--admin-border); border-radius:8px; padding:16px; font-size:14px; line-height:1.5; margin-top:6px; white-space:pre-wrap;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="closeModal('submissionModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD & CMS SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Guard Verification
+            checkSessionGuard();
+
+            // Setup Login Form submission
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const user = document.getElementById('login-user').value;
+                const pass = document.getElementById('login-pass').value;
+                const alertBox = document.getElementById('login-alert');
+
+                const res = db.login(user, pass);
+                if (res.success) {
+                    alertBox.style.display = 'none';
+                    checkSessionGuard();
+                } else {
+                    alertBox.textContent = res.message;
+                    alertBox.style.display = 'block';
+                }
+            });
+
+            // Logout Handler
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                db.logout();
+                checkSessionGuard();
+            });
+
+            // SPA Sidebar tabs router
+            const menuLinks = document.querySelectorAll('.menu-link');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Toggle links
+                    menuLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // View title update
+                    const titleText = link.textContent.trim();
+                    document.getElementById('view-title').textContent = titleText;
+
+                    // Panels toggle
+                    const target = link.getAttribute('data-target');
+                    document.querySelectorAll('.view-panel').forEach(panel => {
+                        panel.classList.remove('active');
+                    });
+                    document.getElementById(`panel-${target}`).classList.add('active');
+
+                    // Refresh specific panel datasets
+                    loadPanelData(target);
+                });
+            });
+
+            // Load theme inputs
+            setupBrandingForm();
+        });
+
+        // Check if admin is logged in
+        function checkSessionGuard() {
+            const user = db.getCurrentUser();
+            const loginScreen = document.getElementById('login-screen');
+            const adminLayout = document.getElementById('admin-layout');
+
+            if (user) {
+                loginScreen.style.display = 'none';
+                adminLayout.style.display = 'flex';
+                
+                // Display profile header
+                document.getElementById('avatar-letters').textContent = user.username.slice(0, 2).toUpperCase();
+                document.getElementById('user-display-name').textContent = user.username.charAt(0).toUpperCase() + user.username.slice(1);
+                document.getElementById('user-display-role').textContent = user.role.toUpperCase() + ' ACCOUNT';
+                
+                // Load Dashboard by default
+                loadPanelData('dashboard');
+            } else {
+                loginScreen.style.display = 'flex';
+                adminLayout.style.display = 'none';
+            }
+        }
+
+        // Router loader dispatcher
+        function loadPanelData(panelName) {
+            switch(panelName) {
+                case 'dashboard':
+                    loadDashboardStats();
+                    break;
+                case 'page-builder':
+                    loadPageBuilderSections();
+                    break;
+                case 'cabins':
+                    loadCabinsTable();
+                    break;
+                case 'services':
+                    loadServicesTable();
+                    break;
+                case 'blogs':
+                    loadBlogsTable();
+                    break;
+                case 'submissions':
+                    loadSubmissionsTable();
+                    break;
+                case 'branding':
+                    setupBrandingForm();
+                    break;
+                case 'backup':
+                    loadActivityLogsTable();
+                    break;
+            }
+        }
+
+        // --- DASHBOARD DATA ---
+        function loadDashboardStats() {
+            const cabins = db.getCabins();
+            const subs = db.getSubmissions();
+            const blogs = db.getBlogs();
+            const svcs = db.getServices();
+
+            // Occupancy rate
+            const occupiedCount = cabins.filter(c => c.status === 'occupied').length;
+            const rate = cabins.length > 0 ? Math.round((occupiedCount / cabins.length) * 100) : 0;
+            
+            document.getElementById('stat-occupancy-rate').textContent = `${rate}%`;
+            document.getElementById('stat-occupancy-bar').style.width = `${rate}%`;
+            
+            // Chart bars update
+            const availCount = cabins.length - occupiedCount;
+            const availRate = cabins.length > 0 ? Math.round((availCount / cabins.length) * 100) : 0;
+            document.getElementById('bar-avail').style.height = `${availRate}%`;
+            document.getElementById('bar-occ').style.height = `${rate}%`;
+
+            // Unread count
+            const unreadCount = subs.filter(s => s.status === 'unread').length;
+            document.getElementById('stat-unread-count').textContent = unreadCount;
+            const countBadge = document.getElementById('inbox-count');
+            if (unreadCount > 0) {
+                countBadge.textContent = unreadCount;
+                countBadge.style.display = 'inline-block';
+            } else {
+                countBadge.style.display = 'none';
+            }
+
+            // Blogs count
+            document.getElementById('stat-blogs-count').textContent = blogs.length;
+
+            // Services count
+            document.getElementById('stat-services-count').textContent = svcs.length;
+
+            // Render 4 recent activity logs
+            const logs = db.getActivityLogs().slice(0, 4);
+            const logsContainer = document.getElementById('dashboard-recent-logs');
+            logsContainer.innerHTML = '';
+            
+            if (logs.length === 0) {
+                logsContainer.innerHTML = '<div style="color:var(--admin-muted); font-size:12.5px; padding:20px 0; text-align:center;">No audit actions logged.</div>';
+            } else {
+                logs.forEach(l => {
+                    logsContainer.innerHTML += `
+                        <div style="border-bottom: 1px solid var(--admin-border); padding: 10px 0; display:flex; flex-direction:column; gap:4px;">
+                            <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+                                <strong>${l.action}</strong>
+                                <span style="color:var(--admin-muted);">${l.created_at.split(' ')[1]}</span>
+                            </div>
+                            <div style="font-size:12.5px; color:var(--admin-muted);">${l.details}</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // --- PAGE BUILDER SECTIONS ---
+        function loadPageBuilderSections() {
+            const sections = db.getSections();
+            const container = document.getElementById('accordion-sections-container');
+            container.innerHTML = '';
+
+            sections.forEach((sec, index) => {
+                const visibleBadge = sec.is_visible ? '<span class="badge badge-success">Visible</span>' : '<span class="badge badge-danger">Hidden</span>';
+                
+                // Form field generation based on json structure
+                let configInputs = '';
+                if (sec.section_identifier === 'hero') {
+                    configInputs = `
+                        <div class="form-group">
+                            <label class="form-label dark">Button 1 Label</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.button_1_text" value="${sec.content_json.button_1_text || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Button 2 Label</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.button_2_text" value="${sec.content_json.button_2_text || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Button 2 Link Target</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.button_2_url" value="${sec.content_json.button_2_url || ''}">
+                        </div>
+                    `;
+                } else if (sec.section_identifier === 'workflow') {
+                    // Render edit fields for workflow steps
+                    const steps = sec.content_json.steps || [];
+                    steps.forEach((st, sidx) => {
+                        configInputs += `
+                            <fieldset style="border:1px solid var(--admin-border); border-radius:8px; padding:12px; margin-bottom:12px;">
+                                <legend style="font-size:11px; font-weight:700; padding:0 8px;">Step ${st.num}</legend>
+                                <div class="form-group" style="margin-bottom:8px;">
+                                    <label class="form-label dark" style="font-size:10px;">Step Title</label>
+                                    <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.steps.${sidx}.title" value="${st.title}">
+                                </div>
+                                <div class="form-group" style="margin-bottom:4px;">
+                                    <label class="form-label dark" style="font-size:10px;">Step Description</label>
+                                    <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.steps.${sidx}.desc" value="${st.desc}">
+                                </div>
+                            </fieldset>
+                        `;
+                    });
+                } else if (sec.section_identifier === 'cabins') {
+                    configInputs = `
+                        <div class="form-group">
+                            <label class="form-label dark">Feature 1</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.features.0" value="${sec.content_json.features[0] || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Feature 2</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.features.1" value="${sec.content_json.features[1] || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Feature 3</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.features.2" value="${sec.content_json.features[2] || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Button Link Label</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.button_text" value="${sec.content_json.button_text || ''}">
+                        </div>
+                    `;
+                } else if (sec.section_identifier === 'cta') {
+                    configInputs = `
+                        <div class="form-group">
+                            <label class="form-label dark">Primary button label</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.button_1_text" value="${sec.content_json.button_1_text || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Secondary button label</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.button_2_text" value="${sec.content_json.button_2_text || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label dark">Subtitle Note</label>
+                            <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="content_json.note" value="${sec.content_json.note || ''}">
+                        </div>
+                    `;
+                }
+
+                container.innerHTML += `
+                    <div class="accordion-item" id="sec-node-${sec.id}">
+                        <div class="accordion-header" onclick="toggleAccordion('sec-body-${sec.id}')">
+                            <div class="accordion-header-title">
+                                <span>📄</span>
+                                <strong>Section: ${sec.section_identifier.toUpperCase()}</strong>
+                                ${visibleBadge}
+                            </div>
+                            <div style="display:flex; gap:6px;" onclick="event.stopPropagation();">
+                                <button class="btn" style="padding:4px 8px; font-size:11px;" onclick="moveSection(${sec.id}, 'up')">▲ Up</button>
+                                <button class="btn" style="padding:4px 8px; font-size:11px;" onclick="moveSection(${sec.id}, 'down')">▼ Down</button>
+                                <button class="btn ${sec.is_visible ? 'btn-danger' : 'btn-primary'}" style="padding:4px 8px; font-size:11px;" onclick="toggleSectionVisibility(${sec.id})">
+                                    ${sec.is_visible ? 'Hide' : 'Show'}
+                                </button>
+                                <a href="../index.html#section-${sec.section_identifier}" target="_blank" class="btn" style="padding:4px 8px; font-size:11px; display:inline-flex; align-items:center; text-decoration:none; background-color: var(--admin-accent); color: #ffffff; border-color: var(--admin-accent);">👁️ View Live</a>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-body" id="sec-body-${sec.id}">
+                            <div class="form-group">
+                                <label class="form-label dark">Section Heading Title (HTML tags supported)</label>
+                                <input type="text" class="form-input dark sec-field" data-sec="${sec.id}" data-key="title" value="${sec.title.replace(/"/g, '&quot;')}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label dark">Section Subtitle / Description Text</label>
+                                <textarea class="form-input dark sec-field" data-sec="${sec.id}" data-key="subtitle" rows="3" style="resize:none;">${sec.subtitle}</textarea>
+                            </div>
+                            
+                            ${configInputs}
+                            
+                            <button class="btn btn-primary" onclick="saveSectionFields(${sec.id})">Save Section Details</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Toggle page builder accordion display
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            const isActive = el.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('active'));
+            if (!isActive) {
+                el.classList.add('active');
+            }
+        }
+
+        // Toggle show/hide for layout sections
+        function toggleSectionVisibility(id) {
+            const sections = db.getSections();
+            const sec = sections.find(s => s.id == id);
+            if (sec) {
+                db.saveSection(id, { is_visible: !sec.is_visible });
+                loadPageBuilderSections();
+            }
+        }
+
+        // Reorder list position
+        function moveSection(id, dir) {
+            const sections = db.getSections();
+            const index = sections.findIndex(s => s.id == id);
+            if (index === -1) return;
+
+            if (dir === 'up' && index > 0) {
+                // Swap
+                const temp = sections[index];
+                sections[index] = sections[index - 1];
+                sections[index - 1] = temp;
+            } else if (dir === 'down' && index < sections.length - 1) {
+                // Swap
+                const temp = sections[index];
+                sections[index] = sections[index + 1];
+                sections[index + 1] = temp;
+            }
+
+            db.reorderSections(sections.map(s => s.id));
+            loadPageBuilderSections();
+            
+            // Re-open accordion after redraw
+            setTimeout(() => {
+                toggleAccordion(`sec-body-${id}`);
+            }, 50);
+        }
+
+        // Save customized page builder contents
+        function saveSectionFields(secId) {
+            const inputs = document.querySelectorAll(`.sec-field[data-sec="${secId}"]`);
+            const sections = db.getSections();
+            const sec = sections.find(s => s.id == secId);
+            if (!sec) return;
+
+            const update = {};
+            inputs.forEach(input => {
+                const key = input.getAttribute('data-key');
+                const val = input.value;
+
+                if (key.startsWith('content_json.')) {
+                    if (!update.content_json) {
+                        update.content_json = JSON.parse(JSON.stringify(sec.content_json));
+                    }
+                    
+                    const subKeys = key.replace('content_json.', '').split('.');
+                    
+                    // Travel path
+                    let current = update.content_json;
+                    for (let i = 0; i < subKeys.length - 1; i++) {
+                        current = current[subKeys[i]];
+                    }
+                    current[subKeys[subKeys.length - 1]] = val;
+                } else {
+                    update[key] = val;
+                }
+            });
+
+            db.saveSection(secId, update);
+            alert('Section successfully updated!');
+            loadPageBuilderSections();
+        }
+
+        // --- CABINS CRUD ACTIONS ---
+        function loadCabinsTable() {
+            const cabins = db.getCabins();
+            const tbody = document.getElementById('cabins-table-body');
+            tbody.innerHTML = '';
+
+            cabins.forEach(c => {
+                const badge = c.status === 'available' ? 'badge-success' : 'badge-danger';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${c.id}</td>
+                        <td><strong>${c.name}</strong></td>
+                        <td style="color:var(--admin-muted); font-size:12.5px;">${c.description}</td>
+                        <td>₹${parseInt(c.price).toLocaleString('en-IN')}<span style="font-size:10.5px; color:var(--admin-muted);">${c.price_suffix}</span></td>
+                        <td><span class="badge badge-info">${c.capacity || 'N/A'}</span></td>
+                        <td>
+                            <span class="badge ${badge}" style="cursor:pointer;" onclick="toggleCabinStatus(${c.id})">
+                                ${c.status}
+                            </span>
+                        </td>
+                        <td style="text-align:right; white-space:nowrap;">
+                            <a href="../index.html#section-cabins" target="_blank" class="btn" style="padding:4px 8px; font-size:12px; display:inline-flex; align-items:center; text-decoration:none;">View Live</a>
+                            <button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openCabinModal(${c.id})">Edit</button>
+                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteCabin(${c.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function toggleCabinStatus(id) {
+            db.toggleCabinStatus(id);
+            loadCabinsTable();
+        }
+
+        function openCabinModal(id) {
+            const form = document.getElementById('cabin-form');
+            form.reset();
+
+            if (id === 'add') {
+                document.getElementById('cabin-modal-title').textContent = 'Add New Cabin';
+                document.getElementById('cabin-id-field').value = 'add';
+            } else {
+                document.getElementById('cabin-modal-title').textContent = 'Edit Cabin Details';
+                document.getElementById('cabin-id-field').value = id;
+
+                const cabin = db.getCabins().find(c => c.id == id);
+                if (cabin) {
+                    document.getElementById('cabin-name').value = cabin.name;
+                    document.getElementById('cabin-desc').value = cabin.description;
+                    document.getElementById('cabin-price').value = cabin.price;
+                    document.getElementById('cabin-suffix').value = cabin.price_suffix;
+                    document.getElementById('cabin-capacity').value = cabin.capacity;
+                    document.getElementById('cabin-status').value = cabin.status;
+                }
+            }
+
+            document.getElementById('cabinModal').classList.add('active');
+        }
+
+        const cabinForm = document.getElementById('cabin-form');
+        cabinForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('cabin-id-field').value;
+            
+            const data = {
+                name: document.getElementById('cabin-name').value,
+                description: document.getElementById('cabin-desc').value,
+                price: parseFloat(document.getElementById('cabin-price').value),
+                price_suffix: document.getElementById('cabin-suffix').value,
+                capacity: document.getElementById('cabin-capacity').value,
+                status: document.getElementById('cabin-status').value
+            };
+
+            db.saveCabin(id, data);
+            closeModal('cabinModal');
+            loadCabinsTable();
+        });
+
+        function deleteCabin(id) {
+            if (confirm('Are you absolutely sure you want to delete this private cabin?')) {
+                db.deleteCabin(id);
+                loadCabinsTable();
+            }
+        }
+
+        // --- SERVICES CRUD ACTIONS ---
+        function loadServicesTable() {
+            const services = db.getServices();
+            const tbody = document.getElementById('services-table-body');
+            tbody.innerHTML = '';
+
+            services.forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.id}</td>
+                        <td><span class="badge ${s.type === 'on-demand' ? 'badge-success' : 'badge-info'}">${s.type}</span></td>
+                        <td><strong>${s.title}</strong></td>
+                        <td style="color:var(--admin-muted); font-size:12.5px;">${s.description}</td>
+                        <td>${s.price}<span style="font-size:10px; color:var(--admin-muted);">${s.price_suffix || ''}</span></td>
+                        <td style="font-family:monospace; color:var(--admin-accent); font-weight:700;">${s.icon_svg}</td>
+                        <td style="text-align:right; white-space:nowrap;">
+                            <a href="../index.html#section-${s.type === 'on-demand' ? 'on_demand' : 'long_term'}" target="_blank" class="btn" style="padding:4px 8px; font-size:12px; display:inline-flex; align-items:center; text-decoration:none;">View Live</a>
+                            <button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openServiceModal(${s.id})">Edit</button>
+                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteService(${s.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function openServiceModal(id) {
+            const form = document.getElementById('service-form');
+            form.reset();
+
+            if (id === 'add') {
+                document.getElementById('service-modal-title').textContent = 'Add New Offering';
+                document.getElementById('service-id-field').value = 'add';
+            } else {
+                document.getElementById('service-modal-title').textContent = 'Edit Offering Details';
+                document.getElementById('service-id-field').value = id;
+
+                const svc = db.getServices().find(s => s.id == id);
+                if (svc) {
+                    document.getElementById('service-title').value = svc.title;
+                    document.getElementById('service-desc').value = svc.description;
+                    document.getElementById('service-price').value = svc.price;
+                    document.getElementById('service-suffix').value = svc.price_suffix || '';
+                    document.getElementById('service-type').value = svc.type;
+                    document.getElementById('service-icon').value = svc.icon_svg;
+                    document.getElementById('service-link').value = svc.link_url;
+                }
+            }
+
+            document.getElementById('serviceModal').classList.add('active');
+        }
+
+        const serviceForm = document.getElementById('service-form');
+        serviceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('service-id-field').value;
+
+            const data = {
+                title: document.getElementById('service-title').value,
+                description: document.getElementById('service-desc').value,
+                price: document.getElementById('service-price').value,
+                price_suffix: document.getElementById('service-suffix').value,
+                type: document.getElementById('service-type').value,
+                icon_svg: document.getElementById('service-icon').value,
+                link_url: document.getElementById('service-link').value
+            };
+
+            db.saveService(id, data);
+            closeModal('serviceModal');
+            loadServicesTable();
+        });
+
+        function deleteService(id) {
+            if (confirm('Delete this workspace offering permanently?')) {
+                db.deleteService(id);
+                loadServicesTable();
+            }
+        }
+
+        // --- BLOGS CRUD ACTIONS ---
+        function loadBlogsTable() {
+            const blogs = db.getBlogs();
+            const tbody = document.getElementById('blogs-table-body');
+            tbody.innerHTML = '';
+
+            blogs.forEach(b => {
+                const badge = b.status === 'published' ? 'badge-success' : 'badge-danger';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${b.id}</td>
+                        <td><strong>${b.title}</strong></td>
+                        <td style="font-family:monospace; font-size:12px;">${b.slug}</td>
+                        <td>${b.author}</td>
+                        <td>${b.created_at.split(' ')[0]}</td>
+                        <td><span class="badge ${badge}">${b.status}</span></td>
+                        <td style="text-align:right; white-space:nowrap;">
+                            <a href="../blog.html?slug=${b.slug}" target="_blank" class="btn" style="padding:4px 8px; font-size:12px; display:inline-flex; align-items:center; text-decoration:none;">View</a>
+                            <button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openBlogModal(${b.id})">Edit</button>
+                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteBlog(${b.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function openBlogModal(id) {
+            const form = document.getElementById('blog-form');
+            form.reset();
+
+            if (id === 'add') {
+                document.getElementById('blog-modal-title').textContent = 'Create New Article';
+                document.getElementById('blog-id-field').value = 'add';
+            } else {
+                document.getElementById('blog-modal-title').textContent = 'Edit Article Content';
+                document.getElementById('blog-id-field').value = id;
+
+                const post = db.getBlogs().find(b => b.id == id);
+                if (post) {
+                    document.getElementById('blog-title').value = post.title;
+                    document.getElementById('blog-slug').value = post.slug;
+                    document.getElementById('blog-excerpt').value = post.excerpt || '';
+                    document.getElementById('blog-content').value = post.content;
+                    document.getElementById('blog-image').value = post.featured_image || '';
+                    document.getElementById('blog-status').value = post.status;
+                    document.getElementById('blog-meta-title').value = post.meta_title || '';
+                    document.getElementById('blog-meta-desc').value = post.meta_description || '';
+                }
+            }
+
+            document.getElementById('blogModal').classList.add('active');
+        }
+
+        const blogForm = document.getElementById('blog-form');
+        blogForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('blog-id-field').value;
+
+            const data = {
+                title: document.getElementById('blog-title').value,
+                slug: document.getElementById('blog-slug').value,
+                excerpt: document.getElementById('blog-excerpt').value,
+                content: document.getElementById('blog-content').value,
+                featured_image: document.getElementById('blog-image').value,
+                status: document.getElementById('blog-status').value,
+                meta_title: document.getElementById('blog-meta-title').value,
+                meta_description: document.getElementById('blog-meta-desc').value
+            };
+
+            db.saveBlog(id, data);
+            closeModal('blogModal');
+            loadBlogsTable();
+        });
+
+        function deleteBlog(id) {
+            if (confirm('Delete this article from the blog index?')) {
+                db.deleteBlog(id);
+                loadBlogsTable();
+            }
+        }
+
+        // --- SUBMISSIONS INBOX ---
+        function loadSubmissionsTable() {
+            const subs = db.getSubmissions();
+            const tbody = document.getElementById('submissions-table-body');
+            tbody.innerHTML = '';
+
+            subs.forEach(s => {
+                const badge = s.status === 'unread' ? 'badge-danger' : 'badge-success';
+                const dateClean = s.created_at.split(' ')[0];
+                const textSnippet = s.message.length > 50 ? s.message.slice(0, 48) + '...' : s.message;
+
+                tbody.innerHTML += `
+                    <tr style="${s.status === 'unread' ? 'font-weight:700;' : ''}">
+                        <td>${dateClean}</td>
+                        <td>${s.name}</td>
+                        <td>${s.email}</td>
+                        <td>${s.phone}</td>
+                        <td style="color:var(--admin-muted); font-size:12.5px;">${textSnippet}</td>
+                        <td>
+                            <span class="badge ${badge}" style="cursor:pointer;" onclick="toggleSubmissionStatus(${s.id})">
+                                ${s.status}
+                            </span>
+                        </td>
+                        <td style="text-align:right; white-space:nowrap;">
+                            <button class="btn" style="padding:4px 8px; font-size:12px;" onclick="viewSubmission(${s.id})">View Details</button>
+                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteSubmission(${s.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function toggleSubmissionStatus(id) {
+            db.toggleSubmissionStatus(id);
+            loadSubmissionsTable();
+            loadDashboardStats();
+        }
+
+        function deleteSubmission(id) {
+            if (confirm('Delete this customer inquiry registration?')) {
+                db.deleteSubmission(id);
+                loadSubmissionsTable();
+                loadDashboardStats();
+            }
+        }
+
+        function viewSubmission(id) {
+            const sub = db.getSubmissions().find(s => s.id == id);
+            if (sub) {
+                // Set status read if unread
+                if (sub.status === 'unread') {
+                    db.toggleSubmissionStatus(id);
+                }
+
+                document.getElementById('sub-detail-date').textContent = sub.created_at;
+                document.getElementById('sub-detail-name').textContent = sub.name;
+                document.getElementById('sub-detail-email').textContent = sub.email;
+                document.getElementById('sub-detail-phone').textContent = sub.phone;
+                document.getElementById('sub-detail-message').textContent = sub.message;
+
+                const badgeEl = document.getElementById('sub-detail-status');
+                badgeEl.textContent = sub.status === 'unread' ? 'Unread' : 'Read';
+                badgeEl.className = 'badge ' + (sub.status === 'unread' ? 'badge-danger' : 'badge-success');
+
+                document.getElementById('submissionModal').classList.add('active');
+                
+                // Refresh list on close
+                loadSubmissionsTable();
+                loadDashboardStats();
+            }
+        }
+
+        // CSV export builder
+        function exportSubmissionsCSV() {
+            const subs = db.getSubmissions();
+            if (subs.length === 0) {
+                alert('No inbox messages found to export.');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Date,Name,Email,Phone,Message,Status\n";
+
+            subs.forEach(s => {
+                // Escape commas & quotes
+                const row = [
+                    s.created_at,
+                    `"${s.name.replace(/"/g, '""')}"`,
+                    s.email,
+                    s.phone,
+                    `"${s.message.replace(/"/g, '""').replace(/\n/g, ' ')}"`,
+                    s.status
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "patel_workspace_tour_submissions.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- BRANDING & STYLE SETTINGS ---
+        function setupBrandingForm() {
+            const settings = db.getSettings();
+            const form = document.getElementById('theme-settings-form');
+            if (!settings) return;
+
+            // Colors
+            document.getElementById('theme-primary').value = settings.primary_color;
+            document.getElementById('theme-primary-hex').value = settings.primary_color;
+            document.getElementById('theme-secondary').value = settings.secondary_color;
+            document.getElementById('theme-secondary-hex').value = settings.secondary_color;
+            document.getElementById('theme-accent').value = settings.accent_yellow;
+            document.getElementById('theme-accent-hex').value = settings.accent_yellow;
+
+            // Sync pickers with hex text boxes
+            document.getElementById('theme-primary').addEventListener('input', (e) => {
+                document.getElementById('theme-primary-hex').value = e.target.value;
+            });
+            document.getElementById('theme-primary-hex').addEventListener('input', (e) => {
+                document.getElementById('theme-primary').value = e.target.value;
+            });
+
+            document.getElementById('theme-secondary').addEventListener('input', (e) => {
+                document.getElementById('theme-secondary-hex').value = e.target.value;
+            });
+            document.getElementById('theme-secondary-hex').addEventListener('input', (e) => {
+                document.getElementById('theme-secondary').value = e.target.value;
+            });
+
+            document.getElementById('theme-accent').addEventListener('input', (e) => {
+                document.getElementById('theme-accent-hex').value = e.target.value;
+            });
+            document.getElementById('theme-accent-hex').addEventListener('input', (e) => {
+                document.getElementById('theme-accent').value = e.target.value;
+            });
+
+            // Fonts & text variables
+            document.getElementById('theme-font').value = settings.font_family;
+            document.getElementById('theme-font-header').value = settings.font_header;
+
+            // Fill text fields dynamically
+            for (let k in settings) {
+                const input = form.querySelector(`[name="${k}"]`);
+                if (input && input.type !== 'color' && input.tagName !== 'SELECT') {
+                    input.value = settings[k];
+                }
+            }
+
+            // Bind submit action
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                const fd = new FormData(form);
+                const updated = {};
+                for (let [k, v] of fd.entries()) {
+                    updated[k] = v;
+                }
+                
+                // Keep select font values explicitly
+                updated.font_family = document.getElementById('theme-font').value;
+                updated.font_header = document.getElementById('theme-font-header').value;
+
+                db.saveSettings(updated);
+                alert('Website theme, settings, and SEO properties saved successfully!');
+                setupBrandingForm();
+            };
+        }
+
+        // --- BACKUP & AUDIT LOGS ---
+        function loadActivityLogsTable() {
+            const logs = db.getActivityLogs();
+            const tbody = document.getElementById('logs-table-body');
+            const search = document.getElementById('log-search');
+
+            function renderLogs(filterText = '') {
+                tbody.innerHTML = '';
+                const filtered = logs.filter(l => 
+                    l.action.toLowerCase().includes(filterText.toLowerCase()) ||
+                    l.details.toLowerCase().includes(filterText.toLowerCase()) ||
+                    l.username.toLowerCase().includes(filterText.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--admin-muted);">No matching log entries found.</td></tr>';
+                    return;
+                }
+
+                filtered.forEach(l => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="font-family:monospace; font-size:12px;">${l.created_at}</td>
+                            <td><span class="badge badge-info">${l.username}</span></td>
+                            <td><strong>${l.action}</strong></td>
+                            <td style="color:var(--admin-muted); font-size:12.5px;">${l.details}</td>
+                            <td style="font-family:monospace; font-size:12px; color:var(--admin-muted);">${l.ip_address}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            search.oninput = (e) => {
+                renderLogs(e.target.value);
+            };
+
+            renderLogs();
+        }
+
+        // Import local json database file
+        function importBackupFile() {
+            const fileInput = document.getElementById('backup-file-input');
+            const status = document.getElementById('restore-status');
+            
+            if (fileInput.files.length === 0) {
+                status.textContent = '⚠️ Please select a JSON backup file first.';
+                status.style.color = 'var(--admin-danger)';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const res = db.importBackup(e.target.result);
+                if (res.success) {
+                    status.textContent = '✅ Database successfully restored! Reloading data...';
+                    status.style.color = 'var(--admin-success)';
+                    
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    status.textContent = '❌ Restore failed: ' + res.message;
+                    status.style.color = 'var(--admin-danger)';
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+        // --- GLOBAL CLOSE MODAL ---
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

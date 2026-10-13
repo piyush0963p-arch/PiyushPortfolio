@@ -1,0 +1,265 @@
+/* ============================================
+   RESPONSIVE DESIGN — Breakpoint Overrides
+   ============================================ */
+
+/* ── XL Breakpoint (max-width: 1440px) ── */
+@media (max-width: 1440px) {
+  :root {
+    --content-max-width: 1200px;
+  }
+}
+
+/* ── LG Breakpoint (max-width: 1200px) ── */
+@media (max-width: 1200px) {
+  :root {
+    --content-max-width: 960px;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── MD Breakpoint (max-width: 992px) ── */
+@media (max-width: 992px) {
+  :root {
+    --content-max-width: 720px;
+  }
+
+  /* Automatically collapse sidebar on medium screens */
+  .sidebar {
+    width: var(--sidebar-collapsed);
+  }
+
+  .sidebar .sidebar-brand,
+  .sidebar .sidebar-nav-label,
+  .sidebar .sidebar-nav-item span,
+  .sidebar .sidebar-nav-item .nav-badge,
+  .sidebar .sidebar-user-info,
+  .sidebar .sidebar-brand-sub {
+    display: none;
+  }
+
+  .sidebar .sidebar-header {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar .sidebar-nav-item {
+    justify-content: center;
+    padding: var(--space-3);
+  }
+
+  .sidebar .sidebar-footer {
+    padding: var(--space-4);
+  }
+
+  .sidebar .sidebar-user {
+    justify-content: center;
+  }
+
+  .main-wrapper {
+    margin-left: var(--sidebar-collapsed);
+    width: calc(100% - var(--sidebar-collapsed));
+    max-width: calc(100% - var(--sidebar-collapsed));
+  }
+
+  /* When sidebar has .expanded class (toggled by button) on tablet */
+  .sidebar.expanded {
+    width: var(--sidebar-width);
+    position: fixed;
+    z-index: var(--z-modal);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .sidebar.expanded .sidebar-brand,
+  .sidebar.expanded .sidebar-nav-label,
+  .sidebar.expanded .sidebar-nav-item span,
+  .sidebar.expanded .sidebar-nav-item .nav-badge,
+  .sidebar.expanded .sidebar-user-info,
+  .sidebar.expanded .sidebar-brand-sub {
+    display: block;
+  }
+
+  .sidebar.expanded .sidebar-header {
+    justify-content: flex-start;
+    padding: 0 var(--space-5);
+  }
+
+  .sidebar.expanded .sidebar-nav-item {
+    justify-content: flex-start;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .sidebar.expanded .sidebar-footer {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .sidebar.expanded .sidebar-user {
+    justify-content: flex-start;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── SM Breakpoint (max-width: 768px) ── */
+@media (max-width: 768px) {
+  :root {
+    --content-max-width: 540px;
+    --sidebar-collapsed: 0px;
+    --navbar-height: 56px;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+  }
+
+  .sidebar.expanded {
+    transform: translateX(0);
+  }
+
+  .sidebar .sidebar-brand,
+  .sidebar .sidebar-nav-label,
+  .sidebar .sidebar-nav-item span,
+  .sidebar .sidebar-nav-item .nav-badge,
+  .sidebar .sidebar-user-info,
+  .sidebar .sidebar-brand-sub {
+    display: block;
+  }
+
+  .sidebar .sidebar-header {
+    justify-content: flex-start;
+    padding: 0 var(--space-5);
+  }
+
+  .sidebar .sidebar-nav-item {
+    justify-content: flex-start;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .sidebar .sidebar-footer {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .sidebar .sidebar-user {
+    justify-content: flex-start;
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sidebar.collapsed ~ .main-wrapper {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .navbar {
+    padding: 0 var(--space-4);
+  }
+
+  .navbar-search {
+    display: none; /* Hide search on mobile, open via modal instead */
+  }
+
+  .navbar-search.mobile-active {
+    display: block;
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-navbar);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: var(--shadow-md);
+  }
+
+  .page-content {
+    padding: var(--space-4);
+  }
+
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-actions {
+    width: 100%;
+  }
+
+  .page-actions .btn {
+    flex: 1;
+  }
+
+  .modal {
+    max-height: 95vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    margin-top: auto;
+    transform: translateY(100%);
+  }
+
+  .modal-overlay.show .modal {
+    transform: translateY(0);
+  }
+
+  .notification-panel {
+    width: calc(100vw - var(--space-4) * 2);
+    right: calc(-1 * var(--space-4) + 10px);
+  }
+
+  /* Data tables responsive strategy: enable horizontal scroll */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 calc(-1 * var(--space-5));
+    padding: 0 var(--space-5);
+  }
+}
+
+/* ── XS Breakpoint (max-width: 576px) ── */
+@media (max-width: 576px) {
+  .stat-card-header {
+    flex-direction: column-reverse;
+    gap: var(--space-3);
+  }
+
+  .stat-card-icon {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-5);
+  }
+
+  .btn span:not(.badge) {
+    display: none; /* Hide text, show only icon on small buttons if space is tight */
+  }
+  .btn.btn-full-text span {
+    display: inline;
+  }
+
+  .toast-container {
+    left: var(--space-4);
+    right: var(--space-4);
+    top: auto;
+    bottom: var(--space-4);
+  }
+
+  .toast {
+    min-width: 0;
+    width: 100%;
+  }
+}

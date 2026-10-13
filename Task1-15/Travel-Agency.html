@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency</title>
+    <style>
+        /* Import Professional Web Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;700&display=swap');
+
+        /* CSS Variables for Premium Travel Theme */
+        :root {
+            --primary-color: #023e8a;
+            /* Deep Ocean Blue */
+            --secondary-color: #00b4d8;
+            /* Tropical Cyan */
+            --accent-color: #e9c46a;
+            /* Sandy Gold */
+            --bg-light: #f8f9fa;
+            --text-dark: #2b2d42;
+            --text-light: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .brand {
+            font-family: 'Lora', serif;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--text-light);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .brand span {
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(2, 62, 138, 0.7), rgba(2, 62, 138, 0.5)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
+            color: var(--text-light);
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            margin-bottom: 2rem;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        /* Destination Cards */
+        .card {
+            background: var(--text-light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-body h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge.honeymoon {
+            background-color: #ffb5a7;
+            color: #d00000;
+        }
+
+        .badge.family {
+            background-color: #80ed99;
+            color: #22577a;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 1rem 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Calculator & Form UI */
+        .interactive-box {
+            background: var(--text-light);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        #calc-result {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: #eaf8f9;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        #success-msg {
+            display: none;
+            color: #2b9348;
+            font-weight: bold;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand">Travel <span>Agency</span></div>
+    </nav>
+
+    <header class="hero">
+        <h1>Discover Your Next Adventure</h1>
+        <p>From romantic getaways to thrilling family expeditions, we curate unforgettable experiences tailored just for
+            you.</p>
+        <button class="btn" style="width: auto; padding: 1rem 3rem;"
+            onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'})">Calculate Your
+            Trip</button>
+    </header>
+
+    <main>
+        <section class="container" id="destinations">
+            <h2 class="section-title">Featured Packages</h2>
+            <div class="grid-3">
+                <article class="card">
+                    <div class="badge honeymoon">Honeymoon Special</div>
+                    <img src="https://images.unsplash.com/photo-1514282401047-d1531a4b27b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Maldives" class="card-img">
+                    <div class="card-body">
+                        <h3>Maldives Paradise</h3>
+                        <p>Luxury overwater bungalow, private candlelight dinner, and couples spa retreat.</p>
+                        <div class="price">$2,499<span> / person</span></div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="badge family">Family Adventure</div>
+                    <img src="https://images.unsplash.com/photo-1517600877543-57c2a7f5a8cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Orlando" class="card-img">
+                    <div class="card-body">
+                        <h3>Orlando Magic</h3>
+                        <p>Theme park VIP access, character breakfasts, and a spacious family suite.</p>
+                        <div class="price">$1,299<span> / person</span></div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="badge">Cultural Explorer</div>
+                    <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Paris" class="card-img">
+                    <div class="card-body">
+                        <h3>Parisian Charm</h3>
+                        <p>Guided museum tours, Seine river cruise, and boutique hotel accommodation.</p>
+                        <div class="price">$1,899<span> / person</span></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container" style="padding: 0;">
+                <h2 style="margin-bottom: 3rem; font-size: 2.5rem;">Why Travel With Us?</h2>
+                <div class="grid-3">
+                    <div>
+                        <div class="feature-icon">✈️</div>
+                        <h3>Flight Assistance</h3>
+                        <p>We handle all your booking and transit logistics.</p>
+                    </div>
+                    <div>
+                        <div class="feature-icon">🏨</div>
+                        <h3>Premium Stays</h3>
+                        <p>Partnerships with world-class 5-star hotels globally.</p>
+                    </div>
+                    <div>
+                        <div class="feature-icon">🛡️</div>
+                        <h3>24/7 Support</h3>
+                        <p>Our concierge team is available around the clock.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="calculator">
+            <h2 class="section-title">Plan Your Journey</h2>
+
+            <div class="grid-2">
+                <div class="interactive-box">
+                    <h3>Package Cost Calculator</h3>
+                    <p style="color: #6c757d; margin-bottom: 2rem;">Estimate the cost of your dream vacation instantly.
+                    </p>
+
+                    <div class="form-group">
+                        <label for="packageSelect">Select Package</label>
+                        <select id="packageSelect">
+                            <option value="0">-- Choose a Destination --</option>
+                            <option value="2499">Maldives Paradise (Honeymoon) - $2,499/pp</option>
+                            <option value="1299">Orlando Magic (Family) - $1,299/pp</option>
+                            <option value="1899">Parisian Charm (Standard) - $1,899/pp</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="travelers">Number of Travelers</label>
+                        <input type="number" id="travelers" min="1" value="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Duration (Days)</label>
+                        <input type="number" id="duration" min="1" value="5">
+                    </div>
+
+                    <button class="btn" id="calcBtn">Calculate Total Cost</button>
+
+                    <div id="calc-result">
+                        <h4 style="color: var(--primary-color);">Estimated Total:</h4>
+                        <p id="totalPrice" style="font-size: 2rem; font-weight: 700; color: var(--secondary-color);">$0
+                        </p>
+                        <p style="font-size: 0.9rem; color: #6c757d;">*Includes base price multiplied by travelers.
+                            Duration adjustments may apply.</p>
+                    </div>
+                </div>
+
+                <div class="interactive-box">
+                    <h3>Send an Inquiry</h3>
+                    <p style="color: #6c757d; margin-bottom: 2rem;">Ready to book? Send us your details and we'll reach
+                        out.</p>
+
+                    <form id="inquiryForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Special Requests</label>
+                            <input type="text" id="message" placeholder="Any dietary needs or preferences?">
+                        </div>
+                        <button type="submit" class="btn" style="background-color: var(--primary-color);">Submit
+                            Inquiry</button>
+                    </form>
+                    <div id="success-msg">✈️ Inquiry sent successfully! Our agents will contact you soon.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wanderlust Escapes. Your adventure awaits.</p>
+    </footer>
+
+    <script>
+        // --- 1. Package Cost Calculator Logic ---
+        const packageSelect = document.getElementById('packageSelect');
+        const travelersInput = document.getElementById('travelers');
+        const durationInput = document.getElementById('duration');
+        const calcBtn = document.getElementById('calcBtn');
+        const calcResult = document.getElementById('calc-result');
+        const totalPriceDisplay = document.getElementById('totalPrice');
+
+        calcBtn.addEventListener('click', () => {
+            const basePrice = parseFloat(packageSelect.value);
+            const travelers = parseInt(travelersInput.value);
+            const days = parseInt(durationInput.value);
+
+            if (basePrice === 0 || isNaN(travelers) || travelers < 1 || isNaN(days) || days < 1) {
+                alert("Please select a package and enter valid numbers for travelers and duration.");
+                return;
+            }
+
+            // Calculation Logic: Base price is per person. 
+            // If they stay more than 7 days, add a 10% extended stay fee.
+            let totalCost = basePrice * travelers;
+
+            if (days > 7) {
+                totalCost = totalCost * 1.10; // 10% increase for long stays
+            }
+
+            // Format as Currency
+            const formattedTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalCost);
+
+            // Update UI
+            totalPriceDisplay.textContent = formattedTotal;
+            calcResult.style.display = 'block';
+        });
+
+        // --- 2. Inquiry Form Logic ---
+        const inquiryForm = document.getElementById('inquiryForm');
+        const successMsg = document.getElementById('success-msg');
+
+        inquiryForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
+            inquiryForm.reset(); // Clear the form fields
+            successMsg.style.display = 'block'; // Show success message
+
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>

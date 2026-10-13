@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexAI - Smart Legal Consultation Platform</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Landing Page Specific Styles */
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            background: linear-gradient(to bottom, var(--bg-main), var(--bg-surface));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .hero-btns .btn {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .feature-card {
+            text-align: left;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--info-bg);
+            color: var(--primary);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-section {
+            background: var(--bg-surface);
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        /* AI Playground Specific Styles */
+        .playground-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-primary);
+        }
+
+        .playground-btn:hover {
+            border-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .playground-btn.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .playground-btn.active small,
+        .playground-btn.active strong {
+            color: white !important;
+        }
+
+        .playground-btn i {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        /* Pricing Specific Styles */
+        .pricing-toggle-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pricing-toggle-btn.active {
+            background: var(--primary) !important;
+            color: white !important;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* FAQ Specific Styles */
+        .faq-item {
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .faq-item:hover, .faq-item.active {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive Grids */
+        @media (max-width: 992px) {
+            .playground-card {
+                grid-template-columns: 1fr !important;
+            }
+            .solutions-grid, .testimonials-grid, .pricing-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .attorneys-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .solutions-grid, .attorneys-grid, .testimonials-grid, .pricing-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .playground-card {
+                padding: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i data-lucide="scale"></i>
+                <span>Legal</span>advisory
+            </a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#solutions" class="nav-link">Solutions</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <button id="theme-toggle" class="btn btn-outline" style="padding: 0.5rem; border: none;">
+                    <i data-lucide="moon"></i>
+                </button>
+                <a href="login.html" class="nav-link">Log in</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content animate-fade-in">
+            <h1>The Future of <span>Legal Practice</span> Management</h1>
+            <p>An enterprise-grade, AI-powered platform for modern law firms and clients. Streamline cases, automate documents, and manage consultations securely.</p>
+            <div class="hero-btns">
+                <a href="register.html" class="btn btn-primary">
+                    Start Free Trial
+                    <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+                </a>
+                <a href="#demo" class="btn btn-secondary">Book a Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid animate-fade-in" style="animation-delay: 0.2s;">
+                <div>
+                    <div class="stat-value">10k+</div>
+                    <div class="stat-label">Active Lawyers</div>
+                </div>
+                <div>
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div>
+                    <div class="stat-value">5M+</div>
+                    <div class="stat-label">Documents Secured</div>
+                </div>
+                <div>
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">AI Assistance</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container" style="padding: 6rem 1.5rem;">
+        <div class="text-center mb-8">
+            <h2 style="margin-bottom: 1rem;">Comprehensive Legal Solutions</h2>
+            <p style="max-width: 600px; margin: 0 auto;">Everything you need to run your practice efficiently, securely, and seamlessly.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="briefcase"></i>
+                </div>
+                <h3>Smart Case Management</h3>
+                <p class="mt-4">Track workflows, manage evidence, and monitor court deadlines with our intuitive Kanban boards and timeline views.</p>
+            </div>
+            
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="calendar"></i>
+                </div>
+                <h3>Consultation Booking</h3>
+                <p class="mt-4">Seamless scheduling with integrated video conferencing, automated reminders, and calendar syncing.</p>
+            </div>
+
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="file-text"></i>
+                </div>
+                <h3>Document Vault</h3>
+                <p class="mt-4">Secure OCR processing, digital signatures, version control, and granular sharing permissions.</p>
+            </div>
+
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="bot"></i>
+                </div>
+                <h3>AI Legal Assistant</h3>
+                <p class="mt-4">Automate contract analysis, summarize documents, and get real-time risk detection and case insights.</p>
+            </div>
+            
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="message-square"></i>
+                </div>
+                <h3>Secure Messaging</h3>
+                <p class="mt-4">Encrypted client-lawyer communications with file sharing, threading, and read receipts.</p>
+            </div>
+
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="credit-card"></i>
+                </div>
+                <h3>Integrated Billing</h3>
+                <p class="mt-4">Automated invoice generation, payment tracking, and comprehensive revenue analytics.</p>
+            </div>
+    </section>
+
+    <!-- AI Legal Playground Section -->
+    <section id="ai-playground" class="container" style="padding: 6rem 1.5rem; border-top: 1px solid var(--border-color);">
+        <div class="text-center mb-8">
+            <div class="badge badge-info mb-4" style="text-transform: uppercase; letter-spacing: 0.05em;">Interactive Demo</div>
+            <h2 style="margin-bottom: 1rem;">Experience LexAI In Action</h2>
+            <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">Select a legal task below to see how our AI Legal Assistant analyzes documents, drafts clauses, and finds risks in seconds.</p>
+        </div>
+        <div class="playground-card card glass" style="max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; padding: 2rem;">
+            <div class="playground-options" style="display: flex; flex-direction: column; gap: 1rem;">
+                <button class="playground-btn active" data-task="nda">
+                    <i data-lucide="shield-alert"></i>
+                    <div style="text-align: left;">
+                        <strong>Analyze NDA Risks</strong>
+                        <small style="display:block; color:var(--text-secondary); font-size:0.75rem;">Detect liability & IP leaks</small>
+                    </div>
+                </button>
+                <button class="playground-btn" data-task="draft">
+                    <i data-lucide="file-signature"></i>
+                    <div style="text-align: left;">
+                        <strong>Draft IP Clause</strong>
+                        <small style="display:block; color:var(--text-secondary); font-size:0.75rem;">Generate standard IP language</small>
+                    </div>
+                </button>
+                <button class="playground-btn" data-task="summary">
+                    <i data-lucide="align-left"></i>
+                    <div style="text-align: left;">
+                        <strong>Summarize Lease</strong>
+                        <small style="display:block; color:var(--text-secondary); font-size:0.75rem;">Extract rent, term & clauses</small>
+                    </div>
+                </button>
+            </div>
+            <div class="playground-terminal" style="background: #0F172A; border-radius: var(--radius-md); padding: 1.5rem; color: #F8FAFC; font-family: monospace; display: flex; flex-direction: column; min-height: 270px; justify-content: space-between; border: 1px solid #1E293B; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+                <div class="terminal-header" style="display: flex; gap: 6px; margin-bottom: 1rem; border-bottom: 1px solid #1E293B; padding-bottom: 0.5rem; justify-content: space-between; align-items: center;">
+                    <div style="display:flex; gap:6px;">
+                        <span style="width: 10px; height: 10px; background: #EF4444; border-radius: 50%;"></span>
+                        <span style="width: 10px; height: 10px; background: #F59E0B; border-radius: 50%;"></span>
+                        <span style="width: 10px; height: 10px; background: #10B981; border-radius: 50%;"></span>
+                    </div>
+                    <span style="font-size: 0.75rem; color: #64748B;">lexai-assistant-v1.0.sh</span>
+                </div>
+                <div class="terminal-body" id="playground-output" style="font-size: 0.875rem; line-height: 1.6; white-space: pre-wrap; flex-grow: 1; color: #E2E8F0; text-align: left;"></div>
+                <div class="terminal-footer" style="margin-top: 1rem; text-align: right; color: #64748B; font-size: 0.75rem;">
+                    <span>Tokens: 342 | Latency: 0.8s</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="stats-section" style="padding: 6rem 0; border-top: 1px solid var(--border-color);">
+        <div class="container">
+            <div class="text-center mb-8">
+                <div class="badge badge-success mb-4" style="text-transform: uppercase; letter-spacing: 0.05em;">Solutions</div>
+                <h2 style="margin-bottom: 1rem;">Tailored for Every Legal Need</h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">LexAI bridges the gap between legal practitioners, corporate teams, and individuals seeking smart assistance.</p>
+            </div>
+            
+            <div class="solutions-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
+                <!-- For Law Firms -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid var(--primary); text-align: left;">
+                    <div>
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--info-bg); color: var(--primary); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                            <i data-lucide="scale"></i>
+                        </div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">For Law Firms & Solo Lawyers</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">Automate drafting, manage court calendars, track billable hours, and store documents in a secure vault to scale your practice efficiently.</p>
+                        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0; margin-bottom: 1.5rem;">
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> AI Contract Review</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Automated Billing & Invoicing</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Integrated Client Portal</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-secondary mt-4" style="width: 100%;">Empower Your Firm</a>
+                </div>
+                
+                <!-- For In-House Corporate Teams -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid var(--accent); text-align: left;">
+                    <div>
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--warning-bg); color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                            <i data-lucide="building-2"></i>
+                        </div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">For Corporate Legal Teams</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">Ensure compliance, streamline risk assessment, manage commercial contracts, and optimize legal spending using real-time dashboard analytics.</p>
+                        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0; margin-bottom: 1.5rem;">
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Cross-department Workflows</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> AI Risk & Liability Audits</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Enterprise Security Compliance</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-secondary mt-4" style="width: 100%;">Optimize Corporate Legal</a>
+                </div>
+                
+                <!-- For Individuals -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid var(--secondary); text-align: left;">
+                    <div>
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(96, 165, 250, 0.1); color: var(--secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                            <i data-lucide="user"></i>
+                        </div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">For Individuals & Businesses</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">Access immediate AI legal advice, understand contracts, manage basic disputes, and book consultations with vetted human lawyers easily.</p>
+                        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0; margin-bottom: 1.5rem;">
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Instant AI Legal Help</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Vetted Lawyer Directory</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Fixed-fee Consultations</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-secondary mt-4" style="width: 100%;">Get Legal Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attorneys Section -->
+    <section id="attorneys" class="container" style="padding: 6rem 1.5rem; border-top: 1px solid var(--border-color);">
+        <div class="text-center mb-8">
+            <div class="badge badge-info mb-4" style="text-transform: uppercase; letter-spacing: 0.05em;">Vetted Network</div>
+            <h2 style="margin-bottom: 1rem;">Consult Top-Tier Partner Attorneys</h2>
+            <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">When AI isn't enough, seamlessly connect with verified, highly specialized attorneys for comprehensive legal representation.</p>
+        </div>
+        
+        <div class="attorneys-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem;">
+            <!-- Attorney 1 -->
+            <div class="card text-center" style="padding: 1.5rem 1rem;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: 2rem;">👩‍⚖️</div>
+                <h4 style="margin-bottom: 0.25rem;">Sarah Jenkins, Esq.</h4>
+                <span class="badge badge-success" style="margin-bottom: 0.75rem;">Corporate Law</span>
+                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 48px;">12+ Years Exp. • Ex-BigLaw Partner. Specializes in startup advisory, M&A, and VC funding.</p>
+                <div style="display: flex; justify-content: space-around; font-size: 0.75rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 0.5rem 0; margin-bottom: 1rem;">
+                    <span>⭐ 4.9/5 (124 reviews)</span>
+                    <span>$250/hr</span>
+                </div>
+                <a href="booking.html" class="btn btn-primary" style="width: 100%; font-size: 0.75rem; padding: 0.5rem 1rem;">Book Consultation</a>
+            </div>
+            <!-- Attorney 2 -->
+            <div class="card text-center" style="padding: 1.5rem 1rem;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: 2rem;">👨‍⚖️</div>
+                <h4 style="margin-bottom: 0.25rem;">David Miller, J.D.</h4>
+                <span class="badge badge-info" style="margin-bottom: 0.75rem;">Intellectual Property</span>
+                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 48px;">8+ Years Exp. Patent & trademark expert. Helps tech startups guard software & hardware IP.</p>
+                <div style="display: flex; justify-content: space-around; font-size: 0.75rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 0.5rem 0; margin-bottom: 1rem;">
+                    <span>⭐ 4.8/5 (92 reviews)</span>
+                    <span>$220/hr</span>
+                </div>
+                <a href="booking.html" class="btn btn-primary" style="width: 100%; font-size: 0.75rem; padding: 0.5rem 1rem;">Book Consultation</a>
+            </div>
+            <!-- Attorney 3 -->
+            <div class="card text-center" style="padding: 1.5rem 1rem;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: 2rem;">👩‍⚖️</div>
+                <h4 style="margin-bottom: 0.25rem;">Elena Rostova</h4>
+                <span class="badge badge-warning" style="margin-bottom: 0.75rem;">Employment Law</span>
+                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 48px;">15+ Years Exp. Compliance audit expert. Resolves wage disputes, stock plans, & HR contracts.</p>
+                <div style="display: flex; justify-content: space-around; font-size: 0.75rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 0.5rem 0; margin-bottom: 1rem;">
+                    <span>⭐ 5.0/5 (156 reviews)</span>
+                    <span>$280/hr</span>
+                </div>
+                <a href="booking.html" class="btn btn-primary" style="width: 100%; font-size: 0.75rem; padding: 0.5rem 1rem;">Book Consultation</a>
+            </div>
+            <!-- Attorney 4 -->
+            <div class="card text-center" style="padding: 1.5rem 1rem;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: 2rem;">👨‍⚖️</div>
+                <h4 style="margin-bottom: 0.25rem;">Robert Vance, Esq.</h4>
+                <span class="badge badge-danger" style="margin-bottom: 0.75rem;">Litigation</span>
+                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 48px;">18+ Years Exp. Seasoned trial attorney. Resolves complex contract disputes & compliance breaches.</p>
+                <div style="display: flex; justify-content: space-around; font-size: 0.75rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 0.5rem 0; margin-bottom: 1rem;">
+                    <span>⭐ 4.9/5 (202 reviews)</span>
+                    <span>$320/hr</span>
+                </div>
+                <a href="booking.html" class="btn btn-primary" style="width: 100%; font-size: 0.75rem; padding: 0.5rem 1rem;">Book Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="stats-section" style="padding: 6rem 0; border-top: 1px solid var(--border-color);">
+        <div class="container">
+            <div class="text-center mb-8">
+                <div class="badge badge-warning mb-4" style="text-transform: uppercase; letter-spacing: 0.05em;">Pricing Plans</div>
+                <h2 style="margin-bottom: 1rem;">Transparent Pricing for Everyone</h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">Start for free, then choose a plan that fits your business scale. No setup fees or hidden charges.</p>
+                
+                <div style="margin-top: 2rem; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg-card); padding: 0.35rem; border-radius: 100px; border: 1px solid var(--border-color);">
+                    <button class="pricing-toggle-btn active" id="monthly-billing" style="padding: 0.5rem 1.25rem; border-radius: 100px; font-weight: 500; font-size: 0.875rem;">Monthly</button>
+                    <button class="pricing-toggle-btn" id="annual-billing" style="padding: 0.5rem 1.25rem; border-radius: 100px; font-weight: 500; font-size: 0.875rem;">Yearly <span class="badge badge-success" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; margin-left: 4px;">Save 20%</span></button>
+                </div>
+            </div>
+            
+            <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; align-items: stretch;">
+                <!-- Lite Plan -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; position: relative; text-align: left;">
+                    <div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Lite Plan</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;">For individuals & seed startups seeking basic AI assistance.</p>
+                        <div style="margin-bottom: 1.5rem;">
+                            <span style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary);">$0</span>
+                            <span style="color: var(--text-secondary);">/ month</span>
+                        </div>
+                        <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem; color: var(--text-secondary);">
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> 5 AI contract analysis queries / mo</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Basic secure document storage (100MB)</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> View partner attorney directory</li>
+                            <li style="display: flex; gap: 8px; align-items: center; color: var(--text-muted);"><i data-lucide="x" style="width: 16px; height: 16px; color: var(--danger); flex-shrink: 0;"></i> Priority calendar booking support</li>
+                            <li style="display: flex; gap: 8px; align-items: center; color: var(--text-muted);"><i data-lucide="x" style="width: 16px; height: 16px; color: var(--danger); flex-shrink: 0;"></i> Customized templates generation</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-secondary mt-8" style="width: 100%;">Get Started Free</a>
+                </div>
+                
+                <!-- Professional Plan -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border: 2px solid var(--primary); position: relative; transform: scale(1.03); box-shadow: var(--shadow-lg); text-align: left;">
+                    <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 0.25rem 1rem; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Most Popular</div>
+                    <div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Professional</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;">For active lawyers, corporate legal counselors & growing firms.</p>
+                        <div style="margin-bottom: 1.5rem;">
+                            <span style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary);" class="pricing-val" data-monthly="149" data-yearly="119">$149</span>
+                            <span style="color: var(--text-secondary);">/ month</span>
+                        </div>
+                        <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem; color: var(--text-secondary);">
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Unlimited AI contract reviews & clauses</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> 10GB secure cloud storage</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Priority calendar booking & reminders</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Automated billing & invoicing</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Team client portal & task dashboard</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-primary mt-8" style="width: 100%;">Start 14-Day Free Trial</a>
+                </div>
+                
+                <!-- Enterprise Plan -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; position: relative; text-align: left;">
+                    <div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Enterprise</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;">For large law firms & multi-national organizations.</p>
+                        <div style="margin-bottom: 1.5rem;">
+                            <span style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary);">Custom</span>
+                        </div>
+                        <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem; color: var(--text-secondary);">
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Custom trained AI model on firm database</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Unlimited dedicated secure workspace storage</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Dedicated account manager & 24/7 SLA support</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> Custom API access & white-label portals</li>
+                            <li style="display: flex; gap: 8px; align-items: center;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0;"></i> On-premise deployment available</li>
+                        </ul>
+                    </div>
+                    <a href="mailto:sales@lexai.com" class="btn btn-secondary mt-8" style="width: 100%;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="container" style="padding: 6rem 1.5rem; border-top: 1px solid var(--border-color);">
+        <div class="text-center mb-8">
+            <div class="badge badge-info mb-4" style="text-transform: uppercase; letter-spacing: 0.05em;">Client Reviews</div>
+            <h2 style="margin-bottom: 1rem;">Loved by Legal Professionals & Businesses</h2>
+            <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">Read how law firms and companies are accelerating contract cycles and increasing billing efficiency with LexAI.</p>
+        </div>
+        
+        <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
+            <!-- Testimonial 1 -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+                <div>
+                    <div style="color: var(--accent); margin-bottom: 1rem;">★★★★★</div>
+                    <p style="font-size: 0.95rem; line-height: 1.6; font-style: italic; color: var(--text-secondary); margin-bottom: 1.5rem;">"LexAI's contract risk engine has cut our NDA review cycles from days to minutes. Our sales teams are sending deals out much faster, and the risks highlighted are extremely accurate."</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); display:flex; align-items:center; justify-content:center; font-size:1.25rem;">👩</div>
+                    <div>
+                        <h4 style="font-size: 0.875rem; margin-bottom: 2px;">Laura Thorne</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">General Counsel, SaaSify Inc.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+                <div>
+                    <div style="color: var(--accent); margin-bottom: 1rem;">★★★★★</div>
+                    <p style="font-size: 0.95rem; line-height: 1.6; font-style: italic; color: var(--text-secondary); margin-bottom: 1.5rem;">"As a solo practitioner, I don't have hours to format invoices or sort evidence folders. LexAI acts like my virtual paralegal. The Kanban board case tracker is wonderful for client updates."</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); display:flex; align-items:center; justify-content:center; font-size:1.25rem;">👨</div>
+                    <div>
+                        <h4 style="font-size: 0.875rem; margin-bottom: 2px;">Marcus Sterling, Esq.</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Founder, Sterling Family Law</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+                <div>
+                    <div style="color: var(--accent); margin-bottom: 1rem;">★★★★★</div>
+                    <p style="font-size: 0.95rem; line-height: 1.6; font-style: italic; color: var(--text-secondary); margin-bottom: 1.5rem;">"The scheduling system and direct billing inside client portal has reduced our late invoice payments by 40%. The calendar sync ensures I never miss client calls or hearings."</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); display:flex; align-items:center; justify-content:center; font-size:1.25rem;">👩</div>
+                    <div>
+                        <h4 style="font-size: 0.875rem; margin-bottom: 2px;">Rachel Zhao</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Partner, H&Z Partners LLC</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="stats-section" style="padding: 6rem 0; border-top: 1px solid var(--border-color);">
+        <div class="container" style="max-width: 800px;">
+            <div class="text-center mb-8">
+                <div class="badge badge-info mb-4" style="text-transform: uppercase; letter-spacing: 0.05em;">Help Center</div>
+                <h2 style="margin-bottom: 1rem;">Frequently Asked Questions</h2>
+                <p style="color: var(--text-secondary);">Got questions about LexAI? Find quick answers below, or get in touch with our team.</p>
+            </div>
+            
+            <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 3rem;">
+                <div class="faq-item card" style="padding: 1.25rem; cursor: pointer; text-align: left;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span>Is LexAI a law firm? Can it replace my human attorney?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow" style="transition: var(--transition); flex-shrink: 0; margin-left: 8px;"></i>
+                    </div>
+                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: var(--transition); color: var(--text-secondary); font-size: 0.875rem; margin-top: 0;">
+                        <p style="padding-top: 1rem;">No, LexAI is not a law firm and does not provide legal representation or legal advice. It is an AI-powered legal software tool designed to review documents, draft template clauses, and streamline law practice. For complex disputes or specialized guidance, we recommend hiring one of our vetted partner attorneys.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item card" style="padding: 1.25rem; cursor: pointer; text-align: left;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span>How secure is my data on your platform?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow" style="transition: var(--transition); flex-shrink: 0; margin-left: 8px;"></i>
+                    </div>
+                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: var(--transition); color: var(--text-secondary); font-size: 0.875rem; margin-top: 0;">
+                        <p style="padding-top: 1rem;">Data security is our top priority. We use bank-grade AES-256 encryption at rest and TLS 1.3 encryption in transit. Our servers are hosted in SOC 2 Type II certified data centers, and your documents are strictly confidential — we do not use your private documents to train our public models.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item card" style="padding: 1.25rem; cursor: pointer; text-align: left;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span>How do I consult with a human attorney on LexAI?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow" style="transition: var(--transition); flex-shrink: 0; margin-left: 8px;"></i>
+                    </div>
+                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: var(--transition); color: var(--text-secondary); font-size: 0.875rem; margin-top: 0;">
+                        <p style="padding-top: 1rem;">Simply log into your dashboard, navigate to the Attorneys Directory, search by practice area or rating, view real-time availability slots, and book a secure video consultation. Our system handles everything from calendar scheduling, secure video chat, and billing.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item card" style="padding: 1.25rem; cursor: pointer; text-align: left;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span>Can I cancel or change my plan anytime?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow" style="transition: var(--transition); flex-shrink: 0; margin-left: 8px;"></i>
+                    </div>
+                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: var(--transition); color: var(--text-secondary); font-size: 0.875rem; margin-top: 0;">
+                        <p style="padding-top: 1rem;">Yes! You can upgrade, downgrade, or cancel your subscription at any time directly through your dashboard settings. If you choose yearly billing, your pricing is locked in at a 20% discount for the full year.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo mb-4">
+                        <i data-lucide="scale"></i>
+                        <span>Lex</span>AI
+                    </a>
+                    <p class="mt-4">Empowering the legal industry with state-of-the-art AI technology and intuitive practice management solutions.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Case Management</a></li>
+                        <li><a href="#">Document Center</a></li>
+                        <li><a href="#">AI Assistant</a></li>
+                        <li><a href="#">Billing & Invoicing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 LexAI Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons and Theme -->
+    <script>
+        lucide.createIcons();
+
+        // Interactive AI Playground Logic
+        const playgroundBtns = document.querySelectorAll('.playground-btn');
+        const playgroundOutput = document.getElementById('playground-output');
+        
+        const playgroundData = {
+            nda: `[LEXAI IP DEVIATION DETECTED]\n-----------------------------\nDocument: Non-Disclosure Agreement (v2)\n\n⚠️ Section 4 (Intellectual Property Transfer):\n   "All background IP shared by Disclosing Party shall become the exclusive property of Receiving Party upon signing."\n\n🔍 Risk Level: CRITICAL (HIGH RISK)\n💡 Analysis: This clause unilaterally transfers ownership of background intellectual property. This deviates from standard NDAs which state that background IP remains the sole property of the original owner.\n\n✅ Recommended Revision:\n   "Nothing in this Agreement shall be construed to grant or transfer any rights, title, or interest in any background Intellectual Property of either Party."`,
+            draft: `[LEXAI DRAFTING ENGINE ACTIVE]\n------------------------------\nTask: Draft standard Intellectual Property ownership clause for Service Agreement.\n\n📝 Generated Clause:\n   "All deliverables, materials, software, and works of authorship created or developed by Service Provider specifically for Client under this Agreement ('Works') shall be deemed 'work made for hire' under US Copyright Law, and shall be the sole and exclusive property of the Client upon payment in full of all fees owed to Service Provider. Service Provider hereby assigns all rights, title, and interest in such Works to the Client."`,
+            summary: `[LEXAI DOCUMENT SUMMARY GENERATED]\n----------------------------------\nDocument: Commercial Lease Agreement - Suite 404\n\n📅 Key Dates:\n   - Effective Date: July 1, 2026\n   - Expiration Date: June 30, 2031 (5-year term)\n\n💰 Financial Obligations:\n   - Base Rent: $4,500/month (3% annual escalation)\n   - Security Deposit: $9,000\n\n🚪 Termination & Clauses:\n   - Early Termination: Allowed after Month 36 with 180 days notice and a fee of 3 months' rent.\n   - Subleasing: Prohibited without prior written landlord consent (which shall not be unreasonably withheld).`
+        };
+
+        let typingInterval = null;
+
+        function typeOutput(text) {
+            clearInterval(typingInterval);
+            playgroundOutput.textContent = '';
+            let index = 0;
+            typingInterval = setInterval(() => {
+                if (index < text.length) {
+                    playgroundOutput.textContent += text.charAt(index);
+                    index++;
+                } else {
+                    clearInterval(typingInterval);
+                }
+            }, 5);
+        }
+
+        if (playgroundBtns.length > 0) {
+            typeOutput(playgroundData.nda);
+            
+            playgroundBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    playgroundBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const task = btn.getAttribute('data-task');
+                    typeOutput(playgroundData[task]);
+                });
+            });
+        }
+
+        // Pricing Plan Toggle Logic
+        const monthlyBtn = document.getElementById('monthly-billing');
+        const annualBtn = document.getElementById('annual-billing');
+        const pricingVals = document.querySelectorAll('.pricing-val');
+
+        if (monthlyBtn && annualBtn) {
+            monthlyBtn.addEventListener('click', () => {
+                monthlyBtn.classList.add('active');
+                annualBtn.classList.remove('active');
+                pricingVals.forEach(val => {
+                    const monthlyPrice = val.getAttribute('data-monthly');
+                    val.textContent = `$${monthlyPrice}`;
+                });
+            });
+
+            annualBtn.addEventListener('click', () => {
+                annualBtn.classList.add('active');
+                monthlyBtn.classList.remove('active');
+                pricingVals.forEach(val => {
+                    const yearlyPrice = val.getAttribute('data-yearly');
+                    val.textContent = `$${yearlyPrice}`;
+                });
+            });
+        }
+
+        // FAQ Accordion Logic
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const arrow = item.querySelector('.faq-arrow');
+            
+            question.addEventListener('click', () => {
+                const isOpen = item.classList.contains('active');
+                
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+                        const otherArrow = otherItem.querySelector('.faq-arrow');
+                        if (otherArrow) otherArrow.style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                if (isOpen) {
+                    item.classList.remove('active');
+                    answer.style.maxHeight = '0';
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    if (arrow) arrow.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Check local storage for theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            themeToggleBtn.innerHTML = theme === 'dark' 
+                ? '<i data-lucide="sun"></i>' 
+                : '<i data-lucide="moon"></i>';
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

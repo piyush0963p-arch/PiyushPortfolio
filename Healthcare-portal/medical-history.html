@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Medical History — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text">Medi<span>Care</span></span></a>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="theme-toggle">🌙</button>
+    <div class="nav-avatar">JD</div>
+  </div>
+  <button class="btn btn-ghost btn-icon sidebar-toggle" style="margin-left:8px">☰</button>
+</nav>
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section-label">Main Menu</div>
+    <a href="patient-dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <a href="appointments.html" class="sidebar-link"><span class="icon">📅</span> Appointments</a>
+    <a href="medical-history.html" class="sidebar-link active"><span class="icon">📋</span> Medical History</a>
+    <a href="prescriptions.html" class="sidebar-link"><span class="icon">💊</span> Prescriptions</a>
+    <a href="reports.html" class="sidebar-link"><span class="icon">📊</span> Reports</a>
+    <a href="ai-assistant.html" class="sidebar-link"><span class="icon">🤖</span> AI Assistant</a>
+    <a href="telemedicine.html" class="sidebar-link"><span class="icon">📹</span> Telemedicine</a>
+    <a href="analytics.html" class="sidebar-link"><span class="icon">📈</span> Analytics</a>
+  </aside>
+  <main class="dashboard-content">
+    <div class="page-header flex-between" style="flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="page-title">Medical History 📋</div>
+        <div class="page-subtitle">Complete health record for John Doe</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="showToast('History exported as PDF!','success')">📥 Export PDF</button>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="grid-4 mb-24">
+      <div class="metric-card"><div class="metric-icon blue">🏥</div><div class="metric-value" style="color:var(--primary)">12</div><div class="metric-label">Doctor Visits</div></div>
+      <div class="metric-card"><div class="metric-icon green">💊</div><div class="metric-value" style="color:var(--emerald)">8</div><div class="metric-label">Diagnoses</div></div>
+      <div class="metric-card"><div class="metric-icon amber">💉</div><div class="metric-value" style="color:var(--amber)">6</div><div class="metric-label">Vaccinations</div></div>
+      <div class="metric-card"><div class="metric-icon purple">⚠️</div><div class="metric-value" style="color:var(--purple)">3</div><div class="metric-label">Allergies</div></div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- HEALTH TIMELINE -->
+      <div class="glass-card" style="padding:24px">
+        <h3 style="margin-bottom:20px">🕐 Health Timeline</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="tl-content">
+              <div class="flex-between"><div class="tl-title">Blood Test — CBC + Lipid Panel</div><span class="badge badge-emerald">Normal</span></div>
+              <div class="text-sm text-secondary mt-4">All parameters within normal range. Cholesterol slightly elevated.</div>
+              <div class="text-xs text-muted mt-4">Jun 10, 2026 • City Lab</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="tl-content">
+              <div class="flex-between"><div class="tl-title">Cardiology Visit — Dr. Wilson</div><span class="badge badge-primary">Completed</span></div>
+              <div class="text-sm text-secondary mt-4">Routine ECG performed. Mild hypertension noted. Medication adjusted.</div>
+              <div class="text-xs text-muted mt-4">Jun 8, 2026 • City Medical Center</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot amber"></div>
+            <div class="tl-content">
+              <div class="flex-between"><div class="tl-title">Flu Vaccination</div><span class="badge badge-emerald">Administered</span></div>
+              <div class="text-sm text-secondary mt-4">Influenza vaccine (Quadrivalent) — Annual dose</div>
+              <div class="text-xs text-muted mt-4">Jun 5, 2026 • HealthFirst Clinic</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="tl-content">
+              <div class="flex-between"><div class="tl-title">MRI — Lumbar Spine</div><span class="badge badge-amber">Review Pending</span></div>
+              <div class="text-sm text-secondary mt-4">L4-L5 disc bulge noted. No nerve compression.</div>
+              <div class="text-xs text-muted mt-4">May 28, 2026 • Imaging Center</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--purple);box-shadow:0 0 0 3px rgba(139,92,246,0.2)"></div>
+            <div class="tl-content">
+              <div class="flex-between"><div class="tl-title">Diagnosed: Hypertension Stage 1</div><span class="badge badge-amber">Ongoing</span></div>
+              <div class="text-sm text-secondary mt-4">Started on Amlodipine 5mg. Lifestyle modifications advised.</div>
+              <div class="text-xs text-muted mt-4">May 15, 2026 • Dr. Wilson</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="tl-content">
+              <div class="flex-between"><div class="tl-title">Annual Physical Examination</div><span class="badge badge-emerald">Completed</span></div>
+              <div class="text-sm text-secondary mt-4">BMI 24.2 — Normal. Vision & hearing tests passed.</div>
+              <div class="text-xs text-muted mt-4">Jan 12, 2026 • Family Health Clinic</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <!-- MEDICAL CONDITIONS -->
+        <div class="glass-card" style="padding:24px">
+          <h3 style="margin-bottom:16px">🩺 Active Conditions</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--bg)">
+              <div class="flex-between mb-4"><div class="font-semibold">Hypertension Stage 1</div><span class="badge badge-amber">Ongoing</span></div>
+              <div class="text-sm text-secondary">Diagnosed May 2026 • Managed with medication</div>
+              <div class="progress-bar mt-8"><div class="progress-fill" style="width:60%;background:linear-gradient(90deg,var(--amber),#f97316)"></div></div>
+              <div class="text-xs text-muted mt-4">Treatment Progress: 60%</div>
+            </div>
+            <div style="padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--bg)">
+              <div class="flex-between mb-4"><div class="font-semibold">Type 2 Diabetes (Pre)</div><span class="badge badge-primary">Monitoring</span></div>
+              <div class="text-sm text-secondary">Diagnosed Jan 2025 • Diet controlled</div>
+              <div class="progress-bar mt-8"><div class="progress-fill" style="width:75%"></div></div>
+              <div class="text-xs text-muted mt-4">Control: 75%</div>
+            </div>
+            <div style="padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--bg)">
+              <div class="flex-between mb-4"><div class="font-semibold">L4-L5 Disc Bulge</div><span class="badge badge-rose">Under Review</span></div>
+              <div class="text-sm text-secondary">Detected May 2026 • Physiotherapy ongoing</div>
+              <div class="progress-bar mt-8"><div class="progress-fill" style="width:40%;background:linear-gradient(90deg,var(--rose),#fb7185)"></div></div>
+              <div class="text-xs text-muted mt-4">Recovery: 40%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALLERGIES -->
+        <div class="glass-card" style="padding:24px">
+          <h3 style="margin-bottom:16px">⚠️ Allergies</h3>
+          <div class="flex gap-8" style="flex-wrap:wrap">
+            <div style="padding:10px 16px;border-radius:12px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.25);color:var(--rose);font-size:13px;font-weight:600">🌿 Penicillin</div>
+            <div style="padding:10px 16px;border-radius:12px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.25);color:var(--rose);font-size:13px;font-weight:600">🥜 Peanuts</div>
+            <div style="padding:10px 16px;border-radius:12px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:var(--amber);font-size:13px;font-weight:600">🌸 Pollen</div>
+          </div>
+        </div>
+
+        <!-- FAMILY HISTORY -->
+        <div class="glass-card" style="padding:24px">
+          <h3 style="margin-bottom:16px">👨‍👩‍👧 Family History</h3>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="flex gap-10 items-center"><span class="badge badge-rose">Father</span><span class="text-sm">Cardiovascular Disease, Hypertension</span></div>
+            <div class="flex gap-10 items-center"><span class="badge badge-amber">Mother</span><span class="text-sm">Type 2 Diabetes, Thyroid Disorder</span></div>
+            <div class="flex gap-10 items-center"><span class="badge badge-primary">Sibling</span><span class="text-sm">Asthma, Allergies</span></div>
+          </div>
+        </div>
+
+        <!-- VACCINATIONS -->
+        <div class="glass-card" style="padding:24px">
+          <h3 style="margin-bottom:16px">💉 Vaccination Record</h3>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="flex-between text-sm"><span class="font-semibold">COVID-19 (Booster)</span><span class="badge badge-emerald">Mar 2026</span></div>
+            <div class="flex-between text-sm"><span class="font-semibold">Influenza (Annual)</span><span class="badge badge-emerald">Jun 2026</span></div>
+            <div class="flex-between text-sm"><span class="font-semibold">Hepatitis B (Series)</span><span class="badge badge-emerald">Completed</span></div>
+            <div class="flex-between text-sm"><span class="font-semibold">Tetanus (Td booster)</span><span class="badge badge-amber">Due 2028</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
+

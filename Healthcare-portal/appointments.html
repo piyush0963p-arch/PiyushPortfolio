@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Book Appointment — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text">Medi<span>Care</span></span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="appointments.html" class="active">Appointments</a>
+    <a href="ai-assistant.html">AI Assistant</a>
+    <a href="reports.html">Reports</a>
+    <a href="telemedicine.html">Telemedicine</a>
+  </div>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="theme-toggle">🌙</button>
+    <a href="patient-dashboard.html" class="btn btn-primary btn-sm">Dashboard</a>
+  </div>
+  <div class="nav-toggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile">
+  <a href="index.html">Home</a>
+  <a href="appointments.html" class="active">Appointments</a>
+  <a href="ai-assistant.html">AI Assistant</a>
+  <a href="reports.html">Reports</a>
+  <a href="telemedicine.html">Telemedicine</a>
+  <a href="patient-dashboard.html" class="btn btn-primary">Dashboard</a>
+</div>
+<div style="padding-top:var(--nav-h)">
+  <div class="container" style="padding-top:40px;padding-bottom:60px">
+    <div class="page-header">
+      <div class="section-label">📅 Book Appointment</div>
+      <h1 class="page-title" style="font-size:clamp(26px,4vw,38px)">Find & Book <span class="text-gradient">Top Specialists</span></h1>
+      <p class="page-subtitle">Search from 2,000+ verified doctors and book in seconds</p>
+    </div>
+
+    <!-- SEARCH & FILTERS -->
+    <div class="glass-card mb-24" style="padding:24px">
+      <div class="search-bar mb-16" style="max-width:600px">
+        <span style="font-size:18px">🔍</span>
+        <input type="text" id="doctorSearch" placeholder="Search doctors, specialties, hospitals..." oninput="filterDoctors()"/>
+      </div>
+      <div class="filter-row">
+        <select class="filter-select" id="filterSpec" onchange="filterDoctors()">
+          <option value="">All Specialties</option>
+          <option>Cardiology</option><option>Neurology</option><option>Orthopedics</option>
+          <option>Pediatrics</option><option>Dermatology</option><option>Psychiatry</option>
+        </select>
+        <select class="filter-select" id="filterAvail" onchange="filterDoctors()">
+          <option value="">Any Availability</option>
+          <option>Available Today</option><option>Available This Week</option>
+        </select>
+        <select class="filter-select" id="filterFee" onchange="filterDoctors()">
+          <option value="">Any Fee</option>
+          <option>Under $100</option><option>$100–$150</option><option>Above $150</option>
+        </select>
+        <select class="filter-select" id="filterExp" onchange="filterDoctors()">
+          <option value="">Any Experience</option>
+          <option>5+ Years</option><option>10+ Years</option><option>15+ Years</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearFilters()">✕ Clear</button>
+      </div>
+    </div>
+
+    <div id="doctorGrid" class="doctor-results">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal" style="display:none" onclick="closeModal('bookingModal')">
+  <div class="modal-box" style="max-width:560px" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>📅 Book Appointment</h3>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('bookingModal')">✕</button>
+    </div>
+    <div style="padding:20px">
+      <div id="bookingDoctorInfo" style="display:flex;gap:14px;align-items:center;margin-bottom:20px;padding:16px;background:var(--bg);border-radius:14px;border:1px solid var(--border)"></div>
+      
+      <div class="form-group">
+        <label class="form-label">Consultation Type</label>
+        <div class="flex gap-10">
+          <label style="flex:1;display:flex;gap:8px;align-items:center;padding:12px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer">
+            <input type="radio" name="ctype" value="online" checked> <span>📹 Online</span>
+          </label>
+          <label style="flex:1;display:flex;gap:8px;align-items:center;padding:12px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer">
+            <input type="radio" name="ctype" value="inperson"> <span>🏥 In-Person</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Select Date</label>
+        <input type="date" class="form-control" id="apptDate" min="2026-06-11"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Available Time Slots</label>
+        <div class="dl-slots" id="timeSlots">
+          <button class="slot-btn selected">9:00 AM</button>
+          <button class="slot-btn">10:00 AM</button>
+          <button class="slot-btn">11:30 AM</button>
+          <button class="slot-btn">2:00 PM</button>
+          <button class="slot-btn">3:30 PM</button>
+          <button class="slot-btn">5:00 PM</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Reason for Visit</label>
+        <textarea class="form-control" rows="2" placeholder="Briefly describe your symptoms or reason..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="btn btn-outline w-full" onclick="closeModal('bookingModal')">Cancel</button>
+        <button class="btn btn-primary w-full" onclick="confirmBooking()">✅ Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal-overlay" id="confirmModal" style="display:none" onclick="closeModal('confirmModal')">
+  <div class="modal-box" style="max-width:440px;text-align:center" onclick="event.stopPropagation()">
+    <div style="padding:40px 32px">
+      <div style="font-size:64px;margin-bottom:16px">🎉</div>
+      <h3 style="font-size:22px;margin-bottom:8px">Appointment Confirmed!</h3>
+      <p class="text-secondary" style="margin-bottom:20px">Your appointment has been successfully booked. You'll receive a confirmation email shortly.</p>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:20px;text-align:left" id="confirmDetails"></div>
+      <div class="flex gap-10">
+        <a href="patient-dashboard.html" class="btn btn-outline w-full">View Dashboard</a>
+        <button class="btn btn-primary w-full" onclick="closeModal('confirmModal')">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+const doctors = [
+  {name:'Dr. James Wilson',spec:'Cardiologist',exp:'12 yrs',rating:4.9,fee:120,emoji:'👨‍⚕️',avail:'Available Today',bg:'#dbeafe',location:'City Medical Center'},
+  {name:'Dr. Sarah Mitchell',spec:'Neurologist',exp:'9 yrs',rating:4.8,fee:100,emoji:'👩‍⚕️',avail:'Available Today',bg:'#d1fae5',location:'NeuroHealth Clinic'},
+  {name:'Dr. Robert Chen',spec:'Orthopedist',exp:'15 yrs',rating:4.7,fee:150,emoji:'🧑‍⚕️',avail:'Available This Week',bg:'#ede9fe',location:'Bone & Joint Center'},
+  {name:'Dr. Emily Davis',spec:'Pediatrician',exp:'8 yrs',rating:4.9,fee:90,emoji:'👩‍⚕️',avail:'Available Today',bg:'#fef3c7',location:'Children\'s Health Hub'},
+  {name:'Dr. Michael Torres',spec:'Dermatologist',exp:'11 yrs',rating:4.6,fee:110,emoji:'👨‍⚕️',avail:'Available This Week',bg:'#fce7f3',location:'SkinCare Clinic'},
+  {name:'Dr. Priya Sharma',spec:'Psychiatrist',exp:'10 yrs',rating:4.8,fee:130,emoji:'👩‍⚕️',avail:'Available Today',bg:'#cffafe',location:'Mind Wellness Center'},
+];
+
+let selectedDoctor = null;
+
+function renderDoctors(list) {
+  const grid = document.getElementById('doctorGrid');
+  grid.innerHTML = list.length ? '' : '<p class="text-secondary text-center" style="padding:40px">No doctors found. Try different filters.</p>';
+  list.forEach((d,i) => {
+    const card = document.createElement('div');
+    card.className = 'doctor-list-card mb-16 animate-fadeInUp';
+    card.style.animationDelay = (i*0.08)+'s';
+    card.innerHTML = `
+      <div class="dl-avatar" style="background:${d.bg}">${d.emoji}</div>
+      <div class="dl-info">
+        <div class="dl-name">${d.name}</div>
+        <div class="dl-spec">${d.spec} • ${d.location}</div>
+        <div class="dl-meta">
+          <div class="dl-meta-item">⭐ ${d.rating}</div>
+          <div class="dl-meta-item">🕐 ${d.exp} exp.</div>
+          <div class="dl-meta-item">💵 $${d.fee}/session</div>
+          <div class="dl-meta-item"><span class="ping-dot" style="background:var(--emerald)"></span> ${d.avail}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+        <div class="dl-slots">
+          <button class="slot-btn selected">10:00 AM</button>
+          <button class="slot-btn">2:00 PM</button>
+          <button class="slot-btn">4:30 PM</button>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick='openBooking(${i})'>📅 Book Now</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openBooking(i) {
+  selectedDoctor = doctors[i];
+  document.getElementById('bookingDoctorInfo').innerHTML = `
+    <div style="width:48px;height:48px;border-radius:14px;background:${selectedDoctor.bg};display:flex;align-items:center;justify-content:center;font-size:28px">${selectedDoctor.emoji}</div>
+    <div><div class="font-semibold">${selectedDoctor.name}</div><div class="text-sm text-secondary">${selectedDoctor.spec}</div><div class="text-sm" style="color:var(--emerald);margin-top:2px">$${selectedDoctor.fee} per session</div></div>`;
+  document.getElementById('apptDate').value = '2026-06-11';
+  document.querySelectorAll('#timeSlots .slot-btn').forEach((b,idx) => {
+    b.classList.toggle('selected', idx===0);
+    b.onclick = () => { document.querySelectorAll('#timeSlots .slot-btn').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); };
+  });
+  openModal('bookingModal');
+}
+
+function confirmBooking() {
+  const time = document.querySelector('#timeSlots .slot-btn.selected')?.textContent || '10:00 AM';
+  const date = document.getElementById('apptDate').value || '2026-06-11';
+  const type = document.querySelector('input[name="ctype"]:checked')?.value || 'online';
+  closeModal('bookingModal');
+  document.getElementById('confirmDetails').innerHTML = `
+    <div class="flex gap-12 mb-8"><span>👨‍⚕️</span><div><div class="font-semibold">${selectedDoctor?.name}</div><div class="text-sm text-secondary">${selectedDoctor?.spec}</div></div></div>
+    <div class="flex gap-12 mb-8"><span>📅</span><span class="text-sm">${date} at ${time}</span></div>
+    <div class="flex gap-12 mb-8"><span>${type==='online'?'📹':'🏥'}</span><span class="text-sm">${type==='online'?'Online Consultation':'In-Person Visit'}</span></div>
+    <div class="flex gap-12"><span>💵</span><span class="text-sm">$${selectedDoctor?.fee} — Payment pending</span></div>`;
+  openModal('confirmModal');
+  showToast('Appointment booked successfully!','success');
+}
+
+function filterDoctors() {
+  const q = document.getElementById('doctorSearch').value.toLowerCase();
+  const spec = document.getElementById('filterSpec').value;
+  const avail = document.getElementById('filterAvail').value;
+  let filtered = doctors.filter(d => {
+    const matchQ = !q || d.name.toLowerCase().includes(q) || d.spec.toLowerCase().includes(q);
+    const matchSpec = !spec || d.spec === spec;
+    const matchAvail = !avail || d.avail === avail;
+    return matchQ && matchSpec && matchAvail;
+  });
+  renderDoctors(filtered);
+}
+
+function clearFilters() {
+  document.getElementById('doctorSearch').value='';
+  document.getElementById('filterSpec').value='';
+  document.getElementById('filterAvail').value='';
+  document.getElementById('filterFee').value='';
+  document.getElementById('filterExp').value='';
+  renderDoctors(doctors);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDoctors(doctors);
+  document.querySelectorAll('.slot-btn').forEach(b => {
+    b.addEventListener('click', function() {
+      this.closest('.dl-slots')?.querySelectorAll('.slot-btn').forEach(x=>x.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+});
+</script>
+</body>
+</html>
+

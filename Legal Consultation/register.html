@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexAI - Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-surface) 100%);
+            padding: 1.5rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 520px;
+            padding: 2.5rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header .logo {
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-btn {
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .role-btn:hover {
+            border-color: var(--primary-light);
+            background: var(--info-bg);
+        }
+
+        .role-btn.active {
+            border-color: var(--primary);
+            background: var(--info-bg);
+            color: var(--primary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card glass auth-card animate-fade-in">
+        <div class="auth-header">
+            <a href="index.html" class="logo">
+                <i data-lucide="scale"></i>
+                <span>Lex</span>AI
+            </a>
+            <h2>Create an account</h2>
+            <p>Join the future of legal practice management</p>
+        </div>
+
+        <form action="client-dashboard.html" method="GET">
+            <label class="form-label" style="text-align: center; margin-bottom: 1rem;">I am a...</label>
+            <div class="role-selector">
+                <div class="role-btn active" id="role-client">
+                    <i data-lucide="user"></i>
+                    Client
+                </div>
+                <div class="role-btn" id="role-lawyer">
+                    <i data-lucide="briefcase"></i>
+                    Lawyer / Firm
+                </div>
+                <input type="hidden" id="selected-role" name="role" value="client">
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="firstName">First name</label>
+                    <input type="text" id="firstName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="lastName">Last name</label>
+                    <input type="text" id="lastName" class="form-input" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email address</label>
+                <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-input" placeholder="Create a strong password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem; font-size: 1rem; margin-top: 1rem;">
+                Create account
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Sign in</a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Role selector logic
+        const roleClient = document.getElementById('role-client');
+        const roleLawyer = document.getElementById('role-lawyer');
+        const hiddenRole = document.getElementById('selected-role');
+
+        roleClient.addEventListener('click', () => {
+            roleClient.classList.add('active');
+            roleLawyer.classList.remove('active');
+            hiddenRole.value = 'client';
+        });
+
+        roleLawyer.addEventListener('click', () => {
+            roleLawyer.classList.add('active');
+            roleClient.classList.remove('active');
+            hiddenRole.value = 'lawyer';
+        });
+    </script>
+</body>
+</html>

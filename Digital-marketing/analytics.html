@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics & Reports | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/analytics.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item active"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search analytics...">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Analytics & Reports</h1>
+            <p class="page-subtitle">Deep dive into your performance metrics and AI-driven forecasts.</p>
+          </div>
+          <div class="page-actions flex gap-3">
+            <input type="date" class="form-input bg-card h-10 w-40" value="2026-10-01">
+            <span class="text-secondary self-center">to</span>
+            <input type="date" class="form-input bg-card h-10 w-40" value="2026-10-31">
+            <button class="btn btn-secondary ml-2"><i data-lucide="download"></i> <span class="hidden-mobile">Export PDF</span></button>
+          </div>
+        </div>
+
+        <div class="tabs mb-6">
+          <div class="tab-item active">Overview</div>
+          <div class="tab-item">Traffic</div>
+          <div class="tab-item">Conversions</div>
+          <div class="tab-item">Revenue</div>
+          <div class="tab-item">Social Media</div>
+        </div>
+
+        <!-- KPIs Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6 stagger-children">
+          <div class="card p-4">
+            <div class="text-xs text-secondary mb-1">Total Traffic</div>
+            <div class="text-xl font-bold">124.5K</div>
+            <div class="stat-card-trend up text-xs mt-2"><i data-lucide="trending-up"></i> 12%</div>
+          </div>
+          <div class="card p-4">
+            <div class="text-xs text-secondary mb-1">New Users</div>
+            <div class="text-xl font-bold">45.2K</div>
+            <div class="stat-card-trend up text-xs mt-2"><i data-lucide="trending-up"></i> 8%</div>
+          </div>
+          <div class="card p-4 border-primary bg-primary-50">
+            <div class="text-xs text-primary mb-1">Avg. Session</div>
+            <div class="text-xl font-bold text-primary-700">03:24</div>
+            <div class="stat-card-trend up text-xs mt-2"><i data-lucide="trending-up"></i> 15%</div>
+          </div>
+          <div class="card p-4">
+            <div class="text-xs text-secondary mb-1">Bounce Rate</div>
+            <div class="text-xl font-bold">42.8%</div>
+            <div class="stat-card-trend down text-xs mt-2"><i data-lucide="trending-down"></i> -2.4%</div>
+          </div>
+          <div class="card p-4">
+            <div class="text-xs text-secondary mb-1">Conversions</div>
+            <div class="text-xl font-bold">3,842</div>
+            <div class="stat-card-trend up text-xs mt-2"><i data-lucide="trending-up"></i> 5.6%</div>
+          </div>
+          <div class="card p-4">
+            <div class="text-xs text-secondary mb-1">Revenue</div>
+            <div class="text-xl font-bold">$184K</div>
+            <div class="stat-card-trend up text-xs mt-2"><i data-lucide="trending-up"></i> 22%</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          
+          <!-- Traffic Growth (Line Chart) -->
+          <div class="card lg:col-span-2">
+            <div class="card-header flex justify-between items-center">
+              <h2 class="card-title">Traffic Growth & Forecast (AI)</h2>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-primary"></span> Actual</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-secondary border border-dashed border-primary"></span> Forecast</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" style="height: 300px;">
+                <canvas id="trafficChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Traffic Sources (Doughnut Chart) -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Traffic Sources</h2>
+            </div>
+            <div class="card-body flex items-center justify-center relative">
+              <div class="chart-container" style="height: 250px;">
+                <canvas id="sourcesChart"></canvas>
+              </div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-4">
+                <span class="text-2xl font-bold">124.5K</span>
+                <span class="text-xs text-secondary">Total Visits</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          
+          <!-- Lead Growth (Area Chart) -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Lead Generation Growth</h2>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" style="height: 280px;">
+                <canvas id="leadsChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Landing Pages Table -->
+          <div class="card flex flex-col">
+            <div class="card-header">
+              <h2 class="card-title">Top Landing Pages</h2>
+            </div>
+            <div class="table-responsive flex-1">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Page Path</th>
+                    <th>Views</th>
+                    <th>Avg. Time</th>
+                    <th>Bounce</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-primary font-medium">/features/ai-analytics</td>
+                    <td>45,210</td>
+                    <td>04:12</td>
+                    <td>32%</td>
+                  </tr>
+                  <tr>
+                    <td class="text-primary font-medium">/pricing</td>
+                    <td>28,450</td>
+                    <td>02:45</td>
+                    <td>45%</td>
+                  </tr>
+                  <tr>
+                    <td class="text-primary font-medium">/blog/marketing-trends-2026</td>
+                    <td>15,800</td>
+                    <td>05:30</td>
+                    <td>58%</td>
+                  </tr>
+                  <tr>
+                    <td class="text-primary font-medium">/case-studies/acme-corp</td>
+                    <td>12,400</td>
+                    <td>03:15</td>
+                    <td>28%</td>
+                  </tr>
+                  <tr>
+                    <td class="text-primary font-medium">/integrations</td>
+                    <td>9,200</td>
+                    <td>01:50</td>
+                    <td>41%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/analytics.js"></script>
+</body>
+</html>

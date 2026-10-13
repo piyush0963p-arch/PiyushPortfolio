@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Studio | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/content-studio.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item active"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search content library..." id="contentSearch">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Content Studio</h1>
+            <p class="page-subtitle">Manage all your marketing assets, blogs, and ad creatives.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary"><i data-lucide="upload"></i> Upload Asset</button>
+            <button class="btn btn-primary" onclick="document.getElementById('aiContentDrawer').classList.add('open')"><i data-lucide="sparkles"></i> AI Generate</button>
+          </div>
+        </div>
+
+        <div class="tabs mb-6" id="contentTabs">
+          <div class="tab-item active" data-filter="all">All Content</div>
+          <div class="tab-item" data-filter="blog">Blog Posts</div>
+          <div class="tab-item" data-filter="social">Social Media</div>
+          <div class="tab-item" data-filter="email">Email Templates</div>
+          <div class="tab-item" data-filter="creative">Ad Creatives</div>
+        </div>
+
+        <div class="content-grid stagger-children" id="contentGrid">
+          <!-- Populated by JS -->
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- AI Content Generator Drawer -->
+  <div class="drawer-overlay" id="aiContentDrawerOverlay" onclick="document.getElementById('aiContentDrawer').classList.remove('open'); this.classList.remove('open')"></div>
+  <div class="drawer right" id="aiContentDrawer">
+    <div class="drawer-header bg-gradient-primary">
+      <h2 class="text-lg font-semibold text-white flex items-center gap-2"><i data-lucide="sparkles"></i> AI Content Creator</h2>
+      <button class="btn btn-sm btn-ghost btn-icon text-white" onclick="document.getElementById('aiContentDrawer').classList.remove('open'); document.getElementById('aiContentDrawerOverlay').classList.remove('open')"><i data-lucide="x"></i></button>
+    </div>
+    
+    <div class="drawer-body p-5 bg-card">
+      <div class="form-group">
+        <label class="form-label">What do you want to create?</label>
+        <select class="form-select">
+          <option>Blog Post</option>
+          <option>Social Media Caption</option>
+          <option>Email Newsletter</option>
+          <option>Ad Copy</option>
+          <option>Image (DALL-E 3)</option>
+        </select>
+      </div>
+
+      <div class="form-group mt-4">
+        <label class="form-label">Topic or Prompt</label>
+        <textarea class="form-textarea" rows="4" placeholder="Describe what you want the AI to write about..."></textarea>
+      </div>
+
+      <div class="form-group mt-4">
+        <label class="form-label">Tone</label>
+        <div class="flex flex-wrap gap-2">
+          <button class="chip selected">Professional</button>
+          <button class="chip">Casual</button>
+          <button class="chip">Excited</button>
+          <button class="chip">Urgent</button>
+          <button class="chip">Humorous</button>
+        </div>
+      </div>
+      
+      <div class="form-group mt-4">
+        <label class="form-label">Keywords (Optional)</label>
+        <input type="text" class="form-input" placeholder="e.g., marketing ROI, AI analytics, B2B sales">
+      </div>
+    </div>
+
+    <div class="drawer-footer flex justify-between p-4 border-t border-light">
+      <button class="btn btn-secondary">Clear</button>
+      <button class="btn btn-primary"><i data-lucide="zap"></i> Generate</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/content-studio.js"></script>
+</body>
+</html>

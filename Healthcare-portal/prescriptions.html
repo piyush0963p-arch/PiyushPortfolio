@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Prescriptions — MediAI Care</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="nav-logo">M</div><span class="nav-brand-text">Medi<span>Care</span></span></a>
+  <div class="nav-actions" style="margin-left:auto">
+    <button class="theme-toggle">🌙</button>
+    <div class="nav-avatar">JD</div>
+  </div>
+  <button class="btn btn-ghost btn-icon sidebar-toggle" style="margin-left:8px">☰</button>
+</nav>
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section-label">Main Menu</div>
+    <a href="patient-dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <a href="appointments.html" class="sidebar-link"><span class="icon">📅</span> Appointments</a>
+    <a href="medical-history.html" class="sidebar-link"><span class="icon">📋</span> Medical History</a>
+    <a href="prescriptions.html" class="sidebar-link active"><span class="icon">💊</span> Prescriptions</a>
+    <a href="reports.html" class="sidebar-link"><span class="icon">📊</span> Reports</a>
+    <a href="ai-assistant.html" class="sidebar-link"><span class="icon">🤖</span> AI Assistant</a>
+    <a href="analytics.html" class="sidebar-link"><span class="icon">📈</span> Analytics</a>
+  </aside>
+  <main class="dashboard-content">
+    <div class="page-header flex-between" style="flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="page-title">Prescriptions 💊</div>
+        <div class="page-subtitle">Manage your medications and digital prescriptions</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="showToast('Reminder set for all medications!','success')">⏰ Set Reminders</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid-4 mb-24">
+      <div class="metric-card"><div class="metric-icon green">💊</div><div class="metric-value" style="color:var(--emerald)">5</div><div class="metric-label">Active Prescriptions</div></div>
+      <div class="metric-card"><div class="metric-icon amber">🔄</div><div class="metric-value" style="color:var(--amber)">2</div><div class="metric-label">Refill Soon</div></div>
+      <div class="metric-card"><div class="metric-icon blue">📋</div><div class="metric-value" style="color:var(--primary)">12</div><div class="metric-label">Total Prescriptions</div></div>
+      <div class="metric-card"><div class="metric-icon purple">✅</div><div class="metric-value" style="color:var(--purple)">94%</div><div class="metric-label">Adherence Rate</div></div>
+    </div>
+
+    <!-- MEDICINE REMINDER WIDGET -->
+    <div class="glass-card mb-24" style="padding:24px">
+      <div class="flex-between mb-16">
+        <h3>⏰ Today's Medicine Schedule</h3>
+        <span class="badge badge-emerald">3 Taken / 5 Today</span>
+      </div>
+      <div class="grid-4" style="gap:12px">
+        <div style="padding:14px;border-radius:14px;background:var(--emerald-glow);border:1px solid rgba(16,185,129,0.3)">
+          <div style="font-size:20px;margin-bottom:6px">💊 ✅</div>
+          <div class="font-semibold text-sm">Amlodipine 5mg</div>
+          <div class="text-xs text-secondary">8:00 AM — Taken</div>
+        </div>
+        <div style="padding:14px;border-radius:14px;background:var(--emerald-glow);border:1px solid rgba(16,185,129,0.3)">
+          <div style="font-size:20px;margin-bottom:6px">💊 ✅</div>
+          <div class="font-semibold text-sm">Metformin 500mg</div>
+          <div class="text-xs text-secondary">9:00 AM — Taken</div>
+        </div>
+        <div style="padding:14px;border-radius:14px;background:var(--emerald-glow);border:1px solid rgba(16,185,129,0.3)">
+          <div style="font-size:20px;margin-bottom:6px">💊 ✅</div>
+          <div class="font-semibold text-sm">Vitamin D3</div>
+          <div class="text-xs text-secondary">10:00 AM — Taken</div>
+        </div>
+        <div style="padding:14px;border-radius:14px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3)">
+          <div style="font-size:20px;margin-bottom:6px">💊 ⏳</div>
+          <div class="font-semibold text-sm">Metformin 500mg</div>
+          <div class="text-xs text-secondary" style="color:var(--amber)">2:00 PM — Due</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRESCRIPTION CARDS -->
+    <h3 style="margin-bottom:16px">📋 All Prescriptions</h3>
+    <div class="grid-2 mb-24">
+
+      <div class="rx-card">
+        <div class="rx-header">
+          <div>
+            <div class="rx-doctor">Dr. James Wilson</div>
+            <div class="rx-date text-secondary text-sm">Cardiologist • June 8, 2026</div>
+          </div>
+          <span class="badge badge-emerald">Active</span>
+        </div>
+        <div class="rx-medicines">
+          <div class="rx-med-item">
+            <span style="font-size:18px">💊</span>
+            <div class="rx-med-name">Amlodipine 5mg</div>
+            <div class="rx-med-dose text-secondary">1 tab/day — Morning</div>
+            <span class="badge badge-primary">30 days</span>
+          </div>
+          <div class="rx-med-item">
+            <span style="font-size:18px">💊</span>
+            <div class="rx-med-name">Aspirin 75mg</div>
+            <div class="rx-med-dose text-secondary">1 tab/day — Evening</div>
+            <span class="badge badge-primary">30 days</span>
+          </div>
+        </div>
+        <div class="rx-actions">
+          <button class="btn btn-outline btn-sm" onclick="showToast('Downloading prescription PDF...','info')">📥 Download PDF</button>
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Sent to printer!','success')">🖨️ Print</button>
+          <button class="btn btn-primary btn-sm" onclick="showToast('Refill requested!','success')">🔄 Refill Request</button>
+        </div>
+      </div>
+
+      <div class="rx-card">
+        <div class="rx-header">
+          <div>
+            <div class="rx-doctor">Dr. Sarah Mitchell</div>
+            <div class="rx-date text-secondary text-sm">Neurologist • May 28, 2026</div>
+          </div>
+          <span class="badge badge-amber">Refill Soon</span>
+        </div>
+        <div class="rx-medicines">
+          <div class="rx-med-item">
+            <span style="font-size:18px">💊</span>
+            <div class="rx-med-name">Metformin 500mg</div>
+            <div class="rx-med-dose text-secondary">2 tabs — After meals</div>
+            <span class="badge badge-amber">7 days left</span>
+          </div>
+          <div class="rx-med-item">
+            <span style="font-size:18px">🧴</span>
+            <div class="rx-med-name">Vitamin D3 1000IU</div>
+            <div class="rx-med-dose text-secondary">1 cap/day — Evening</div>
+            <span class="badge badge-emerald">60 days</span>
+          </div>
+        </div>
+        <div class="rx-actions">
+          <button class="btn btn-outline btn-sm" onclick="showToast('Downloading...','info')">📥 Download PDF</button>
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Printed!','success')">🖨️ Print</button>
+          <button class="btn btn-primary btn-sm" onclick="showToast('Refill requested!','success')">🔄 Refill Request</button>
+        </div>
+      </div>
+
+      <div class="rx-card">
+        <div class="rx-header">
+          <div>
+            <div class="rx-doctor">Dr. Robert Chen</div>
+            <div class="rx-date text-secondary text-sm">Orthopedist • May 15, 2026</div>
+          </div>
+          <span class="badge badge-emerald">Active</span>
+        </div>
+        <div class="rx-medicines">
+          <div class="rx-med-item">
+            <span style="font-size:18px">💊</span>
+            <div class="rx-med-name">Diclofenac 50mg</div>
+            <div class="rx-med-dose text-secondary">1 tab twice/day</div>
+            <span class="badge badge-primary">14 days</span>
+          </div>
+          <div class="rx-med-item">
+            <span style="font-size:18px">🧴</span>
+            <div class="rx-med-name">Muscle Relaxant Gel</div>
+            <div class="rx-med-dose text-secondary">Apply twice daily</div>
+            <span class="badge badge-primary">30 days</span>
+          </div>
+        </div>
+        <div class="rx-actions">
+          <button class="btn btn-outline btn-sm" onclick="showToast('Downloading...','info')">📥 Download PDF</button>
+          <button class="btn btn-ghost btn-sm">🖨️ Print</button>
+          <button class="btn btn-primary btn-sm" onclick="showToast('Refill requested!','success')">🔄 Refill Request</button>
+        </div>
+      </div>
+
+      <div class="rx-card" style="opacity:0.7">
+        <div class="rx-header">
+          <div>
+            <div class="rx-doctor">Dr. Emily Davis</div>
+            <div class="rx-date text-secondary text-sm">Pediatrician • Mar 2, 2026</div>
+          </div>
+          <span class="badge badge-primary">Completed</span>
+        </div>
+        <div class="rx-medicines">
+          <div class="rx-med-item">
+            <span style="font-size:18px">💊</span>
+            <div class="rx-med-name">Amoxicillin 500mg</div>
+            <div class="rx-med-dose text-secondary">3 times/day — 7 days</div>
+            <span class="badge" style="background:#e2e8f0;color:#64748b">Expired</span>
+          </div>
+        </div>
+        <div class="rx-actions">
+          <button class="btn btn-outline btn-sm" onclick="showToast('Downloading...','info')">📥 Download PDF</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
+

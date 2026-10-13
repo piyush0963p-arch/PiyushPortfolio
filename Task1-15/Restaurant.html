@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Restaurant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-primary: #ffffdc;
+            --bg-secondary: #ffefef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent-color: #c0392b;
+            --border-color: #dee2e6;
+            --transition: all 0.3s ease;
+        }
+
+        /* Dark Theme Override */
+        [data-theme="dark"] {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border-color: #333333;
+        }
+
+        /* Global Resets & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgb(215, 245, 215);
+            color: var(--text-primary);
+            font-weight: 800;
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        .brand {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .brand {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--accent-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            background-image: url('https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: rgb(255, 255, 255);
+            text-shadow: 4px 2px #d45c5c;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgb(255, 255, 255);
+            margin-bottom: 3.5rem;
+            text-shadow: 1px 1px #ea6d6d;
+        }
+
+        /* --- NEW: Pop-up Modal Styles --- */
+        .modal-overlay {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Dark semi-transparent background */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--bg-primary);
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-color);
+            transform: translateY(-30px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-content h3 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        /* -------------------------------- */
+
+        /* Layout Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Today's Special */
+        .special {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            background: linear-gradient(145deg, var(--bg-primary), var(--bg-secondary));
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: var(--transition);
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Menu Grid */
+        .menu-wrapper {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .menu-card {
+            background-color: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .menu-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.8rem;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        footer h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* About Section */
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .about-section h2 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-section p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hours Section */
+        .hours-section {
+            background-color: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: 12px;
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .hours-section h2 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .hour-item {
+            background-color: var(--bg-primary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .hour-item strong {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            margin-bottom: 4rem;
+        }
+
+        .testimonials-section h2 {
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 4rem auto;
+            background-color: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-form h2 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background-color: #a0311f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(192, 57, 43, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-section {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand">My Restaurant</div>
+        <button class="theme-toggle" id="theme-btn">🌙 Dark Mode</button>
+    </nav>
+
+    <div class="modal-overlay" id="offer-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h3>✨ Weekend Special ✨</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">Enjoy a complimentary bottle of our finest house wine
+                with any two main courses!</p>
+            <button class="btn" onclick="document.getElementById('close-modal').click()">Claim Offer</button>
+        </div>
+    </div>
+
+    <header class="hero">
+        <h1>A Symphony of Flavors</h1>
+        <p>Experience culinary excellence in the heart of the metropolis.</p>
+        <button class="btn" id="offer-btn" style="background-color: #b40707;">View Today's Offer</button>
+    </header>
+
+    <main class="container">
+        <section class="special">
+            <h2>👑 Chef's Today's Special</h2>
+            <p style="font-size: 1.3rem; margin-top: 1rem; font-weight: 600;">Pan-Seared Scallops with Truffle Risotto —
+                $34</p>
+        </section>
+
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <button class="btn" id="menu-btn">Explore Our Menu</button>
+        </div>
+
+        <section class="menu-wrapper" id="menu-section">
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <h3>Appetizers</h3>
+                    <div class="menu-item"><span>Wagyu Beef Tartare</span><span>$18</span></div>
+                    <div class="menu-item"><span>Oysters Rockefeller</span><span>$22</span></div>
+                    <div class="menu-item"><span>Burrata Salad</span><span>$16</span></div>
+                </article>
+                <article class="menu-card">
+                    <h3>Main Course</h3>
+                    <div class="menu-item"><span>Filet Mignon</span><span>$45</span></div>
+                    <div class="menu-item"><span>Lobster Thermidor</span><span>$55</span></div>
+                    <div class="menu-item"><span>Wild Mushroom Gnocchi</span><span>$28</span></div>
+                </article>
+                <article class="menu-card">
+                    <h3>Desserts</h3>
+                    <div class="menu-item"><span>Madagascar Vanilla Crème Brûlée</span><span>$12</span></div>
+                    <div class="menu-item"><span>Dark Chocolate Soufflé</span><span>$14</span></div>
+                    <div class="menu-item"><span>Artisan Cheese Board</span><span>$19</span></div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- About Section -->
+    <section class="container">
+        <div class="about-section">
+            <div>
+                <h2>About Our Restaurant</h2>
+                <p>Welcome to our fine dining establishment, where culinary artistry meets exceptional hospitality. With over 20 years of experience in the hospitality industry, we've perfected the craft of creating unforgettable dining experiences.</p>
+                <p>Our chef, trained in the finest culinary schools of France and Italy, curates our ever-changing menu to showcase seasonal ingredients and innovative cooking techniques. Every dish is a masterpiece designed to delight your palate.</p>
+                <p>We believe in sustainability, locally-sourced ingredients, and creating a warm, welcoming atmosphere for all our guests.</p>
+            </div>
+            <img src="https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123" alt="Restaurant Interior" class="about-image">
+        </div>
+    </section>
+
+    <!-- Hours Section -->
+    <section class="container">
+        <div class="hours-section">
+            <h2>Hours of Operation</h2>
+            <div class="hours-grid">
+                <div class="hour-item">
+                    <strong>Monday - Thursday</strong><br>
+                    5:00 PM - 11:00 PM
+                </div>
+                <div class="hour-item">
+                    <strong>Friday - Saturday</strong><br>
+                    5:00 PM - 12:00 AM
+                </div>
+                <div class="hour-item">
+                    <strong>Sunday</strong><br>
+                    4:00 PM - 10:00 PM
+                </div>
+                <div class="hour-item">
+                    <strong>Private Events</strong><br>
+                    By Appointment Only
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beverages & Wine Section -->
+    <section class="container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <button class="btn" id="wine-btn">Explore Our Wine & Beverages</button>
+        </div>
+
+        <section class="menu-wrapper" id="wine-section">
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <h3>🍷 Red Wines</h3>
+                    <div class="menu-item"><span>Château Margaux 2015</span><span>$120</span></div>
+                    <div class="menu-item"><span>Barolo Riserva 2016</span><span>$95</span></div>
+                    <div class="menu-item"><span>Cabernet Sauvignon 2018</span><span>$45</span></div>
+                </article>
+                <article class="menu-card">
+                    <h3>🥂 White Wines & Champagne</h3>
+                    <div class="menu-item"><span>Dom Pérignon 2012</span><span>$150</span></div>
+                    <div class="menu-item"><span>Sancerre 2020</span><span>$65</span></div>
+                    <div class="menu-item"><span>Sauvignon Blanc 2021</span><span>$38</span></div>
+                </article>
+                <article class="menu-card">
+                    <h3>🍸 Cocktails & Other</h3>
+                    <div class="menu-item"><span>Espresso Martini</span><span>$16</span></div>
+                    <div class="menu-item"><span>Craft Mojito</span><span>$14</span></div>
+                    <div class="menu-item"><span>Artisan Sodas & Juices</span><span>$8</span></div>
+                </article>
+            </div>
+        </section>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="container">
+        <div class="testimonials-section">
+            <h2>⭐ What Our Guests Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"An absolutely magical dining experience. The food was exquisite, and the service was impeccable. We felt like royalty!"</p>
+                    <div class="testimonial-author">- Sarah & James Mitchell</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Best restaurant in the city, hands down. The chef's special was phenomenal, and the wine pairing recommendations were spot-on."</p>
+                    <div class="testimonial-author">- Michael Chen</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Celebrated our anniversary here. Every detail was perfect, from the ambiance to the presentation of each course. We'll definitely be back!"</p>
+                    <div class="testimonial-author">- Emma Rodriguez</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Reservation Form -->
+    <section class="container">
+        <form class="contact-form" onsubmit="handleFormSubmit(event)">
+            <h2>Make a Reservation</h2>
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
+            </div>
+            <div class="form-group">
+                <label for="date">Preferred Date *</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Preferred Time *</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <div class="form-group">
+                <label for="guests">Number of Guests *</label>
+                <select id="guests" name="guests" required>
+                    <option value="">Select number of guests</option>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                    <option value="6">6 Guests</option>
+                    <option value="7+">7+ Guests (Contact us)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Special Requests</label>
+                <textarea id="message" name="message" placeholder="Any dietary restrictions or special occasions?"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Reserve Your Table</button>
+        </form>
+    </section>
+
+    <footer>
+        <h3>Reserve Your Table</h3>
+        <p>📍 456 Epicurean Blvd, Food Metropolis</p>
+        <p>📞 +1 (555) 987-6543</p>
+        <p>✉️ reservations@laurarestaurant.com</p>
+    </footer>
+
+    <script>
+        // DOM Selection
+        const themeBtn = document.getElementById('theme-btn');
+        const menuBtn = document.getElementById('menu-btn');
+        const menuSection = document.getElementById('menu-section');
+        const wineBtn = document.getElementById('wine-btn');
+        const wineSection = document.getElementById('wine-section');
+
+        // Modal DOM Selection
+        const offerBtn = document.getElementById('offer-btn');
+        const offerModal = document.getElementById('offer-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        // 1. Theme Toggle
+        themeBtn.addEventListener('click', () => {
+            const body = document.documentElement;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeBtn.textContent = '🌙 Dark Mode';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️ Light Mode';
+            }
+        });
+
+        // 2. Show Modal Pop-up
+        offerBtn.addEventListener('click', () => {
+            offerModal.style.display = 'flex';
+            // Small delay to trigger CSS transition
+            setTimeout(() => {
+                offerModal.style.opacity = '1';
+                offerModal.querySelector('.modal-content').style.transform = 'translateY(0)';
+            }, 10);
+        });
+
+        // 3. Close Modal Pop-up (Clicking the X)
+        closeModal.addEventListener('click', () => {
+            offerModal.style.opacity = '0';
+            offerModal.querySelector('.modal-content').style.transform = 'translateY(-30px)';
+            // Wait for fade-out to finish before hiding element
+            setTimeout(() => { offerModal.style.display = 'none'; }, 300);
+        });
+
+        // Close Modal if user clicks on the dark background outside the white box
+        window.addEventListener('click', (event) => {
+            if (event.target === offerModal) {
+                closeModal.click();
+            }
+        });
+
+        // 4. Show/Hide Menu 
+        menuBtn.addEventListener('click', () => {
+            if (menuSection.style.display === 'block') {
+                menuSection.style.opacity = '0';
+                setTimeout(() => { menuSection.style.display = 'none'; }, 300);
+                menuBtn.textContent = 'Explore Our Menu';
+            } else {
+                menuSection.style.display = 'block';
+                setTimeout(() => { menuSection.style.opacity = '1'; }, 10);
+                menuBtn.textContent = 'Hide Menu';
+            }
+        });
+
+        // 5. Show/Hide Wine Section
+        wineBtn.addEventListener('click', () => {
+            if (wineSection.style.display === 'block') {
+                wineSection.style.opacity = '0';
+                setTimeout(() => { wineSection.style.display = 'none'; }, 300);
+                wineBtn.textContent = 'Explore Our Wine & Beverages';
+            } else {
+                wineSection.style.display = 'block';
+                setTimeout(() => { wineSection.style.opacity = '1'; }, 10);
+                wineBtn.textContent = 'Hide Wine & Beverages';
+            }
+        });
+
+        // 6. Handle Form Submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const date = document.getElementById('date').value;
+            const guests = document.getElementById('guests').value;
+            
+            // Simple validation feedback
+            alert(`Thank you, ${name}! Your reservation request for ${guests} guest(s) on ${date} has been received. We'll confirm via email at ${email} shortly.`);
+            
+            // Reset form
+            event.target.reset();
+        }
+    </script>
+</body>
+
+</html>

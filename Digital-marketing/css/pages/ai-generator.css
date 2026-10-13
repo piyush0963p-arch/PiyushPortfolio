@@ -1,0 +1,356 @@
+/* ============================================
+   PAGE: AI GENERATOR
+   ============================================ */
+
+/* ── Hero Icon ── */
+.ai-hero-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-2xl);
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-primary);
+  animation: float 3s ease-in-out infinite;
+}
+
+.ai-hero-icon i {
+  width: 32px;
+  height: 32px;
+}
+
+/* ── Wizard Stepper ── */
+.wizard-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  padding: 0 var(--space-4);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  position: relative;
+  z-index: 2;
+  transition: all var(--transition-base);
+}
+
+.step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  transition: all var(--transition-base);
+}
+
+.step-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-tertiary);
+  transition: color var(--transition-base);
+}
+
+.step.active .step-icon {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--primary-100);
+}
+
+[data-theme="dark"] .step.active .step-icon {
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.step.active .step-label {
+  color: var(--primary);
+  font-weight: var(--font-bold);
+}
+
+.step.completed .step-icon {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+
+.step.completed .step-label {
+  color: var(--text-primary);
+}
+
+.step-divider {
+  flex: 1;
+  height: 2px;
+  background: var(--border-medium);
+  margin: 0 var(--space-4) 24px var(--space-4);
+  position: relative;
+  z-index: 1;
+  transition: background var(--transition-base);
+}
+
+.step-divider.filled {
+  background: var(--success);
+}
+
+/* Responsive Stepper */
+@media (max-width: 576px) {
+  .step-label {
+    display: none;
+  }
+  .step-divider {
+    margin-bottom: 0;
+  }
+}
+
+/* ── Wizard Content ── */
+.wizard-card {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wizard-step-content {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.wizard-step-content.active {
+  display: flex;
+}
+
+/* ── Selectable Cards ── */
+.selectable-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  font-weight: var(--font-medium);
+}
+
+.selectable-card i {
+  width: 24px;
+  height: 24px;
+  color: var(--text-tertiary);
+  transition: color var(--transition-fast);
+}
+
+.selectable-card:hover {
+  border-color: var(--border-medium);
+  background: var(--bg-secondary);
+}
+
+.selectable-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-50);
+  color: var(--primary-700);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+[data-theme="dark"] .selectable-card.selected {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-light);
+}
+
+.selectable-card.selected i {
+  color: var(--primary);
+}
+
+.selectable-card.checkbox-style {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: var(--space-3) var(--space-4);
+}
+
+.checkbox-indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  margin-right: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.selectable-card.selected .checkbox-indicator {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.selectable-card.selected .checkbox-indicator::after {
+  content: '';
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+
+/* ── Loading State ── */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  flex: 1;
+}
+
+.ai-pulsing-orb {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+.ai-pulsing-orb::before,
+.ai-pulsing-orb::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--primary);
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  opacity: 0;
+}
+
+.ai-pulsing-orb::after {
+  animation-delay: 1s;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+.loading-progress-bar {
+  width: 100%;
+  max-width: 400px;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.loading-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-primary);
+  transition: width 0.3s ease;
+}
+
+/* ── Results State ── */
+.result-block {
+  margin-bottom: var(--space-6);
+}
+
+.result-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ad-mockup {
+  padding: var(--space-4);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+  position: relative;
+  background: var(--bg-card);
+}
+
+.ad-mockup:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-sm);
+}
+
+.ad-badge {
+  position: absolute;
+  top: -10px;
+  left: var(--space-4);
+  background: var(--primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: var(--font-bold);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.ad-mockup.google {
+  font-family: Arial, sans-serif;
+}
+
+.ad-url {
+  font-size: 12px;
+  color: #202124;
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .ad-url { color: #E8EAED; }
+
+.ad-headline {
+  font-size: 16px;
+  color: #1a0dab;
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .ad-headline { color: #8ab4f8; }
+
+.ad-desc {
+  font-size: 14px;
+  color: #4d5156;
+  line-height: 1.4;
+}
+
+[data-theme="dark"] .ad-desc { color: #bdc1c6; }
+
+.ad-mockup.linkedin .ad-desc {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-primary);
+}
+
+.ad-image-placeholder {
+  background: var(--bg-secondary);
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-sm);
+  margin: var(--space-2) 0;
+}

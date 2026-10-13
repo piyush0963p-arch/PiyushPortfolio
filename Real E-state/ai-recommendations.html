@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Recommendations – EstateAI</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.ai-page { display: grid; grid-template-columns: 1fr 380px; gap: 0; height: 100vh; padding-top: 70px; overflow: hidden; }
+.chat-panel { display: flex; flex-direction: column; background: var(--bg2); border-right: 1px solid var(--border); }
+.chat-header { padding: 18px 24px; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; gap: 12px; }
+.ai-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg,var(--primary),var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; animation: glowPulse 3s infinite; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.msg-bubble { display: flex; gap: 10px; max-width: 80%; }
+.msg-bubble.user { flex-direction: row-reverse; align-self: flex-end; }
+.bubble-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+.bubble-ai-av { background: linear-gradient(135deg,var(--primary),var(--accent)); }
+.bubble-user-av { background: var(--bg2); border: 1px solid var(--border); color: var(--text); }
+.bubble-text { padding: 12px 16px; border-radius: 16px; font-size: 0.875rem; line-height: 1.6; }
+.bubble-ai { background: var(--card); border: 1px solid var(--border); border-radius: 4px 16px 16px 16px; color: var(--text); box-shadow: 0 2px 8px rgba(15,23,42,0.04); }
+.bubble-user { background: var(--primary); color: #fff; border-radius: 16px 4px 16px 16px; }
+.bubble-time { font-size: 0.65rem; color: var(--text-dim); margin-top: 4px; text-align: right; }
+
+/* Prop cards in chat */
+.chat-prop-cards { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.chat-prop-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; gap: 0; cursor: pointer; transition: var(--transition); box-shadow: 0 2px 8px rgba(15,23,42,0.04); }
+.chat-prop-card:hover { border-color: var(--border2); transform: translateX(4px); box-shadow: 0 4px 12px rgba(15,23,42,0.08); }
+.cpc-img { width: 90px; height: 70px; object-fit: cover; flex-shrink: 0; }
+.cpc-body { padding: 10px 12px; }
+.cpc-price { font-size: 0.85rem; font-weight: 800; color: var(--accent); }
+.cpc-title { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+.cpc-loc { font-size: 0.7rem; color: var(--text-muted); }
+.cpc-score { font-size: 0.7rem; font-weight: 700; color: var(--primary); }
+
+/* Typing indicator */
+.typing-indicator { display: none; gap: 5px; align-items: center; padding: 10px 16px; }
+.typing-indicator.show { display: flex; }
+.typing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: pulse 1s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Input area */
+.chat-input-area { padding: 16px; border-top: 1px solid var(--border); background: var(--surface); }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input {
+  flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px 16px; color: var(--text); font-family: 'Inter',sans-serif; font-size: 0.875rem; outline: none; resize: none; transition: var(--transition); max-height: 120px;
+}
+.chat-input:focus { border-color: var(--primary); }
+.chat-input::placeholder { color: var(--text-dim); }
+.chat-send { width: 44px; height: 44px; background: var(--primary); border: none; border-radius: 12px; cursor: pointer; font-size: 1.1rem; color: #fff; transition: var(--transition); flex-shrink: 0; align-self: flex-end; }
+.chat-send:hover { background: var(--primary-light); }
+
+/* Suggestion chips */
+.suggestions-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.sugg-chip { padding: 6px 12px; border-radius: 100px; border: 1px solid var(--border); background: var(--card); color: var(--text-muted); font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+.sugg-chip:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(108,99,255,0.08); }
+
+/* Right sidebar */
+.ai-sidebar { background: var(--surface); overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.ai-sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar-widget { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+.sidebar-widget h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 12px; }
+.insight-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 0.8rem; }
+.insight-icon { font-size: 1.2rem; flex-shrink: 0; }
+.insight-text { color: var(--text-muted); line-height: 1.5; }
+.insight-text strong { color: var(--text); }
+.trend-bar { height: 36px; background: var(--surface); border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; padding: 0 12px; justify-content: space-between; font-size: 0.78rem; }
+.trend-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 8px; opacity: 0.15; }
+
+@media (max-width: 1024px) { .ai-page { grid-template-columns: 1fr; } .ai-sidebar { display: none; } }
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+<div class="ai-page">
+  <!-- Chat -->
+  <div class="chat-panel">
+    <div class="chat-header">
+      <div class="ai-avatar">🤖</div>
+      <div>
+        <div style="font-weight:700;font-size:0.95rem">EstateAI Assistant</div>
+        <div style="font-size:0.75rem;color:var(--accent)">● Online · Powered by AI</div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="clearChat()">🗑️ Clear</button>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="typing-indicator" id="typingIndicator">
+      <div class="ai-avatar" style="width:28px;height:28px;font-size:0.8rem">🤖</div>
+      <div class="bubble-text bubble-ai" style="padding:10px 14px">
+        <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Ask me anything... e.g. 'I need a 3BHK under ₹80L near schools'" rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+        <button class="chat-send" onclick="sendMessage()">➤</button>
+      </div>
+      <div class="suggestions-bar">
+        <div class="sugg-chip" onclick="sendSuggestion('3BHK apartment under ₹80 lakh near schools in Bangalore')">🏫 3BHK near schools</div>
+        <div class="sugg-chip" onclick="sendSuggestion('Best investment properties in Mumbai under ₹2 Cr')">📈 Investment picks</div>
+        <div class="sugg-chip" onclick="sendSuggestion('Compare Hyderabad vs Bangalore for real estate investment')">⚖️ City comparison</div>
+        <div class="sugg-chip" onclick="sendSuggestion('Villa with pool under ₹3 Cr')">🏊 Villa with pool</div>
+        <div class="sugg-chip" onclick="sendSuggestion('What is the average price per sqft in Whitefield Bangalore?')">📊 Price insights</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="ai-sidebar">
+    <div class="sidebar-widget">
+      <h4>🏙️ Market Insights</h4>
+      <div class="insight-item"><div class="insight-icon">📈</div><div class="insight-text"><strong>Bangalore</strong> — Avg price up <strong style="color:var(--accent)">+14%</strong> YoY in Whitefield & Koramangala</div></div>
+      <div class="insight-item"><div class="insight-icon">🏙️</div><div class="insight-text"><strong>Mumbai</strong> — Bandra West sees <strong style="color:var(--accent)">8% appreciation</strong> in luxury segment</div></div>
+      <div class="insight-item"><div class="insight-icon">🔥</div><div class="insight-text"><strong>Hyderabad</strong> — Jubilee Hills trending. <strong style="color:var(--warning)">High demand</strong>, limited inventory</div></div>
+      <div class="insight-item"><div class="insight-icon">💡</div><div class="insight-text">Best time to buy: <strong style="color:var(--primary-light)">Q3 2025</strong> — developers offering 5–8% discounts</div></div>
+    </div>
+
+    <div class="sidebar-widget">
+      <h4>📊 City Price Trends</h4>
+      <div class="trend-bar" style="position:relative">
+        <span>Bangalore</span><span style="color:var(--accent);font-weight:700">₹8,200/sqft</span>
+        <div class="trend-fill" style="background:var(--primary);width:82%"></div>
+      </div>
+      <div class="trend-bar" style="position:relative">
+        <span>Mumbai</span><span style="color:var(--accent);font-weight:700">₹18,500/sqft</span>
+        <div class="trend-fill" style="background:var(--primary);width:100%"></div>
+      </div>
+      <div class="trend-bar" style="position:relative">
+        <span>Hyderabad</span><span style="color:var(--accent);font-weight:700">₹6,800/sqft</span>
+        <div class="trend-fill" style="background:var(--primary);width:68%"></div>
+      </div>
+      <div class="trend-bar" style="position:relative">
+        <span>Chennai</span><span style="color:var(--accent);font-weight:700">₹7,100/sqft</span>
+        <div class="trend-fill" style="background:var(--primary);width:71%"></div>
+      </div>
+      <div class="trend-bar" style="position:relative">
+        <span>Pune</span><span style="color:var(--accent);font-weight:700">₹6,200/sqft</span>
+        <div class="trend-fill" style="background:var(--primary);width:62%"></div>
+      </div>
+    </div>
+
+    <div class="sidebar-widget">
+      <h4>🤖 AI Capabilities</h4>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="sugg-chip" style="border-radius:8px;text-align:left" onclick="sendSuggestion('Give me budget recommendations for first-time homebuyer with ₹50L savings')">💰 Budget Planning</div>
+        <div class="sugg-chip" style="border-radius:8px;text-align:left" onclick="sendSuggestion('Analyze Koramangala neighborhood for family living')">🏘️ Neighborhood Analysis</div>
+        <div class="sugg-chip" style="border-radius:8px;text-align:left" onclick="sendSuggestion('What properties should I compare with Pearl Heights Penthouse?')">⚖️ Comparison Help</div>
+        <div class="sugg-chip" style="border-radius:8px;text-align:left" onclick="sendSuggestion('Top 3 investment opportunities under ₹1 Cr in 2025')">📈 Investment Picks</div>
+      </div>
+    </div>
+
+    <div class="sidebar-widget">
+      <h4>⭐ Recent AI Matches</h4>
+      <div style="display:flex;flex-direction:column;gap:8px" id="recentMatches"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('ai-recommendations.html');
+
+const AI_RESPONSES = {
+  default: {
+    text: "I found some great properties matching your criteria! Here are my top recommendations based on your preferences:",
+    props: [0,1,2]
+  },
+  investment: {
+    text: "Great choice! Here are the top investment properties with high appreciation potential and strong rental yields:",
+    props: [2,0,4]
+  },
+  villa: {
+    text: "Looking for a villa with a pool? Here are the best options within your budget:",
+    props: [1,4,2]
+  },
+  price: {
+    text: "Based on current market data, Whitefield Bangalore averages **₹8,200/sqft** in 2025. Prices have risen 14% YoY. Best time to buy is Q3 2025 when developer discounts peak. Here are some well-priced options:",
+    props: [1,3,7]
+  },
+  compare: {
+    text: "Great comparison! Mumbai vs Hyderabad: Mumbai has higher prices (₹18,500/sqft avg) but stronger appreciation. Hyderabad offers better value (₹6,800/sqft) with 22% YoY growth in IT corridors. For investment, **Hyderabad wins** on ROI. For lifestyle, **Mumbai** offers unmatched amenities.",
+    props: []
+  },
+  budget: {
+    text: "For a first-time buyer with ₹50L savings, here's my recommendation: Put 20% down (₹10L), take a loan of ₹40L at 8.5% for 20 years = EMI of ₹34,700/month. Properties in this range in Bangalore/Chennai offer good value. Here are matches:",
+    props: [3,5,7]
+  }
+};
+
+function getAIResponse(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('invest')) return AI_RESPONSES.investment;
+  if (m.includes('villa') || m.includes('pool')) return AI_RESPONSES.villa;
+  if (m.includes('price') || m.includes('sqft') || m.includes('trend')) return AI_RESPONSES.price;
+  if (m.includes('compare') || m.includes('vs') || m.includes('bangalore') && m.includes('mumbai')) return AI_RESPONSES.compare;
+  if (m.includes('budget') || m.includes('saving') || m.includes('first')) return AI_RESPONSES.budget;
+  return AI_RESPONSES.default;
+}
+
+function appendMessage(type, text, propIndices=[]) {
+  const container = document.getElementById('chatMessages');
+  const now = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const isAI = type === 'ai';
+  const div = document.createElement('div');
+  div.className = `msg-bubble ${isAI ? '' : 'user'}`;
+  let propCards = '';
+  if (propIndices.length > 0) {
+    propCards = `<div class="chat-prop-cards">${propIndices.map(i => {
+      const p = PROPERTIES[i];
+      if (!p) return '';
+      return `<div class="chat-prop-card" onclick="window.location='property-details.html'">
+        <img class="cpc-img" src="${p.img}" alt="${p.title}" loading="lazy">
+        <div class="cpc-body">
+          <div class="cpc-price">${p.price}</div>
+          <div class="cpc-title">${p.title}</div>
+          <div class="cpc-loc">📍 ${p.location} · ${p.beds}BHK · ${p.area}sqft</div>
+          <div class="cpc-score">🤖 AI Match: ${p.score}%</div>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+  div.innerHTML = `
+    <div class="bubble-avatar ${isAI ? 'bubble-ai-av' : 'bubble-user-av'}">${isAI ? '🤖' : '👤'}</div>
+    <div>
+      <div class="bubble-text ${isAI ? 'bubble-ai' : 'bubble-user'}">${text}${propCards}</div>
+      <div class="bubble-time">${now}</div>
+    </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  document.getElementById('typingIndicator').classList.add('show');
+  document.getElementById('chatMessages').scrollTop = 99999;
+}
+function hideTyping() { document.getElementById('typingIndicator').classList.remove('show'); }
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  appendMessage('user', msg);
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    const resp = getAIResponse(msg);
+    appendMessage('ai', resp.text, resp.props);
+  }, 1200 + Math.random() * 800);
+}
+
+function sendSuggestion(text) {
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
+
+function clearChat() {
+  document.getElementById('chatMessages').innerHTML = '';
+  initChat();
+}
+
+function initChat() {
+  appendMessage('ai', `Hi! I'm your EstateAI Assistant 🏠✨<br><br>I can help you find the perfect property, analyze neighborhoods, compare cities, calculate budgets, and provide investment insights.<br><br><strong>Try asking:</strong> "I need a 3BHK apartment under ₹80 lakh near schools"`, []);
+}
+
+// Recent matches sidebar
+const recentEl = document.getElementById('recentMatches');
+PROPERTIES.slice(0,3).forEach(p => {
+  recentEl.innerHTML += `<div class="chat-prop-card" onclick="window.location='property-details.html'" style="border-radius:10px">
+    <img class="cpc-img" src="${p.img}" alt="${p.title}" loading="lazy">
+    <div class="cpc-body"><div class="cpc-price">${p.price}</div><div class="cpc-title">${p.title}</div><div class="cpc-score">🤖 ${p.score}% match</div></div>
+  </div>`;
+});
+
+initChat();
+</script>
+</body>
+</html>

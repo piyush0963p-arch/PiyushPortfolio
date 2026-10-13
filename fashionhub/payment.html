@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FashionHub Secure Payment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Premium payment gateway specific styling */
+    .payment-gateway-body {
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .gateway-header {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .gateway-header .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .gateway-header .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #16a34a;
+      font-weight: 600;
+      background: #f0fdf4;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1px solid #bbf7d0;
+    }
+    
+    .gateway-container {
+      max-width: 600px;
+      margin: 40px auto;
+      width: 100%;
+      padding: 0 16px;
+      flex: 1;
+    }
+    
+    .gateway-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      padding: 32px;
+    }
+    
+    .order-summary-box {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .order-summary-box .label {
+      font-size: 0.85rem;
+      color: #64748b;
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    .order-summary-box .val {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    
+    .order-summary-box .amount {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #2563eb;
+    }
+    
+    /* Interactive Card Mockup */
+    .card-visualizer {
+      perspective: 1000px;
+      width: 100%;
+      height: 180px;
+      margin: 0 auto 24px;
+      max-width: 320px;
+    }
+    
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    
+    .card-visualizer.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 20px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+    
+    .card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 0;
+      justify-content: flex-start;
+    }
+    
+    .card-chip {
+      width: 40px;
+      height: 30px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 4px;
+    }
+    
+    .card-number-display {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      margin-top: 10px;
+    }
+    
+    .card-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    
+    .card-label {
+      font-size: 0.6rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      display: block;
+    }
+    
+    .card-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .card-magnetic-strip {
+      height: 40px;
+      background: #000;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .card-signature-area {
+      margin: 15px 20px;
+      background: #f1f5f9;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      border-radius: 4px;
+    }
+    
+    .card-signature-area span {
+      color: #0f172a;
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    
+    /* Payment inputs */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    
+    .form-control:focus {
+      outline: 0;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    /* QR code mock */
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+    
+    .qr-code {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    
+    .qr-code svg {
+      display: block;
+    }
+    
+    /* Processing overlay */
+    .processing-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.95);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .processing-overlay.show {
+      display: flex;
+    }
+    
+    .payment-spinner {
+      width: 64px;
+      height: 64px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 24px;
+    }
+    
+    .payment-success-check {
+      width: 64px;
+      height: 64px;
+      background: #22c55e;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    }
+    
+    .payment-success-check svg {
+      stroke: #fff;
+      stroke-width: 3;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .processing-status {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      min-height: 28px;
+    }
+    
+    .processing-sub {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body class="payment-gateway-body">
+  <header class="gateway-header">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <span>FashionHub Secure Pay</span>
+    </div>
+    <div class="secure-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <span>256-bit SSL Secure</span>
+    </div>
+  </header>
+
+  <main class="gateway-container">
+    <div class="gateway-card">
+      <div class="order-summary-box">
+        <div>
+          <span class="label">Transaction Reference</span>
+          <span class="val" id="refId">FH-PENDING</span>
+        </div>
+        <div style="text-align: right;">
+          <span class="label">Amount to Pay</span>
+          <span class="val amount" id="payAmount">Rs. 0.00</span>
+        </div>
+      </div>
+
+      <!-- Card Form -->
+      <div id="cardPaymentForm" style="display: none;">
+        <div class="card-visualizer" id="cardVisualizer">
+          <div class="card-inner">
+            <div class="card-front">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="card-chip"></div>
+                <strong style="font-style: italic; font-size: 1.1rem; opacity: 0.8;">VISA</strong>
+              </div>
+              <div class="card-number-display" id="cardNumDisplay">•••• •••• •••• ••••</div>
+              <div class="card-meta-row">
+                <div>
+                  <span class="card-label">Card Holder</span>
+                  <span class="card-val" id="cardNameDisplay">YOUR NAME</span>
+                </div>
+                <div style="text-align: right;">
+                  <span class="card-label">Expires</span>
+                  <span class="card-val" id="cardExpiryDisplay">MM/YY</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <div class="card-magnetic-strip"></div>
+              <div class="card-signature-area">
+                <span id="cardCvvDisplay">•••</span>
+              </div>
+              <p style="font-size: 0.5rem; color: #64748b; padding: 10px 20px; line-height: 1.2;">
+                This card is a simulated mockup for security demonstration. Do not enter actual credit card details.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <form id="creditCardForm" onsubmit="event.preventDefault(); startPaymentFlow();">
+          <div class="form-group">
+            <label for="cardName">Cardholder Name</label>
+            <input type="text" id="cardName" class="form-control" placeholder="John Doe" required autocomplete="cc-name">
+          </div>
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" class="form-control" placeholder="4111 2222 3333 4444" maxlength="19" required autocomplete="cc-number">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cardExpiry">Expiration Date</label>
+              <input type="text" id="cardExpiry" class="form-control" placeholder="MM/YY" maxlength="5" required autocomplete="cc-exp">
+            </div>
+            <div class="form-group">
+              <label for="cardCvv">CVV</label>
+              <input type="password" id="cardCvv" class="form-control" placeholder="123" maxlength="3" required autocomplete="cc-csc">
+            </div>
+          </div>
+          <button type="submit" class="btn primary full" style="margin-top: 10px;">Pay Securely</button>
+        </form>
+      </div>
+
+      <!-- UPI Form -->
+      <div id="upiPaymentForm" style="display: none;">
+        <div class="qr-container">
+          <div class="qr-code">
+            <!-- Simulated QR Code using SVG -->
+            <svg width="140" height="140" viewBox="0 0 100 100" shape-rendering="crispEdges">
+              <path d="M0 0h30v30H0zm40 0h20v10H40zm30 0h30v30H70zM10 10h10v10H10zm60 0h10v10H70zM0 40h10v20H0zm20 0h20v10H20zm30 0h10v30H50zm30 0h20v20H80zM0 70h30v30H0zm10 10h10v10H10zm30 0h10v10H40zm20 10h20v10H60zm20-20h10v10H80z" fill="#0f172a"/>
+              <rect x="35" y="35" width="30" height="30" rx="4" fill="#2563eb"/>
+              <!-- Tiny inner checkmark to look like UPI logo -->
+              <path d="M43 50l5 5 10-10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+          <p style="font-size: 0.85rem; color: #64748b;">Scan QR Code using Google Pay, PhonePe, Paytm, or BHIM</p>
+        </div>
+        <form onsubmit="event.preventDefault(); startPaymentFlow();">
+          <div class="form-group">
+            <label for="upiId">Enter UPI ID</label>
+            <input type="text" id="upiId" class="form-control" placeholder="username@upi" required>
+          </div>
+          <button type="submit" class="btn primary full">Verify and Pay</button>
+        </form>
+      </div>
+
+      <!-- Wallet Form -->
+      <div id="walletPaymentForm" style="display: none;">
+        <div class="qr-container" style="padding: 24px 0;">
+          <div style="background: #eff6ff; border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M12 4v16M2 12h20"></path></svg>
+          </div>
+          <div>
+            <h3 style="font-weight: 700; color: #0f172a; margin-bottom: 6px;">FashionHub Pay Wallet</h3>
+            <p style="font-size: 0.9rem; color: #16a34a; font-weight: 600;">Available Balance: Rs. 5,000.00</p>
+          </div>
+        </div>
+        <button type="button" class="btn primary full" onclick="startPaymentFlow()">Pay from Balance</button>
+      </div>
+
+      <!-- COD Form -->
+      <div id="codPaymentForm" style="display: none;">
+        <div class="qr-container" style="padding: 24px 0;">
+          <div style="background: #fef3c7; border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; color: #d97706;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div>
+            <h3 style="font-weight: 700; color: #0f172a; margin-bottom: 6px;">Verify COD Request</h3>
+            <p style="font-size: 0.85rem; color: #64748b; max-width: 320px;">Please solve the CAPTCHA to confirm Cash on Delivery. Pay at your doorstep after parcel inspection.</p>
+          </div>
+        </div>
+        <form onsubmit="event.preventDefault(); startPaymentFlow();">
+          <div class="form-group">
+            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px; justify-content: center;">
+              <span id="captchaCode" style="font-family: 'Share Tech Mono', monospace; font-size: 1.4rem; letter-spacing: 4px; background: #f1f5f9; padding: 6px 16px; border-radius: 6px; user-select: none; border: 1.5px solid #cbd5e1; font-weight: bold; font-style: italic; text-decoration: line-through;">4D9A</span>
+              <button type="button" style="background: transparent; border: none; color: #2563eb; font-size: 0.8rem; cursor: pointer; text-decoration: underline;" onclick="generateCaptcha()">Refresh</button>
+            </div>
+            <input type="text" id="captchaInput" class="form-control" placeholder="Enter Captcha Code" required autocomplete="off" style="text-align: center;">
+          </div>
+          <button type="submit" class="btn primary full">Confirm Cash on Delivery</button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Processing Modal Overlay -->
+  <div class="processing-overlay" id="processingOverlay">
+    <div class="payment-spinner" id="spinner"></div>
+    <div class="payment-success-check" id="successCheck">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div class="processing-status" id="statusText">Establishing secure connection...</div>
+    <div class="processing-sub" id="subStatusText">Please do not refresh the page or click back button.</div>
+  </div>
+
+  <script>
+    // Load Pending Order Details
+    const order = JSON.parse(localStorage.getItem('fashionhub_pending_order'));
+    if (!order) {
+      alert('No pending order found. Redirecting to home.');
+      window.location.href = 'index.html';
+    }
+
+    document.getElementById('refId').textContent = order.id;
+    
+    // Money formatting helper
+    function formatMoney(amount) {
+      return 'Rs. ' + Number(amount).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    }
+    document.getElementById('payAmount').textContent = formatMoney(order.total);
+
+    // Show selected payment method form
+    const method = order.payment || 'UPI';
+    if (method === 'Card') {
+      document.getElementById('cardPaymentForm').style.display = 'block';
+    } else if (method === 'UPI') {
+      document.getElementById('upiPaymentForm').style.display = 'block';
+    } else if (method === 'Wallet') {
+      document.getElementById('walletPaymentForm').style.display = 'block';
+    } else {
+      document.getElementById('codPaymentForm').style.display = 'block';
+      generateCaptcha();
+    }
+
+    // CAPTCHA helper
+    function generateCaptcha() {
+      const chars = '0123456789ABCDEFGHJKMNPQRSTWXYZ';
+      let result = '';
+      for (let i = 0; i < 4; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById('captchaCode').textContent = result;
+      const input = document.getElementById('captchaInput');
+      if (input) input.value = '';
+    }
+
+    // Card interactive visualization logic
+    const visualizer = document.getElementById('cardVisualizer');
+    const nameInput = document.getElementById('cardName');
+    const numInput = document.getElementById('cardNumber');
+    const expInput = document.getElementById('cardExpiry');
+    const cvvInput = document.getElementById('cardCvv');
+
+    if (nameInput) {
+      nameInput.addEventListener('input', (e) => {
+        document.getElementById('cardNameDisplay').textContent = e.target.value.toUpperCase() || 'YOUR NAME';
+      });
+      nameInput.addEventListener('focus', () => visualizer.classList.remove('flipped'));
+    }
+
+    if (numInput) {
+      numInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let formatted = '';
+        for (let i = 0; i < val.length; i++) {
+          if (i > 0 && i % 4 === 0) formatted += ' ';
+          formatted += val[i];
+        }
+        e.target.value = formatted;
+        document.getElementById('cardNumDisplay').textContent = formatted || '•••• •••• •••• ••••';
+      });
+      numInput.addEventListener('focus', () => visualizer.classList.remove('flipped'));
+    }
+
+    if (expInput) {
+      expInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        if (val.length > 2) {
+          e.target.value = val.substring(0,2) + '/' + val.substring(2,4);
+        } else {
+          e.target.value = val;
+        }
+        document.getElementById('cardExpiryDisplay').textContent = e.target.value || 'MM/YY';
+      });
+      expInput.addEventListener('focus', () => visualizer.classList.remove('flipped'));
+    }
+
+    if (cvvInput) {
+      cvvInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        e.target.value = val;
+        document.getElementById('cardCvvDisplay').textContent = '•'.repeat(val.length) || '•••';
+      });
+      cvvInput.addEventListener('focus', () => visualizer.classList.add('flipped'));
+    }
+
+    // Payment step simulation
+    function startPaymentFlow() {
+      // If COD, validate captcha first
+      if (method === 'COD') {
+        const captcha = document.getElementById('captchaCode').textContent;
+        const userInput = document.getElementById('captchaInput').value.trim().toUpperCase();
+        if (captcha !== userInput) {
+          alert('Incorrect Captcha code. Please try again.');
+          generateCaptcha();
+          return;
+        }
+      }
+
+      const overlay = document.getElementById('processingOverlay');
+      const statusText = document.getElementById('statusText');
+      const spinner = document.getElementById('spinner');
+      const successCheck = document.getElementById('successCheck');
+
+      overlay.classList.add('show');
+      
+      const steps = [
+        'Connecting to bank secure servers...',
+        'Securing request validation...',
+        'Authorizing payment transaction...'
+      ];
+      
+      let stepIndex = 0;
+      const interval = setInterval(() => {
+        if (stepIndex < steps.length) {
+          statusText.textContent = steps[stepIndex];
+          stepIndex++;
+        } else {
+          clearInterval(interval);
+          
+          // Complete payment
+          spinner.style.display = 'none';
+          successCheck.style.display = 'flex';
+          statusText.textContent = 'Payment Approved!';
+          statusText.style.color = '#22c55e';
+          
+          setTimeout(() => {
+            // Write to local storage as active order
+            localStorage.setItem('fashionhub_last_order', JSON.stringify(order));
+            localStorage.removeItem('fashionhub_pending_order');
+            
+            // Clear cart
+            const fullCart = JSON.parse(localStorage.getItem('fashionhub_cart') || '[]');
+            const savedOnly = fullCart.filter(item => item.saved);
+            localStorage.setItem('fashionhub_cart', JSON.stringify(savedOnly));
+            
+            // Redirect back to checkout
+            window.location.href = 'checkout.html?success=true';
+          }, 1500);
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

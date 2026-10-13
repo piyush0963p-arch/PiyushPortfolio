@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pearl Heights Penthouse – EstateAI</title>
+<meta name="description" content="Stunning 4BHK penthouse in Jubilee Hills, Hyderabad. Premium amenities, AI-matched property at 97%.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.details-wrap { padding-top: 80px; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 32px; }
+.gallery-main { position: relative; height: 420px; overflow: hidden; cursor: pointer; }
+.gallery-main img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.gallery-main:hover img { transform: scale(1.04); }
+.gallery-thumbs { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; }
+.gallery-thumb { overflow: hidden; cursor: pointer; position: relative; }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
+.gallery-thumb:hover img { transform: scale(1.08); }
+.gallery-thumb:last-child::after {
+  content: '+4 Photos';
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 1rem;
+}
+
+/* Content layout */
+.details-grid { display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+.details-main {}
+.details-sidebar {}
+
+/* Breadcrumb */
+.breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px; }
+.breadcrumb a { color: var(--primary-light); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* Header */
+.prop-header { margin-bottom: 24px; }
+.prop-price-tag { font-size: 2.2rem; font-weight: 900; color: var(--accent); margin-bottom: 8px; }
+.prop-title-main { font-size: 1.7rem; font-weight: 800; margin-bottom: 8px; }
+.prop-address { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
+.prop-key-stats {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  padding: 18px; background: var(--surface);
+  border-radius: var(--radius); border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.key-stat { text-align: center; }
+.key-stat-val { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+.key-stat-lbl { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.key-stat-sep { width: 1px; background: var(--border); }
+
+/* Description */
+.section-block { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+.section-block h4 { font-size: 1rem; font-weight: 700; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.desc-text { font-size: 0.9rem; line-height: 1.8; }
+
+/* Features grid */
+.features-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.feature-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); }
+.feature-item .feat-icon { color: var(--accent); font-size: 1rem; width: 20px; }
+
+/* Amenities */
+.amenities-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.amenity {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  transition: var(--transition);
+}
+.amenity:hover { border-color: var(--border2); color: var(--text); }
+.amenity-icon { font-size: 1.6rem; }
+
+/* AI Panel */
+.ai-panel {
+  background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(0,212,170,0.08));
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.ai-panel-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.ai-score-ring { width: 64px; height: 64px; border-radius: 50%; background: conic-gradient(var(--accent) 0% 97%, var(--border) 97% 100%); display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0; }
+.ai-score-ring::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: var(--card); }
+.ai-score-num { position: relative; z-index: 1; font-size: 0.85rem; font-weight: 900; color: var(--accent); }
+.ai-match-label { font-size: 1rem; font-weight: 700; }
+.ai-match-sub { font-size: 0.8rem; color: var(--text-muted); }
+
+.ai-suggestions { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.ai-suggest-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 14px;
+  font-size: 0.82rem; cursor: pointer;
+  transition: var(--transition); text-decoration: none; color: var(--text-muted);
+}
+.ai-suggest-item:hover { border-color: var(--primary); color: var(--primary); background: rgba(108,99,255,0.06); }
+.ai-suggest-icon { font-size: 1rem; }
+
+/* Agent Card */
+.agent-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.agent-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.agent-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+.agent-name { font-size: 1rem; font-weight: 700; }
+.agent-role { font-size: 0.78rem; color: var(--primary-light); }
+.agent-exp { font-size: 0.78rem; color: var(--text-muted); }
+.agent-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; text-align: center; }
+.agent-stat-val { font-size: 1rem; font-weight: 700; }
+.agent-stat-lbl { font-size: 0.7rem; color: var(--text-muted); }
+.agent-actions { display: flex; gap: 8px; }
+.agent-actions .btn { flex: 1; justify-content: center; font-size: 0.8rem; }
+
+/* Price history */
+.price-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+.price-row:last-child { border: none; }
+
+/* Map placeholder */
+.map-placeholder {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  height: 200px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; color: var(--text-muted); font-size: 0.85rem;
+  cursor: pointer; transition: var(--transition);
+  margin-bottom: 20px;
+}
+.map-placeholder:hover { border-color: var(--primary); color: var(--primary-light); }
+.map-placeholder-icon { font-size: 2rem; }
+
+@media (max-width: 1024px) {
+  .details-grid { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr; }
+  .gallery-thumbs { grid-template-rows: unset; grid-template-columns: repeat(3,1fr); height: 120px; }
+}
+@media (max-width: 600px) {
+  .prop-key-stats { gap: 12px; }
+  .amenities-grid { grid-template-columns: repeat(2,1fr); }
+  .features-list { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="details-wrap">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb reveal">
+      <a href="index.html">Home</a> › <a href="listings.html">Properties</a> › Pearl Heights Penthouse
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery reveal">
+      <div class="gallery-main">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80" alt="Main Property Image" id="mainGalleryImg">
+      </div>
+      <div class="gallery-thumbs">
+        <div class="gallery-thumb" onclick="switchImg('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80')">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="View 2">
+        </div>
+        <div class="gallery-thumb" onclick="switchImg('https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80')">
+          <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80" alt="View 3">
+        </div>
+        <div class="gallery-thumb" onclick="switchImg('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80')">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="More photos">
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="details-grid">
+      <div class="details-main">
+        <div class="prop-header reveal">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+            <span class="badge badge-accent">For Sale</span>
+            <span class="badge badge-primary">RERA Verified</span>
+            <span class="badge badge-warning">Featured</span>
+          </div>
+          <div class="prop-price-tag">₹3.2 Crore</div>
+          <h1 class="prop-title-main">Pearl Heights Penthouse</h1>
+          <div class="prop-address">📍 Plot 42, Jubilee Hills, Hyderabad – 500033, Telangana</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" onclick="toggleFav(event,3)" id="fav-3">♥ Save Property</button>
+            <button class="btn btn-ghost btn-sm">📤 Share</button>
+            <button class="btn btn-ghost btn-sm">📋 Download Brochure</button>
+          </div>
+        </div>
+
+        <!-- Key Stats -->
+        <div class="prop-key-stats reveal">
+          <div class="key-stat">
+            <div class="key-stat-val">4</div>
+            <div class="key-stat-lbl">🛏 Bedrooms</div>
+          </div>
+          <div class="key-stat-sep"></div>
+          <div class="key-stat">
+            <div class="key-stat-val">4</div>
+            <div class="key-stat-lbl">🚿 Bathrooms</div>
+          </div>
+          <div class="key-stat-sep"></div>
+          <div class="key-stat">
+            <div class="key-stat-val">3,400</div>
+            <div class="key-stat-lbl">📐 Sq. Ft.</div>
+          </div>
+          <div class="key-stat-sep"></div>
+          <div class="key-stat">
+            <div class="key-stat-val">2</div>
+            <div class="key-stat-lbl">🚗 Parking</div>
+          </div>
+          <div class="key-stat-sep"></div>
+          <div class="key-stat">
+            <div class="key-stat-val">32nd</div>
+            <div class="key-stat-lbl">🏢 Floor</div>
+          </div>
+          <div class="key-stat-sep"></div>
+          <div class="key-stat">
+            <div class="key-stat-val">2022</div>
+            <div class="key-stat-lbl">📅 Built</div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="section-block reveal">
+          <h4>📝 Property Description</h4>
+          <p class="desc-text">
+            Experience unparalleled luxury at Pearl Heights Penthouse — a 4BHK masterpiece perched on the 32nd floor of Hyderabad's most prestigious address. This architectural gem offers panoramic views of the city skyline and the serene Hussain Sagar Lake.
+          </p>
+          <br>
+          <p class="desc-text">
+            Designed by renowned architect Prashant Mehta, the penthouse features floor-to-ceiling glass walls, an expansive private terrace, a chef's kitchen with imported Italian marble, and a private plunge pool. Each bedroom is an en-suite sanctuary with walk-in wardrobes and smart home automation throughout.
+          </p>
+          <br>
+          <p class="desc-text">
+            Located in Jubilee Hills — Hyderabad's most coveted neighborhood — with proximity to top schools (Oakridge International, 0.8 km), Apollo Hospital (1.2 km), and Jubilee Hills Road No. 36's premium dining & retail strip.
+          </p>
+        </div>
+
+        <!-- Property Features -->
+        <div class="section-block reveal">
+          <h4>✅ Property Features</h4>
+          <div class="features-list">
+            <div class="feature-item"><span class="feat-icon">✓</span> Private Rooftop Terrace (600 sqft)</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Private Plunge Pool</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Smart Home Automation</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Italian Marble Flooring</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Chef's Modular Kitchen</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Floor-to-Ceiling Glass</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> 24×7 Concierge Service</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> 3-Phase Power Backup</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> 2 Reserved Parking Spots</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Panoramic City Views</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> Wine Cellar</div>
+            <div class="feature-item"><span class="feat-icon">✓</span> CCTV & Video Door Phone</div>
+          </div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="section-block reveal">
+          <h4>🏊 Building Amenities</h4>
+          <div class="amenities-grid">
+            <div class="amenity"><div class="amenity-icon">🅿️</div><div>Parking</div></div>
+            <div class="amenity"><div class="amenity-icon">🏊</div><div>Swimming Pool</div></div>
+            <div class="amenity"><div class="amenity-icon">💪</div><div>Gym</div></div>
+            <div class="amenity"><div class="amenity-icon">🔒</div><div>24×7 Security</div></div>
+            <div class="amenity"><div class="amenity-icon">📶</div><div>High-Speed WiFi</div></div>
+            <div class="amenity"><div class="amenity-icon">🌿</div><div>Garden</div></div>
+            <div class="amenity"><div class="amenity-icon">🏸</div><div>Badminton Court</div></div>
+            <div class="amenity"><div class="amenity-icon">🧖</div><div>Spa & Sauna</div></div>
+            <div class="amenity"><div class="amenity-icon">👶</div><div>Kids' Play Area</div></div>
+            <div class="amenity"><div class="amenity-icon">🎭</div><div>Clubhouse</div></div>
+            <div class="amenity"><div class="amenity-icon">🏥</div><div>Medical Room</div></div>
+            <div class="amenity"><div class="amenity-icon">⚡</div><div>EV Charging</div></div>
+          </div>
+        </div>
+
+        <!-- Price History -->
+        <div class="section-block reveal">
+          <h4>📈 Price History</h4>
+          <div class="price-row"><span>Q1 2022 (Launch)</span><span style="color:var(--text-muted)">₹2.4 Cr</span></div>
+          <div class="price-row"><span>Q3 2022</span><span style="color:var(--text-muted)">₹2.6 Cr</span></div>
+          <div class="price-row"><span>Q1 2023</span><span style="color:var(--text-muted)">₹2.85 Cr</span></div>
+          <div class="price-row"><span>Q3 2023</span><span style="color:var(--text-muted)">₹3.0 Cr</span></div>
+          <div class="price-row"><span style="font-weight:700">Current (2025)</span><span style="color:var(--accent);font-weight:700">₹3.2 Cr ↑ 33%</span></div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="details-sidebar">
+        <!-- AI Panel -->
+        <div class="ai-panel reveal">
+          <div class="ai-panel-header">
+            <div class="ai-score-ring">
+              <span class="ai-score-num">97%</span>
+            </div>
+            <div>
+              <div class="ai-match-label">🤖 AI Match Score</div>
+              <div class="ai-match-sub">Based on your preferences, this property matches <strong style="color:var(--accent)">97%</strong> of your requirements</div>
+            </div>
+          </div>
+          <div style="height:4px;background:var(--border);border-radius:2px;margin-bottom:12px">
+            <div style="height:100%;width:97%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:2px"></div>
+          </div>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px">✅ Budget Match &nbsp;·&nbsp; ✅ Location Match &nbsp;·&nbsp; ✅ Size Match &nbsp;·&nbsp; ✅ Amenity Match</p>
+          <div class="ai-suggestions">
+            <a href="listings.html" class="ai-suggest-item"><span class="ai-suggest-icon">🏘️</span> View Similar Properties</a>
+            <a href="map-view.html" class="ai-suggest-item"><span class="ai-suggest-icon">📍</span> Nearby Properties</a>
+            <a href="comparison.html" class="ai-suggest-item"><span class="ai-suggest-icon">⚖️</span> Better Value Alternatives</a>
+            <a href="ai-recommendations.html" class="ai-suggest-item"><span class="ai-suggest-icon">🤖</span> Ask AI About This Property</a>
+          </div>
+        </div>
+
+        <!-- Quick Contact -->
+        <div class="section-block reveal" style="margin-bottom:20px">
+          <h4>📞 Schedule a Visit</h4>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <input type="text" class="input" placeholder="Your Name">
+            <input type="tel" class="input" placeholder="Phone Number">
+            <input type="date" class="input" id="visitDate">
+            <select class="input">
+              <option>Morning (9AM – 12PM)</option>
+              <option>Afternoon (12PM – 4PM)</option>
+              <option>Evening (4PM – 7PM)</option>
+            </select>
+            <button class="btn btn-primary" style="justify-content:center">📅 Schedule Visit</button>
+            <button class="btn btn-ghost" style="justify-content:center">📞 Call Agent</button>
+          </div>
+        </div>
+
+        <!-- Agent Card -->
+        <div class="agent-card reveal">
+          <div class="agent-header">
+            <img class="agent-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80" alt="Anita Rao">
+            <div>
+              <div class="agent-name">Anita Rao</div>
+              <div class="agent-role">Investment Consultant</div>
+              <div class="agent-exp">⭐ 4.9 &nbsp;·&nbsp; 10 years exp.</div>
+            </div>
+          </div>
+          <div class="agent-stats">
+            <div><div class="agent-stat-val">215</div><div class="agent-stat-lbl">Deals Closed</div></div>
+            <div><div class="agent-stat-val">4.9★</div><div class="agent-stat-lbl">Rating</div></div>
+            <div><div class="agent-stat-val">10yr</div><div class="agent-stat-lbl">Experience</div></div>
+          </div>
+          <div class="agent-actions">
+            <button class="btn btn-primary btn-sm">💬 Message</button>
+            <button class="btn btn-ghost btn-sm">📞 Call</button>
+          </div>
+        </div>
+
+        <!-- Nearby Map -->
+        <div class="map-placeholder reveal" onclick="window.location='map-view.html'" style="margin-top:20px">
+          <div class="map-placeholder-icon">🗺️</div>
+          <div>View on Interactive Map</div>
+          <div style="font-size:0.75rem">Click to explore neighborhood</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Similar Properties -->
+    <div style="margin: 40px 0">
+      <h3 style="margin-bottom:24px">🏘️ Similar Properties You May Like</h3>
+      <div class="grid-3" id="similar-props"></div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('listings.html');
+document.getElementById('footer-root').innerHTML = buildFooter();
+
+function switchImg(src) { document.getElementById('mainGalleryImg').src = src; }
+
+// Similar properties
+const simContainer = document.getElementById('similar-props');
+PROPERTIES.filter(p => p.id !== 3).slice(0,3).forEach(p => {
+  const el = document.createElement('div');
+  el.innerHTML = buildPropCard(p, savedIds.includes(p.id));
+  simContainer.appendChild(el);
+});
+
+// Set default date to tomorrow
+const dt = new Date(); dt.setDate(dt.getDate()+1);
+document.getElementById('visitDate').value = dt.toISOString().split('T')[0];
+</script>
+</body>
+</html>

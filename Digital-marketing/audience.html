@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audience Manager | AI Digital Marketing Platform</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/audience.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app">
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo"><i data-lucide="zap"></i></div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">NexusAI</span>
+          <span class="sidebar-brand-sub">Marketing Platform</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Core</div>
+          <a href="index.html" class="sidebar-nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+          <a href="campaigns.html" class="sidebar-nav-item"><i data-lucide="megaphone"></i><span>Campaigns</span></a>
+          <a href="ai-generator.html" class="sidebar-nav-item"><i data-lucide="sparkles"></i><span>AI Generator</span></a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Content & Social</div>
+          <a href="social-planner.html" class="sidebar-nav-item"><i data-lucide="calendar-days"></i><span>Social Planner</span></a>
+          <a href="content-studio.html" class="sidebar-nav-item"><i data-lucide="pen-tool"></i><span>Content Studio</span></a>
+          <a href="email-marketing.html" class="sidebar-nav-item"><i data-lucide="mail"></i><span>Email Marketing</span></a>
+        </div>
+
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">Data & Insights</div>
+          <a href="audience.html" class="sidebar-nav-item active"><i data-lucide="users"></i><span>Audience</span></a>
+          <a href="funnel.html" class="sidebar-nav-item"><i data-lucide="filter"></i><span>Marketing Funnel</span></a>
+          <a href="analytics.html" class="sidebar-nav-item"><i data-lucide="bar-chart-2"></i><span>Analytics</span></a>
+          <a href="seo-center.html" class="sidebar-nav-item"><i data-lucide="search"></i><span>SEO Center</span></a>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-label">System</div>
+          <a href="ai-assistant.html" class="sidebar-nav-item"><i data-lucide="bot"></i><span>AI Assistant</span></a>
+          <a href="team.html" class="sidebar-nav-item"><i data-lucide="users-2"></i><span>Team</span></a>
+          <a href="settings.html" class="sidebar-nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">JD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">John Doe</div>
+            <div class="sidebar-user-role">Marketing Director</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+          <div class="navbar-search">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Search audience...">
+          </div>
+        </div>
+        <div class="navbar-right">
+          <button class="navbar-btn theme-toggle"><i data-lucide="moon"></i></button>
+          <button class="navbar-btn notification-toggle"><i data-lucide="bell"></i><span class="badge-dot"></span></button>
+          <div class="dropdown">
+            <div class="navbar-profile"><div class="navbar-profile-avatar">JD</div></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in-up">
+        
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Audience Manager</h1>
+            <p class="page-subtitle">Segment, analyze, and target your customer base.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary"><i data-lucide="download"></i> Export List</button>
+            <button class="btn btn-primary"><i data-lucide="plus"></i> New Segment</button>
+          </div>
+        </div>
+
+        <!-- Segments Overview -->
+        <h2 class="text-md font-semibold mb-4">Active Segments</h2>
+        <div class="grid grid-4 gap-5 mb-8 stagger-children">
+          
+          <div class="segment-card card">
+            <div class="card-body p-4">
+              <div class="flex justify-between items-start mb-2">
+                <div class="segment-icon primary"><i data-lucide="star"></i></div>
+                <div class="stat-card-trend up text-xs"><i data-lucide="trending-up"></i> +5.2%</div>
+              </div>
+              <h3 class="text-md font-semibold text-primary">High Value Customers</h3>
+              <p class="text-xs text-secondary mt-1">LTV > $1,000</p>
+              <div class="mt-4 flex items-end justify-between">
+                <div class="text-2xl font-bold">1,245</div>
+                <button class="btn btn-sm btn-ghost p-1 h-auto text-primary">View <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="segment-card card border-primary bg-primary-50">
+            <div class="card-body p-4">
+              <div class="flex justify-between items-start mb-2">
+                <div class="segment-icon warning"><i data-lucide="shopping-cart"></i></div>
+                <div class="stat-card-trend up text-xs"><i data-lucide="trending-up"></i> +12.4%</div>
+              </div>
+              <h3 class="text-md font-semibold text-primary">Recent Abandoners</h3>
+              <p class="text-xs text-secondary mt-1">Cart left in last 7 days</p>
+              <div class="mt-4 flex items-end justify-between">
+                <div class="text-2xl font-bold">892</div>
+                <button class="btn btn-sm btn-ghost p-1 h-auto text-primary">View <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="segment-card card">
+            <div class="card-body p-4">
+              <div class="flex justify-between items-start mb-2">
+                <div class="segment-icon success"><i data-lucide="mail-check"></i></div>
+                <div class="stat-card-trend up text-xs"><i data-lucide="trending-up"></i> +2.1%</div>
+              </div>
+              <h3 class="text-md font-semibold text-primary">Active Newsletter</h3>
+              <p class="text-xs text-secondary mt-1">Opened in last 30 days</p>
+              <div class="mt-4 flex items-end justify-between">
+                <div class="text-2xl font-bold">14,500</div>
+                <button class="btn btn-sm btn-ghost p-1 h-auto text-primary">View <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="segment-card card">
+            <div class="card-body p-4">
+              <div class="flex justify-between items-start mb-2">
+                <div class="segment-icon danger"><i data-lucide="user-minus"></i></div>
+                <div class="stat-card-trend down text-xs"><i data-lucide="trending-down"></i> -1.5%</div>
+              </div>
+              <h3 class="text-md font-semibold text-primary">At Risk (Churn)</h3>
+              <p class="text-xs text-secondary mt-1">No activity in 90 days</p>
+              <div class="mt-4 flex items-end justify-between">
+                <div class="text-2xl font-bold">3,210</div>
+                <button class="btn btn-sm btn-ghost p-1 h-auto text-primary">View <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="audience-layout grid grid-cols-[260px_1fr] gap-6" style="grid-template-columns: 260px 1fr;">
+          
+          <!-- Filters Sidebar -->
+          <div class="card filters-sidebar self-start sticky top-24">
+            <div class="card-header py-4 px-5">
+              <h2 class="card-title text-md flex justify-between items-center w-full">
+                Filters
+                <button class="btn btn-sm btn-ghost text-xs text-primary p-0 h-auto font-medium">Clear All</button>
+              </h2>
+            </div>
+            <div class="card-body p-5 space-y-6">
+              
+              <div class="filter-group">
+                <h3 class="text-sm font-semibold mb-3">Demographics</h3>
+                <div class="space-y-2">
+                  <label class="flex items-center gap-2 text-sm text-secondary cursor-pointer hover:text-primary">
+                    <input type="checkbox" checked class="accent-primary"> B2B Enterprise
+                  </label>
+                  <label class="flex items-center gap-2 text-sm text-secondary cursor-pointer hover:text-primary">
+                    <input type="checkbox" class="accent-primary"> SMBs
+                  </label>
+                  <label class="flex items-center gap-2 text-sm text-secondary cursor-pointer hover:text-primary">
+                    <input type="checkbox" class="accent-primary"> Startups
+                  </label>
+                </div>
+              </div>
+
+              <div class="filter-group mt-6">
+                <h3 class="text-sm font-semibold mb-3">Engagement Score</h3>
+                <input type="range" min="0" max="100" value="50" class="w-full mb-2 accent-primary">
+                <div class="flex justify-between text-xs text-tertiary">
+                  <span>0</span>
+                  <span>50+</span>
+                  <span>100</span>
+                </div>
+              </div>
+
+              <div class="filter-group mt-6">
+                <h3 class="text-sm font-semibold mb-3">Customer Journey</h3>
+                <select class="form-select w-full">
+                  <option>All Stages</option>
+                  <option>Awareness</option>
+                  <option>Consideration</option>
+                  <option>Purchase</option>
+                  <option>Retention</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Audience Data Table -->
+          <div class="card overflow-hidden flex flex-col">
+            <div class="card-header bg-secondary py-3 px-5 border-b border-light flex justify-between items-center">
+              <div class="search-input-group w-64">
+                <i data-lucide="search" class="search-input-icon"></i>
+                <input type="text" class="form-input bg-card h-9" placeholder="Search users...">
+              </div>
+              <div class="text-sm text-secondary font-medium">Showing 1-10 of 892</div>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 40px"><input type="checkbox" class="accent-primary"></th>
+                    <th>User / Profile</th>
+                    <th>Segment</th>
+                    <th>Engagement Score</th>
+                    <th>Journey Stage</th>
+                    <th style="width: 60px"></th>
+                  </tr>
+                </thead>
+                <tbody id="audienceTableBody">
+                  <!-- JS populated -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card-footer bg-transparent flex justify-center py-4">
+              <div class="pagination">
+                <button class="pagination-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/audience.js"></script>
+</body>
+</html>

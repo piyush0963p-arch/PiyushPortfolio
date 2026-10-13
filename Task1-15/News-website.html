@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Global Chronicle | Breaking News & Headlines</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Merriweather:ital,wght@0,300;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-red: #b91c1c;    /* Deep Crimson */
+            --dark-bg: #0f172a;       /* Slate 900 */
+            --light-bg: #f8fafc;      /* Slate 50 */
+            --text-main: #1e293b;     /* Slate 800 */
+            --text-muted: #64748b;    /* Slate 500 */
+            --border-color: #cbd5e1;  /* Slate 300 */
+            --border-light: #e2e8f0;  /* Slate 200 */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        /* Reading Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #f1f5f9;
+            z-index: 9999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-red);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Breaking News Banner */
+        .breaking-banner {
+            background-color: var(--primary-red);
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .banner-label {
+            background-color: #ffffff;
+            color: var(--primary-red);
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-right: 15px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 800;
+            white-space: nowrap;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .ticker-content {
+            white-space: nowrap;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Header & Brand Banner */
+        header {
+            padding: 30px 20px 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        header .date-display {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation Bar & Search Utilities */
+        .nav-container {
+            width: 100%;
+            max-width: 1200px;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 2px solid #0f172a;
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+        }
+
+        .nav-categories {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            overflow-x: auto;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+
+        .nav-categories::-webkit-scrollbar {
+            display: none; /* Hide scrollbar Chrome/Safari */
+        }
+
+        .nav-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-red);
+        }
+
+        /* Search Input */
+        .search-wrapper {
+            position: relative;
+            max-width: 250px;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 12px 8px 32px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        /* Main Portal Grid Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 2.3fr 1fr;
+            gap: 45px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+        }
+
+        /* Articles Layout Feed */
+        .articles-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Lead Featured Article */
+        .lead-article {
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lead-article .img-container {
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            aspect-ratio: 16/9;
+            background-color: var(--light-bg);
+            border: 1px solid var(--border-light);
+        }
+
+        .lead-article img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .lead-article:hover img {
+            transform: scale(1.03);
+        }
+
+        .category-tag {
+            display: inline-block;
+            background: rgba(185, 28, 28, 0.08);
+            color: var(--primary-red);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .lead-article h2 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            transition: var(--transition);
+        }
+
+        .lead-article:hover h2 {
+            color: var(--primary-red);
+        }
+
+        .meta-byline {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .meta-byline strong {
+            color: var(--text-main);
+        }
+
+        .lead-article p.excerpt {
+            font-family: 'Merriweather', serif;
+            font-weight: 300;
+            font-size: 1.05rem;
+            color: #334155;
+            line-height: 1.7;
+        }
+
+        /* Secondary Articles Grid */
+        .secondary-articles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 40px;
+        }
+
+        @media (max-width: 600px) {
+            .secondary-articles {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .secondary-card {
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .secondary-card .img-container {
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16/10;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        .secondary-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .secondary-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .secondary-card h3 {
+            font-size: 1.25rem;
+            line-height: 1.35;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .secondary-card:hover h3 {
+            color: var(--primary-red);
+        }
+
+        .secondary-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Sidebar Elements */
+        aside {
+            border-left: 1px solid var(--border-light);
+            padding-left: 40px;
+        }
+
+        @media (max-width: 850px) {
+            aside {
+                border-left: none;
+                padding-left: 0;
+                border-top: 1px solid var(--border-light);
+                padding-top: 35px;
+            }
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 6px;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        /* Breaking Alerts Widget */
+        .breaking-challenge-section {
+            background-color: var(--light-bg);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-red);
+            border: 1px solid var(--border-light);
+            border-left: 4px solid var(--primary-red);
+            margin-bottom: 40px;
+        }
+
+        .breaking-challenge-section h4 {
+            color: var(--primary-red);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .breaking-item {
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .breaking-item:hover {
+            color: var(--primary-red);
+        }
+
+        .breaking-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .breaking-item strong {
+            color: var(--primary-red);
+        }
+
+        /* Sidebar Related Lists */
+        .related-item {
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .related-item h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 4px;
+            transition: var(--transition);
+        }
+
+        .related-item:hover h4 {
+            color: var(--primary-red);
+        }
+
+        .related-item p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        /* Newsletter Subscription Card */
+        .newsletter-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .newsletter-card h4 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .newsletter-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .newsletter-input {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .newsletter-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            background: var(--primary-red);
+        }
+
+        /* Full Reading Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .reader-modal {
+            background: #ffffff;
+            width: 100%;
+            max-width: 750px;
+            max-height: 85vh;
+            border-radius: 20px;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+            position: relative;
+        }
+
+        .modal-overlay.open .reader-modal {
+            transform: scale(1);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            line-height: 36px;
+            cursor: pointer;
+            text-align: center;
+            color: var(--text-main);
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        .modal-hero-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            background: var(--light-bg);
+        }
+
+        .modal-content-area {
+            padding: 35px;
+        }
+
+        .modal-content-area h2 {
+            font-size: 2.1rem;
+            line-height: 1.25;
+            margin-bottom: 12px;
+        }
+
+        .modal-content-area p.body-paragraph {
+            font-family: 'Merriweather', serif;
+            font-size: 1rem;
+            color: #334155;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        /* Reading progress scroll trigger */
+        .reading-progress-text {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        /* Share Button Row */
+        .share-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .share-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .share-btn {
+            background: var(--light-bg);
+            border: 1px solid var(--border-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .share-btn:hover {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            background: rgba(185, 28, 28, 0.04);
+        }
+
+        .like-btn.liked {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        /* Empty Filter State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Reading Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="readingProgress"></div>
+    </div>
+
+    <!-- Breaking News Ticker -->
+    <div class="breaking-banner">
+        <span class="banner-label">Live Updates</span>
+        <div class="ticker-content" id="js-ticker">Loading latest headlines...</div>
+    </div>
+
+    <!-- Brand Header -->
+    <header>
+        <div class="brand-title">The Global Chronicle</div>
+        <div class="date-display" id="current-date"></div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-container">
+            <ul class="nav-categories" id="categories-menu">
+                <li><a class="nav-link active" onclick="selectCategory('all')">All News</a></li>
+                <li><a class="nav-link" onclick="selectCategory('technology')">Technology</a></li>
+                <li><a class="nav-link" onclick="selectCategory('finance')">Finance</a></li>
+                <li><a class="nav-link" onclick="selectCategory('science')">Science</a></li>
+                <li><a class="nav-link" onclick="selectCategory('sports')">Sports</a></li>
+            </ul>
+
+            <!-- Live Search Bar -->
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="search-bar" placeholder="Search news headlines..." oninput="handleSearch()">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="articles-feed" id="articles-feed">
+                <!-- Javascript will render articles dynamically here -->
+            </div>
+        </main>
+
+        <aside>
+            <!-- Breaking alerts sidebar widget -->
+            <div class="breaking-challenge-section">
+                <h4>🔴 Breaking Alerts</h4>
+                <div class="breaking-item" onclick="openAlert(0)"><strong>10:42 AM:</strong> Major earthquake detected off Japan; tsunami warnings issued.</div>
+                <div class="breaking-item" onclick="openAlert(1)"><strong>10:15 AM:</strong> Senate passes the infrastructure spending package in a tight vote.</div>
+                <div class="breaking-item" onclick="openAlert(2)"><strong>09:30 AM:</strong> Tech giant 'Nova' CEO steps down unexpectedly.</div>
+            </div>
+
+            <!-- Related lists -->
+            <h3 class="section-title">Related News</h3>
+            <div id="related-news-feed">
+                <!-- JS Populated related list items -->
+            </div>
+
+            <!-- Sidebar Newsletter -->
+            <div class="newsletter-card" id="newsletter-widget">
+                <h4>Chronicle Dispatch</h4>
+                <p>Get the most read analytical columns and morning briefings straight to your inbox.</p>
+                <form class="newsletter-form" id="newsletter-form" onsubmit="handleSubscribe(event)">
+                    <input type="email" class="newsletter-input" id="newsletter-email" placeholder="name@company.com" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Reading Article Reader Overlay Modal -->
+    <div class="modal-overlay" id="readerModal" onclick="handleOutsideClick(event)">
+        <div class="reader-modal">
+            <button class="close-modal-btn" onclick="closeReader()">&times;</button>
+            <img class="modal-hero-img" id="modal-img" src="" alt="Hero Image">
+            <div class="modal-content-area">
+                <span class="reading-progress-text" id="modal-readtime">5 min read</span>
+                <h2 id="modal-title">Article Title</h2>
+                <p class="meta-byline" id="modal-byline">By Writer | Published 2 hours ago</p>
+                <div id="modal-body-text">
+                    <!-- Paragraphs inserted dynamically -->
+                </div>
+                
+                <div class="share-row">
+                    <span class="share-label">Interact:</span>
+                    <button class="share-btn like-btn" id="modal-like-btn" onclick="toggleLike()">👍 Recommend</button>
+                    <button class="share-btn" onclick="triggerShare()">Copy Article Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Article Data Pool
+        const articles = [
+            {
+                id: 1,
+                title: "Global Tech Summit Announces Revolutionary AI Safety Framework",
+                category: "technology",
+                image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+                author: "Sarah Jenkins",
+                published: "2 hours ago",
+                readTime: "4 min read",
+                excerpt: "Leaders in the technology sector gathered today in Geneva to unveil a comprehensive new framework for artificial intelligence development.",
+                content: [
+                    "Leaders in the technology sector gathered today in Geneva to unveil a comprehensive new framework for artificial intelligence development. The agreement, signed by over 40 nations, aims to establish universal safety protocols while fostering open-source innovation.",
+                    "Industry experts are already calling this the most significant treaty in the digital age, setting the stage for a dramatic shift in how machine learning algorithms are trained and deployed worldwide.",
+                    "The treaty features critical sections on synthetic media watermark compliance, model verification guidelines, and decentralized compute registration thresholds."
+                ]
+            },
+            {
+                id: 2,
+                title: "Market Rally Continues as Inflation Data Cools Ahead of Schedule",
+                category: "finance",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80",
+                author: "David Vance",
+                published: "4 hours ago",
+                readTime: "3 min read",
+                excerpt: "Global markets saw a significant boost this morning following the release of new economic data, suggesting policy impacts are yielding results.",
+                content: [
+                    "Global markets saw a significant boost this morning following the release of new economic data, suggesting that the central bank's aggressive policies are finally taking effect.",
+                    "Wall Street reacted with solid positive vectors, showing indices climbing across major industrial sectors while bond rates relaxed slightly.",
+                    "Analysts expect a stable runway for the remaining fiscal quarter, though retail projections require persistent oversight."
+                ]
+            },
+            {
+                id: 3,
+                title: "Breakthrough in Solid-State Battery Renewable Energy Storage",
+                category: "science",
+                image: "https://images.unsplash.com/photo-1548613053-22087dd8edb8?auto=format&fit=crop&w=800&q=80",
+                author: "Dr. Amanda Ross",
+                published: "6 hours ago",
+                readTime: "5 min read",
+                excerpt: "Researchers have successfully engineered a solid-state battery capable of storing solar energy with 30% more density than current lithium cells.",
+                content: [
+                    "Researchers at the National Institute of Science have developed a new solid-state battery capable of storing solar energy with 30% more efficiency than current lithium-ion models.",
+                    "This breakthrough promises to solve the grid-level storage challenges that have historically bottlenecked wind and solar farms.",
+                    "Prototypes demonstrate extreme safety thresholds with zero risk of thermal runway, indicating a solid step toward scalable zero-emission grids."
+                ]
+            },
+            {
+                id: 4,
+                title: "Decentralized Smart Contracts and the Future of Sovereign Blockchains",
+                category: "technology",
+                image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80",
+                author: "Marcus Chen",
+                published: "1 day ago",
+                readTime: "6 min read",
+                excerpt: "As state actors examine central bank tokens, developer groups push robust cryptographic rollups to protect user transaction security.",
+                content: [
+                    "Sovereign blockchain protocols are capturing the attention of national treasury groups seeking faster ledger finalization.",
+                    "However, developers remain concerned about central points of network failure. High-efficiency decentralized smart contract consensus models are proposed as the ideal buffer.",
+                    "The integration of Zero-Knowledge proofs will play a vital role in balancing regulatory audit demands with foundational wallet anonymity."
+                ]
+            },
+            {
+                id: 5,
+                title: "City United Secures Dramatic Overtime Championship Victory",
+                category: "sports",
+                image: "https://th.bing.com/th/id/OIP.M0adH2_3-B3PkYge6QhULwHaFH?w=281&h=193&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+                author: "Gavin Fletcher",
+                published: "12 hours ago",
+                readTime: "4 min read",
+                excerpt: "A last-second strike in double overtime seals a legendary trophy victory for City United in front of a record-setting crowd.",
+                content: [
+                    "City United defeated their long-time rivals in an intense overtime finale that will go down as one of the greatest matches in championship history.",
+                    "The decisive goal came during the 118th minute of play, standardizing a legendary team run from a bottom-bracket ranking up to gold champions.",
+                    "Head Coach Frank Miller noted post-game that 'relentless defense and stamina training' made the difference in physical endurance."
+                ]
+            }
+        ];
+
+        // 2. Alert Data Pool
+        const alerts = [
+            {
+                title: "Major Coastal Japan Earthquake triggers tsunami warnings",
+                author: "Seismology Center",
+                published: "10:42 AM",
+                readTime: "2 min read",
+                content: ["A magnitude 7.4 earthquake occurred off the eastern coast of Japan. Authorities have activated standard sea surge warning levels and initiated low-lying coastal evacuations.", "Maritime vessels are advised to head to deeper ocean coordinates immediately."]
+            },
+            {
+                title: "Senate passes infrastructure spending package in narrow vote",
+                author: "Congressional Staff",
+                published: "10:15 AM",
+                readTime: "3 min read",
+                content: ["The bipartisan infrastructure spending bill passed the floor with a 51-49 count. Funding structures target highways, clean energy grid networks, and clean drinking water facilities.", "Executive signatures are scheduled for early next week."]
+            },
+            {
+                title: "Tech giant Nova CEO resigns unexpectedly",
+                author: "Corporate Desk",
+                published: "09:30 AM",
+                readTime: "2 min read",
+                content: ["CEO Christopher Gable stepped down from Nova Corp citing personal reasons. Chief Operating Officer Helen Vance has been appointed as interim executive director.", "Board actions triggered a minor 2.4% stock valuation correction."]
+            }
+        ];
+
+        let selectedCategory = 'all';
+        let searchQuery = '';
+        let likedArticles = new Set();
+        let activeArticleId = null;
+
+        // 3. Set Date
+        const dateDisplay = document.getElementById('current-date');
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateDisplay.textContent = new Date().toLocaleDateString('en-US', options);
+
+        // 4. Render Articles
+        function renderArticles() {
+            const feed = document.getElementById('articles-feed');
+            feed.innerHTML = '';
+
+            const filtered = articles.filter(art => {
+                const matchesCategory = (selectedCategory === 'all' || art.category === selectedCategory);
+                const matchesSearch = art.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      art.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                feed.innerHTML = '<div class="empty-state">No headlines matched your search or category choice.</div>';
+                return;
+            }
+
+            // Lead Article (First matching)
+            const lead = filtered[0];
+            const leadHtml = `
+                <article class="lead-article" onclick="openReader(${lead.id}, 'article')">
+                    <div class="img-container">
+                        <img src="${lead.image}" alt="${lead.title}">
+                    </div>
+                    <span class="category-tag">${lead.category}</span>
+                    <h2>${lead.title}</h2>
+                    <p class="meta-byline">By <strong>${lead.author}</strong> | Published ${lead.published}</p>
+                    <p class="excerpt">${lead.excerpt}</p>
+                </article>
+            `;
+            feed.innerHTML += leadHtml;
+
+            // Secondary Articles Grid (Remaining articles)
+            if (filtered.length > 1) {
+                let secondaryHtml = '<div class="secondary-articles">';
+                for (let i = 1; i < filtered.length; i++) {
+                    const art = filtered[i];
+                    secondaryHtml += `
+                        <article class="secondary-card" onclick="openReader(${art.id}, 'article')">
+                            <div class="img-container">
+                                <img src="${art.image}" alt="${art.title}">
+                            </div>
+                            <span class="category-tag">${art.category}</span>
+                            <h3>${art.title}</h3>
+                            <p>${art.excerpt}</p>
+                        </article>
+                    `;
+                }
+                secondaryHtml += '</div>';
+                feed.innerHTML += secondaryHtml;
+            }
+        }
+
+        // 5. Populate Related News Sidebar
+        function renderRelatedNews() {
+            const relatedContainer = document.getElementById('related-news-feed');
+            relatedContainer.innerHTML = '';
+
+            // Render all articles other than the first lead one as related sidebar links
+            const related = articles.slice(1);
+            related.forEach(art => {
+                const item = document.createElement('div');
+                item.className = 'related-item';
+                item.onclick = () => openReader(art.id, 'article');
+                item.innerHTML = `
+                    <h4>${art.title}</h4>
+                    <p>${art.category}</p>
+                `;
+                relatedContainer.appendChild(item);
+            });
+        }
+
+        // 6. Navigation Category Filters
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            
+            // Toggle active styles on navbar links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find correct link
+            event.target.classList.add('active');
+
+            renderArticles();
+        }
+
+        // 7. Live Headline Search
+        function handleSearch() {
+            searchQuery = document.getElementById('search-bar').value;
+            renderArticles();
+        }
+
+        // 8. Open Reader Overlay Modal
+        function openReader(id, type) {
+            let data = null;
+            activeArticleId = id;
+
+            if (type === 'article') {
+                data = articles.find(a => a.id === id);
+            } else if (type === 'alert') {
+                data = alerts[id];
+            }
+
+            if (!data) return;
+
+            document.getElementById('modal-img').src = data.image || 'https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80';
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-byline').innerHTML = `By <strong>${data.author}</strong> | Published ${data.published || 'recently'}`;
+            document.getElementById('modal-readtime').textContent = data.readTime || '3 min read';
+
+            const bodyContainer = document.getElementById('modal-body-text');
+            bodyContainer.innerHTML = '';
+            data.content.forEach(p => {
+                const para = document.createElement('p');
+                para.className = 'body-paragraph';
+                para.textContent = p;
+                bodyContainer.appendChild(para);
+            });
+
+            // Adjust Liked/Recommend Status button style
+            const likeBtn = document.getElementById('modal-like-btn');
+            if (likedArticles.has(activeArticleId)) {
+                likeBtn.classList.add('liked');
+                likeBtn.textContent = '👍 Recommended';
+            } else {
+                likeBtn.classList.remove('liked');
+                likeBtn.textContent = '👍 Recommend';
+            }
+
+            document.getElementById('readerModal').classList.add('open');
+            document.body.style.overflow = 'hidden'; // Lock background scroll
+            
+            // Reset Progress Bar
+            document.getElementById('readingProgress').style.width = '0%';
+        }
+
+        function openAlert(index) {
+            openReader(index, 'alert');
+        }
+
+        // Modal Scroll Progress Bar
+        const modalElement = document.getElementById('readerModal');
+        const modalContent = document.querySelector('.reader-modal');
+        
+        modalContent.addEventListener('scroll', () => {
+            const scrollTop = modalContent.scrollTop;
+            const scrollHeight = modalContent.scrollHeight - modalContent.clientHeight;
+            const percentage = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = percentage + '%';
+        });
+
+        // Close Reader Overlay Modal
+        function closeReader() {
+            document.getElementById('readerModal').classList.remove('open');
+            document.body.style.overflow = '';
+            document.getElementById('readingProgress').style.width = '0%';
+        }
+
+        function handleOutsideClick(e) {
+            if (e.target === document.getElementById('readerModal')) {
+                closeReader();
+            }
+        }
+
+        // Like/Recommend Action
+        function toggleLike() {
+            const likeBtn = document.getElementById('modal-like-btn');
+            if (likedArticles.has(activeArticleId)) {
+                likedArticles.delete(activeArticleId);
+                likeBtn.classList.remove('liked');
+                likeBtn.textContent = '👍 Recommend';
+            } else {
+                likedArticles.add(activeArticleId);
+                likeBtn.classList.add('liked');
+                likeBtn.textContent = '👍 Recommended';
+            }
+        }
+
+        // Share Alert Link Action
+        function triggerShare() {
+            const dummyUrl = window.location.href + '#article-' + activeArticleId;
+            navigator.clipboard.writeText(dummyUrl).then(() => {
+                alert('Article link copied to clipboard!');
+            });
+        }
+
+        // 9. Newsletter form subscription validation callback
+        function handleSubscribe(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('newsletter-email');
+            const widget = document.getElementById('newsletter-widget');
+
+            if (emailInput.value) {
+                widget.innerHTML = `
+                    <div style="padding: 10px 0;">
+                        <span style="font-size: 2rem;">✉️</span>
+                        <h4 style="margin-top: 10px; color: var(--primary-red);">Dispatched successfully!</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">
+                            We've sent a confirmation to <strong>${emailInput.value}</strong>.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        // 10. Dynamic Breaking Ticker Banner Cycling
+        const tickerElement = document.getElementById('js-ticker');
+        const breakingHeadlines = [
+            "GLOBAL MARKET UPDATE: Tech stocks surge following new AI framework announcement.",
+            "WEATHER ALERT: Category 4 storm approaching the eastern seaboard.",
+            "SPORTS: City United wins the championship in a stunning overtime victory.",
+            "SPACE: Mars Rover transmits unprecedented high-resolution images of the Jezero Crater."
+        ];
+
+        let currentHeadlineIndex = 0;
+
+        function updateTicker() {
+            tickerElement.style.opacity = 0;
+            
+            setTimeout(() => {
+                tickerElement.textContent = breakingHeadlines[currentHeadlineIndex];
+                tickerElement.style.opacity = 1;
+                currentHeadlineIndex = (currentHeadlineIndex + 1) % breakingHeadlines.length;
+            }, 500);
+        }
+
+        // Init views
+        updateTicker();
+        setInterval(updateTicker, 6000);
+
+        renderArticles();
+        renderRelatedNews();
+    </script>
+</body>
+</html>

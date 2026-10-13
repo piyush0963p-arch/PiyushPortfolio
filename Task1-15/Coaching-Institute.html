@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Academy | Elite Coaching</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #0f172a;    /* Deep Corporate Navy */
+            --primary-light: #1e293b;   /* Slate 800 */
+            --accent-gold: #eab308;    /* Amber Yellow */
+            --accent-hover: #ca8a04;   /* Darker Amber */
+            --bg-light: #f8fafc;       /* Slate 50 */
+            --text-dark: #334155;      /* Slate 700 */
+            --text-light: #ffffff;
+            --border-color: #cbd5e1;   /* Slate 300 */
+            --border-light: #e2e8f0;   /* Slate 200 */
+            --success: #10b981;        /* Emerald */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        /* Header Logo Section */
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header h1 {
+            color: var(--text-light);
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            font-weight: 800;
+        }
+
+        header h1 span {
+            color: var(--accent-gold);
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Hero banner style */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: var(--text-light);
+            text-align: center;
+            padding: 110px 20px;
+            position: relative;
+        }
+
+        .hero h2 {
+            color: #ffffff;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h2 span {
+            color: var(--accent-gold);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        .hero-btn {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hero-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--accent-gold);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Stats Grid Overlapping Hero */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            background: var(--text-light);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08);
+            margin-top: -80px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .stat-item {
+            border-right: 1px solid var(--border-light);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+                padding-bottom: 15px;
+            }
+            .stat-item:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+
+        .stat-item h3 {
+            font-size: 2.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Explore Courses Section & Cards */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .course-card {
+            background: var(--text-light);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-card-top h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+
+        .course-card-top p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .course-tag {
+            background: #f1f5f9;
+            color: var(--primary-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .view-syllabus-btn {
+            background: none;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            align-self: flex-start;
+        }
+
+        .view-syllabus-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Interactive Course Selection & Scholarship Calculator Widget */
+        .calculator-section {
+            background: var(--text-light);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 8px 25px -10px rgba(0,0,0,0.05);
+            max-width: 650px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .calculator-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .calculator-section p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .calc-form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .calc-form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: var(--primary-blue);
+        }
+
+        .calc-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .calc-control:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .fee-display-card {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .fee-row.highlight-scholarship {
+            color: var(--success);
+            font-weight: 700;
+            display: none;
+        }
+
+        .fee-row.grand-fee {
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: 10px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        /* Faculty Cards Grid */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .faculty-card {
+            background: var(--text-light);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-blue);
+        }
+
+        .avatar-circle {
+            width: 90px;
+            height: 90px;
+            background: var(--bg-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 15px auto;
+            border: 2px solid var(--border-color);
+        }
+
+        .faculty-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .faculty-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .faculty-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* Testimonial slider widgets */
+        .testimonial-slider {
+            background: var(--text-light);
+            border-left: 4px solid var(--accent-gold);
+            border: 1px solid var(--border-light);
+            border-left: 4px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            min-height: 120px;
+        }
+
+        .testimonial-slide {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .testimonial-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .testimonial-score {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--success);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .slider-btn {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .slider-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        /* Registration Admission Section */
+        .registration-section {
+            background: var(--primary-blue);
+            color: var(--text-light);
+            padding: 60px 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(15, 23, 64, 0.15);
+            margin-bottom: 50px;
+        }
+
+        .registration-section h2 {
+            color: var(--text-light);
+        }
+
+        .registration-section p {
+            color: #94a3b8;
+            text-align: center;
+            margin-top: -30px;
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-control::placeholder {
+            color: #64748b;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-gold);
+        }
+
+        .form-control option {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            padding: 15px;
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(234, 179, 8, 0.2);
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-blue);
+            color: var(--text-light);
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 60px;
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        footer h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        /* Detail Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .details-modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.15);
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .modal-overlay.open .details-modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 20px 25px;
+            border-bottom: 4px solid var(--accent-gold);
+        }
+
+        .modal-header h3 {
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Syllabus details list styling */
+        .syllabus-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .syllabus-list li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .syllabus-list li::before {
+            content: "✓";
+            color: var(--success);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Receipt slip styles */
+        .receipt-card {
+            border: 2px dashed var(--border-color);
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 6px;
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
+        }
+
+        .receipt-row strong {
+            color: var(--primary-blue);
+        }
+
+        .print-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+
+        .print-btn:hover {
+            background: #059669;
+        }
+
+        /* Print Media Style */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .modal-overlay, .details-modal, .details-modal * {
+                visibility: visible;
+            }
+            .modal-overlay {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: none;
+                padding: 0;
+            }
+            .close-modal-btn, .print-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic details popup modal -->
+    <div class="modal-overlay" id="infoModal" onclick="handleOutsideClick(event)">
+        <div class="details-modal">
+            <button class="close-modal-btn" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <h3 id="modal-title">Course Information</h3>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Javascript populates syllabus or admission receipt -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header navigation -->
+    <header>
+        <h1>Tops <span>Coaching</span></h1>
+        <p>Engineering & Medical Entrance Excellence</p>
+    </header>
+
+    <!-- Hero details -->
+    <div class="hero">
+        <h2>Shape Your Future <span>With Us</span></h2>
+        <p>Join the leading institute for IIT-JEE and NEET preparation. Our expert faculty and proven methodologies guarantee exam success.</p>
+        <button class="hero-btn" onclick="scrollToForm()">Apply For Admissions</button>
+    </div>
+
+    <div class="container">
+        <!-- Statistics Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>5000+</h3>
+                <p>Total Selections</p>
+            </div>
+            <div class="stat-item">
+                <h3>Top 10</h3>
+                <p>All India Ranks (2025)</p>
+            </div>
+            <div class="stat-item">
+                <h3>95%</h3>
+                <p>Success Rate</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Expert Faculty</p>
+            </div>
+        </div>
+
+        <!-- Explore Courses Section -->
+        <h2 class="section-title" style="margin-top: 60px;">Explore Our Programs</h2>
+        <div class="courses-grid">
+            
+            <!-- JEE Card -->
+            <div class="course-card">
+                <div class="course-card-top">
+                    <span class="course-tag">Engineering</span>
+                    <h3>JEE Main & Advanced</h3>
+                    <p>1-Year target course tailored for Class 12 passed/appearing students aiming for IIT entrance.</p>
+                </div>
+                <button class="view-syllabus-btn" onclick="showCourseDetails('jee-1yr')">View Syllabus</button>
+            </div>
+
+            <!-- JEE 2yr Card -->
+            <div class="course-card">
+                <div class="course-card-top">
+                    <span class="course-tag">Engineering</span>
+                    <h3>JEE 2-Year Foundation</h3>
+                    <p>Comprehensive foundation syllabus targeting Class 11 entering students preparing for IIT boards.</p>
+                </div>
+                <button class="view-syllabus-btn" onclick="showCourseDetails('jee-2yr')">View Syllabus</button>
+            </div>
+
+            <!-- NEET Card -->
+            <div class="course-card">
+                <div class="course-card-top">
+                    <span class="course-tag" style="background:#fef2f2; color:#ef4444;">Medical</span>
+                    <h3>NEET Medical Target</h3>
+                    <p>Dedicated medical syllabus for rigorous entrance coaching covering advanced biological sciences.</p>
+                </div>
+                <button class="view-syllabus-btn" onclick="showCourseDetails('neet-1yr')">View Syllabus</button>
+            </div>
+
+        </div>
+        
+
+        <!-- Dynamic Selector and Scholarship Calculator Widget -->
+        <h2 class="section-title">Fee & Scholarship Calculator</h2>
+        <div class="calculator-section">
+            <h3>Calculate Your Tuition Fee</h3>
+            <p>Select your program and enter your test percentage to view applicable scholarship waivers.</p>
+            
+            <div class="calc-form-group">
+                <label for="course-select">Target Course Program</label>
+                <!-- Retained original selector id -->
+                <select id="course-select" class="calc-control" onchange="runCalculator()">
+                    <option value="none">-- Select a Course --</option>
+                    <option value="jee-1yr">JEE Main & Advanced (1 Year Target)</option>
+                    <option value="jee-2yr">JEE Main & Advanced (2 Year Foundation)</option>
+                    <option value="neet-1yr">NEET Medical (1 Year Target)</option>
+                </select>
+            </div>
+
+            <div class="calc-form-group">
+                <label for="scholar-score">Class 10/12 Board Percentage or Mock Rank Score</label>
+                <input type="number" id="scholar-score" class="calc-control" min="0" max="100" placeholder="e.g. 92" oninput="runCalculator()">
+            </div>
+
+            <div class="fee-display-card">
+                <div class="fee-row">
+                    <span>Base Tuition Fee:</span>
+                    <span id="base-fee-display">---</span>
+                </div>
+                <div class="fee-row highlight-scholarship" id="scholarship-row">
+                    <span>Scholarship Discount:</span>
+                    <span id="scholarship-deduction">0%</span>
+                </div>
+                <div class="fee-row grand-fee">
+                    <span>Final Course Fee:</span>
+                    <!-- Retained original id -->
+                    <span id="dynamic-fee">---</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expert Faculty Panel -->
+        <h2 class="section-title">Meet Our HOD Faculty</h2>
+        <div class="faculty-grid">
+            <div class="faculty-card">
+                <div class="avatar-circle">⚛️</div>
+                <h3>Dr. A. Sharma</h3>
+                <div class="faculty-tag">HOD Physics</div>
+                <p>Ph.D. from IIT Delhi with 15+ years of teaching expertise. Author of several advanced mechanics books.</p>
+            </div>
+            <div class="faculty-card">
+                <div class="avatar-circle">📊</div>
+                <h3>Mr. R. Verma</h3>
+                <div class="faculty-tag">HOD Mathematics</div>
+                <p>M.Sc. Mathematics, known for innovative shortcut hacks and advanced analytical methods.</p>
+            </div>
+            <div class="faculty-card">
+                <div class="avatar-circle">🧬</div>
+                <h3>Dr. S. Gupta</h3>
+                <div class="faculty-tag">HOD Biology</div>
+                <p>Ex-Medical officer dedicated to streamlining complex physiological concepts for aspirants.</p>
+            </div>
+        </div>
+
+        <!-- Student Reviews Slider -->
+        <h2 class="section-title">Success Testimonials</h2>
+        <div class="testimonial-slider">
+            <div class="slider-wrapper">
+                
+                <!-- Slide 1 -->
+                <div class="testimonial-slide active">
+                    <p class="testimonial-text">"Apex Academy completely transformed my approach to physics problems. Dr. Sharma's shortcut mechanics derivations made complex sections incredibly simple. Cracked IIT with AIR 452!"</p>
+                    <div class="testimonial-author">Rahul D.</div>
+                    <div class="testimonial-score">JEE Advanced Score: 304/360</div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"The weekly test drills and detailed reports helped me identify my weak spots in chemistry early. The faculty was available for double clearing at all odd hours. Recommending this!"</p>
+                    <div class="testimonial-author">Sneha P.</div>
+                    <div class="testimonial-score">NEET Score: 710/720</div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"Apex's 2-Year foundation program built my core logic base. I didn't feel the typical board stress since school syllabus maps to prep sheets. Thank you Apex!"</p>
+                    <div class="testimonial-author">Karan J.</div>
+                    <div class="testimonial-score">JEE Main Percentile: 99.85</div>
+                </div>
+
+            </div>
+
+            <div class="slider-controls">
+                <button class="slider-btn" onclick="slideChange(-1)">&larr;</button>
+                <button class="slider-btn" onclick="slideChange(1)">&rarr;</button>
+            </div>
+        </div>
+
+        <!-- Admissions Registration Form Panel -->
+        <div class="registration-section" id="admission-form-sec">
+            <h2 class="section-title" style="color:var(--text-light); margin-bottom:15px;">Apply for Admission</h2>
+            <p>Fill out the application details to secure enrollment counseling sessions.</p>
+            
+            <!-- Retained original id -->
+            <form id="admission-form" class="form-grid" onsubmit="handleRegistrationSubmit(event)">
+                <input type="text" class="form-control" id="form-name" placeholder="Student Full Name" required>
+                <input type="email" class="form-control" id="form-email" placeholder="Email Address" required>
+                <input type="tel" class="form-control" id="form-phone" placeholder="Mobile Number (10 digits)" pattern="[0-9]{10}" required>
+                
+                <select class="form-control" id="form-course" required onchange="syncFormCourse()">
+                    <option value="">Select Interested Course...</option>
+                    <option value="jee-1yr">JEE Main & Advanced Target</option>
+                    <option value="jee-2yr">JEE 2-Year Foundation</option>
+                    <option value="neet-1yr">NEET Medical Target</option>
+                </select>
+                
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact & Footer -->
+    <footer>
+        <h2>Get In Touch</h2>
+        <div class="contact-info">
+            <p>📍 124 Education Hub, Knowledge Park, New Delhi</p>
+            <p>📞 +91 98765 43210 | ✉️ admissions@apexacademy.edu</p>
+            <p style="margin-top: 25px; font-size: 0.8rem; color: #64748b;">&copy; 2026 Apex Coaching Academy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Course Pricing Fee structure
+        const courseFees = {
+            "jee-1yr": 120000,
+            "jee-2yr": 210000,
+            "neet-1yr": 115000
+        };
+
+        // Course details and syllabus breakdowns
+        const courseDetails = {
+            "jee-1yr": {
+                title: "JEE Main & Advanced Target",
+                duration: "1 Year Target Program",
+                syllabus: ["Physics: Mechanics, Electromagnetism, Modern Physics", "Chemistry: Organic mechanisms, Physical kinetics, Inorganic qualitative structures", "Maths: Calculus, Vectors & 3D, Matrices, Complex numbers"],
+                schedule: "Mon to Fri • 08:00 AM - 01:00 PM (Batch A) or 02:00 PM - 07:00 PM (Batch B)"
+            },
+            "jee-2yr": {
+                title: "JEE 2-Year Foundation Course",
+                duration: "2 Year Foundation Program",
+                syllabus: ["Year 1: Kinematics, Trigonometry, General Chemistry base, Calculus introduction", "Year 2: Advanced JEE structures, full mock drills, board exam mappings"],
+                schedule: "Mon, Wed, Fri • 04:00 PM - 07:30 PM (Batch Foundation)"
+            },
+            "neet-1yr": {
+                title: "NEET Medical Target",
+                duration: "1 Year Target Program",
+                syllabus: ["Biology: Plant physiology, Human anatomy, Genetics & Evolution", "Physics: Thermodynamics, Ray optics, Semiconductor theory", "Chemistry: Biomolecules, Equilibrium, Coordination chemistry"],
+                schedule: "Mon to Sat • 08:30 AM - 01:30 PM (Batch Medical)"
+            }
+        };
+
+        // Rupee Currency Formatter
+        const currencyFormatter = new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 0
+        });
+
+        // 2. Scholarship Calculator
+        function runCalculator() {
+            const courseSelect = document.getElementById('course-select');
+            const scoreInput = document.getElementById('scholar-score');
+            const baseFeeSpan = document.getElementById('base-fee-display');
+            const discountSpan = document.getElementById('scholarship-deduction');
+            const dynamicFeeSpan = document.getElementById('dynamic-fee');
+            const scholarshipRow = document.getElementById('scholarship-row');
+
+            const selectedCourse = courseSelect.value;
+            const score = parseFloat(scoreInput.value) || 0;
+
+            if (selectedCourse === 'none') {
+                baseFeeSpan.textContent = '---';
+                discountSpan.textContent = '0%';
+                dynamicFeeSpan.textContent = '---';
+                scholarshipRow.style.display = 'none';
+                return;
+            }
+
+            const baseFee = courseFees[selectedCourse];
+            baseFeeSpan.textContent = currencyFormatter.format(baseFee);
+
+            // Compute Discount percentage
+            let discountRate = 0;
+            if (score >= 95) {
+                discountRate = 0.50; // 50% Off
+            } else if (score >= 90) {
+                discountRate = 0.30; // 30% Off
+            } else if (score >= 80) {
+                discountRate = 0.15; // 15% Off
+            }
+
+            if (discountRate > 0) {
+                scholarshipRow.style.display = 'flex';
+                discountSpan.textContent = `${discountRate * 100}% Off`;
+            } else {
+                scholarshipRow.style.display = 'none';
+            }
+
+            const finalFee = baseFee * (1 - discountRate);
+            dynamicFeeSpan.textContent = currencyFormatter.format(finalFee);
+
+            // Add animation pop effect
+            dynamicFeeSpan.style.opacity = '0';
+            setTimeout(() => {
+                dynamicFeeSpan.style.transition = 'opacity 0.4s ease';
+                dynamicFeeSpan.style.opacity = '1';
+            }, 50);
+        }
+
+        // 3. Syllabus details modal renderer
+        function showCourseDetails(courseId) {
+            const course = courseDetails[courseId];
+            if (!course) return;
+
+            document.getElementById('modal-title').textContent = course.title;
+            const body = document.getElementById('modal-body-content');
+            
+            let syllabusItems = '';
+            course.syllabus.forEach(item => {
+                syllabusItems += `<li>${item}</li>`;
+            });
+
+            body.innerHTML = `
+                <p style="font-weight: 700; color: var(--accent-gold); margin-bottom: 8px;">${course.duration}</p>
+                <p style="font-size: 0.95rem; margin-bottom: 20px;">${course.schedule}</p>
+                
+                <h4 style="font-size: 1.05rem; margin-bottom: 10px;">Program Syllabus Details:</h4>
+                <ul class="syllabus-list">
+                    ${syllabusItems}
+                </ul>
+            `;
+
+            document.getElementById('infoModal').classList.add('open');
+        }
+
+        // 4. Testimonial carousel slider controls
+        let activeSlideIndex = 0;
+        const slides = document.querySelectorAll('.testimonial-slide');
+
+        function slideChange(direction) {
+            slides[activeSlideIndex].classList.remove('active');
+            activeSlideIndex += direction;
+
+            if (activeSlideIndex >= slides.length) activeSlideIndex = 0;
+            if (activeSlideIndex < 0) activeSlideIndex = slides.length - 1;
+
+            slides[activeSlideIndex].classList.add('active');
+        }
+
+        // 5. Scroll triggers
+        function scrollToForm() {
+            document.getElementById('admission-form-sec').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Sync dropdowns between calculator selection and form choice
+        function syncFormCourse() {
+            const formSelect = document.getElementById('form-course');
+            const calcSelect = document.getElementById('course-select');
+            if (formSelect.value) {
+                calcSelect.value = formSelect.value;
+                runCalculator();
+            }
+        }
+
+        // 6. Registration submit admission slips
+        function handleRegistrationSubmit(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('form-name').value;
+            const email = document.getElementById('form-email').value;
+            const phone = document.getElementById('form-phone').value;
+            const courseVal = document.getElementById('form-course').value;
+            
+            const scoreVal = parseFloat(document.getElementById('scholar-score').value) || 0;
+            const baseFee = courseFees[courseVal] || 0;
+            
+            let discountRate = 0;
+            if (scoreVal >= 95) discountRate = 0.50;
+            else if (scoreVal >= 90) discountRate = 0.30;
+            else if (scoreVal >= 80) discountRate = 0.15;
+
+            const finalFee = baseFee * (1 - discountRate);
+            const receiptId = 'APEX-' + Math.floor(100000 + Math.random() * 900000);
+
+            // Populate Success Admission Receipt inside Modal
+            document.getElementById('modal-title').textContent = 'Admission Application Registered';
+            const body = document.getElementById('modal-body-content');
+            
+            body.innerHTML = `
+                <p style="color: var(--success); font-weight: bold; font-size: 1.1rem; text-align: center; margin-bottom: 15px;">✓ Registration slip generated successfully!</p>
+                <div class="receipt-card">
+                    <div class="receipt-row"><span>Application ID:</span><strong>${receiptId}</strong></div>
+                    <div class="receipt-row"><span>Candidate Name:</span><strong>${name}</strong></div>
+                    <div class="receipt-row"><span>Mobile Contact:</span><strong>${phone}</strong></div>
+                    <div class="receipt-row"><span>Email Link:</span><strong>${email}</strong></div>
+                    <div class="receipt-row"><span>Course Selected:</span><strong>${courseDetails[courseVal]?.title || courseVal}</strong></div>
+                    <div class="receipt-row"><span>Standard Tuition Fee:</span><strong>${currencyFormatter.format(baseFee)}</strong></div>
+                    <div class="receipt-row"><span>Applied Scholarship:</span><strong>${discountRate * 100}% Waiver</strong></div>
+                    <div class="receipt-row" style="border-top: 2px dashed var(--border-color); padding-top: 10px; margin-top: 10px;">
+                        <span>Total Payable Tuition:</span><strong>${currencyFormatter.format(finalFee)}</strong>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="print-btn" onclick="window.print()">Print Slip</button>
+                </div>
+            `;
+
+            document.getElementById('infoModal').classList.add('open');
+            document.getElementById('admission-form').reset();
+            document.getElementById('scholar-score').value = '';
+            runCalculator();
+        }
+
+        // Close details modals
+        function closeModal() {
+            document.getElementById('infoModal').classList.remove('open');
+        }
+
+        function handleOutsideClick(e) {
+            if (e.target === document.getElementById('infoModal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

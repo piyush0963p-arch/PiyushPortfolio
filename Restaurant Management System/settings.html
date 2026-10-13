@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - DineFlow AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/pages/menu.css">
+    <link rel="stylesheet" href="assets/css/pages/settings.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i data-lucide="chef-hat"></i>
+                    DineFlow<span class="text-primary">AI</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="menu.html" class="nav-item">
+                    <i data-lucide="book-open"></i>
+                    Menu Management
+                </a>
+                <a href="ordering.html" class="nav-item">
+                    <i data-lucide="shopping-cart"></i>
+                    Customer Ordering
+                </a>
+                <a href="pos.html" class="nav-item">
+                    <i data-lucide="monitor"></i>
+                    POS System
+                </a>
+                <a href="tables.html" class="nav-item">
+                    <i data-lucide="calendar-days"></i>
+                    Table Booking
+                </a>
+                <a href="kitchen.html" class="nav-item">
+                    <i data-lucide="flame"></i>
+                    Kitchen Dashboard
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i data-lucide="package"></i>
+                    Inventory
+                </a>
+                <a href="staff.html" class="nav-item">
+                    <i data-lucide="users"></i>
+                    Staff Management
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i data-lucide="contact"></i>
+                    Customers
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    Analytics & Reports
+                </a>
+                <a href="ai-insights.html" class="nav-item text-accent">
+                    <i data-lucide="sparkles"></i>
+                    AI Insights
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-avatar" style="text-decoration:none;">AD</a>
+                <div class="user-info">
+                    <a href="profile.html" class="user-name" style="text-decoration:none;">Admin User</a>
+                    <div class="user-role">Restaurant Owner</div>
+                </div>
+                <button class="icon-btn theme-toggle" style="border:none;">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">Global Settings</h1>
+                </div>
+                
+                <div class="topbar-right">
+                    <button class="icon-btn">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <a href="settings.html" class="icon-btn">
+                        <i data-lucide="settings"></i>
+                    </a>
+                </div>
+            </header>
+            
+            <!-- Settings Card -->
+            <div class="content-wrapper">
+                <div class="settings-grid">
+                    <div class="card settings-section-card">
+                        <form id="settingsForm">
+                            <h2 style="font-size:1.1rem; font-weight:600; margin-bottom:1.5rem;">Restaurant Profile</h2>
+                            <div class="form-group">
+                                <label for="settingRestaurantName" class="form-label">Restaurant Name</label>
+                                <input type="text" id="settingRestaurantName" class="form-control" required>
+                            </div>
+                            <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                <div>
+                                    <label for="settingEmail" class="form-label">Notification Email</label>
+                                    <input type="email" id="settingEmail" class="form-control" required>
+                                </div>
+                                <div>
+                                    <label for="settingCurrency" class="form-label">Base Currency</label>
+                                    <select id="settingCurrency" class="form-control">
+                                        <option value="USD ($)">USD ($)</option>
+                                        <option value="EUR (€)">EUR (€)</option>
+                                        <option value="INR (₹)">INR (₹)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <hr style="border:none; border-top:1px solid var(--border); margin:1.5rem 0;">
+                            
+                            <h2 style="font-size:1.1rem; font-weight:600; margin-bottom:1.5rem;">System Automation</h2>
+                            
+                            <div class="settings-toggle-row">
+                                <div>
+                                    <strong style="font-size:0.9rem;">Real-time notifications</strong>
+                                    <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Pop up banner alert when new table reservation is added.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="settingNotify">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="settings-toggle-row">
+                                <div>
+                                    <strong style="font-size:0.9rem;">Auto-print kitchen tickets</strong>
+                                    <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Immediately print invoice ticket at chef counter upon POS submittal.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="settingPrint">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="settings-toggle-row">
+                                <div>
+                                    <strong style="font-size:0.9rem;">AI Auto-restock triggering</strong>
+                                    <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">Let the predictive model dispatch supplier purchase order when stock goes low.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="settingRestock">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="margin-top:1.5rem; padding:0.6rem 2rem;">Save Configurations</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/pages/settings.js"></script>
+</body>
+</html>

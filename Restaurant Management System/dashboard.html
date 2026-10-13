@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DineFlow AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/pages/dashboard.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i data-lucide="chef-hat"></i>
+                    DineFlow<span class="text-primary">AI</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="menu.html" class="nav-item">
+                    <i data-lucide="book-open"></i>
+                    Menu Management
+                </a>
+                <a href="ordering.html" class="nav-item">
+                    <i data-lucide="shopping-cart"></i>
+                    Customer Ordering
+                </a>
+                <a href="pos.html" class="nav-item">
+                    <i data-lucide="monitor"></i>
+                    POS System
+                </a>
+                <a href="tables.html" class="nav-item">
+                    <i data-lucide="calendar-days"></i>
+                    Table Booking
+                </a>
+                <a href="kitchen.html" class="nav-item">
+                    <i data-lucide="flame"></i>
+                    Kitchen Dashboard
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i data-lucide="package"></i>
+                    Inventory
+                </a>
+                <a href="staff.html" class="nav-item">
+                    <i data-lucide="users"></i>
+                    Staff Management
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i data-lucide="contact"></i>
+                    Customers
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    Analytics & Reports
+                </a>
+                <a href="ai-insights.html" class="nav-item text-accent">
+                    <i data-lucide="sparkles"></i>
+                    AI Insights
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-avatar" style="text-decoration:none;">AD</a>
+                <div class="user-info">
+                    <a href="profile.html" class="user-name" style="text-decoration:none;">Admin User</a>
+                    <div class="user-role">Restaurant Owner</div>
+                </div>
+                <button class="icon-btn theme-toggle" style="border:none;">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">Overview</h1>
+                </div>
+                
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search orders, tables, dishes...">
+                </div>
+                
+                <div class="topbar-right">
+                    <button class="icon-btn">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <a href="settings.html" class="icon-btn">
+                        <i data-lucide="settings"></i>
+                    </a>
+                </div>
+            </header>
+            
+            <!-- Dashboard Content -->
+            <div class="content-wrapper">
+                <div class="dashboard-grid">
+                    
+                    <!-- KPI Cards -->
+                    <div class="kpi-cards">
+                        <div class="card kpi-card">
+                            <div class="kpi-icon primary">
+                                <i data-lucide="dollar-sign"></i>
+                            </div>
+                            <div class="kpi-details">
+                                <div class="kpi-title">Today's Revenue</div>
+                                <div class="kpi-value">$4,250.00</div>
+                                <div class="kpi-trend trend-up">
+                                    <i data-lucide="trending-up" style="width: 14px;"></i> +12.5% vs yesterday
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card kpi-card">
+                            <div class="kpi-icon secondary">
+                                <i data-lucide="shopping-bag"></i>
+                            </div>
+                            <div class="kpi-details">
+                                <div class="kpi-title">Total Orders</div>
+                                <div class="kpi-value">124</div>
+                                <div class="kpi-trend trend-up">
+                                    <i data-lucide="trending-up" style="width: 14px;"></i> +5.2% vs yesterday
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card kpi-card">
+                            <div class="kpi-icon info">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <div class="kpi-details">
+                                <div class="kpi-title">Active Tables</div>
+                                <div class="kpi-value">18/24</div>
+                                <div class="kpi-trend">
+                                    <span>75% capacity</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card kpi-card">
+                            <div class="kpi-icon accent">
+                                <i data-lucide="star"></i>
+                            </div>
+                            <div class="kpi-details">
+                                <div class="kpi-title">Customer Satisfaction</div>
+                                <div class="kpi-value">4.8/5</div>
+                                <div class="kpi-trend trend-up">
+                                    <i data-lucide="trending-up" style="width: 14px;"></i> +0.2 this week
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts -->
+                    <div class="card chart-card revenue-chart">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Revenue Overview</h2>
+                            <select class="form-control" style="width: auto; padding: 0.25rem 1rem;">
+                                <option>This Week</option>
+                                <option>This Month</option>
+                                <option>This Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card chart-card orders-chart">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Order Types</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="ordersChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Section -->
+                    <div class="bottom-section">
+                        <div class="card recent-orders">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Recent Orders</h2>
+                                <button class="btn btn-secondary">View All</button>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Table / Type</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#ORD-1024</td>
+                                        <td>Table 04</td>
+                                        <td><span class="badge badge-warning">Preparing</span></td>
+                                        <td>$45.50</td>
+                                        <td>12:45 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD-1025</td>
+                                        <td>Takeaway</td>
+                                        <td><span class="badge badge-success">Ready</span></td>
+                                        <td>$32.00</td>
+                                        <td>12:48 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD-1026</td>
+                                        <td>Delivery</td>
+                                        <td><span class="badge badge-info">Dispatched</span></td>
+                                        <td>$85.20</td>
+                                        <td>12:55 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD-1027</td>
+                                        <td>Table 12</td>
+                                        <td><span class="badge badge-danger">New</span></td>
+                                        <td>$112.00</td>
+                                        <td>01:02 PM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="card popular-dishes">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Popular Dishes</h2>
+                            </div>
+                            <div class="dish-list">
+                                <div class="dish-item">
+                                    <img src="assets/img/truffle_mushroom_pizza.png" alt="Truffle Mushroom Pizza" class="dish-img">
+                                    <div class="dish-info">
+                                        <div class="dish-name">Truffle Mushroom Pizza</div>
+                                        <div class="dish-sales">45 orders today</div>
+                                    </div>
+                                    <div class="dish-price">$24.00</div>
+                                </div>
+                                <div class="dish-item">
+                                    <img src="assets/img/wagyu_ribeye_steak.png" alt="Wagyu Ribeye Steak" class="dish-img">
+                                    <div class="dish-info">
+                                        <div class="dish-name">Wagyu Ribeye Steak</div>
+                                        <div class="dish-sales">32 orders today</div>
+                                    </div>
+                                    <div class="dish-price">$85.00</div>
+                                </div>
+                                <div class="dish-item">
+                                    <img src="assets/img/caramel_macchiato.png" alt="Caramel Macchiato" class="dish-img">
+                                    <div class="dish-info">
+                                        <div class="dish-name">Caramel Macchiato</div>
+                                        <div class="dish-sales">85 orders today</div>
+                                    </div>
+                                    <div class="dish-price">$6.50</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/pages/dashboard.js"></script>
+</body>
+</html>

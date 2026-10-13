@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tops | Student Dashboard</title>
+    <style>
+        /* Import Professional Web Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        /* CSS Variables for Dashboard Theme */
+        :root {
+            --primary-blue: #4f46e5;
+            /* Indigo */
+            --sidebar-bg: #1e1b4b;
+            /* Deep Indigo */
+            --bg-light: #f3f4f6;
+            /* Soft Gray */
+            --surface-white: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #a5b4fc;
+            letter-spacing: 1px;
+        }
+
+        /* Student Info Card (Sidebar) */
+        .student-profile {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .student-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .student-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .student-id {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-top: 0.3rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        /* Main Dashboard Content */
+        main {
+            flex-grow: 1;
+            padding: 2rem 4rem;
+            overflow-y: auto;
+            min-width: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+        }
+
+        /* Quick Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--surface-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .stat-value.success {
+            color: var(--success);
+        }
+
+        /* Complex Grid Layout for Main Content */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Assignments Section */
+        .panel {
+            background: var(--surface-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            min-width: 0;
+        }
+
+        .panel h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        tbody tr {
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge.submitted {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .badge.overdue {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Notice Board Section */
+        .search-box {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .notice-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-blue) var(--bg-light);
+        }
+
+        .notice-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notice-container::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 4px;
+        }
+
+        .notice-item {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .notice-item:hover {
+            border-color: var(--primary-blue);
+            background-color: #f8fafc;
+        }
+
+        .notice-title {
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.3rem;
+        }
+
+        .notice-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .notice-tag {
+            background: #e0e7ff;
+            color: var(--primary-blue);
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .notice-tag.urgent {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        /* Modal General Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background-color: var(--surface-white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(-20px);
+            transition: var(--transition);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 6px solid var(--primary-blue);
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.8rem;
+            padding-right: 2.5rem;
+        }
+
+        /* Hamburger button for mobile */
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-main);
+            padding: 0.5rem;
+        }
+
+        /* Mobile drawer overlay background */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Responsive design for tablets & mobiles */
+        @media (max-width: 992px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            aside {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                z-index: 1000;
+                transition: var(--transition);
+                box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            aside.open {
+                left: 0;
+            }
+
+            .sidebar-overlay.open {
+                display: block;
+            }
+
+            .hamburger-btn {
+                display: block;
+            }
+
+            main {
+                padding: 1.5rem 1.2rem;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .panel table {
+                min-width: 550px;
+            }
+        }
+        
+
+        @media (max-width: 480px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-card {
+                padding: 1.5rem 1rem;
+                width: 95%;
+            }
+
+            .modal-close {
+                top: 0.75rem;
+                right: 0.75rem;
+                font-size: 1.6rem;
+            }
+
+            .modal-title {
+                font-size: 1.2rem;
+                padding-right: 2.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.75rem;
+            }
+
+            header h1 {
+                font-size: 1.35rem;
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside>
+        <div class="brand">Tops</div>
+
+        <div class="student-profile">
+            <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=200&auto=format&fit=crop"
+                alt="Student" class="student-avatar">
+            <div class="student-name">Piyush Patidar</div>
+            <div class="student-id">ID: BTech-2024-8902</div>
+            <div class="student-id">Computer Science (3rd Year)</div>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#" class="active" id="btnDashboard">Dashboard</a></li>
+            <li><a href="#" id="btnCourses">My Courses</a></li>
+            <li><a href="#" id="btnGrades">Grades</a></li>
+            <li><a href="#" id="btnLibrary">Library</a></li>
+            <li><a href="#" id="btnSettings">Settings</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <header>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Menu">☰</button>
+                <h1>Welcome back, Piyush! 👋</h1>
+            </div>
+            <div style="color: var(--text-muted); font-weight: 600;">Fall Semester 2026</div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card" id="cardAttendance">
+                <div class="stat-title">Overall Attendance</div>
+                <div class="stat-value success">92.5%</div>
+            </div>
+            <div class="stat-card" id="cardAssignments">
+                <div class="stat-title">Pending Assignments</div>
+                <div class="stat-value" style="color: var(--warning);">3</div>
+            </div>
+            <div class="stat-card" id="cardGPA">
+                <div class="stat-title">Current GPA</div>
+                <div class="stat-value">3.84</div>
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <section class="panel">
+                <h2>Recent Assignments</h2>
+                <div style="overflow-x: auto; width: 100%;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Task</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                onclick="openAssignmentModal('Data Structures', 'Binary Tree Project', 'Oct 12, 2026', 'Pending')">
+                                <td><strong>Data Structures</strong></td>
+                                <td>Binary Tree Project</td>
+                                <td>Oct 12, 2026</td>
+                                <td><span class="badge pending">Pending</span></td>
+                            </tr>
+                            <tr
+                                onclick="openAssignmentModal('Web Development', 'React Portfolio', 'Oct 10, 2026', 'Submitted')">
+                                <td><strong>Web Development</strong></td>
+                                <td>React Portfolio</td>
+                                <td>Oct 10, 2026</td>
+                                <td><span class="badge submitted">Submitted</span></td>
+                            </tr>
+                            <tr
+                                onclick="openAssignmentModal('Operating Systems', 'Kernel Assignment 2', 'Oct 15, 2026', 'Pending')">
+                                <td><strong>Operating Systems</strong></td>
+                                <td>Kernel Assignment 2</td>
+                                <td>Oct 15, 2026</td>
+                                <td><span class="badge pending">Pending</span></td>
+                            </tr>
+                            <tr
+                                onclick="openAssignmentModal('Mathematics', 'Calculus Problem Set 4', 'Oct 05, 2026', 'Overdue')">
+                                <td><strong>Mathematics</strong></td>
+                                <td>Calculus Problem Set 4</td>
+                                <td>Oct 05, 2026</td>
+                                <td><span class="badge overdue">Overdue</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Notice Board <span
+                        style="font-size: 0.8rem; background: var(--bg-light); padding: 0.2rem 0.6rem; border-radius: 10px; color: var(--text-muted);"
+                        id="notice-count">0</span></h2>
+
+                <input type="text" id="searchBox" class="search-box"
+                    placeholder="Search notices by title or keyword...">
+
+                <div class="notice-container" id="notice-list">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Interactive Pop-up / Modal Card Overlay -->
+    <div class="modal-overlay" id="mainModal">
+        <div class="modal-card">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div class="modal-title" id="modalTitle">Modal Title</div>
+            <div id="modalBody">
+                <!-- Content gets injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Generate 100+ Notices Data (Challenge) ---
+        const notices = [
+            { id: 1, title: "🚨 Mid-Term Exam Schedule Released", date: "Oct 10, 2026", tag: "Urgent", type: "urgent" },
+            { id: 2, title: "Library Due Dates Extended due to Maintenance", date: "Oct 09, 2026", tag: "General", type: "general" },
+            { id: 3, title: "Campus Tech Workshop: Intro to AI", date: "Oct 08, 2026", tag: "Event", type: "general" },
+            { id: 4, title: "Fee Payment Deadline Approaching", date: "Oct 05, 2026", tag: "Urgent", type: "urgent" }
+        ];
+
+        // Programmatically generate the remaining notices to exceed 100 easily
+        const categories = ["Sports", "Club", "Department", "General"];
+        for (let i = 5; i <= 105; i++) {
+            const randomCat = categories[Math.floor(Math.random() * categories.length)];
+            const randomDay = Math.floor(Math.random() * 30) + 1;
+
+            notices.push({
+                id: i,
+                title: `${randomCat} Notification #${i}: Semester Updates and Guidelines`,
+                date: `Sep ${randomDay < 10 ? '0' + randomDay : randomDay}, 2026`,
+                tag: randomCat,
+                type: "general"
+            });
+        }
+
+        // --- 2. Render Notices & Search Logic ---
+        const noticeListContainer = document.getElementById('notice-list');
+        const searchBox = document.getElementById('searchBox');
+        const noticeCount = document.getElementById('notice-count');
+
+        // Function to render notices to the DOM
+        function renderNotices(filterText = "") {
+            // Clear current list
+            noticeListContainer.innerHTML = '';
+
+            // Filter array based on search text (case insensitive)
+            const filteredNotices = notices.filter(notice =>
+                notice.title.toLowerCase().includes(filterText.toLowerCase()) ||
+                notice.tag.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            // Update Count Badge
+            noticeCount.textContent = `${filteredNotices.length} Total`;
+
+            // Handle no results
+            if (filteredNotices.length === 0) {
+                noticeListContainer.innerHTML = '<div style="text-align:center; padding: 2rem; color: #9ca3af;">No notices found.</div>';
+                return;
+            }
+
+            // Create HTML elements for each filtered notice
+            filteredNotices.forEach(notice => {
+                const tagClass = notice.type === 'urgent' ? 'urgent' : '';
+
+                // Safe string escaping for HTML inline attributes
+                const safeTitle = notice.title.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                const safeDate = notice.date.replace(/'/g, "\\'");
+                const safeTag = notice.tag.replace(/'/g, "\\'");
+                const safeType = notice.type.replace(/'/g, "\\'");
+
+                const noticeHTML = `
+                    <div class="notice-item" onclick="openNoticeModal('${safeTitle}', '${safeDate}', '${safeTag}', '${safeType}')">
+                        <div class="notice-title">${notice.title}</div>
+                        <div class="notice-meta">
+                            <span>📅 ${notice.date}</span>
+                            <span class="notice-tag ${tagClass}">${notice.tag}</span>
+                        </div>
+                    </div>
+                `;
+                noticeListContainer.insertAdjacentHTML('beforeend', noticeHTML);
+            });
+        }
+
+        // Initialize: Render all notices on page load
+        renderNotices();
+
+        // Event Listener: Trigger search function on every keystroke
+        searchBox.addEventListener('input', (e) => {
+            renderNotices(e.target.value);
+        });
+
+        // --- 3. Modal System Logic ---
+        const mainModal = document.getElementById('mainModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalClose = document.getElementById('modalClose');
+
+        function showModal(title, bodyHTML) {
+            modalTitle.textContent = title;
+            modalBody.innerHTML = bodyHTML;
+            mainModal.classList.add('open');
+        }
+
+        modalClose.addEventListener('click', () => {
+            mainModal.classList.remove('open');
+        });
+
+        mainModal.addEventListener('click', (e) => {
+            if (e.target === mainModal) {
+                mainModal.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                mainModal.classList.remove('open');
+            }
+        });
+
+        // --- 4. Navigation Menu Click Handlers ---
+        const btnDashboard = document.getElementById('btnDashboard');
+        const btnCourses = document.getElementById('btnCourses');
+        const btnGrades = document.getElementById('btnGrades');
+        const btnLibrary = document.getElementById('btnLibrary');
+        const btnSettings = document.getElementById('btnSettings');
+
+        function setActiveLink(activeBtn) {
+            const menuLinks = document.querySelectorAll('.nav-menu a');
+            menuLinks.forEach(link => link.classList.remove('active'));
+            activeBtn.classList.add('active');
+        }
+
+        btnDashboard.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveLink(btnDashboard);
+            mainModal.classList.remove('open');
+        });
+
+        btnCourses.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveLink(btnCourses);
+            showModal("My Registered Courses", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Registered courses for the Fall Semester 2026:</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc;">
+                        <h4 style="color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 0.3rem;">CS301 - Data Structures & Algorithms</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-main);"><strong>Instructor:</strong> Dr. Emily Stone</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+                            <span>Credits: 4</span>
+                            <span>Schedule: Mon, Wed 10:00 AM</span>
+                        </div>
+                    </div>
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc;">
+                        <h4 style="color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 0.3rem;">CS302 - Full-Stack Web Development</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-main);"><strong>Instructor:</strong> Prof. Alan Turing</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+                            <span>Credits: 3</span>
+                            <span>Schedule: Tue, Thu 11:30 AM</span>
+                        </div>
+                    </div>
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc;">
+                        <h4 style="color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 0.3rem;">CS303 - Advanced Operating Systems</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-main);"><strong>Instructor:</strong> Dr. Linus Torvalds</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+                            <span>Credits: 4</span>
+                            <span>Schedule: Mon, Wed 1:00 PM</span>
+                        </div>
+                    </div>
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc;">
+                        <h4 style="color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 0.3rem;">MA301 - Engineering Mathematics IV</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-main);"><strong>Instructor:</strong> Dr. Isaac Newton</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+                            <span>Credits: 4</span>
+                            <span>Schedule: Fri 9:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+        });
+
+        btnGrades.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveLink(btnGrades);
+            showModal("Semester Grades Report", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Official grades breakdown for Fall Semester 2026:</p>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <thead>
+                            <tr style="background-color: var(--bg-light); text-align: left;">
+                                <th style="padding: 0.8rem; font-size: 0.85rem;">Course Code</th>
+                                <th style="padding: 0.8rem; font-size: 0.85rem;">Marks</th>
+                                <th style="padding: 0.8rem; font-size: 0.85rem;">Grade Point</th>
+                                <th style="padding: 0.8rem; font-size: 0.85rem;">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">CS301</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">94 / 100</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">4.0</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color); color: var(--success); font-weight: 700;">A+</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">CS302</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">92 / 100</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">4.0</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color); color: var(--success); font-weight: 700;">A</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">CS303</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">88 / 100</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">3.7</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color); color: var(--success); font-weight: 700;">B+</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">MA301</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">85 / 100</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color);">3.3</td>
+                                <td style="padding: 0.8rem; border-bottom: 1px solid var(--border-color); color: var(--success); font-weight: 700;">B</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--bg-light); border-radius: 8px; font-weight: 700; margin-top: 1rem;">
+                    <span>Current CGPA Average</span>
+                    <span style="color: var(--primary-blue);">3.84</span>
+                </div>
+            `);
+        });
+
+        btnLibrary.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveLink(btnLibrary);
+            showModal("My Library Status", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Borrowed books and due dates from Central Library:</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="font-size: 1rem; margin-bottom: 0.3rem;">Introduction to Algorithms</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Accession No: L-48092 | Borrowed: Sep 15</p>
+                            <p style="font-size: 0.85rem; color: var(--success); font-weight: 600; margin-top: 0.3rem;">Due Date: Oct 15, 2026</p>
+                        </div>
+                        <span class="badge submitted">Active</span>
+                    </div>
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="font-size: 1rem; margin-bottom: 0.3rem;">Design Patterns: Elements of Reusable Software</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Accession No: L-29011 | Borrowed: Sep 20</p>
+                            <p style="font-size: 0.85rem; color: var(--success); font-weight: 600; margin-top: 0.3rem;">Due Date: Oct 20, 2026</p>
+                        </div>
+                        <span class="badge submitted">Active</span>
+                    </div>
+                    <div style="padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="font-size: 1rem; margin-bottom: 0.3rem;">Modern Operating Systems (4th Ed)</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Accession No: L-10294 | Borrowed: Aug 10</p>
+                            <p style="font-size: 0.85rem; color: var(--danger); font-weight: 600; margin-top: 0.3rem;">Due Date: Sep 10, 2026 (Overdue)</p>
+                        </div>
+                        <span class="badge overdue">Overdue</span>
+                    </div>
+                </div>
+            `);
+        });
+
+        btnSettings.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveLink(btnSettings);
+            showModal("Account & Portal Settings", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Manage your student profile information:</p>
+                <form id="settingsForm" onsubmit="handleSettingsSubmit(event)">
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem;">Student Full Name</label>
+                        <input type="text" value="Alex Carter" class="search-box" style="margin-bottom: 0; width: 100%;" required id="settingsName">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem;">Registered Email</label>
+                        <input type="email" value="alex.carter@student.nexus.edu" class="search-box" style="margin-bottom: 0; width: 100%;" required id="settingsEmail">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem;">Portal Theme</label>
+                        <select class="search-box" style="margin-bottom: 0; width: 100%; background: white;">
+                            <option>Default Indigo Theme</option>
+                            <option>Light Blue Theme</option>
+                            <option>Dark Mode</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem;">Change Password</label>
+                        <input type="password" placeholder="Enter new password" class="search-box" style="margin-bottom: 0; width: 100%;">
+                    </div>
+                    <button type="submit" class="badge submitted" style="cursor: pointer; border: none; font-size: 1rem; padding: 0.75rem; display: block; width: 100%; border-radius: 6px;">Save Settings Changes</button>
+                </form>
+            `);
+        });
+
+        window.handleSettingsSubmit = function (event) {
+            event.preventDefault();
+            const newName = document.getElementById('settingsName').value;
+            document.querySelector('.student-name').textContent = newName;
+            document.querySelector('header h1').textContent = `Welcome back, ${newName.split(' ')[0]}! 👋`;
+
+            alert('Settings updated successfully!');
+            mainModal.classList.remove('open');
+            setActiveLink(btnDashboard);
+        };
+
+        // --- 5. Stats Cards Click Handlers ---
+        document.getElementById('cardAttendance').addEventListener('click', () => {
+            showModal("Detailed Attendance Statistics", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Subject-wise attendance record for current semester:</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color);">
+                        <span>Data Structures</span>
+                        <strong>28 / 30 (93.3%)</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color);">
+                        <span>Web Development</span>
+                        <strong>23 / 24 (95.8%)</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color);">
+                        <span>Operating Systems</span>
+                        <strong>26 / 30 (86.7%)</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color);">
+                        <span>Mathematics</span>
+                        <strong>15 / 16 (93.8%)</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0 0 0; color: var(--success); font-weight: 700; font-size: 1.1rem;">
+                        <span>Total Combined Attendance</span>
+                        <span>92.5%</span>
+                    </div>
+                </div>
+            `);
+        });
+
+        document.getElementById('cardAssignments').addEventListener('click', () => {
+            showModal("Pending Assignments", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Tasks requiring submission or review:</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: #fffbeb; border-left: 4px solid var(--warning);">
+                        <strong style="color: #b45309;">Binary Tree Project</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Data Structures | Due: Oct 12, 2026</p>
+                    </div>
+                    <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: #fffbeb; border-left: 4px solid var(--warning);">
+                        <strong style="color: #b45309;">Kernel Assignment 2</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Operating Systems | Due: Oct 15, 2026</p>
+                    </div>
+                    <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: #fef2f2; border-left: 4px solid var(--danger);">
+                        <strong style="color: #b91c1c;">Calculus Problem Set 4</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Mathematics | Due: Oct 05, 2026 (Overdue)</p>
+                    </div>
+                </div>
+            `);
+        });
+
+        document.getElementById('cardGPA').addEventListener('click', () => {
+            showModal("GPA & Grade Performance Summary", `
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Cumulative Grade Point Average stats:</p>
+                <div style="text-align: center; padding: 2rem 0; background: var(--bg-light); border-radius: 12px; margin-bottom: 1.5rem;">
+                    <span style="font-size: 3rem; font-weight: 800; color: var(--primary-blue);">3.84</span>
+                    <span style="font-size: 1.2rem; color: var(--text-muted);"> / 4.00</span>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem; font-weight: 600; text-transform: uppercase;">Current Standing: Dean's List</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.95rem;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Completed Credits:</span>
+                        <strong>64 Credits</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Current Class Standing Rank:</span>
+                        <strong>Top 5% of Department</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Academic Status:</span>
+                        <strong style="color: var(--success);">Excellent / Good Standing</strong>
+                    </div>
+                </div>
+            `);
+        });
+
+        // --- 6. Assignment Row Click Handler ---
+        window.openAssignmentModal = function (subject, task, due, status) {
+            const badgeClass = status.toLowerCase() === 'pending' ? 'pending' : (status.toLowerCase() === 'submitted' ? 'submitted' : 'overdue');
+            const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+
+            showModal("Assignment Details", `
+                <h3 style="font-size: 1.25rem; margin-bottom: 0.2rem; color: var(--text-main);">${task}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Subject: <strong>${subject}</strong></p>
+                
+                <div style="background-color: var(--bg-light); padding: 1.2rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.6rem;">
+                        <span style="color: var(--text-muted);">Due Date:</span>
+                        <strong>${due}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-muted);">Submission Status:</span>
+                        <span class="badge ${badgeClass}">${statusText}</span>
+                    </div>
+                </div>
+                
+                <form id="submissionForm" onsubmit="event.preventDefault(); alert('Assignment file submitted successfully!'); mainModal.classList.remove('open');">
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Attach Project / Homework File</label>
+                        <input type="file" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 6px; background: white;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Submission Notes (Optional)</label>
+                        <textarea placeholder="Type any comments to your professor..." class="search-box" style="width: 100%; height: 90px; resize: none; margin-bottom: 0;"></textarea>
+                    </div>
+                    <button type="submit" class="badge submitted" style="cursor: pointer; border: none; font-size: 1rem; padding: 0.75rem; display: block; width: 100%; border-radius: 6px;">Submit to Portal</button>
+                </form>
+            `);
+        };
+
+        // --- 7. Notice Board Click Handler ---
+        window.openNoticeModal = function (title, date, tag, type) {
+            const tagClass = type === 'urgent' ? 'urgent' : '';
+            showModal("Notice Details", `
+                <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text-main); line-height: 1.4;">${title}</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem;">
+                    <span style="color: var(--text-muted);">📅 Date: ${date}</span>
+                    <span class="notice-tag ${tagClass}">${tag}</span>
+                </div>
+                
+                <p style="font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem;">
+                    Please be informed that detailed guidelines regarding <strong>${title}</strong> are now active on the student information desk. All students are requested to read, review, and follow these updates accordingly.
+                </p>
+                <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 1rem; border-radius: 8px; color: var(--primary-blue); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>ℹ️</span>
+                    <span>For further queries, please reach out to the campus coordinator's desk.</span>
+                </div>
+            `);
+        };
+
+        // --- 8. Mobile Menu Toggle Drawer ---
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.querySelector('aside');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('open');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('open');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('open');
+            });
+        });
+
+    </script>
+</body>
+
+</html>

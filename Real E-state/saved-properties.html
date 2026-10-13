@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saved Properties – EstateAI</title>
+<meta name="description" content="Your saved properties wishlist. Add notes, compare, and get AI-powered recommendations.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.saved-page { padding-top: 100px; padding-bottom: 60px; min-height: 100vh; }
+
+/* Header */
+.saved-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: gap; gap: 16px; }
+.saved-header h1 { font-size: 1.8rem; }
+
+/* AI Widget */
+.ai-widget {
+  background: linear-gradient(135deg, rgba(108,99,255,0.15), rgba(0,212,170,0.08));
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.ai-widget-icon { font-size: 2.5rem; flex-shrink: 0; }
+.ai-widget-content h3 { font-size: 1rem; margin-bottom: 6px; }
+.ai-widget-content p { font-size: 0.85rem; margin-bottom: 14px; }
+.ai-widget-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.ai-chip {
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(108,99,255,0.15);
+  border: 1px solid rgba(108,99,255,0.3);
+  color: var(--primary-light);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.ai-chip:hover { background: rgba(108,99,255,0.25); }
+
+/* Notes section */
+.prop-note-area {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  resize: vertical;
+  min-height: 64px;
+  outline: none;
+  transition: var(--transition);
+  margin-top: 10px;
+}
+.prop-note-area:focus { border-color: var(--primary); }
+.prop-note-area::placeholder { color: var(--text-dim); }
+
+/* Saved card extra */
+.saved-card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.saved-card-actions .btn { flex: 1; min-width: 80px; justify-content: center; font-size: 0.75rem; padding: 8px 10px; }
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--text-muted);
+}
+.empty-state-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  filter: grayscale(0.5);
+}
+.empty-state h2 { font-size: 1.5rem; margin-bottom: 12px; }
+.empty-state p { max-width: 400px; margin: 0 auto 28px; }
+
+/* Compare bar */
+.compare-bar {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 14px 24px;
+  display: flex; align-items: center; gap: 16px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.compare-bar.visible { transform: translateX(-50%) translateY(0); }
+.compare-bar-count { font-size: 0.85rem; font-weight: 700; }
+
+/* Grid */
+.saved-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.saved-prop-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: var(--transition);
+}
+.saved-prop-card:hover { transform: translateY(-4px); border-color: var(--border2); box-shadow: var(--glow); }
+.saved-card-img { position: relative; height: 200px; overflow: hidden; }
+.saved-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.saved-prop-card:hover .saved-card-img img { transform: scale(1.05); }
+.saved-card-body { padding: 16px; }
+.saved-card-compare-cb {
+  position: absolute; top: 10px; left: 10px;
+  width: 22px; height: 22px; cursor: pointer; accent-color: var(--primary);
+}
+
+@media (max-width: 1024px) { .saved-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 600px) { .saved-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="saved-page">
+  <div class="container">
+    <div class="saved-header reveal">
+      <div>
+        <div class="section-tag" style="margin-bottom:10px">❤️ Wishlist</div>
+        <h1>Saved <span class="gradient-text">Properties</span></h1>
+        <p id="savedCountLabel" style="margin-top:6px">Loading your saved properties...</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="clearAll()">🗑️ Clear All</button>
+        <a href="listings.html" class="btn btn-primary">+ Add More Properties</a>
+      </div>
+    </div>
+
+    <!-- AI Widget -->
+    <div class="ai-widget reveal">
+      <div class="ai-widget-icon">🤖</div>
+      <div class="ai-widget-content">
+        <h3>AI Recommendation Widget</h3>
+        <p>Based on your saved properties, our AI suggests you're looking for <strong>premium 3-4 BHK apartments</strong> in metro cities with good connectivity and amenities. Here are some tailored actions:</p>
+        <div class="ai-widget-chips">
+          <div class="ai-chip" onclick="window.location='ai-recommendations.html'">🔍 Find Similar Properties</div>
+          <div class="ai-chip" onclick="window.location='mortgage-calculator.html'">💰 Calculate EMI</div>
+          <div class="ai-chip" onclick="window.location='comparison.html'">⚖️ Compare Saved</div>
+          <div class="ai-chip" onclick="window.location='map-view.html'">🗺️ View on Map</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div id="savedContent"></div>
+  </div>
+</div>
+
+<!-- Compare Bar -->
+<div class="compare-bar" id="compareBar">
+  <span class="compare-bar-count" id="compareCount">0 properties selected</span>
+  <span class="badge badge-primary" id="compareMax"></span>
+  <a href="comparison.html" class="btn btn-primary btn-sm">⚖️ Compare Now</a>
+  <button class="btn btn-ghost btn-sm" onclick="clearCompareSelection()">✕</button>
+</div>
+
+<div id="footer-root"></div>
+<script src="js/app.js"></script>
+<script>
+document.getElementById('navbar-root').innerHTML = buildNavbar('saved-properties.html');
+document.getElementById('footer-root').innerHTML = buildFooter();
+
+let compareSelected = [];
+const notes = JSON.parse(localStorage.getItem('estateai_notes') || '{}');
+
+function saveNote(id, val) {
+  notes[id] = val;
+  localStorage.setItem('estateai_notes', JSON.stringify(notes));
+}
+
+function removeSaved(id) {
+  const idx = savedIds.indexOf(id);
+  if (idx !== -1) savedIds.splice(idx, 1);
+  localStorage.setItem('estateai_saved', JSON.stringify(savedIds));
+  renderSaved();
+}
+
+function clearAll() {
+  if (!confirm('Remove all saved properties?')) return;
+  savedIds.length = 0;
+  localStorage.setItem('estateai_saved', JSON.stringify(savedIds));
+  renderSaved();
+}
+
+function toggleCompare(id) {
+  const i = compareSelected.indexOf(id);
+  if (i === -1) {
+    if (compareSelected.length >= 4) { alert('Max 4 properties can be compared'); return; }
+    compareSelected.push(id);
+  } else { compareSelected.splice(i, 1); }
+  const bar = document.getElementById('compareBar');
+  document.getElementById('compareCount').textContent = `${compareSelected.length} selected for comparison`;
+  bar.classList.toggle('visible', compareSelected.length >= 2);
+}
+
+function clearCompareSelection() {
+  compareSelected = [];
+  document.querySelectorAll('.saved-card-compare-cb').forEach(cb => cb.checked = false);
+  document.getElementById('compareBar').classList.remove('visible');
+}
+
+function renderSaved() {
+  const saved = PROPERTIES.filter(p => savedIds.includes(p.id));
+  document.getElementById('savedCountLabel').textContent =
+    saved.length ? `You have ${saved.length} saved propert${saved.length===1?'y':'ies'}` : 'No saved properties yet';
+
+  const content = document.getElementById('savedContent');
+
+  if (saved.length === 0) {
+    content.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">❤️</div>
+        <h2>Your Wishlist is Empty</h2>
+        <p>Start exploring properties and tap the heart icon to save your favorites here for easy comparison later.</p>
+        <a href="listings.html" class="btn btn-primary btn-lg">🏘️ Browse Properties</a>
+        <div style="margin-top:28px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="ai-recommendations.html" class="btn btn-ghost">🤖 Get AI Recommendations</a>
+          <a href="map-view.html" class="btn btn-ghost">🗺️ Explore on Map</a>
+        </div>
+      </div>`;
+    return;
+  }
+
+  content.innerHTML = `<div class="saved-grid">${saved.map(p => `
+    <div class="saved-prop-card reveal">
+      <div class="saved-card-img">
+        <input type="checkbox" class="saved-card-compare-cb" title="Select for comparison" onchange="toggleCompare(${p.id})">
+        <img src="${p.img}" alt="${p.title}" loading="lazy">
+        <div style="position:absolute;top:10px;right:10px">
+          <span class="badge ${p.status==='For Sale'?'badge-accent':'badge-warning'}">${p.status}</span>
+        </div>
+        <div style="position:absolute;bottom:10px;left:10px">
+          <span class="badge badge-primary">AI ${p.score}%</span>
+        </div>
+      </div>
+      <div class="saved-card-body">
+        <div class="prop-card-price">${p.price}</div>
+        <div class="prop-card-title">${p.title}</div>
+        <div class="prop-card-loc">📍 ${p.location}</div>
+        <div class="prop-card-stats">
+          <div class="prop-stat">🛏 ${p.beds} Beds</div>
+          <div class="prop-stat">🚿 ${p.baths} Baths</div>
+          <div class="prop-stat">📐 ${p.area} sqft</div>
+        </div>
+        <textarea class="prop-note-area" placeholder="Add notes about this property..." onchange="saveNote(${p.id},this.value)">${notes[p.id]||''}</textarea>
+        <div class="saved-card-actions">
+          <a href="property-details.html" class="btn btn-primary">View</a>
+          <a href="comparison.html" class="btn btn-ghost">Compare</a>
+          <button class="btn btn-ghost" style="color:var(--danger);border-color:rgba(255,107,107,0.3)" onclick="removeSaved(${p.id})">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+  setTimeout(initReveal, 50);
+}
+
+// Seed some saved props for demo
+if (savedIds.length === 0) {
+  savedIds.push(1, 2, 3);
+  localStorage.setItem('estateai_saved', JSON.stringify(savedIds));
+}
+renderSaved();
+</script>
+</body>
+</html>

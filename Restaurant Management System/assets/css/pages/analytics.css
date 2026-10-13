@@ -1,0 +1,21 @@
+/* Analytics page styling */
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+}
+
+.chart-card-full {
+    grid-column: span 12;
+}
+
+.chart-card-half {
+    grid-column: span 6;
+}
+
+@media (max-width: 1024px) {
+    .chart-card-half {
+        grid-column: span 12;
+    }
+}

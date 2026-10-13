@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="site-title-tag">Patel Workspace — Premium Virtual Office & Coworking in Navrangpura, Ahmedabad</title>
+    <meta name="description" id="meta-description-tag" content="">
+    <meta name="keywords" id="meta-keywords-tag" content="">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" onerror="this.style.display='none';">
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Import Static Stylesheet -->
+    <link rel="stylesheet" href="assets/css/frontend-style.css">
+
+    <!-- Load LocalStorage Simulated DB Engine -->
+    <script src="assets/js/db.js"></script>
+</head>
+
+<body>
+
+    <!-- STICKY NAVBAR -->
+    <header id="header">
+        <a href="#" class="logo" id="nav-logo">
+            <svg viewBox="0 0 100 100" style="width: 28px; height: 28px; fill: var(--accent-blue);">
+                <rect x="10" y="20" width="80" height="60" rx="8" />
+                <rect x="25" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+                <rect x="55" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+            </svg>
+            <span id="nav-site-name">Patel Workspace</span>
+        </a>
+
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#on-demand" class="nav-link">Book On-Demand<svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" /></svg></a>
+                <div class="dropdown">
+                    <a href="#on-demand" class="dropdown-link">Day Pass</a>
+                    <a href="#on-demand" class="dropdown-link">Meeting Rooms</a>
+                    <a href="#on-demand" class="dropdown-link">Team Plan</a>
+                    <a href="#on-demand" class="dropdown-link">Event Spaces</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#long-term" class="nav-link">Rent Longer-Term<svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" /></svg></a>
+                <div class="dropdown">
+                    <a href="#long-term" class="dropdown-link">Coworking Space</a>
+                    <a href="#long-term" class="dropdown-link">Office / Commercial</a>
+                    <a href="#long-term" class="dropdown-link">Managed Office</a>
+                    <a href="#long-term" class="dropdown-link">Virtual Office</a>
+                </div>
+            </li>
+            <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#location" class="nav-link">Location</a></li>
+            <li class="nav-item"><a href="blog.html" class="nav-link">Blogs</a></li>
+        </ul>
+
+        <div class="header-ctas">
+            <a href="tel:+919999999999" class="btn login-btn" id="nav-call-btn">Call Now</a>
+            <a href="#" class="btn header-cta" id="nav-tour-btn" target="_blank">
+                Book a Tour
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+        </div>
+
+        <button class="hamburger-btn" id="hamburger-toggle" aria-label="Toggle Navigation Menu">
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+        </button>
+    </header>
+
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-menu" id="mobile-drawer">
+        <ul class="mobile-links">
+            <li><a href="#on-demand" class="mobile-link">Book On-Demand</a></li>
+            <li><a href="#long-term" class="mobile-link">Rent Longer-Term</a></li>
+            <li><a href="#pricing" class="mobile-link">Pricing</a></li>
+            <li><a href="#location" class="mobile-link">Location</a></li>
+            <li><a href="blog.html" class="mobile-link">Blogs</a></li>
+        </ul>
+        <div class="mobile-ctas">
+            <a href="tel:+919999999999" class="btn btn-yellow" id="mobile-call-btn" style="width:100%;">Call Now</a>
+            <a href="#" class="btn btn-blue" id="mobile-tour-btn" style="width:100%;" target="_blank">
+                Book a Tour
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN SECTIONS ROOT WRAPPER (For Page Builder Sorting) -->
+    <main id="main-content">
+
+        <!-- SECTION 1: HERO -->
+        <section class="section section-dark hero" id="section-hero">
+            <svg class="hero-background-waves" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 600 C300 500 500 700 800 550 C1100 400 1200 650 1440 500" stroke="var(--accent-blue)" stroke-width="1.5" stroke-opacity="0.3" stroke-linecap="round" />
+                <path d="M0 450 C400 300 600 550 900 400 C1200 250 1300 400 1440 300" stroke="#C4DEFD" stroke-width="1" stroke-opacity="0.2" stroke-linecap="round" />
+            </svg>
+
+            <div class="grid-2">
+                <div class="content-left">
+                    <h1 class="section-title" id="hero-title">Your Premium <span class="underline-highlight">Workspace</span> in Ahmedabad</h1>
+                    <p class="section-subtitle" id="hero-subtitle">6 fully-furnished private cabins in Navrangpura — perfect for virtual office registration, coworking, meeting rooms & GST address.</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:16px;">
+                        <a href="#" class="btn btn-blue" id="hero-btn-1" target="_blank">Book a Tour<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg></a>
+                        <a href="#pricing" class="btn btn-outline" id="hero-btn-2">View Plans</a>
+                    </div>
+                </div>
+                <div class="content-right">
+                    <div class="mockup-container">
+                        <div class="mockup-header">
+                            <div class="mockup-dot"></div>
+                            <div class="mockup-dot"></div>
+                            <div class="mockup-dot"></div>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mockup-shine"></div>
+                            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-header);" id="hero-map-title">
+                                Patel Workspace — Navrangpura Floor Plan
+                            </div>
+                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;" id="hero-cabins-map">
+                                <!-- Cabin state maps inject dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: BOOK ON-DEMAND -->
+        <section class="section" id="section-on_demand" style="background-color: var(--white);">
+            <div style="text-align:center;margin-bottom:60px;">
+                <h2 class="section-title" id="on_demand-title">Book <span class="underline-highlight">On-Demand</span></h2>
+                <p class="section-subtitle" id="on_demand-subtitle" style="max-width:600px;margin:0 auto;">Flexible workspace solutions you can book by the hour or day in Navrangpura.</p>
+            </div>
+            <div class="service-card-grid" id="on-demand-services-grid">
+                <!-- Services load here -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: RENT LONGER-TERM -->
+        <section class="section section-dark" id="section-long_term">
+            <div style="text-align:center;margin-bottom:60px;">
+                <h2 class="section-title" id="long_term-title">Rent <span class="underline-highlight">Longer-Term</span></h2>
+                <p class="section-subtitle" id="long_term-subtitle" style="max-width:600px;margin:0 auto;color:var(--text-light-gray);">Premium dedicated corporate spaces and virtual options in Ahmedabad.</p>
+            </div>
+            <div class="service-card-grid" id="long-term-services-grid">
+                <!-- Long-term services load here -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: WORKFLOW (GST STEPS) -->
+        <section class="section" id="section-workflow" style="background-color: var(--white); border-bottom: 1px solid var(--card-border);">
+            <div style="text-align:center;margin-bottom:60px;">
+                <h2 class="section-title" id="workflow-title">Secure Your <span class="underline-highlight">GST Address</span> easily</h2>
+                <p class="section-subtitle" id="workflow-subtitle" style="max-width:600px;margin:0 auto;">Get registered in Navrangpura, Ahmedabad's top commercial center.</p>
+            </div>
+            <div class="workflow-steps" id="workflow-steps-container">
+                <!-- Dynamic Steps Load -->
+            </div>
+        </section>
+
+        <!-- SECTION 5: Flagship 6 private cabins status & pricing -->
+        <section class="section section-dark" id="section-cabins">
+            <div class="grid-2">
+                <div class="content-left">
+                    <h2 class="section-title" id="cabins-title" style="color:var(--white);">Flagship <span class="underline-highlight">6 Private Cabins</span></h2>
+                    <p class="section-subtitle" id="cabins-subtitle" style="color:var(--text-light-gray);">We operate 6 premium, sound-insulated private cabins in our Navrangpura center.</p>
+                    
+                    <ul class="pricing-features" id="cabins-features-list" style="color:var(--text-light-gray); margin-bottom: 30px;">
+                        <!-- Features list items load dynamically -->
+                    </ul>
+                    
+                    <div>
+                        <a href="#" class="btn btn-blue" id="cabins-cta-btn" style="background-color:var(--accent-blue);" target="_blank">Book a Cabin Tour</a>
+                    </div>
+                </div>
+                
+                <div class="content-right">
+                    <div class="cabin-status-grid" id="cabins-list-grid">
+                        <!-- Private cabins statuses render dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: FLEXIBLE PRICING PLANS -->
+        <section class="section pricing-section" id="section-pricing" style="background-color:var(--white);">
+            <div style="text-align:center;margin-bottom:60px;">
+                <h2 class="section-title" id="pricing-title">Flexible <span class="underline-highlight">Pricing Plans</span></h2>
+                <p class="section-subtitle" id="pricing-subtitle" style="max-width:600px;margin:0 auto;">Choose the perfect tier that matches your business model and scale in Ahmedabad.</p>
+            </div>
+            <div class="pricing-grid" id="pricing-tiers-grid">
+                <!-- Tiers inject here -->
+            </div>
+        </section>
+
+        <!-- SECTION 7: AMENITIES -->
+        <section class="section" id="section-amenities" style="background-color:rgba(79,156,249,0.02); border-top:1px solid var(--card-border); border-bottom:1px solid var(--card-border);">
+            <div style="text-align:center;margin-bottom:40px;">
+                <h2 class="section-title" id="amenities-title">All-Inclusive <span class="underline-highlight">Amenities</span></h2>
+                <p class="section-subtitle" id="amenities-subtitle" style="max-width:600px;margin:0 auto;">Focus solely on growing your business while our professional crew handles the facility operations seamlessly.</p>
+            </div>
+            <div class="amenity-card-grid" id="amenities-container-grid">
+                <!-- Dynamic amenities list -->
+            </div>
+        </section>
+
+        <!-- SECTION 8: LOCATION -->
+        <section class="section" id="section-location" style="background-color:var(--white);">
+            <div class="grid-2" style="align-items:center;">
+                <div class="content-left">
+                    <h2 class="section-title" id="location-title">Be at the Beating Heart of <span class="underline-highlight">Ahmedabad</span></h2>
+                    <p class="section-subtitle" id="location-subtitle" style="margin-bottom:24px;">Located in the highly sought-after commercial district of <strong>Navrangpura, Ahmedabad (380009)</strong>.</p>
+                    
+                    <div style="background-color:rgba(79,156,249,0.05); border:1px solid var(--card-border); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+                        <div style="display:flex; align-items:flex-start; gap:12px;">
+                            <svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:var(--primary-blue); flex-shrink:0; margin-top:2px;">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <div>
+                                <div style="font-weight:700; color:var(--primary-blue-dark); font-size:15px; margin-bottom:4px;">Premium Hub Address</div>
+                                <div style="font-size:13.5px; line-height:1.4; color:var(--dark-text);" id="location-address-txt">Navrangpura, Ahmedabad, Gujarat, India - 380009</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:flex-start; gap:12px;">
+                            <svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:var(--primary-blue); flex-shrink:0; margin-top:2px;">
+                                <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.04 15.04 0 0 1-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.36 11.36 0 0 0 8.5 4c0-.55-.45-1-1-1H4.11c-.56 0-1 .43-1 .99C3.11 12.89 11.1 21 20 21c.56 0 .99-.44.99-1v-3.5c0-.55-.45-1-1-1z" />
+                            </svg>
+                            <div>
+                                <div style="font-weight:700; color:var(--primary-blue-dark); font-size:15px; margin-bottom:4px;">Booking Hotline</div>
+                                <div style="font-size:13.5px; color:var(--dark-text);" id="location-phone-txt">+91 99999 99999</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:24px;">
+                        <a href="#" class="btn btn-blue" id="location-direction-btn" target="_blank">Get Directions Map</a>
+                    </div>
+                </div>
+                
+                <div class="content-right" style="position:relative;">
+                    <div style="width:100%; height:400px; border-radius:16px; overflow:hidden; border:1px solid var(--card-border); box-shadow:0 10px 30px rgba(0,0,0,0.04);">
+                        <!-- Embed simulated premium graphic map using SVG to keep it frameworkless & stunning -->
+                        <svg viewBox="0 0 400 400" style="width:100%; height:100%; background-color:#eef4fa;">
+                            <rect x="0" y="0" width="400" height="400" fill="#e4f1fe" />
+                            <!-- Roads -->
+                            <line x1="0" y1="100" x2="400" y2="100" stroke="#ffffff" stroke-width="24" />
+                            <line x1="0" y1="100" x2="400" y2="100" stroke="#cbd5e1" stroke-width="2" />
+                            <line x1="200" y1="0" x2="200" y2="400" stroke="#ffffff" stroke-width="24" />
+                            <line x1="200" y1="0" x2="200" y2="400" stroke="#cbd5e1" stroke-width="2" />
+                            <line x1="0" y1="300" x2="400" y2="300" stroke="#ffffff" stroke-width="16" />
+                            <!-- Buildings -->
+                            <rect x="40" y="20" width="100" height="60" rx="4" fill="#cbd5e1" opacity="0.7" />
+                            <rect x="240" y="25" width="120" height="55" rx="4" fill="#cbd5e1" opacity="0.7" />
+                            <rect x="30" y="140" width="130" height="120" rx="6" fill="#cbd5e1" opacity="0.7" />
+                            <!-- Main Hub -->
+                            <rect x="230" y="130" width="140" height="130" rx="8" fill="var(--primary-blue)" filter="drop-shadow(0 6px 12px rgba(4,56,115,0.15))" />
+                            <text x="300" y="190" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="700" text-anchor="middle">PATEL WORKSPACE</text>
+                            <text x="300" y="210" fill="var(--accent-yellow)" font-family="Inter" font-size="9" font-weight="600" text-anchor="middle">Navrangpura Center</text>
+                            <!-- Animated Map Pin -->
+                            <g transform="translate(300, 110)">
+                                <circle cx="0" cy="0" r="18" fill="rgba(79,156,249,0.2)">
+                                    <animate attributeName="r" values="10;24;10" dur="2.5s" repeatCount="indefinite" />
+                                </circle>
+                                <path d="M0 -15 C-8 -15 -8 -7 0 0 C8 -7 8 -15 0 -15 Z" fill="var(--accent-blue)" />
+                                <circle cx="0" cy="-9" r="3" fill="#ffffff" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: TESTIMONIALS -->
+        <section class="section testimonials-section" id="section-testimonials" style="background-color:rgba(79,156,249,0.02);">
+            <h2 class="section-title" id="testimonials-title">Trusted By <span class="underline-highlight">Local Businesses</span></h2>
+            <p class="section-subtitle" id="testimonials-subtitle">Read what successful CAs, technology founders, and consultants in Ahmedabad say.</p>
+
+            <div class="testimonial-slider-container">
+                <div class="testimonial-track" id="testimonial-track">
+                    <!-- Testimonials load dynamically -->
+                </div>
+            </div>
+
+            <div class="carousel-dots" id="testimonial-dots-container">
+                <!-- Slide Dots Load -->
+            </div>
+        </section>
+
+        <!-- SECTION 10: BOTTOM HIGH IMPACT CTA -->
+        <section class="section try-today-section" id="section-cta" style="background-color:var(--primary-blue);">
+            <div class="try-today-content">
+                <h2 class="section-title" id="cta-title" style="color:var(--white); font-size: 48px;">Establish Your Premium Address</h2>
+                <p class="section-subtitle" id="cta-subtitle" style="color:var(--text-light-gray); max-width:540px;">Book a private cabin tour or register for your GST virtual office today.</p>
+                <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:20px; justify-content:center;">
+                    <a href="#" class="btn btn-blue" id="cta-btn-1" style="background-color:var(--accent-blue); padding: 16px 36px; font-size: 16px; font-weight: 600;" target="_blank">Book GST Registration</a>
+                    <a href="#" class="btn btn-outline" id="cta-btn-2" style="border-color:var(--accent-yellow); color:var(--accent-yellow); padding: 16px 36px; font-size: 16px; font-weight: 600;">Call helpline</a>
+                </div>
+                <p style="opacity: 0.7; margin-top: 15px; font-size: 14px;" id="cta-note">Need instant customized cabins? Visit our facility today.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SECTION 11: DYNAMIC LATEST BLOGS CARDS -->
+    <section class="section" id="section-blogs-feed" style="background-color: var(--white); border-top: 1px solid var(--card-border);">
+        <div style="text-align:center;margin-bottom:60px;">
+            <h2 class="section-title">Latest <span class="underline-highlight">Insights</span></h2>
+            <p class="section-subtitle" style="max-width:600px;margin:0 auto;">Guides, compliance changes, and workspace trends in Ahmedabad.</p>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:30px;" id="frontend-blogs-feed-grid">
+            <!-- Blogs cards load here -->
+        </div>
+    </section>
+
+    <!-- SECTION 12: SCHEDULE TOUR REQUEST FORM -->
+    <section class="section" id="contact" style="background-color: var(--white); border-top: 1px solid var(--card-border);">
+        <div class="grid-2">
+            <div class="content-left">
+                <h2 class="section-title">Schedule a Center <span class="underline-highlight">Tour</span></h2>
+                <p class="section-subtitle" style="margin-bottom: 24px;">Drop by to inspect our fully-furnished lockable private cabins, meeting room configurations, and corporate coworking workspace.</p>
+                <div style="font-size: 14.5px; color: var(--text-muted); display:flex; flex-direction:column; gap:12px;">
+                    <div>📍 <strong>Address:</strong> <span id="contact-address-txt">Navrangpura, Ahmedabad, Gujarat, India - 380009</span></div>
+                    <div>📞 <strong>Helpline:</strong> <span id="contact-phone-txt">+91 99999 99999</span></div>
+                    <div>✉️ <strong>Email Support:</strong> <span id="contact-email-txt">info@patelworkspace.com</span></div>
+                </div>
+            </div>
+            <div class="content-right">
+                <div style="background: rgba(4, 56, 115, 0.02); border: 1px solid var(--card-border); border-radius: 16px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                    <form id="contact-form">
+                        <div id="contact-alert" style="display: none; padding: 12px; margin-bottom: 16px; border-radius: 8px; font-size: 13.5px;"></div>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 6px;">Full Name</label>
+                            <input type="text" name="name" required style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--card-border); outline:none;">
+                        </div>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 6px;">Email Address</label>
+                            <input type="email" name="email" required style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--card-border); outline:none;">
+                        </div>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 6px;">Contact Phone</label>
+                            <input type="text" name="phone" required placeholder="e.g. +91 99999 99999" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--card-border); outline:none;">
+                        </div>
+                        
+                        <div style="margin-bottom: 24px;">
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 6px;">Your Message</label>
+                            <textarea name="message" required rows="3" placeholder="I am interested in Cabin 3 for 4 seats..." style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--card-border); outline:none; resize: none;"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-blue" style="width: 100%; justify-content: center; padding: 14px;">Submit Tour Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo">
+                    <svg viewBox="0 0 100 100" style="width: 24px; height: 24px; fill: var(--accent-blue);">
+                        <rect x="10" y="20" width="80" height="60" rx="8" />
+                        <rect x="25" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+                        <rect x="55" y="35" width="20" height="30" rx="3" fill="var(--accent-yellow)" />
+                    </svg>
+                    <span id="footer-site-name">Patel Workspace</span>
+                </a>
+                <p class="footer-desc">Premium private cabins, shared coworking, and 100% compliant Virtual Office registration and GST address solutions in Navrangpura, Ahmedabad (380009).</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Workspace Offerings</h4>
+                <ul class="footer-links">
+                    <li><a href="#on-demand" class="footer-link">Coworking Day Pass</a></li>
+                    <li><a href="#on-demand" class="footer-link">Meeting Rooms</a></li>
+                    <li><a href="#on-demand" class="footer-link">Event Spaces</a></li>
+                    <li><a href="#cabins-status" class="footer-link">Private Executive Cabins</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>GST & Compliance</h4>
+                <ul class="footer-links">
+                    <li><a href="#long-term" class="footer-link">Virtual Office GST</a></li>
+                    <li><a href="#long-term" class="footer-link">Consent Documentation</a></li>
+                    <li><a href="#long-term" class="footer-link">NOC Papers</a></li>
+                    <li><a href="#long-term" class="footer-link">Courier scans</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Patel Workspace</h4>
+                <ul class="footer-links">
+                    <li><a href="#location" class="footer-link">Our Ahmedabad Hub</a></li>
+                    <li><a href="#pricing" class="footer-link">Rates & Pricing</a></li>
+                    <li><a href="#location" class="footer-link">Get Directions</a></li>
+                    <li><a href="#" class="footer-link" id="footer-phone-link">Direct Line</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-cta-col">
+                <h4>Need a Tour?</h4>
+                <p>Chat directly with our reception desk on WhatsApp for instant cabin layouts and live availability details.</p>
+                <a href="#" class="btn btn-blue" id="footer-whatsapp-btn" style="background-color:var(--accent-blue);" target="_blank">
+                    WhatsApp Tour Booking
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="language-selector" style="cursor:default; border:none; padding:0; display:flex; align-items:center; gap:8px;">
+                <span>🌐</span> Patel Workspace Ahmedabad
+            </div>
+
+            <ul class="footer-bottom-links">
+                <li><a href="#" class="footer-bottom-link">Terms & Privacy Policy</a></li>
+                <li><a href="#" class="footer-bottom-link">GST Address NOC Legal</a></li>
+                <li><a href="admin/index.html" class="footer-bottom-link" id="footer-admin-link">🔑 Admin Console</a></li>
+                <li><a href="#" class="footer-bottom-link" id="footer-copyright-txt">© 2026 Patel Workspace Navrangpura.</a></li>
+            </ul>
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" id="footer-social-fb" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
+                </a>
+                <a href="#" class="social-icon" id="footer-social-tw" aria-label="Twitter">
+                    <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" /></svg>
+                </a>
+                <a href="#" class="social-icon" id="footer-social-li" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- DYNAMIC RENDERING SCRIPT -->
+    <script>
+        function checkAndRenderAdminBar() {
+            const currentUser = db.getCurrentUser();
+            if (currentUser) {
+                const adminBar = document.createElement('div');
+                adminBar.id = 'admin-top-bar';
+                adminBar.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 40px;
+                    background-color: #043873;
+                    color: #ffffff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 32px;
+                    z-index: 999999;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 13.5px;
+                    border-bottom: 2px solid #FFE492;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+                `;
+                
+                const leftDiv = document.createElement('div');
+                leftDiv.style.display = 'flex';
+                leftDiv.style.alignItems = 'center';
+                leftDiv.style.gap = '8px';
+                leftDiv.innerHTML = `
+                    <span style="font-weight: 700; color: #FFE492;">🔧 Admin Mode Active</span>
+                    <span style="opacity: 0.8; font-size: 12px;">(Logged in as <strong>${currentUser.username}</strong>)</span>
+                `;
+                
+                const rightDiv = document.createElement('div');
+                rightDiv.style.display = 'flex';
+                rightDiv.style.alignItems = 'center';
+                rightDiv.style.gap = '12px';
+                
+                const dashLink = document.createElement('a');
+                dashLink.href = 'admin/index.html';
+                dashLink.textContent = 'Go to Dashboard';
+                dashLink.style.cssText = `
+                    background-color: #4F9CF9;
+                    color: #ffffff;
+                    padding: 4px 12px;
+                    border-radius: 6px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    font-size: 12px;
+                    transition: all 0.2s ease;
+                `;
+                dashLink.onmouseover = () => { dashLink.style.backgroundColor = '#3684E2'; };
+                dashLink.onmouseout = () => { dashLink.style.backgroundColor = '#4F9CF9'; };
+
+                const logoutBtn = document.createElement('button');
+                logoutBtn.textContent = 'Sign Out';
+                logoutBtn.style.cssText = `
+                    background: transparent;
+                    border: 1px solid rgba(255, 255, 255, 0.4);
+                    color: #ffffff;
+                    padding: 3px 10px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                `;
+                logoutBtn.onmouseover = () => { 
+                    logoutBtn.style.background = 'rgba(255, 255, 255, 0.1)'; 
+                    logoutBtn.style.borderColor = '#ffffff';
+                };
+                logoutBtn.onmouseout = () => { 
+                    logoutBtn.style.background = 'transparent'; 
+                    logoutBtn.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                };
+                logoutBtn.onclick = () => {
+                    db.logout();
+                    window.location.reload();
+                };
+                
+                rightDiv.appendChild(dashLink);
+                rightDiv.appendChild(logoutBtn);
+                
+                adminBar.appendChild(leftDiv);
+                adminBar.appendChild(rightDiv);
+                
+                document.body.prepend(adminBar);
+                
+                // Shift the header down
+                const header = document.getElementById('header');
+                if (header) {
+                    header.style.top = '40px';
+                }
+                document.body.style.paddingTop = '40px';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check session for Admin Bar
+            checkAndRenderAdminBar();
+
+            // 1. Fetch data
+            const settings = db.getSettings();
+            const sections = db.getSections();
+            const cabins = db.getCabins();
+            const services = db.getServices();
+            const blogs = db.getBlogs();
+
+            // Apply active styles
+            db.applyThemeStyles();
+
+            // 2. Populate site general parameters
+            document.title = settings.meta_title || settings.site_name;
+            document.getElementById('site-title-tag').textContent = settings.meta_title || settings.site_name;
+            document.getElementById('meta-description-tag').setAttribute('content', settings.meta_description);
+            document.getElementById('meta-keywords-tag').setAttribute('content', settings.meta_keywords);
+
+            document.getElementById('nav-site-name').textContent = settings.site_name;
+            document.getElementById('footer-site-name').textContent = settings.site_name;
+
+            const cleanPhone = settings.site_phone.replace(/[^0-9+]/g, '');
+            document.getElementById('nav-call-btn').href = `tel:${cleanPhone}`;
+            document.getElementById('nav-call-btn').textContent = settings.site_phone;
+            document.getElementById('mobile-call-btn').href = `tel:${cleanPhone}`;
+            document.getElementById('mobile-call-btn').textContent = settings.site_phone;
+
+            const tourUrl = `https://wa.me/${settings.whatsapp_number}?text=Hi%2C%20I'd%20like%20to%20book%20a%20tour%20at%20${encodeURIComponent(settings.site_name)}.`;
+            document.getElementById('nav-tour-btn').href = tourUrl;
+            document.getElementById('mobile-tour-btn').href = tourUrl;
+
+            document.getElementById('location-address-txt').textContent = settings.site_address;
+            document.getElementById('location-phone-txt').textContent = settings.site_phone;
+            document.getElementById('contact-address-txt').textContent = settings.site_address;
+            document.getElementById('contact-phone-txt').textContent = settings.site_phone;
+            document.getElementById('contact-email-txt').textContent = settings.site_email;
+
+            document.getElementById('footer-phone-link').href = `tel:${cleanPhone}`;
+            document.getElementById('footer-phone-link').textContent = settings.site_phone;
+            document.getElementById('footer-whatsapp-btn').href = tourUrl;
+            document.getElementById('footer-copyright-txt').textContent = settings.footer_copyright;
+
+            document.getElementById('footer-social-fb').href = settings.social_facebook;
+            document.getElementById('footer-social-tw').href = settings.social_twitter;
+            document.getElementById('footer-social-li').href = settings.social_linkedin;
+
+            // 3. Render and Reorder Sections (Page Builder)
+            const mainContent = document.getElementById('main-content');
+            
+            // Map sections by identifier
+            const sectionsMap = {};
+            sections.forEach(s => {
+                sectionsMap[s.section_identifier] = s;
+            });
+
+            // Populate text parameters inside sections
+            // Hero
+            const heroData = sectionsMap['hero'];
+            if (heroData) {
+                document.getElementById('hero-title').innerHTML = heroData.title;
+                document.getElementById('hero-subtitle').textContent = heroData.subtitle;
+                document.getElementById('hero-btn-1').textContent = heroData.content_json.button_1_text || 'Book a Tour';
+                document.getElementById('hero-btn-1').href = `https://wa.me/${settings.whatsapp_number}?text=Hi%2C%20I'd%20like%20to%20book%20a%20tour%20at%20Patel%20Workspace%20Navrangpura.`;
+                document.getElementById('hero-btn-2').textContent = heroData.content_json.button_2_text || 'View Plans';
+                document.getElementById('hero-btn-2').href = heroData.content_json.button_2_url || '#pricing';
+                document.getElementById('hero-map-title').textContent = `${settings.site_name} — Navrangpura Floor Plan`;
+            }
+
+            // On Demand
+            const onDemandData = sectionsMap['on_demand'];
+            if (onDemandData) {
+                document.getElementById('on_demand-title').innerHTML = onDemandData.title;
+                document.getElementById('on_demand-subtitle').textContent = onDemandData.subtitle;
+            }
+
+            // Long Term
+            const longTermData = sectionsMap['long_term'];
+            if (longTermData) {
+                document.getElementById('long_term-title').innerHTML = longTermData.title;
+                document.getElementById('long_term-subtitle').textContent = longTermData.subtitle;
+            }
+
+            // Workflow
+            const workflowData = sectionsMap['workflow'];
+            if (workflowData) {
+                document.getElementById('workflow-title').innerHTML = workflowData.title;
+                document.getElementById('workflow-subtitle').textContent = workflowData.subtitle;
+                
+                const stepsContainer = document.getElementById('workflow-steps-container');
+                stepsContainer.innerHTML = '';
+                const steps = workflowData.content_json.steps || [];
+                steps.forEach(st => {
+                    stepsContainer.innerHTML += `
+                        <div class="workflow-step">
+                            <div class="step-number">${st.num}</div>
+                            <h3 class="step-title">${st.title}</h3>
+                            <p class="step-desc">${st.desc}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            // Cabins
+            const cabinsSectionData = sectionsMap['cabins'];
+            if (cabinsSectionData) {
+                document.getElementById('cabins-title').innerHTML = cabinsSectionData.title;
+                document.getElementById('cabins-subtitle').textContent = cabinsSectionData.subtitle;
+                
+                const featuresList = document.getElementById('cabins-features-list');
+                featuresList.innerHTML = '';
+                const features = cabinsSectionData.content_json.features || [];
+                features.forEach(f => {
+                    featuresList.innerHTML += `
+                        <li class="pricing-feature" style="color:var(--text-light-gray);">
+                            <svg viewBox="0 0 24 24" style="fill:var(--accent-yellow);">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg>
+                            ${f}
+                        </li>
+                    `;
+                });
+
+                document.getElementById('cabins-cta-btn').textContent = cabinsSectionData.content_json.button_text || 'Book a Cabin Tour';
+                document.getElementById('cabins-cta-btn').href = `https://wa.me/${settings.whatsapp_number}?text=Hi%2C%20I'd%20like%20to%20enquire%20about%20renting%20a%20private%20cabin%20at%20Patel%20Workspace.`;
+            }
+
+            // Pricing
+            const pricingData = sectionsMap['pricing'];
+            if (pricingData) {
+                document.getElementById('pricing-title').innerHTML = pricingData.title;
+                document.getElementById('pricing-subtitle').textContent = pricingData.subtitle;
+                
+                const pricingGrid = document.getElementById('pricing-tiers-grid');
+                pricingGrid.innerHTML = '';
+                const tiers = pricingData.content_json.tiers || [];
+                
+                tiers.forEach((t, idx) => {
+                    const isFeatured = t.featured;
+                    const cardClass = isFeatured ? 'pricing-card featured' : 'pricing-card';
+                    const priceColorStyle = isFeatured ? 'color:var(--accent-yellow);' : (idx === 2 ? 'color:var(--primary-blue-dark);' : '');
+                    const suffixColorStyle = isFeatured ? 'color:var(--white); font-size:14px; font-weight:400;' : 'font-size:14px; font-weight:400;';
+                    const descStyle = isFeatured ? '' : 'color:var(--text-muted);';
+                    const btnClass = isFeatured ? 'btn btn-blue pricing-btn' : 'btn btn-outline pricing-btn';
+                    const btnStyle = isFeatured ? 'background-color:var(--accent-blue);' : '';
+                    
+                    let featuresMarkup = '';
+                    t.features.forEach(f => {
+                        featuresMarkup += `
+                            <li class="pricing-feature">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                                ${f}
+                            </li>
+                        `;
+                    });
+
+                    const waLink = `https://wa.me/${settings.whatsapp_number}?text=Hi%2C%20I'm%20interested%20in%20your%20${encodeURIComponent(t.title)}%20Pricing%20Plan.`;
+
+                    pricingGrid.innerHTML += `
+                        <div class="${cardClass}">
+                            <div class="pricing-title">${t.title}</div>
+                            <div class="pricing-price" style="${priceColorStyle}">${t.price}<span style="${suffixColorStyle}">${t.period}</span></div>
+                            <div class="pricing-desc" style="${descStyle}">${t.desc}</div>
+                            <ul class="pricing-features">
+                                ${featuresMarkup}
+                            </ul>
+                            <a href="${waLink}" class="${btnClass}" style="${btnStyle}" target="_blank">${t.btn_text}</a>
+                        </div>
+                    `;
+                });
+            }
+
+            // Amenities
+            const amenitiesData = sectionsMap['amenities'];
+            if (amenitiesData) {
+                document.getElementById('amenities-title').innerHTML = amenitiesData.title;
+                document.getElementById('amenities-subtitle').textContent = amenitiesData.subtitle;
+                
+                const amenitiesGrid = document.getElementById('amenities-container-grid');
+                amenitiesGrid.innerHTML = '';
+                const amList = amenitiesData.content_json.amenities || [];
+                
+                // SVG Icons map
+                const iconSvgMap = {
+                    wifi: '<path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z" />',
+                    ac: '<path d="M19 12h-2v3h-3v2h3v3h2v-3h3v-2h-3v-3zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z" />',
+                    coffee: '<path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4v-2z" />',
+                    cleaning: '<path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />',
+                    power: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />',
+                    cctv: '<path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-12h-5V3c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-6-1h2v1h-2V4zm6 16H6V9h12v11z" />',
+                    print: '<path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" />',
+                    courier: '<path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm0 4h8v-2H6v2zm0-8h12v2H6V5z" />'
+                };
+
+                amList.forEach(am => {
+                    const iconSvg = iconSvgMap[am.icon] || iconSvgMap['wifi'];
+                    amenitiesGrid.innerHTML += `
+                        <div class="amenity-pill">
+                            <div class="amenity-pill-icon">
+                                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;">
+                                    ${iconSvg}
+                                </svg>
+                            </div>
+                            <div class="amenity-pill-text">${am.title}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Location
+            const locationData = sectionsMap['location'];
+            if (locationData) {
+                document.getElementById('location-title').innerHTML = locationData.title;
+                document.getElementById('location-subtitle').textContent = locationData.subtitle;
+                document.getElementById('location-direction-btn').href = locationData.content_json.coordinates_url || '#';
+            }
+
+            // Testimonials
+            const testimonialsData = sectionsMap['testimonials'];
+            if (testimonialsData) {
+                document.getElementById('testimonials-title').innerHTML = testimonialsData.title;
+                document.getElementById('testimonials-subtitle').textContent = testimonialsData.subtitle;
+                
+                const track = document.getElementById('testimonial-track');
+                const dotsContainer = document.getElementById('testimonial-dots-container');
+                track.innerHTML = '';
+                dotsContainer.innerHTML = '';
+                
+                const tList = testimonialsData.content_json.testimonials || [];
+                tList.forEach((t, idx) => {
+                    const avatarBg = idx === 1 ? 'background-color: var(--accent-yellow);' : (idx === 2 ? 'background-color: var(--light-blue-mockup);' : '');
+                    
+                    // Render card
+                    track.innerHTML += `
+                        <div class="testimonial-card">
+                            <svg class="quote-icon" viewBox="0 0 24 24">
+                                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z" />
+                            </svg>
+                            <p class="testimonial-text">${t.text}</p>
+                            <div class="testimonial-divider"></div>
+                            <div class="client-profile">
+                                <div class="client-avatar" style="${avatarBg}">${t.avatar}</div>
+                                <div>
+                                    <div class="client-name">${t.name}</div>
+                                    <div class="client-role">${t.role}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Render dot
+                    const dotClass = idx === 0 ? 'carousel-dot active' : 'carousel-dot';
+                    dotsContainer.innerHTML += `<button class="${dotClass}" data-index="${idx}" aria-label="Slide ${idx + 1}"></button>`;
+                });
+            }
+
+            // CTA Bottom
+            const ctaData = sectionsMap['cta'];
+            if (ctaData) {
+                document.getElementById('cta-title').innerHTML = ctaData.title;
+                document.getElementById('cta-subtitle').textContent = ctaData.subtitle;
+                document.getElementById('cta-btn-1').textContent = ctaData.content_json.button_1_text || 'Book GST Registration';
+                document.getElementById('cta-btn-1').href = ctaData.content_json.button_1_url || '#';
+                document.getElementById('cta-btn-2').textContent = ctaData.content_json.button_2_text || 'Call helpline';
+                document.getElementById('cta-btn-2').href = ctaData.content_json.button_2_url || '#';
+                document.getElementById('cta-note').textContent = ctaData.content_json.note || '';
+            }
+
+            // Apply Re-Ordering and Visibility
+            sections.forEach((sec) => {
+                const secEl = document.getElementById(`section-${sec.section_identifier}`);
+                if (secEl) {
+                    if (!sec.is_visible) {
+                        secEl.style.display = 'none';
+                    } else {
+                        secEl.style.display = '';
+                        // Append to end of mainContent container to maintain the correct sorted order
+                        mainContent.appendChild(secEl);
+                    }
+                }
+            });
+
+            // 4. Render Dynamic Cabins List & Floor Plan Statuses
+            const activeCabinsList = cabins.slice(0, 6);
+            
+            // Hero Map Cabins
+            const cabinsMapContainer = document.getElementById('hero-cabins-map');
+            cabinsMapContainer.innerHTML = '';
+            
+            // Flagship Status List Grid
+            const cabinsListGrid = document.getElementById('cabins-list-grid');
+            cabinsListGrid.innerHTML = '';
+
+            activeCabinsList.forEach((c) => {
+                const isAvail = c.status === 'available';
+                const borderCol = isAvail ? 'rgba(79,156,249,0.3)' : 'rgba(255,228,146,0.3)';
+                const iconCol = isAvail ? 'var(--accent-blue)' : 'var(--accent-yellow)';
+                const textCol = isAvail ? '#22C55E' : '#EF4444';
+                
+                // Map Element
+                cabinsMapContainer.innerHTML += `
+                    <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:2px solid ${borderCol};">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:${iconCol};">
+                            <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z" />
+                        </svg>
+                        <span style="font-size:10px;font-weight:700;color:var(--white);">${c.name.split(' ')[0] + ' ' + c.name.split(' ')[1]}</span>
+                        <span style="font-size:8px;color:${textCol};font-weight:700;text-transform:uppercase;">
+                            ${c.status}
+                        </span>
+                    </div>
+                `;
+
+                // Flagship list item card
+                const waCabinLink = `https://wa.me/${settings.whatsapp_number}?text=Hi%2C%20I'm%20interested%20in%20booking%20${encodeURIComponent(c.name)}%20at%20${encodeURIComponent(settings.site_name)}.`;
+                cabinsListGrid.innerHTML += `
+                    <div class="cabin-status-card" style="background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.08);">
+                        <div class="cabin-meta">
+                            <div class="cabin-icon-wrapper" style="background-color:rgba(79,156,249,0.1); color:var(--accent-blue);">
+                                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;">
+                                    <path d="M4 18v3h3v-3h10v3h3v-6H4v3zm15-8h-3V6H8v4H5V5h14v5z" />
+                                </svg>
+                            </div>
+                            <div class="cabin-details">
+                                <h4 style="color:var(--white);">${c.name}</h4>
+                                <p style="color:var(--text-light-gray);">${c.description} • <span style="color:var(--accent-yellow); font-size:11px; font-weight:700;">${c.capacity}</span></p>
+                            </div>
+                        </div>
+                        <div class="cabin-action">
+                            <span class="cabin-badge ${isAvail ? 'available' : 'occupied'}">
+                                ${c.status}
+                            </span>
+                            <div class="cabin-price" style="color:var(--white);">₹${parseInt(c.price).toLocaleString('en-IN')} <span style="color:var(--text-light-gray);">${c.price_suffix}</span></div>
+                            <a href="${waCabinLink}" target="_blank" style="color:var(--accent-blue);">
+                                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 5. Render Services
+            const onDemandContainer = document.getElementById('on-demand-services-grid');
+            const longTermContainer = document.getElementById('long-term-services-grid');
+            
+            onDemandContainer.innerHTML = '';
+            longTermContainer.innerHTML = '';
+
+            // Map Service Icons to SVGs
+            const serviceIconSvgMap = {
+                wifi: '<path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z" />',
+                calendar: '<path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" />',
+                team: '<path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />',
+                building: '<path d="M12 7V3H2v18h20V7H12zm-2 12H4v-2h6v2zm0-4H4v-2h6v2zm0-4H4V9h6v2zm0-4H4V5h6v2zm10 12h-8v-2h8v2zm0-4h-8v-2h8v2zm0-4h-8V9h8v2z" />',
+                desk: '<path d="M2 17h20v2H2zm2-2h16V9H4zm14-8h-3V5H9v2H6V5c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v2z" />',
+                briefcase: '<path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />',
+                virtual: '<path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z" />'
+            };
+
+            services.forEach((s) => {
+                const iconPath = serviceIconSvgMap[s.icon_svg] || serviceIconSvgMap['wifi'];
+                const cardMarkup = `
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor;">
+                                ${iconPath}
+                            </svg>
+                        </div>
+                        <h3 class="service-title">${s.title}</h3>
+                        <p class="service-desc">${s.description}</p>
+                        <div class="service-price">
+                            ${s.price}<span style="font-size:13px; font-weight:400; opacity:0.7;">${s.price_suffix || ''}</span>
+                        </div>
+                        <a href="${s.link_url}" class="btn btn-outline" style="margin-top:auto;" target="_blank">Book Offering</a>
+                    </div>
+                `;
+
+                if (s.type === 'on-demand') {
+                    onDemandContainer.innerHTML += cardMarkup;
+                } else {
+                    longTermContainer.innerHTML += cardMarkup;
+                }
+            });
+
+            // 6. Render Blogs Feed (Limit to 3 published posts)
+            const publishedBlogs = blogs.filter(b => b.status === 'published').slice(0, 3);
+            const blogsGrid = document.getElementById('frontend-blogs-feed-grid');
+            blogsGrid.innerHTML = '';
+            
+            if (publishedBlogs.length === 0) {
+                document.getElementById('section-blogs-feed').style.display = 'none';
+            } else {
+                publishedBlogs.forEach(b => {
+                    const blogImg = b.featured_image || 'https://images.unsplash.com/photo-1527192491265-7e15c55b1ed2?auto=format&fit=crop&w=400&q=80';
+                    blogsGrid.innerHTML += `
+                        <div class="service-card" style="padding:0; overflow:hidden; border:1px solid var(--card-border); display:flex; flex-direction:column; background-color: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: var(--transition);">
+                            <img src="${blogImg}" alt="${b.title}" style="width:100%; height:180px; object-fit:cover; border-bottom:1px solid var(--card-border);">
+                            <div style="padding:24px; display:flex; flex-direction:column; flex:1; gap:12px;">
+                                <div style="font-size:12px; color:var(--text-muted); font-weight:600;">📝 By ${b.author} • ${new Date(b.created_at).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})}</div>
+                                <h3 style="font-size:18px; line-height:1.3; font-family:var(--font-header); font-weight:700;"><a href="blog.html?slug=${b.slug}" style="color:var(--primary-blue-dark);">${b.title}</a></h3>
+                                <p style="font-size:13.5px; color:var(--text-muted); line-height:1.5;">${b.excerpt || ''}</p>
+                                <a href="blog.html?slug=${b.slug}" style="color:var(--accent-blue); font-size:14px; font-weight:700; display:inline-flex; align-items:center; gap:6px; margin-top:auto;">Read Full Guide →</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 7. Setup Testimonial Carousel sliding interaction
+            setTimeout(() => {
+                const track = document.getElementById('testimonial-track');
+                const dots = document.querySelectorAll('.carousel-dot');
+                if (track && dots.length > 0) {
+                    dots.forEach(dot => {
+                        dot.addEventListener('click', (e) => {
+                            const targetIndex = parseInt(e.target.getAttribute('data-index'));
+                            
+                            dots.forEach(d => d.classList.remove('active'));
+                            e.target.classList.add('active');
+
+                            const firstCard = track.firstElementChild;
+                            if (firstCard) {
+                                const cardWidth = firstCard.getBoundingClientRect().width;
+                                const gap = 32; 
+                                const translateX = targetIndex * (cardWidth + gap);
+                                track.style.transform = `translateX(-${translateX}px)`;
+                            }
+                        });
+                    });
+                }
+            }, 100);
+        });
+
+        // Sticky Header scroll styling
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Hamburger drawer toggle
+        const hamburgerToggle = document.getElementById('hamburger-toggle');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+
+        hamburgerToggle.addEventListener('click', () => {
+            mobileDrawer.classList.toggle('active');
+            const bars = hamburgerToggle.children;
+            if (mobileDrawer.classList.contains('active')) {
+                bars[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                bars[1].style.opacity = '0';
+                bars[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+            } else {
+                bars[0].style.transform = 'none';
+                bars[1].style.opacity = '1';
+                bars[2].style.transform = 'none';
+            }
+        });
+
+        // Contact form submissions handler
+        const contactForm = document.getElementById('contact-form');
+        const contactAlert = document.getElementById('contact-alert');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(contactForm);
+            
+            const submission = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                message: formData.get('message')
+            };
+
+            const result = db.addSubmission(submission);
+            
+            contactAlert.style.display = 'block';
+            contactAlert.style.backgroundColor = '#f0fdf4';
+            contactAlert.style.border = '1px solid #bbf7d0';
+            contactAlert.style.color = '#16a34a';
+            contactAlert.textContent = result.message;
+            
+            contactForm.reset();
+            
+            setTimeout(() => {
+                contactAlert.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>

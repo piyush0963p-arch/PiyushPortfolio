@@ -1,0 +1,50 @@
+/* ============================================
+   PAGE: EMAIL MARKETING
+   ============================================ */
+
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .grid-4 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+}
+
+.border-primary {
+  border: 1px solid var(--primary);
+}
+
+.shadow-primary {
+  box-shadow: var(--shadow-primary);
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Email Builder Modal Overrides ── */
+.email-canvas {
+  background: #fff; /* Always white regardless of theme for accurate email preview */
+  color: #000;
+}
+
+.email-canvas p, .email-canvas h1, .email-canvas h2 {
+  color: #333;
+}
+
+/* Ensure the modal overlay allows scrolling if needed on very small screens */
+.modal-dialog {
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+/* Desktop sizing for the modal */
+@media (min-width: 1024px) {
+  .modal-dialog {
+    max-width: 1200px !important;
+  }
+}

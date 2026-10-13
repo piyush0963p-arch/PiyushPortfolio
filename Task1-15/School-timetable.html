@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy | Excellence in Education</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+        :root {
+            --primary: #004b23;
+            --secondary: #ccff33;
+            --text-dark: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary);
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        #date-display {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            border-bottom: 3px solid var(--secondary);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Facilities Grid */
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .facility-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Timetable */
+        .timetable-wrapper {
+            overflow-x: auto;
+            margin-bottom: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* Forms Layout */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .forms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #003318;
+        }
+
+        /* Feedback Board */
+        #feedback-board {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .feedback-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .feedback-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive Design Media Queries */
+        @media (max-width: 768px) {
+            header {
+                padding: 30px 15px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 20px 15px;
+            }
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            .form-box {
+                padding: 20px;
+            }
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.7rem;
+            }
+            header p {
+                font-size: 0.95rem;
+            }
+            #date-display {
+                font-size: 0.95rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+            .facilities-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            th, td {
+                padding: 8px 5px;
+                font-size: 0.8rem;
+            }
+            .form-box {
+                padding: 15px;
+            }
+            button {
+                font-size: 1rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>A+ Academy</h1>
+        <p>Nurturing minds, building futures.</p>
+        <p id="date-display"></p>
+    </header>
+
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h2 class="section-title">Welcome to Our Campus</h2>
+            <p style="max-width: 800px; margin: 0 auto; font-size: 1.1rem;">
+                Evergreen Academy provides a world-class educational environment designed to foster academic excellence, creativity, and leadership in every student.
+            </p>
+        </div>
+
+        <h2 class="section-title">Campus Facilities</h2>
+        <div class="facilities-grid">
+            <div class="facility-card">
+                <h3>Science Labs</h3>
+                <p>State-of-the-art equipment for practical learning.</p>
+            </div>
+            <div class="facility-card">
+                <h3>Digital Library</h3>
+                <p>Over 50,000 resources and digital journals.</p>
+            </div>
+            <div class="facility-card">
+                <h3>Sports Complex</h3>
+                <p>Olympic-sized pool and indoor basketball courts.</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Weekly Timetable</h2>
+        <div class="timetable-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>08:00 AM</td>
+                        <td>Mathematics</td>
+                        <td>Physics</td>
+                        <td>Chemistry</td>
+                        <td>Biology</td>
+                        <td>Literature</td>
+                    </tr>
+                    <tr>
+                        <td>10:00 AM</td>
+                        <td>Literature</td>
+                        <td>Mathematics</td>
+                        <td>Computer Sci</td>
+                        <td>History</td>
+                        <td>Physics</td>
+                    </tr>
+                    <tr>
+                        <td>12:00 PM</td>
+                        <td colspan="5" style="background: #f1f1f1; font-weight: bold;">Lunch Break</td>
+                    </tr>
+                    <tr>
+                        <td>01:00 PM</td>
+                        <td>Physical Ed</td>
+                        <td>Art & Design</td>
+                        <td>Mathematics</td>
+                        <td>Geography</td>
+                        <td>Computer Sci</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="forms-grid">
+            <div class="form-box">
+                <h2 class="section-title">Admission Form</h2>
+                <form id="admission-form">
+                    <div class="form-group">
+                        <label for="student-name">Student Full Name</label>
+                        <input type="text" id="student-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="grade">Applying For Grade</label>
+                        <select id="grade" required>
+                            <option value="">Select Grade...</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="parent-email">Parent Email</label>
+                        <input type="email" id="parent-email" required>
+                    </div>
+                    <button type="submit">Submit Application</button>
+                </form>
+            </div>
+
+            <div class="form-box">
+                <h2 class="section-title">Parent Feedback</h2>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label for="reviewer-name">Your Name</label>
+                        <input type="text" id="reviewer-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-text">Your Feedback</label>
+                        <textarea id="review-text" rows="3" required></textarea>
+                    </div>
+                    <button type="submit">Post Feedback</button>
+                </form>
+
+                <div id="feedback-board">
+                    <div class="feedback-item">
+                        <strong>Sarah Jenkins</strong>
+                        <p>The new science labs are incredible. My daughter loves her classes!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JS Requirement: Display Today's Date
+        function displayCurrentDate() {
+            const dateElement = document.getElementById('date-display');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            dateElement.textContent = `Today is ${today.toLocaleDateString('en-US', options)}`;
+        }
+
+        // Initialize Date on load
+        displayCurrentDate();
+
+        // Admission Form Handler
+        const admissionForm = document.getElementById('admission-form');
+        admissionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Application submitted successfully. Our admissions team will contact you soon.");
+            this.reset();
+        });
+
+        // Challenge: Parent Feedback Dynamic UI
+        const feedbackForm = document.getElementById('feedback-form');
+        const feedbackBoard = document.getElementById('feedback-board');
+
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get user input
+            const name = document.getElementById('reviewer-name').value;
+            const text = document.getElementById('review-text').value;
+
+            // Create new HTML elements for the feedback
+            const newFeedback = document.createElement('div');
+            newFeedback.className = 'feedback-item';
+            
+            newFeedback.innerHTML = `
+                <strong>${name}</strong>
+                <p>${text}</p>
+            `;
+
+            // Prepend adds the new feedback to the TOP of the list
+            feedbackBoard.prepend(newFeedback);
+
+            // Clear the form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
