@@ -200,20 +200,28 @@ function initProjects() {
   const resolveUrl = (url) => {
     if (!url || url.startsWith('http://') || url.startsWith('https://')) return url;
     const clean = url.replace(/^\.\.\//, '');
-    const isSubfolder = window.location.pathname.includes('/piyush');
-    return isSubfolder ? '../' + clean : clean;
+
+    // On HTTP / HTTPS (Vercel, dev server), build a robust root-relative URL with encoded URI parts
+    if (window.location.protocol.startsWith('http')) {
+      const parts = clean.split('/').map((seg) => encodeURIComponent(seg)).join('/');
+      return '/' + parts;
+    }
+
+    // On local file:// protocol, check if we are explicitly running inside the 'piyush portfolio' subfolder
+    const isPiyushPortfolioSubfolder = /[\/\\]piyush[\s_-]+portfolio[\/\\]/i.test(window.location.pathname);
+    return isPiyushPortfolioSubfolder ? '../' + clean : clean;
   };
 
   grid.innerHTML = list.map((p) => {
     const projectUrl = resolveUrl(p.url);
     return `
-    <article class="card project reveal" data-cat="${p.cat}" data-search="${(p.title + ' ' + p.desc + ' ' + p.tech.join(' ')).toLowerCase()}">
+    <article class="card project reveal" data-cat="${p.cat}" data-search="${(p.title + ' ' + p.desc + ' ' + p.tech.join(' ')).toLowerCase()}" style="cursor: pointer;">
       <a class="project-thumb" href="${projectUrl}" target="_blank" rel="noopener" aria-label="Open ${p.title} live demo">
         <img src="assets/img/projects/${p.img}.jpg" alt="Screenshot of ${p.title}" loading="lazy" decoding="async" width="800" height="500">
         <span class="project-badge">${CATEGORY_LABELS[p.cat]}</span>
       </a>
       <div class="project-body">
-        <h3>${p.title}</h3>
+        <h3><a class="project-title-link" href="${projectUrl}" target="_blank" rel="noopener">${p.title}</a></h3>
         <p>${p.desc}</p>
         <div class="tags">${p.tech.map((t) => `<span class="tag">${t}</span>`).join('')}</div>
         <div class="project-links">
@@ -223,6 +231,17 @@ function initProjects() {
     </article>
   `;
   }).join('');
+
+  // Allow clicking anywhere on project card to open demo on mobile & desktop
+  grid.addEventListener('click', (e) => {
+    if (e.target.closest('a, button')) return;
+    const card = e.target.closest('.card.project');
+    if (!card) return;
+    const link = card.querySelector('a.primary, a.project-thumb');
+    if (link && link.href) {
+      window.open(link.href, '_blank', 'noopener');
+    }
+  });
 
   // Counts on filter buttons
   filterBtns.forEach((b) => {

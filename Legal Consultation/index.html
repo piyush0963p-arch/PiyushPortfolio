@@ -45,9 +45,10 @@
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: clamp(2.2rem, 6vw, 4rem);
             margin-bottom: 1.5rem;
             letter-spacing: -0.025em;
+            line-height: 1.15;
         }
 
         .hero h1 span {
@@ -66,6 +67,7 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .hero-btns .btn {
@@ -241,11 +243,48 @@
         }
 
         @media (max-width: 768px) {
+            .nav-links .nav-link {
+                display: none;
+            }
+            .nav-links {
+                gap: 0.75rem !important;
+            }
+            .hero {
+                padding: 3.5rem 1rem !important;
+            }
+            .hero h1 {
+                font-size: 2.2rem !important;
+            }
+            .hero-btns {
+                flex-direction: column;
+                align-items: stretch;
+                max-width: 320px;
+                margin: 0 auto;
+            }
             .solutions-grid, .attorneys-grid, .testimonials-grid, .pricing-grid {
                 grid-template-columns: 1fr !important;
             }
+            .features-grid {
+                grid-template-columns: 1fr !important;
+                padding: 2rem 0 !important;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.5rem !important;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2.5rem !important;
+                margin-bottom: 2rem !important;
+            }
             .playground-card {
                 padding: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr !important;
             }
         }
     </style>

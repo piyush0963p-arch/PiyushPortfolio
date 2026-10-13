@@ -1,3 +1,7 @@
+main {
+  padding-bottom: 76px;
+}
+
 @media (min-width: 640px) {
   .site-header {
     grid-template-columns: auto minmax(280px, 1fr) auto;

@@ -945,17 +945,25 @@
   }
 
   function init() {
-    buildMobileNav();
-    buildMegaMenus();
-    updateCounts();
-    initPromoSlider();
-    renderTrends();
-    renderFeed();
-    hydrateUser();
-    renderInventoryConsole();
-    initCharts();
-    initGlobalClicks();
-    
+    [
+      buildMobileNav,
+      buildMegaMenus,
+      updateCounts,
+      initPromoSlider,
+      renderTrends,
+      renderFeed,
+      hydrateUser,
+      renderInventoryConsole,
+      initCharts,
+      initGlobalClicks
+    ].forEach((fn) => {
+      try {
+        if (typeof fn === 'function') fn();
+      } catch (err) {
+        console.warn('FashionHub init warning:', err);
+      }
+    });
+
     window.addEventListener('fashionhub:cart', renderCartDrawer);
   }
 

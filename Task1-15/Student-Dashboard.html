@@ -193,6 +193,8 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border-color);
             min-width: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .panel h2 {
@@ -478,6 +480,9 @@
             }
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            .panel {
+                padding: 1.25rem 1rem;
             }
 
             .modal-card {

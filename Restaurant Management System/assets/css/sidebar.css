@@ -217,3 +217,55 @@
     flex: 1;
     overflow-y: auto;
 }
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 900px) {
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        transition: left var(--transition-normal);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+    }
+    .sidebar.open {
+        left: 0;
+    }
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 999;
+        display: none;
+    }
+    .sidebar-overlay.open {
+        display: block;
+    }
+    .app-container {
+        flex-direction: column;
+    }
+    .main-content {
+        width: 100%;
+        min-width: 0;
+    }
+    .content-wrapper {
+        padding: 1.25rem 1rem;
+    }
+    .topbar {
+        padding: 0.75rem 1rem;
+    }
+    .search-bar {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-bar {
+        display: none;
+    }
+    .topbar-right {
+        gap: 0.5rem;
+    }
+}
