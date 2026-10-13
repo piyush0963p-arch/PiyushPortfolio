@@ -32,7 +32,7 @@ const PROJECTS = [
     desc: 'Premium fashion marketplace with product listing, product page, wishlist, cart, checkout and payment flow.',
     cat: 'ecommerce',
     img: 'fashionhub',
-    url: '../fashionhub/index(1).html',
+    url: 'fashionhub/index.html',
     tech: ['HTML', 'CSS', 'JS', 'localStorage'],
     featured: true
   },
@@ -41,39 +41,39 @@ const PROJECTS = [
     desc: 'Legal consultation platform with case management, lawyer booking, billing, calendar and secure messaging.',
     cat: 'apps',
     img: 'lexai',
-    url: '../Legal%20Consultation/index.html',
+    url: 'Legal Consultation/index.html',
     tech: ['HTML', 'CSS', 'JS'],
     featured: true
   },
 
   // ---- Web Apps / Dashboards ----
-  { title: 'EstateAI', desc: 'AI-powered real estate platform with listings, map view, comparisons, mortgage calculator and smart recommendations.', cat: 'apps', img: 'estate-ai', url: '../Real%20E-state/index.html', tech: ['HTML', 'CSS', 'JavaScript'], featured: true },
-  { title: 'NexusAI Marketing', desc: 'Digital marketing suite with campaign analytics, SEO center, social planner, funnels and an AI content studio.', cat: 'apps', img: 'nexus-ai', url: '../Digital-marketing/index.html', tech: ['HTML', 'CSS', 'JS', 'Chart.js'], featured: true },
-  { title: 'MediAI Care', desc: 'Healthcare portal for appointments, prescriptions, reports, telemedicine and patient / doctor dashboards.', cat: 'apps', img: 'mediai', url: '../Healthcare-portal/index.html', tech: ['HTML', 'CSS', 'JS', 'Chart.js'], featured: true },
-  { title: 'DineFlow AI', desc: 'Restaurant management system — POS, kitchen display, table & inventory management, staff and analytics.', cat: 'apps', img: 'dineflow', url: '../Restaurant%20Management%20System/index.html', tech: ['HTML', 'CSS', 'JS', 'Lucide'], featured: true },
-  { title: 'Student Dashboard', desc: 'Learning dashboard showing courses, attendance, assignments and performance at a glance.', cat: 'apps', img: 'student-dash', url: '../Task1-15/Student-Dashboard.html', tech: ['HTML', 'CSS', 'JS'] },
+  { title: 'EstateAI', desc: 'AI-powered real estate platform with listings, map view, comparisons, mortgage calculator and smart recommendations.', cat: 'apps', img: 'estate-ai', url: 'Real E-state/index.html', tech: ['HTML', 'CSS', 'JavaScript'], featured: true },
+  { title: 'NexusAI Marketing', desc: 'Digital marketing suite with campaign analytics, SEO center, social planner, funnels and an AI content studio.', cat: 'apps', img: 'nexus-ai', url: 'Digital-marketing/index.html', tech: ['HTML', 'CSS', 'JS', 'Chart.js'], featured: true },
+  { title: 'MediAI Care', desc: 'Healthcare portal for appointments, prescriptions, reports, telemedicine and patient / doctor dashboards.', cat: 'apps', img: 'mediai', url: 'Healthcare-portal/index.html', tech: ['HTML', 'CSS', 'JS', 'Chart.js'], featured: true },
+  { title: 'DineFlow AI', desc: 'Restaurant management system — POS, kitchen display, table & inventory management, staff and analytics.', cat: 'apps', img: 'dineflow', url: 'Restaurant Management System/index.html', tech: ['HTML', 'CSS', 'JS', 'Lucide'], featured: true },
+  { title: 'Student Dashboard', desc: 'Learning dashboard showing courses, attendance, assignments and performance at a glance.', cat: 'apps', img: 'student-dash', url: 'Task1-15/Student-Dashboard.html', tech: ['HTML', 'CSS', 'JS'] },
 
   // ---- Business Websites ----
-  { title: 'Patel Workspace', desc: 'Coworking & virtual office website for Navrangpura, Ahmedabad with booking flows and a CMS-style admin panel.', cat: 'business', img: 'patel-workspace', url: '../Patelcoworking.space/Patelcoworking-space.html', tech: ['HTML', 'CSS', 'JS'], featured: true },
-  { title: 'Aegis Shield Security', desc: 'Corporate website for a security agency — services, technology, training and careers pages.', cat: 'business', img: 'aegis-security', url: '../Security%20Agency/index.html', tech: ['HTML', 'CSS', 'JS'], featured: true },
-  { title: 'Tops Coaching', desc: 'IIT-JEE & NEET coaching institute website with programs, results, faculty and admissions.', cat: 'business', img: 'coaching', url: '../Task1-15/Coaching-Institute.html', tech: ['HTML', 'CSS'] },
-  { title: 'Gourmet Bites', desc: 'Online food ordering website with menu categories, cart and checkout experience.', cat: 'business', img: 'food-ordering', url: '../Task1-15/Food-Ordering.html', tech: ['HTML', 'CSS', 'JS'] },
-  { title: 'My Fitness Gym', desc: 'Gym membership website with plans, trainers and a membership sign-up form.', cat: 'business', img: 'gym', url: '../Task1-15/Gym-Membership.html', tech: ['HTML', 'CSS'] },
-  { title: 'Travel Agency', desc: 'Travel agency site featuring destinations, tour packages and booking enquiry.', cat: 'business', img: 'travel', url: '../Task1-15/Travel-Agency.html', tech: ['HTML', 'CSS'] },
+  { title: 'Patel Workspace', desc: 'Coworking & virtual office website for Navrangpura, Ahmedabad with booking flows and a CMS-style admin panel.', cat: 'business', img: 'patel-workspace', url: 'Patelcoworking.space/index.html', tech: ['HTML', 'CSS', 'JS'], featured: true },
+  { title: 'Aegis Shield Security', desc: 'Corporate website for a security agency — services, technology, training and careers pages.', cat: 'business', img: 'aegis-security', url: 'Security Agency/index.html', tech: ['HTML', 'CSS', 'JS'], featured: true },
+  { title: 'Tops Coaching', desc: 'IIT-JEE & NEET coaching institute website with programs, results, faculty and admissions.', cat: 'business', img: 'coaching', url: 'Task1-15/Coaching-Institute.html', tech: ['HTML', 'CSS'] },
+  { title: 'Gourmet Bites', desc: 'Online food ordering website with menu categories, cart and checkout experience.', cat: 'business', img: 'food-ordering', url: 'Task1-15/Food-Ordering.html', tech: ['HTML', 'CSS', 'JS'] },
+  { title: 'My Fitness Gym', desc: 'Gym membership website with plans, trainers and a membership sign-up form.', cat: 'business', img: 'gym', url: 'Task1-15/Gym-Membership.html', tech: ['HTML', 'CSS'] },
+  { title: 'Travel Agency', desc: 'Travel agency site featuring destinations, tour packages and booking enquiry.', cat: 'business', img: 'travel', url: 'Task1-15/Travel-Agency.html', tech: ['HTML', 'CSS'] },
 
   // ---- E-Commerce ----
-  { title: 'NovaTech Compare', desc: 'Smartwatch product comparison page with specs table and highlighted differences.', cat: 'ecommerce', img: 'product-compare', url: '../Task1-15/Product-compair.html', tech: ['HTML', 'CSS', 'JS'] },
+  { title: 'NovaTech Compare', desc: 'Smartwatch product comparison page with specs table and highlighted differences.', cat: 'ecommerce', img: 'product-compare', url: 'Task1-15/Product-compair.html', tech: ['HTML', 'CSS', 'JS'] },
 
   // ---- Practice / UI Projects ----
-  { title: 'Movie Maxx', desc: 'Movie information portal with trending titles, details and ratings.', cat: 'practice', img: 'movie', url: '../Task1-15/Movie-Information.html', tech: ['HTML', 'CSS'] },
-  { title: 'The Global Chronicle', desc: 'News website layout with breaking news, categories and article grid.', cat: 'practice', img: 'news', url: '../Task1-15/News-website.html', tech: ['HTML', 'CSS'] },
-  { title: 'Music Library', desc: 'Music streaming UI with playlists, albums and a player bar.', cat: 'practice', img: 'music', url: '../Task1-15/Music-library.html', tech: ['HTML', 'CSS'] },
-  { title: 'Event Registration', desc: 'Event registration portal with schedule, speakers and sign-up form.', cat: 'practice', img: 'event-reg', url: '../Task1-15/Event-Registration-Portal.html', tech: ['HTML', 'CSS'] },
-  { title: 'College Admission Portal', desc: 'University admission portal with programs and a multi-field application form.', cat: 'practice', img: 'admission', url: '../Task1-15/College-Admission-Portal.html', tech: ['HTML', 'CSS'] },
-  { title: 'Fresher Welcome', desc: 'College fresher welcome event page with agenda and highlights.', cat: 'practice', img: 'fresher-welcome', url: '../Task1-15/Collage-fresher-welcome.html', tech: ['HTML', 'CSS'] },
-  { title: 'CityCare Hospital', desc: 'Hospital patient registration form with validation-friendly layout.', cat: 'practice', img: 'hospital', url: '../Task1-15/HospitalRegistration.html', tech: ['HTML', 'CSS'] },
-  { title: 'Support FAQ Center', desc: 'Help center with searchable, categorised frequently asked questions.', cat: 'practice', img: 'faq-portal', url: '../Task1-15/Faq-portal.html', tech: ['HTML', 'CSS'] },
-  { title: 'School Timetable', desc: 'Weekly school timetable built with semantic HTML tables.', cat: 'practice', img: 'timetable', url: '../Task1-15/School-timetable.html', tech: ['HTML', 'CSS'] },
+  { title: 'Movie Maxx', desc: 'Movie information portal with trending titles, details and ratings.', cat: 'practice', img: 'movie', url: 'Task1-15/Movie-Information.html', tech: ['HTML', 'CSS'] },
+  { title: 'The Global Chronicle', desc: 'News website layout with breaking news, categories and article grid.', cat: 'practice', img: 'news', url: 'Task1-15/News-website.html', tech: ['HTML', 'CSS'] },
+  { title: 'Music Library', desc: 'Music streaming UI with playlists, albums and a player bar.', cat: 'practice', img: 'music', url: 'Task1-15/Music-library.html', tech: ['HTML', 'CSS'] },
+  { title: 'Event Registration', desc: 'Event registration portal with schedule, speakers and sign-up form.', cat: 'practice', img: 'event-reg', url: 'Task1-15/Event-Registration-Portal.html', tech: ['HTML', 'CSS'] },
+  { title: 'College Admission Portal', desc: 'University admission portal with programs and a multi-field application form.', cat: 'practice', img: 'admission', url: 'Task1-15/College-Admission-Portal.html', tech: ['HTML', 'CSS'] },
+  { title: 'Fresher Welcome', desc: 'College fresher welcome event page with agenda and highlights.', cat: 'practice', img: 'fresher-welcome', url: 'Task1-15/Collage-fresher-welcome.html', tech: ['HTML', 'CSS'] },
+  { title: 'CityCare Hospital', desc: 'Hospital patient registration form with validation-friendly layout.', cat: 'practice', img: 'hospital', url: 'Task1-15/HospitalRegistration.html', tech: ['HTML', 'CSS'] },
+  { title: 'Support FAQ Center', desc: 'Help center with searchable, categorised frequently asked questions.', cat: 'practice', img: 'faq-portal', url: 'Task1-15/Faq-portal.html', tech: ['HTML', 'CSS'] },
+  { title: 'School Timetable', desc: 'Weekly school timetable built with semantic HTML tables.', cat: 'practice', img: 'timetable', url: 'Task1-15/School-timetable.html', tech: ['HTML', 'CSS'] },
 ];
 
 const CATEGORY_LABELS = { uiux: 'UI/UX Design', apps: 'Web App', business: 'Business', ecommerce: 'E-Commerce', practice: 'Practice' };
@@ -97,16 +97,27 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ---------- Theme ---------- */
 function initTheme() {
   const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
   const icon = btn.querySelector('i');
   const apply = (theme) => {
-    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
-    else document.documentElement.removeAttribute('data-theme');
-    icon.className = theme === 'light' ? 'bi bi-moon-stars' : 'bi bi-sun';
-    btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (icon) icon.className = 'bi bi-sun';
+      btn.setAttribute('aria-label', 'Switch to light theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      if (icon) icon.className = 'bi bi-moon-stars';
+      btn.setAttribute('aria-label', 'Switch to dark theme');
+    }
   };
-  apply(localStorage.getItem('theme') || 'dark');
+
+  // Always default to light mode on every load unless user explicitly set dark
+  const currentTheme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+  apply(currentTheme);
+
   btn.addEventListener('click', () => {
-    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
     localStorage.setItem('theme', next);
     apply(next);
   });
@@ -188,10 +199,9 @@ function initProjects() {
 
   const resolveUrl = (url) => {
     if (!url || url.startsWith('http://') || url.startsWith('https://')) return url;
-    if (window.location.pathname === '/' || !window.location.pathname.includes('/piyush')) {
-      return url.replace(/^\.\.\//, '');
-    }
-    return url;
+    const clean = url.replace(/^\.\.\//, '');
+    const isSubfolder = window.location.pathname.includes('/piyush');
+    return isSubfolder ? '../' + clean : clean;
   };
 
   grid.innerHTML = list.map((p) => {
