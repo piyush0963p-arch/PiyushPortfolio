@@ -214,9 +214,14 @@ function initProjects() {
 
   grid.innerHTML = list.map((p) => {
     const projectUrl = resolveUrl(p.url);
+    const isFigma = projectUrl.includes('figma.com');
+    const actionLabel = isFigma ? 'Figma Prototype' : 'Live Demo';
+    const actionIcon = isFigma ? 'bi bi-figma' : 'bi bi-box-arrow-up-right';
+
     return `
-    <article class="card project reveal" data-cat="${p.cat}" data-search="${(p.title + ' ' + p.desc + ' ' + p.tech.join(' ')).toLowerCase()}" style="cursor: pointer;">
-      <a class="project-thumb" href="${projectUrl}" target="_blank" rel="noopener" aria-label="Open ${p.title} live demo">
+    <article class="card project reveal" data-cat="${p.cat}" data-search="${(p.title + ' ' + p.desc + ' ' + p.tech.join(' ')).toLowerCase()}">
+      <a class="project-card-overlay" href="${projectUrl}" target="_blank" rel="noopener" aria-label="Open ${p.title} ${actionLabel}"></a>
+      <a class="project-thumb" href="${projectUrl}" target="_blank" rel="noopener" aria-label="Open ${p.title} ${actionLabel}" tabindex="-1">
         <img src="assets/img/projects/${p.img}.jpg" alt="Screenshot of ${p.title}" loading="lazy" decoding="async" width="800" height="500">
         <span class="project-badge">${CATEGORY_LABELS[p.cat]}</span>
       </a>
@@ -225,21 +230,24 @@ function initProjects() {
         <p>${p.desc}</p>
         <div class="tags">${p.tech.map((t) => `<span class="tag">${t}</span>`).join('')}</div>
         <div class="project-links">
-          <a class="primary" href="${projectUrl}" target="_blank" rel="noopener"><i class="${projectUrl.includes('figma.com') ? 'bi bi-figma' : 'bi bi-box-arrow-up-right'}" aria-hidden="true"></i> ${projectUrl.includes('figma.com') ? 'Figma Prototype' : 'Live Demo'}</a>
+          <a class="primary" href="${projectUrl}" target="_blank" rel="noopener"><i class="${actionIcon}" aria-hidden="true"></i> ${actionLabel}</a>
         </div>
       </div>
     </article>
   `;
   }).join('');
 
-  // Allow clicking anywhere on project card to open demo on mobile & desktop
+  // Bulletproof click handler for all browsers & touch devices
   grid.addEventListener('click', (e) => {
+    // If the click already hit a link (overlay, primary button, title, thumb), let browser navigate natively
     if (e.target.closest('a, button')) return;
+
     const card = e.target.closest('.card.project');
     if (!card) return;
-    const link = card.querySelector('a.primary, a.project-thumb');
-    if (link && link.href) {
-      window.open(link.href, '_blank', 'noopener');
+
+    const targetLink = card.querySelector('.project-card-overlay') || card.querySelector('a.primary') || card.querySelector('a.project-thumb');
+    if (targetLink && targetLink.href) {
+      targetLink.click();
     }
   });
 
