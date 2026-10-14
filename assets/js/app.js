@@ -54,7 +54,6 @@ const PROJECTS = [
   { title: 'Student Dashboard', desc: 'Learning dashboard showing courses, attendance, assignments and performance at a glance.', cat: 'apps', img: 'student-dash', url: 'Task1-15/Student-Dashboard.html', tech: ['HTML', 'CSS', 'JS'] },
 
   // ---- Business Websites ----
-  { title: 'Patel Workspace', desc: 'Coworking & virtual office website for Navrangpura, Ahmedabad with booking flows and a CMS-style admin panel.', cat: 'business', img: 'patel-workspace', url: 'Patelcoworking.space/index.html', tech: ['HTML', 'CSS', 'JS'], featured: true },
   { title: 'Aegis Shield Security', desc: 'Corporate website for a security agency — services, technology, training and careers pages.', cat: 'business', img: 'aegis-security', url: 'Security Agency/index.html', tech: ['HTML', 'CSS', 'JS'], featured: true },
   { title: 'Tops Coaching', desc: 'IIT-JEE & NEET coaching institute website with programs, results, faculty and admissions.', cat: 'business', img: 'coaching', url: 'Task1-15/Coaching-Institute.html', tech: ['HTML', 'CSS'] },
   { title: 'Gourmet Bites', desc: 'Online food ordering website with menu categories, cart and checkout experience.', cat: 'business', img: 'food-ordering', url: 'Task1-15/Food-Ordering.html', tech: ['HTML', 'CSS', 'JS'] },
